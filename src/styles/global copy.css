@@ -1,52 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* body{
+  overflow-x: hidden;
+} */
 
 html,
 body, * {
   padding: 0;
   margin: 0;
-  font-family: "Rajdhani";
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   box-sizing: border-box;
 
 }
 ::-webkit-scrollbar {
-  width: 0px;
-}
-p{
-  font-family: "Rajdhani";
-}
-h1{
-  font-family: "Rajdhani";
-}
-h2 {
-  font-family: "Rajdhani";
-}
-h3{
-  font-family: "Rajdhani";
-}
-h4{
-  font-family: "Rajdhani";
-}
-h5{
-  font-family: "Rajdhani";
+  width: 10px;
 }
 body{
   min-height: 100vh;
-  /* background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
   background-blend-mode: multiply,multiply;
   background-size: 400% 400%;
-	animation: gradient 7s ease infinite; */
-  overflow-x: hidden;
+	animation: gradient 7s ease infinite;
 }
-
-
-.we-can-help-span{
-  font-weight: bold;
-}
-
-
-
-
-
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -64,13 +42,6 @@ a {
   text-decoration: none;
 }
 
-.main-container{
-max-width: 100%; 
-margin: auto;
-width: 100%;
-
-}
-
 
 .navbar-container{
   display: flex;
@@ -84,9 +55,8 @@ width: 100%;
   margin: 60px 0px;
   color: #f02d34;
 }
-
 .marquee {
-  /* position: abso; */
+  position: abso;
   /* height: 400px; */
   width: 100%;
   white-space: nowrap;
@@ -166,6 +136,9 @@ width: 100%;
  background-color: #ebebeb;
   transform: scale(1, 1);
   transition: transform 0.5s ease;
+}
+.image-container{
+  width: '1000vw';
 }
 
 .product-name{
@@ -596,7 +569,9 @@ padding: 6px;
 
 }
 
-
+.maylike-products-wrapper{
+  margin-top: 120px;
+}
 .maylike-products-wrapper h2{
   text-align: center;
   margin: 50px;
@@ -666,7 +641,12 @@ margin-top: 160px;
 .product-max-qty{
   margin-top: 10px;
 }
-
+.main-container{
+  max-width: 1400px; 
+  margin: auto;
+  width: 100%;
+  
+  }
 @media screen and (max-width:800px) {
   .main-container{
     padding-top: 0;
