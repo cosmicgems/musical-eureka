@@ -114,6 +114,8 @@ export async function getServerSideProps() {
           subcategories: [],
           categories: [],
           articles: [],
+          tags: [],
+          users: [],
         },
       };
     }
