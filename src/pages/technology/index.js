@@ -16,7 +16,7 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
     const pageTitle = pageName.slice(1);
 
     
-    console.log(subcategories);
+    console.log(subcategories, 'and a message');
 
     return (
         <Box sx={{paddingBlockStart: {xs: '5vh', sm: '4vh', md: '7vh', lg: '8vh', xl: '10vh'}}}>
