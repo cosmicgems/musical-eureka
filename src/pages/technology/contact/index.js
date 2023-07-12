@@ -44,8 +44,8 @@ const ContactPage = () => {
         </Stack>
       </Grid>
       <Grid item lg>
-      <Typography variant='h3' component='div' sx={{ width: '100%', textAlign: 'center'}}> What's your question? </Typography>
-      <Typography variant='h6' component='div' sx={{ width:'100%', textAlign:'center'}}>pssst... we're happy to help!</Typography>
+      <Typography variant='h3' component='div' sx={{ width: '100%', textAlign: 'center'}}> What&apos;s your question? </Typography>
+      <Typography variant='h6' component='div' sx={{ width:'100%', textAlign:'center'}}>pssst... we&apos;re happy to help!</Typography>
         <Box sx={{paddingInline: '30%'}}>
           
           <form className='my-5' s >
