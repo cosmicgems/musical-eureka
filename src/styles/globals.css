@@ -338,6 +338,7 @@ text-align: end;
 }
 
 .footer-container{
+  position: sticky;
   color: #324d67;
   text-align: center;
   margin-top: 20px;
@@ -349,6 +350,15 @@ text-align: end;
   gap: 10px;
   justify-content: center;
 
+}
+.main-container {
+  padding-bottom: 50px; /* Adjust this value to leave space for the footer */
+}
+
+.footer {
+  bottom: 0;
+  width: 100%;
+ 
 }
 .footer-container .icons{
   font-size: 30px;

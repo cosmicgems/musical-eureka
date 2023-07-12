@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import { useStateContext } from '../../../Context/StateContext'
-import { Button, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, CardContent, Grid, Stack, Typography } from '@mui/material';
 import FeaturedArticle from '../../components/technology/blog/FeaturedArticle';
 import CategoryCard from '../../components/technology/blog/CategoryCard';
 import CategoryCardMobile from '../../components/technology/blog/all-blogs/CategoryCardMobile';
@@ -10,6 +10,7 @@ import { getArticles, getCategories, getSubcategories, getTags, getUsers } from 
 
 
 const TechnologyHome = ({  categories, articles, tags, users }) => {
+    console.log(articles);
     const sampleFeaturedPost = [1, 2 ,3, 4, 5, 6, 7, 8, 9];
     const {pageName, subcategories} = useStateContext();
     const pageTitle = pageName.slice(1);
@@ -18,10 +19,10 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
     console.log(subcategories);
 
     return (
-        <div style={{paddingBlockStart: '10vh'}}>
+        <Box sx={{paddingBlockStart: {xs: '5vh', sm: '4vh', md: '7vh', lg: '8vh', xl: '10vh'}}}>
             <Grid container spacing={{xs:1,md:2}}  >
 
-                <Typography component='div' variant='h2' sx={{width: '100%', textAlign: 'center', fontSize: {xs: '2em'}}}>
+                <Typography component='div' variant='h2' sx={{width: '100%', textAlign: 'center', fontSize: {xs: '2em'}, marginBlockEnd:{xs:'2vh'}}}>
                     Pearl Box <span className='pageTitle'>{pageTitle.toUpperCase()}</span> 
                 </Typography>
 
@@ -36,7 +37,7 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
 
                 <Grid item lg={10} sx={{}}>
 
-                    <CardContent sx={{display: {lg: 'flex'}, flexDirection: {lg:'row'}, overflowX: {lg: 'scroll'}, marginBlockEnd: {xs: '5vh', lg:'4vh'},padding:{xs: 0}}} >
+                    <CardContent sx={{display: {sm: 'flex'}, flexDirection: {sm:'row'}, overflowX: {sm: 'scroll'}, marginBlockEnd: {xs: '5vh', sm:'4vh'},padding:{xs: 0}, }} >
 
                             {articles?.map((article) =>{ 
                                 {/* console.log(article) */}
@@ -84,7 +85,7 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
                 </Grid>
                 
             </Grid>         
-        </div>
+        </Box>
 
     )
 }

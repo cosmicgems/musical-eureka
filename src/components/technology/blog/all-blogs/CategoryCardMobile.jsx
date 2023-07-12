@@ -9,14 +9,14 @@ const CategoryCardMobile = ({category: {name, image}}) => {
     };
   return (
     <div className='mb-3'>
-        <Chip 
+        {/* <Chip 
         avatar={<Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />}
         label={name} 
         onClick={handleClick} 
           sx={{width: {lg: '14vw'}}}
         />
           
-      
+       */}
     </div>
   )
 }

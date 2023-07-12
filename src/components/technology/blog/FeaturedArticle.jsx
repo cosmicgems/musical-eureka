@@ -59,20 +59,23 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
   const handleExpandClick = () => {
     setExpanded(!expanded);
     };    
-
+    console.log(image);
   return (
-    <Box className='' sx={{ marginInlineEnd: {lg: '5vw'}, }}>
-      <Card sx={{width: {xs: '100%', lg:'45vw'}, height: 'auto', bgcolor: blue[900], borderRadius: {xs: '0', md: '10px'}}}>
-        <img
-                    id='tech'
-                    style={{ height: '32vh', objectFit: 'cover', width: '100%' }}
-                    src={image && image}
-                    title="pearl-box-tech"
-                    
-        />
-        <CardContent>
+    <Box className='' sx={{ marginInlineEnd: {sm: '5vw'}, }}>
+      <Card sx={{width: {xs: '100%', sm:'65vw', lg:'45vw'},  bgcolor: blue[900], borderRadius: {xs: '0', sm: '10px'}}}>
+        <CardContent sx={{ padding: 0}}>
+          <CardMedia
+                      id='tech'
+                      sx={{ height: {xs:'32vh', sm: '20vh', md: '30vh', xl: '32vh'}, objectFit: 'cover', width: '100%' }}
+                      image={image}
+                      title="pearl-box-tech"
+                      
+          />
+        </CardContent>
+
+        <CardContent sx={{width: '100%'}}>
         <Link href={`/${pathSegment}/articles/${slug.current}`}>
-          <Typography component='div' variant='h5' sx={{fontSize: {xs: '1.5em', lg: '2em', color: lightBlue['A100']}}}>
+          <Typography component='div' variant='h5' sx={{fontSize: {xs: '1.5em', lg: '2em', }, color: lightBlue['A100'], width: '100%', textAlign: {xs: 'center', md: 'left'}}}>
           {title}
           </Typography>          
         </Link>
@@ -81,11 +84,11 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
           <Grid container spacing={0} sx={{width: '100%', color: grey[50]}}>
 
             <Grid item sx={{}} xs={12}>
-              <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '2vh'}}>
+              <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '1vh  2vh'}}>
               
                   <Avatar alt="Remy Sharp"  src={urlFor(postedBy.image && postedBy.image[0])} 
-  sx={{ width: {xs: '20%', lg: '15%'}, height:'100%' }} />
-              <Box sx={{width: '100%'}}>
+  sx={{ width: {xs: '20%', sm: '10%', lg: '15%'}, height:'100%' }} />
+              <Box sx={{width: {md:'100%'}}}>
                 <Typography variant='p' component='div' sx={{}}>
                   Posted By: <span className='featuredCard'>{postedBy.username}</span>
                 </Typography>

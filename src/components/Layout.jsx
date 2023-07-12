@@ -14,16 +14,19 @@ const Layout = ({children, categories}) => {
       <Head>
         <title>Home Junky</title>
       </Head>
-      <header>
-      {
-        pageName !== '/' && <NavBar />
-      }
-        
-      </header>
+      <div className='header-div'>
+        <header>
+        {
+          pageName !== '/' && <NavBar />
+        }
+          
+        </header>
+      </div>
+
       <main className='main-container' >
         {children}
       </main>
-      <footer>
+      <footer className='footer'>
         <Footer />
       </footer>
     </div>      
