@@ -99,6 +99,8 @@ export async function getServerSideProps() {
         getSubcategories(),
         getCategories(),
         getArticles(),
+        getTags(),
+        getUsers()
       ]);
   
       return {
@@ -106,6 +108,8 @@ export async function getServerSideProps() {
           subcategories,
           categories,
           articles,
+          tags, 
+          users,
         },
       };
     } catch (error) {
