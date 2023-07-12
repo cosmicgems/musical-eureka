@@ -3,10 +3,5 @@
     "rewrites": [{
         "source": "/studio/(.*)",
         "destination": "/studio/index.html"
-    }],
-    "functions": {
-      "default": {
-        "timeout": 30
-      }
-    }
+    }]
 }

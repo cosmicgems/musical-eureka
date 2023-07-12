@@ -95,20 +95,21 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
 
 export async function getServerSideProps() {
     try {
-      const subcategories = await getSubcategories(); 
-      const categories = await getCategories();
-      const articles = await getArticles();
-
+      const [subcategories, categories, articles] = await Promise.all([
+        getSubcategories(),
+        getCategories(),
+        getArticles(),
+      ]);
   
       return {
         props: {
-            subcategories,
-            categories,
-            articles,
+          subcategories,
+          categories,
+          articles,
         },
       };
     } catch (error) {
-      console.error('Error fetching subcategories:', error);
+      console.error('Error fetching data:', error);
       return {
         props: {
           subcategories: [],
@@ -119,7 +120,8 @@ export async function getServerSideProps() {
         },
       };
     }
-}
+  }
+  
 
 
 export default TechnologyHome
