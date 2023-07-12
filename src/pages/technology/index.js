@@ -98,8 +98,6 @@ export async function getServerSideProps() {
       const subcategories = await getSubcategories(); 
       const categories = await getCategories();
       const articles = await getArticles();
-      const tags = await getTags();
-      const users = await getUsers();
 
   
       return {
@@ -107,8 +105,6 @@ export async function getServerSideProps() {
             subcategories,
             categories,
             articles,
-            tags,
-            users,
         },
       };
     } catch (error) {
@@ -118,8 +114,6 @@ export async function getServerSideProps() {
           subcategories: [],
           categories: [],
           articles: [],
-          tags: [],
-          users: [],
         },
       };
     }
