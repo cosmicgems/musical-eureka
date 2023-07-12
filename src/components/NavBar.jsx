@@ -21,6 +21,7 @@ import { AiOutlineShopping } from 'react-icons/ai'
 import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
+import { blue } from '@mui/material/colors';
 
 const drawerWidth = 240;
 
@@ -60,9 +61,9 @@ function NavBar(props) {
 
 
   return (
-    <Box sx={{ display: 'flex' , paddingBlock:0 }}>
+    <Box sx={{ display: 'flex' , paddingBlock:0 , width: '100%', bgcolor: blue[900]}}>
       <CssBaseline />
-      <AppBar position='sticky' component="nav" sx={{paddingBlock: 0}}>
+      <AppBar   component="nav" sx={{paddingBlock: 0, width: {xs: '100%', sm: '100%'}, paddingInlineEnd: 0 }}>
         <Toolbar sx={{paddingBlock: 0}}>
           <IconButton
             color="inherit"
@@ -74,7 +75,7 @@ function NavBar(props) {
             <MenuIcon />
           </IconButton>
          
-          <AdbIcon sx={{ display: { sm: 'none' }, mr: 1, ml:2 }} />
+          <AdbIcon sx={{ display: { md: 'none' }, mr: 1, ml:6 }} />
           <Typography
             variant="h6"
             noWrap
@@ -92,6 +93,7 @@ function NavBar(props) {
           >
             {pathSegment?.toLocaleUpperCase()}
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
             <Link href='/'>
               <Typography

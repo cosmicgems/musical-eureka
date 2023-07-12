@@ -63,7 +63,7 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
   
   return (
     <div className=''>
-      <Card sx={{ height: 'auto', bgcolor: blue[900], borderRadius: {xs: '0', lg: '10px'}}}>
+      <Card sx={{ height: 'auto', bgcolor: blue[900], borderRadius: {xs: '0', sm: '10px'}}}>
         <img
                     id='tech'
                     style={{ height: '20vh', objectFit: 'cover', width: '100%' }}
@@ -99,15 +99,15 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
             </Grid>
 
             <Grid item xs={12} sx={{}}>
-              <Typography variant='p' component='div' sx={{}}>
-              {excerptMobile}
+              <Typography className='multiline-ellipsis' variant='p' component='div' sx={{ overflow: 'hidden',  textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: {xs:'370px', sm: '325px'}, display: {xs: '-webkit-box'}, }}>
+              {excerpt}
               </Typography>
             </Grid>
             
           </Grid>
                     
                     <CardActions disableSpacing>
-                    <Link href=''>
+                    <Link href={`/${pathSegment}/articles/${slug.current}`}>
                       <IconButton aria-label="add to favorites">
                         Read More <ReadMoreRoundedIcon fontSize='large' />
                       </IconButton>

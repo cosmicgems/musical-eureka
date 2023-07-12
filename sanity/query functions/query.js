@@ -51,7 +51,14 @@ export async function getCategories() {
 
 
 export async function getSubcategories() {
-  const query = `*[_type == "subcategory"]`;
+  const query = groq`
+    *[_type == "subcategories"]{
+      name,
+      photo,
+      slug,
+      
+    }
+  `;
   const subcategories = await client.fetch(query);
   return subcategories;
 }

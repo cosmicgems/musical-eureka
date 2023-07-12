@@ -1,5 +1,4 @@
 import React from 'react'
-import Layout from '../../components/Layout'
 import { useStateContext } from '../../../Context/StateContext'
 import { Grid, Typography } from '@mui/material';
 
@@ -9,7 +8,7 @@ const IntelligenceHome = () => {
     const pageTitle = pageName.slice(1);
 
     return (
-        <Layout>
+        
         <div style={{paddingBlockStart: '5vh'}}>
             <Grid container spacing={{xs:1,md:2}}  >
 
@@ -28,7 +27,7 @@ const IntelligenceHome = () => {
             </Grid>         
         </div>
         
-        </Layout>
+      
 
     )
 }

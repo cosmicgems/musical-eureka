@@ -14,8 +14,8 @@ const Layout = ({children, categories}) => {
       <Head>
         <title>Home Junky</title>
       </Head>
-      <div className='header-div'>
-        <header>
+      <div className='header-div' style={{paddingInline:0, }}>
+        <header style={{paddingInline: 0}}>
         {
           pageName !== '/' && <NavBar />
         }

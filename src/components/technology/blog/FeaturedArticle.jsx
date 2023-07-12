@@ -108,7 +108,7 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
           </Grid>
                     
           <CardActions disableSpacing>
-          <Link href=''>
+          <Link href={`/${pathSegment}/articles/${slug.current}`}>
             <IconButton aria-label="add to favorites">
               Read More <ReadMoreRoundedIcon fontSize='large' />
             </IconButton>

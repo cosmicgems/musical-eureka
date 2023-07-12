@@ -120,14 +120,14 @@ export default {
       {
         name: 'subcategories',
         title: 'Subcategories',
-        type: 'array',
-        of: [{ type: 'reference', to: [{ type: 'subcategory' }] }], // Replace 'subcategory' with the actual document type for the reference
+        type: 'reference',
+        to:  [{ type: 'subcategory' }], // Replace 'subcategory' with the actual document type for the reference
       },
       {
         name: 'tags',
         title: 'Tags',
-        type: 'array',
-        of: [{ type: 'reference', to: [{ type: 'tag' }] }], // Replace 'tag' with the actual document type for the reference
+        type: 'reference',
+        to: [{ type: 'tag' }], // Replace 'tag' with the actual document type for the reference
       },
       {
         name: 'alternative_photo',

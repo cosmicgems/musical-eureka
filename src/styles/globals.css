@@ -336,9 +336,15 @@ text-align: end;
   position: relative;
   
 }
-
+.multiline-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
 .footer-container{
-  position: sticky;
+  /* position: relative; */
   color: #324d67;
   text-align: center;
   margin-top: 20px;
@@ -351,11 +357,10 @@ text-align: end;
   justify-content: center;
 
 }
-.main-container {
-  padding-bottom: 50px; /* Adjust this value to leave space for the footer */
-}
+
 
 .footer {
+  position: relative;
   bottom: 0;
   width: 100%;
  

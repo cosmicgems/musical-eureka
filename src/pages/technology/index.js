@@ -19,8 +19,8 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
     console.log(subcategories, 'and a message');
 
     return (
-        <Box sx={{paddingBlockStart: {xs: '5vh', sm: '4vh', md: '7vh', lg: '8vh', xl: '10vh'}}}>
-            <Grid container spacing={{xs:1,md:2}}  >
+        <Box sx={{paddingBlockStart: {xs: '12vh', sm: '12vh', md: '7vh', lg: '8vh', xl: '10vh'}}}>
+            <Grid container   >
 
                 <Typography component='div' variant='h2' sx={{width: '100%', textAlign: 'center', fontSize: {xs: '2em'}, marginBlockEnd:{xs:'2vh'}}}>
                     Pearl Box <span className='pageTitle'>{pageTitle.toUpperCase()}</span> 
@@ -48,22 +48,22 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
                     </CardContent>
 
 
-                    <Grid item sx={{}}>
+                    <Grid item sx={{paddingInlineStart: {sm:'3vw'}}}>
                         <Typography variant='h4' component='div' sx={{width: '100%', textAlign: 'center', marginBlockEnd: {xs: '2vh',lg: '2vh'}, fontSize: {xs: '2em'}}}>
                             Recent <span>{pageTitle.toUpperCase()}</span> Articles
                         </Typography>
 
-                        <Grid container sx={{ marginBlockEnd: {lg:'4vh'}}} spacing={12} >
+                        <Grid container sx={{ marginBlockEnd: {lg:'4vh'}}} spacing={5} >
                                 {articles?.map((article) => {
                             
-                                    return <Grid item  key={article._id + 'recent_article'}  lg={4}><RecentArticle RecentArticle={article} />                                
+                                    return <Grid item  key={article._id + 'recent_article'} sm={6} md={4}><RecentArticle RecentArticle={article} />                                
                             </Grid>
                                 })}
 
                                 <Grid item xs={12}>
                                     <div style={{width: '100%',paddingInline: '33.3%'}}>
                                         <Button type='button' variant='outlined' sx={{width: '100%'}} size='large'>
-                                            Load More **Need Logic**
+                                            Load More 
                                         </Button>
                                     </div>
                                 </Grid>
@@ -76,13 +76,13 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
                     
                 </Grid>
 
-                <Grid item sx={{display: {lg:'none'}}}>
+                {/* <Grid item sx={{display: {lg:'none'}}}>
                         <CardContent  sx={{display: {xs: 'flex', lg: 'none'},  overflowX: 'auto', }}>
                                 {subcategories?.map((category) => {
                                     return <CategoryCardMobile key={category._id} category={category} />  
                                 })}
                         </CardContent>  
-                </Grid>
+                </Grid> */}
                 
             </Grid>         
         </Box>
@@ -95,7 +95,7 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
 
 export async function getServerSideProps() {
     try {
-      const [subcategories, categories, articles] = await Promise.all([
+      const [subcategories, categories, articles, tags, users] = await Promise.all([
         getSubcategories(),
         getCategories(),
         getArticles(),
