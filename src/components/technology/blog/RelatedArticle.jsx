@@ -53,8 +53,8 @@ const ExpandMore = styled((props) => {
 
 
 
-const RelatedArticle = ({relatedArticle: {title, body, excerpt, createdAt, slug, excerptMobile, postedBy, image, metaTitle, metaDescription}}) => {
-  console.log(image);
+const RelatedArticle = ({relatedArticle: {title, body, excerpt, slug:{current:slug}, createdAt,  excerptMobile, postedBy, image, metaTitle, metaDescription}}) => {
+  console.log(postedBy);
     
   const {pathSegment} = useStateContext();
   const [expanded, setExpanded] = React.useState(false);    
@@ -76,7 +76,7 @@ const RelatedArticle = ({relatedArticle: {title, body, excerpt, createdAt, slug,
         />
         <CardContent>
 
-          <Link href={`${pathSegment}/articles/${slug.current}`}>
+          <Link href={`${pathSegment}/articles/${slug}`}>
             <Typography component='div' variant='h6' sx={{ color: lightBlue['A100']}}>
             {title}
             </Typography>            
@@ -89,7 +89,7 @@ const RelatedArticle = ({relatedArticle: {title, body, excerpt, createdAt, slug,
               <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '2vh'}}>
               
                   <Avatar alt="Remy Sharp"  src={postedBy.image && postedBy.image[0]} 
-                  sx={{ width: {xs:'20%'}, height:'100%' }} />
+                  sx={{ width: {xs:'20%'},  }} />
               <Box sx={{width: '100%'}}>
                 <Typography variant='p' component='div' sx={{}}>
                   Posted By: <span className='featuredCard'>{postedBy.username}</span>
@@ -102,7 +102,7 @@ const RelatedArticle = ({relatedArticle: {title, body, excerpt, createdAt, slug,
             </Grid>
 
             <Grid item xs={12} sx={{}}>
-              <Typography className='multiline-ellipsis' variant='p' component='div' sx={{ overflow: 'hidden',  textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: {xs:'100%', sm: '325px'}, display: {xs: '-webkit-box'}, }}>
+              <Typography className='multiline-ellipsis' variant='p' component='div' sx={{ overflow: 'hidden',  textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: {xs:'100%', sm: '100%'}, display: {xs: '-webkit-box'}, }}>
               {excerpt}
               </Typography>
             </Grid>
@@ -110,7 +110,7 @@ const RelatedArticle = ({relatedArticle: {title, body, excerpt, createdAt, slug,
           </Grid>
                     
                     <CardActions disableSpacing>
-                    <Link href={`/${pathSegment}/articles/${slug.current}`}>
+                    <Link href={`/${pathSegment}/articles/${slug}`}>
                       <IconButton aria-label="add to favorites">
                         Read More <ReadMoreRoundedIcon fontSize='large' />
                       </IconButton>
