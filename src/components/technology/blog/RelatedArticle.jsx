@@ -53,8 +53,8 @@ const ExpandMore = styled((props) => {
 
 
 
-const RelatedArticle = ({relatedArticle: {title, body, excerpt, slug:{current:slug}, createdAt,  excerptMobile, postedBy, image, metaTitle, metaDescription}}) => {
-  console.log(postedBy);
+const RelatedArticle = ({relatedArticle: {title, body, excerpt, slug:{current:slug}, createdAt,  excerptMobile,postedBy:{image:userImage, username}, image, metaTitle, metaDescription}}) => {
+  // console.log(postedBy);
     
   const {pathSegment} = useStateContext();
   const [expanded, setExpanded] = React.useState(false);    
@@ -88,14 +88,14 @@ const RelatedArticle = ({relatedArticle: {title, body, excerpt, slug:{current:sl
             <Grid item sx={{}} xs={12}>
               <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '2vh'}}>
               
-                  <Avatar alt="Remy Sharp"  src={postedBy.image && postedBy.image[0]} 
-                  sx={{ width: {xs:'20%'},  }} />
+                  <Avatar alt="Remy Sharp"  src={urlFor(userImage && userImage[0])}
+                  sx={{width: '7vh', height: '7vh'}}/>
               <Box sx={{width: '100%'}}>
                 <Typography variant='p' component='div' sx={{}}>
-                  Posted By: <span className='featuredCard'>{postedBy.username}</span>
+                  Posted By: <span className='featuredCard'>{username}</span>
                 </Typography>
                 <Typography variant='p' component='div' sx={{}}>
-                  Date: <span className='postDate'>{moment(postedBy.createdAt).fromNow()}</span>
+                  Date: <span className='postDate'>{moment(createdAt).fromNow()}</span>
                 </Typography>
               </Box>
               </Stack>

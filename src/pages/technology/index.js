@@ -40,7 +40,7 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
                     <CardContent sx={{display: {sm: 'flex'}, flexDirection: {sm:'row'}, overflowX: {sm: 'scroll'}, marginBlockEnd: {xs: '5vh', sm:'4vh'},padding:{xs: 0}, }} >
 
                             {articles?.map((article) =>{ 
-                                {/* console.log(article) */}
+                                console.log(article)
                                 return <FeaturedArticle key={article._id} article={article}  />
                                  }
                             )}
@@ -93,38 +93,33 @@ const TechnologyHome = ({  categories, articles, tags, users }) => {
 
 
 
-export async function getServerSideProps() {
-    try {
-      const [subcategories, categories, articles, tags, users] = await Promise.all([
+export async function getStaticProps() {
+  try {
+    const [subcategories, categories, articles, tags, users] = await Promise.all([
         getSubcategories(),
         getCategories(),
         getArticles(),
         getTags(),
         getUsers()
       ]);
-  
-      return {
-        props: {
-          subcategories,
-          categories,
-          articles,
-          tags, 
-          users,
-        },
-      };
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return {
-        props: {
-          subcategories: [],
-          categories: [],
-          articles: [],
-          tags: [],
-          users: [],
-        },
-      };
-    }
+
+    return {
+      props: {subcategories, categories, articles, tags, users},
+      revalidate: 86400, // Set a revalidation period in seconds (e.g., 24 hours)
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        subcategories: [],
+        categories: [],
+        articles: [],
+        tags: [],
+        users: [],
+      },
+    };
   }
+}
   
 
 

@@ -4,10 +4,12 @@ import { client } from '../../../../sanity/lib/client'
 import { blue, lightBlue, red } from '@mui/material/colors';
 import RelatedArticle from '../../../components/technology/blog/RelatedArticle';
 import moment from 'moment/moment';
+import { urlFor } from '../../../../lib/client';
 
 const DynamicArticlePage = ({article, relatedArticles}) => {
   console.log( relatedArticles);
-  const {title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy, slug: {current: slug}, _createdAt, _id, _updatedAt} = article;
+  const {title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy:{image:userImage, username}, slug: {current: slug}, _createdAt, _id, _updatedAt} = article;
+  console.log(userImage);
   return (
   
       <Card elevation={0} sx={{}}>
@@ -27,14 +29,14 @@ const DynamicArticlePage = ({article, relatedArticles}) => {
       <Grid item sx={{}} xs={12}>
               <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '2vh'}}>
               
-                  <Avatar alt="Remy Sharp"  src={postedBy.image && postedBy.image[0]} 
-                  sx={{ width: {xs:'20%'},  }} />
+                  <Avatar alt="Remy Sharp"  src={urlFor(userImage && userImage[0])}
+                  sx={{width: '7vh', height: '7vh'}} />
               <Box sx={{width: '100%'}}>
                 <Typography variant='p' component='div' sx={{}}>
-                  Posted By: <span className='featuredCard'>{postedBy.username}</span>
+                  Posted By: <span className='featuredCard'>{username}</span>
                 </Typography>
                 <Typography variant='p' component='div' sx={{}}>
-                  Date: <span className='postDate'>{moment(postedBy.createdAt).fromNow()}</span>
+                  Date: <span className='postDate'>{moment(createdAt).fromNow()}</span>
                 </Typography>
               </Box>
               </Stack>
@@ -98,7 +100,7 @@ export const getStaticProps = async ({ params: { slug }}) => {
       _id,
       username,
       email,
-      image
+      image,
     },
     createdAt,
     lastUpdated,
