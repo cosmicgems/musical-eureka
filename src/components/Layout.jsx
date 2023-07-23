@@ -12,7 +12,7 @@ const Layout = ({children, categories}) => {
     <>
     <div className='layout' style={{maxHeight: '100vh', }}>
       <Head>
-        <title>Home Junky</title>
+        <title>Pearl Box</title>
       </Head>
       <div className='header-div' style={{paddingInline:0, }}>
         <header style={{paddingInline: 0}}>
