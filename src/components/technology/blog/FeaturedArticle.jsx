@@ -3,7 +3,7 @@ import React from 'react'
 import { useStateContext } from '../../../../Context/StateContext'
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import { blue, grey, lightBlue, green, lightGreen } from '@mui/material/colors';
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
 import { urlFor } from '../../../../lib/client';
 import moment from 'moment/moment';
 import Link from 'next/link';
@@ -52,17 +52,31 @@ const ExpandMore = styled((props) => {
 }));
 
 
-const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, postedBy, image, metaTitle, metaDescription,}}) => {
-  // console.log(postedBy);
+const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, postedBy, image, metaTitle, metaDescription,}}) => {  
   const { pageSlug, pathSegment } = useStateContext();
+  const pageSegmentColors = {
+      technology: blue[900], // Example color for "tech" segment
+      realty: yellow[600],
+      health: lightBlue[200],
+      intelligence: orange[500],
+      community: deepPurple[400],
+      finance: green[500]
+    };
+
+  const featuredArticleBackgroundColor = pageSegmentColors[pathSegment] || '#000';
+  // console.log(postedBy);
   const [expanded, setExpanded] = React.useState(false);    
   const handleExpandClick = () => {
     setExpanded(!expanded);
     };    
-    console.log(image);
+  console.log(image);
+
+
+
+
   return (
     <Box className='' sx={{ marginInlineEnd: {sm: '5vw'}, }}>
-      <Card sx={{width: {xs: '100%', sm:'65vw', lg:'45vw'},  bgcolor: blue[900], borderRadius: {xs: '0', sm: '10px'}}}>
+      <Card sx={{width: {xs: '100%', sm:'65vw', lg:'45vw'},  bgcolor: featuredArticleBackgroundColor , borderRadius: {xs: '0', sm: '10px'}}}>
         <CardContent sx={{ padding: 0}}>
           <CardMedia
                       id='tech'

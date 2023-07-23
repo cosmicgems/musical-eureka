@@ -3,7 +3,6 @@ import React from 'react'
 import { useStateContext } from '../../../../Context/StateContext'
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import { blue, grey, lightBlue, green, lightGreen } from '@mui/material/colors';
 import { urlFor } from '../../../../lib/client';
 import moment from 'moment/moment';
 import Link from 'next/link';
@@ -36,6 +35,7 @@ import {
 import ShareIcon from '@mui/icons-material/Share';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 import { styled } from '@mui/material/styles';
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
 
 
 
@@ -52,8 +52,18 @@ const ExpandMore = styled((props) => {
 
 
 const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, excerptMobile, postedBy, image, metaTitle, metaDescription}}) => {
-  
   const {pathSegment} = useStateContext();
+  const pageSegmentColors = {
+      technology: blue[900], // Example color for "tech" segment
+      realty: yellow[600],
+      health: lightBlue[200],
+      intelligence: orange[500],
+      community: deepPurple[400],
+      finance: green[500]
+    };
+
+  const recentArticleBackgroundColor = pageSegmentColors[pathSegment] || '#000';
+  
   const [expanded, setExpanded] = React.useState(false);    
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -63,7 +73,7 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
   
   return (
     <div className=''>
-      <Card sx={{ height: 'auto', bgcolor: blue[900], borderRadius: {xs: '0', sm: '10px'}}}>
+      <Card sx={{ height: 'auto', bgcolor: recentArticleBackgroundColor, borderRadius: {xs: '0', sm: '10px'}}}>
         <img
                     id='tech'
                     style={{ height: '20vh', objectFit: 'cover', width: '100%' }}

@@ -31,10 +31,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 import { useStateContext } from '../../../../../Context/StateContext';
 import { styled } from '@mui/material/styles';
-import { blue, green, grey, lightBlue } from '@mui/material/colors';
 import Link from 'next/link';
 import { urlFor } from '../../../../../lib/client';
 import moment from 'moment/moment';
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
 
 
 
@@ -60,9 +60,19 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
     setExpanded(!expanded);
   };
     const {pathSegment} = useStateContext();
+    const pageSegmentColors = {
+        technology: blue[900], // Example color for "tech" segment
+        realty: yellow[600],
+        health: lightBlue[200],
+        intelligence: orange[500],
+        community: deepPurple[400],
+        finance: green[500]
+      };
+  
+    const mainArticleBackgroundColor = pageSegmentColors[pathSegment] || '#000';
   return (
     <div>
-        <Card elevation={2} sx={{borderRadius:{xs:'0', lg:'10px'}, marginBlockEnd: '2vh', bgcolor: grey[900]}}>
+        <Card elevation={2} sx={{borderRadius:{xs:'0', lg:'10px'}, marginBlockEnd: '2vh', bgcolor: mainArticleBackgroundColor}}>
             <CardMedia 
                     id='tech'
                     sx={{ height: {xs: '24vh', lg: '34vh'},  objectFit: 'cover' }}
