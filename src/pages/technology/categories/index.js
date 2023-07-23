@@ -18,7 +18,7 @@ const TechCategoriesPage = () => {
             Categories
           </Typography>
           <CardContent
-            sx={{  width:'100%', display:'flex', overflowX: 'auto', overflowY:'hidden', position: 'relative', paddingInline: 0, overflowWrap: 'unset'}}>
+            sx={{  width:'100%', display:'flex', overflowX: 'auto', overflowY:'hidden', position: 'absolute', paddingInline: 0, overflowWrap: 'unset'}}>
             
 
                 <Stack direction='row' justifyContent="center" alignItems='center' style={{display:'flex', textAlign:'center', paddingInline: 0}}>
