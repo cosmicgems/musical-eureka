@@ -18,7 +18,8 @@ function SlugPage({ articles, subcategorySlug, name }) {
         <Grid item xs={12} sx={{}}>
           <CardContent sx={{ marginBlockEnd: { lg: '4vh' }, paddingInline: { xs: '0', lg: '17.5vw' } }}>
             {articles?.map((article) => {
-              return <MainArticleCard key={article._id} article={article} />;
+              let i =+ 1
+              return <MainArticleCard key={article._id + "i"} article={article} />;
             })}
           </CardContent>
 
@@ -61,7 +62,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // or "blocking" if you want to enable fallback behavior
+    fallback: "blocking", // or "blocking" if you want to enable fallback behavior
   };
 }
 
