@@ -1,27 +1,31 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
-import { deepOrange, red } from '@mui/material/colors'
+import { blue, deepOrange, red } from '@mui/material/colors'
+import Link from 'next/link'
 import React from 'react'
+import { useStateContext } from '../../../../../Context/StateContext'
 
-const CategoryCard = ({category: {name, image, description}}) => {
+const CategoryCard = ({category: {name, photo:{image, url}, slug:{current:slug}}}) => {
+  const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
+
   return (
     <div>
-
-        <Card >            <CardContent sx={{position: 'absolute', }} >
-                <Typography variant='h5' component='div' sx={{color:red[900],  width:{xs: '100%', lg: '30vw'}}}>
+      <Link href={`/${pathSegment}/categories/category/${slug}`}>
+        <Card >            
+        <CardContent sx={{position: 'absolute', width: {xs:"85vw",md:'34vw'} }} >
+                <Typography variant='h5' component='div' sx={{color:blue[600],  width:{xs: '70vw', lg: '31vw',}, textShadow: '2px 2px #EEE', fontSize: {md: "3rem"}, fontWeight: 'bold', marginBlockStart: '12vh'}}>
                     {name}
-                </Typography>
-                <Typography variant='h6' component='div' sx={{color:deepOrange[600], textShadow: '1px 1px #EEE',  width:{xs: '100%', lg: '30vw'}}}>
-                  {description}
                 </Typography>
             </CardContent>
             <CardMedia
                 id='tech'
                 sx={{ height: {xs: '33vh', lg: '34vh'},  objectFit: 'cover',  }}
-                image="https://images.pexels.com/photos/4816921/pexels-photo-4816921.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                image={url && url}
                 title="pearl-box-tech"
             />
 
         </Card>
+      </Link>
+
     </div>
   )
 }

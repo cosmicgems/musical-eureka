@@ -1,94 +1,99 @@
-import { Avatar, Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material'
-import React from 'react'
-import { client } from '../../../../sanity/lib/client'
-import { blue, lightBlue, red } from '@mui/material/colors';
-import RelatedArticle from '../../../components/technology/blog/RelatedArticle';
+import React from 'react';
+import { Avatar, Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
 import moment from 'moment/moment';
 import { urlFor } from '../../../../lib/client';
+import { client } from '../../../../sanity/lib/client';
+import { lightBlue } from '@mui/material/colors';
+import { getArticlesBySubcategory } from '../../../../sanity/query functions/query';
 
-const DynamicArticlePage = ({article, relatedArticles}) => {
-  console.log( relatedArticles);
-  const {title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy:{image:userImage, username}, slug: {current: slug}, _createdAt, _id, _updatedAt} = article;
-  console.log(userImage);
+const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
+
+const DynamicArticlePage = ({ article, related }) => {
+  console.log(related);
+  const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
+  // console.log(userImage);
   return (
-  
-      <Card elevation={0} sx={{}}>
-      <Box sx={{position: 'absolute', marginBlockStart: {xs:'37.5vh', sm: '40vh'}, zIndex: 3, width: '100%'}}>
-        <Typography sx={{fontSize: {xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center'}} variant='h6' component='div'>
+    <Card elevation={0} sx={{}}>
+      <Box sx={{ position: 'absolute', marginBlockStart: { xs: '37.5vh', sm: '40vh' }, zIndex: 3, width: '100%' }}>
+        <Typography sx={{ fontSize: { xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center' }} variant="h6" component="div">
           {title}
         </Typography>
       </Box>
-        <CardContent sx={{height: '45vh', padding: 0, position: 'relative', }}>
-          <CardMedia
+      <CardContent sx={{ height: '45vh', padding: 0, position: 'relative' }}>
+        <CardMedia
           title={title && title}
-          sx={{objectFit: 'cover', width:'100%', height: '45vh'}}
+          sx={{ objectFit: 'cover', width: '100%', height: '45vh' }}
           id={slug && slug}
-          image={image && image} />        
+          image={image && image}
+        />
       </CardContent>
-      <Box sx={{  width: '100%', paddingInline: {xs: '6vw',sm:'17.5vw'}, paddingBlockStart: '3vh'}}>
-      <Grid item sx={{}} xs={12}>
-              <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '2vh'}}>
-              
-                  <Avatar alt="Remy Sharp"  src={urlFor(userImage && userImage[0])}
-                  sx={{width: '7vh', height: '7vh'}} />
-              <Box sx={{width: '100%'}}>
-                <Typography variant='p' component='div' sx={{}}>
-                  Posted By: <span className='featuredCard'>{username}</span>
-                </Typography>
-                <Typography variant='p' component='div' sx={{}}>
-                  Date: <span className='postDate'>{moment(createdAt).fromNow()}</span>
-                </Typography>
-              </Box>
-              </Stack>
-            </Grid>
-        <Typography variant='paragraph' component='div' sx={{width: '100%'}}>
+      <Box sx={{ width: '100%', paddingInline: { xs: '6vw', sm: '17.5vw' }, paddingBlockStart: '3vh' }}>
+        <Grid item xs={12}>
+          <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{ marginBlock: '2vh' }}>
+            <Avatar alt="Remy Sharp" src={urlFor(userImage && userImage[0])} sx={{ width: '7vh', height: '7vh' }} />
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="p" component="div" sx={{}}>
+                Posted By: <span className="featuredCard">{username}</span>
+              </Typography>
+              <Typography variant="p" component="div" sx={{}}>
+                Date: <span className="postDate">{moment(createdAt).fromNow()}</span>
+              </Typography>
+            </Box>
+          </Stack>
+        </Grid>
+        <Typography variant="paragraph" component="div" sx={{ width: '100%' }}>
           {body}
         </Typography>
       </Box>
 
-      <Box sx={{width: '100%', marginBlock: '4vh 1vh'}}>
-        <Typography variant='h5' component='div' sx={{width: '100%', textAlign: 'center'}}>
+      <Box sx={{ width: '100%', marginBlock: '4vh 1vh' }}>
+        <Typography variant="h5" component="div" sx={{ width: '100%', textAlign: 'center' }}>
           Related Articles
         </Typography>
       </Box>
-      <CardContent sx={{maxWidth: '100%', minWidth:'100%', display:'flex', overflowX: 'scroll',  paddingInline: 0, overflowWrap: 'unset'}}>
-      <Stack direction='row' justifyContent="center" alignItems='center' style={{display:'flex', textAlign:'center', paddingInline: 0}}>
-                {relatedArticles.map((relatedArticle, i) => {
-                  return <CardContent sx={{}} key={i*99+99}><RelatedArticle relatedArticle={relatedArticle}/></CardContent>
-                })}
-                
-                </Stack>
+      <CardContent
+        sx={{
+          maxWidth: '100%',
+          minWidth: '100%',
+          display: 'flex',
+          overflowX: 'scroll',
+          paddingInline: 0,
+          overflowWrap: 'unset',
+        }}
+      >
+        <Stack direction="row" justifyContent="center" alignItems="center" style={{ display: 'flex', textAlign: 'center', paddingInline: 0 }}>
+          {related.map((relatedArticle, i) => {
+            return <CardContent sx={{}} key={i * 99 + 99}><RelatedArticle relatedArticle={relatedArticle} /></CardContent>;
+          })}
+        </Stack>
       </CardContent>
-
-      </Card>
-    
-  )
-}
-
+    </Card>
+  );
+};
 
 export const getStaticPaths = async () => {
   const query = `*[_type == "article"] {
     slug {
       current
     }
-  }
-  `;
+  }`;
 
   const articles = await client.fetch(query);
 
   const paths = articles.map((article) => ({
-    params: { 
-      slug: article.slug.current
-    }
+    params: {
+      slug: article.slug.current,
+    },
   }));
 
   return {
     paths,
-    fallback: 'blocking'
-  }
-}
+    fallback: 'blocking',
+  };
+};
 
-export const getStaticProps = async ({ params: { slug }}) => {
+export const getStaticProps = async ({ params: { slug } }) => {
   const query = `*[_type == "article" && slug.current == '${slug}'][0]{
     _id,
     image,
@@ -128,34 +133,15 @@ export const getStaticProps = async ({ params: { slug }}) => {
       url
     }
   }`;
-  const articlesQuery = '*[_type == "article"]';
-  
-  const article = await client.fetch(query);
-  const articles = await client.fetch(articlesQuery);
-  const relatedArticlesQuery = `*[_type == "article" && _id != '${article._id}' && references('${article.subcategories[0]._id}')]{
-    _id,
-    title,
-    body,
-    excerpt,
-    createdAt,
-    excerptMobile,
-    postedBy->{
-      _id,
-      username,
-      email,
-      image
-    },
-    image,
-    metaTitle,
-    metaDescription,
-    slug
-  }`;
-  console.log(relatedArticlesQuery);
-  const relatedArticles = await client.fetch(relatedArticlesQuery);
-  console.log(relatedArticles);
-  return {
-    props: { article, articles, relatedArticles }
-  }
-}
 
-export default DynamicArticlePage
+  const article = await client.fetch(query);
+  
+
+  const related = await getArticlesBySubcategory(slug);
+  console.log(related);
+  return {
+    props: { article, related },
+  };
+};
+
+export default DynamicArticlePage;
