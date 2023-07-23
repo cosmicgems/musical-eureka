@@ -44,20 +44,26 @@ export const StateContext = ({ children }) => {
     let index;
 
     useEffect(() => {
-      console.log('Current Page Path:', pathSegment);
-      let cats = async () => {
-        const catsIn = await getCategories();
-        // console.log(catsIn);
-        catsIn.map((c) => {
-          if (c.name === 'Technology') {
-            console.log(c);
-            let sc = c.subcategories;
-            setSubcategories(sc);
-            console.log(subcategories, 'marker');
+      const fetchSubcategories = async () => {
+        try {
+          const categories = await getCategories();
+          // Filter the categories to find the one with the matching name
+          const matchingCategory = categories.find((category) => category.name.toLocaleLowerCase() === pathSegment.toLocaleLowerCase());
+          if (matchingCategory) {
+            // Set the subcategories to the matching category's subcategories
+            setSubcategories(matchingCategory.subcategories);
+          } else {
+            // If no matching category is found, reset the subcategories to an empty array
+            setSubcategories([]);
           }
-        });
+        } catch (error) {
+          console.error('Error fetching subcategories:', error);
+          // Handle error, e.g., setSubcategories to an empty array or show an error message
+          setSubcategories([]);
+        }
       };
-      cats();
+  
+      fetchSubcategories();
     }, [pathSegment]);
 
     useEffect(()=> {

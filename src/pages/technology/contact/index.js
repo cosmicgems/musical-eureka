@@ -90,7 +90,7 @@ const ContactPage = () => {
   }
   return (
     <div style={{}}>      
-            <CardContent sx={{ color: blue[600], bgcolor:grey[700],  minHeight: '100vh', paddingBlockStart: '13vh'}}>
+            <CardContent sx={{ color: blue[100], bgcolor:'transparent',  minHeight: '100vh', paddingBlockStart: '13vh'}}>
         <Typography component='div' variant='h1' sx={{width:'100%', textAlign:'center', fontWeight: 'bold', fontSize: {xs:'3rem', md: '6rem'}}}>Contact Us</Typography>
         <Typography component='div' variant='p' sx={{width: '100%', textAlign: 'center',marginBlockEnd: '5vh', fontSize: {md: '1.5rem'}}}>
           Curate a Lifestyle Worth Living.

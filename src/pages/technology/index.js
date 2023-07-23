@@ -64,7 +64,7 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
             sx={{
               display: { sm: 'flex' },
               flexDirection: { sm: 'row' },
-              overflowX: { sm: 'scroll' },
+              overflowX: { sm: 'auto' },
               marginBlockEnd: { xs: '5vh', sm: '4vh' },
               padding: { xs: 0 },
             }}

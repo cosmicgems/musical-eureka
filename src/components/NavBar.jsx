@@ -21,7 +21,7 @@ import { AiOutlineShopping } from 'react-icons/ai'
 import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
-import { blue } from '@mui/material/colors';
+import { blue, deepPurple, green, orange, yellow, lightBlue } from '@mui/material/colors';
 
 const drawerWidth = 240;
 
@@ -36,9 +36,17 @@ function NavBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+console.log(pathSegment);
+  const pageSegmentColors = {
+    technology: blue[900], // Example color for "tech" segment
+    realty: yellow[600],
+    health: lightBlue[200],
+    intelligence: orange[500],
+    community: deepPurple[400],
+    finance: green[500]
+  };
 
-
-
+  const appBarBackgroundColor = pageSegmentColors[pathSegment] || '#000';
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -61,9 +69,9 @@ function NavBar(props) {
 
 
   return (
-    <Box sx={{ display: 'flex' , paddingBlock:0 , width: '100%', bgcolor: blue[900]}}>
+    <Box sx={{ display: 'flex' , paddingBlock:0 , width: '100%', bgcolor: appBarBackgroundColor}}>
       <CssBaseline />
-      <AppBar   component="nav" sx={{paddingBlock: 0, width: {xs: '100%', sm: '100%'}, paddingInlineEnd: 0 }}>
+      <AppBar   component="nav" sx={{paddingBlock: 0, width: {xs: '100%', sm: '100%'}, paddingInlineEnd: 0 , bgcolor:appBarBackgroundColor}}>
         <Toolbar sx={{paddingBlock: 0}}>
           <IconButton
             color="inherit"

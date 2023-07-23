@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@mu
 import Link from 'next/link';
 import React from 'react'
 import { motion } from 'framer-motion'
-import { orange } from '@mui/material/colors';
+import { blue, orange } from '@mui/material/colors';
 
 
 
@@ -12,11 +12,11 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
 
   return (
     <div style={{width: '100%', marginBlockStart: '10vh'}}>
-      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh'}}>
+      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: blue[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
         Pearl Box
       </Typography>
-      <Box>
-        <Grid container sx={{}} spacing={0}>
+      <Box sx={{}}>
+        <Grid container sx={{color: blue[100],}} spacing={0}>
 
           <Grid item sx={{}} xs>
 
@@ -26,10 +26,10 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
                 {/* Our Mission Section */}
 
 
-                <Grid item xs={12} sx={{}}>
+                <Grid item xs={12} sx={{marginBlockEnd: '3vh'}}>
                   <Box>
-                    <Typography variant='h4' component='div' sx={{width: '100%', textAlign: 'center'}}> Our Mission</Typography>
-                    <Typography variant='p' component='div' sx={{width: '100%', textAlign: 'center', marginBlock: '3vh'}}>
+                    <Typography variant='h4' component='div' sx={{width: '100%', textAlign: 'center', fontSize: '4rem', fontWeight: 'bold'}}> Our Mission</Typography>
+                    <Typography variant='p' component='div' sx={{width: '100%', textAlign: 'center', marginBlock: '1vh 3vh'}}>
                       We are dedicated to increasing the quality of life by cultivating a lifestyle worth living.
                     </Typography>                    
                   </Box>
@@ -75,8 +75,8 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
                 </Grid>
                 
                 <Grid item xs={12} sx={{}}>
-                  <Box sx={{paddingInline: {xs:'3vw', md:'17.5vw'}}}>
-                    <Typography variant='h4' component='div' sx={{width: '100%', textAlign: 'center'}}> Our Story</Typography>
+                  <Box sx={{paddingInline: {xs:'3vw', md:'17.5vw'}, fontSize: {xs:'1.5rem',}}}>
+                    <Typography variant='h4' component='div' sx={{width: '100%', textAlign: 'center', fontSize: '4rem', fontWeight: 'bold'}}> Our Story</Typography>
                     <Typography variant='body' component='div' sx={{width: '100%', textAlign: 'left', marginBlock: '3vh'}}>
                       In a world filled with uncertainties, Maliek Davis understood the deep desire to create a life that was truly worth living. He faced his own share of challenges, from the frustration of finding reliable sources of information to the struggle of maintaining positive habits. In those moments, he realized the transformative power of guidance, support, and a community of like-minded individuals.
                       <br/>
@@ -111,39 +111,30 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
                 </Typography>
               </Grid>
               <Grid item xs>
-                <Grid item  sx={{paddingInline: {xs: '3vw', md:'17.5vw'}}} xs={12}>
+                <Box  sx={{paddingInline: {xs: '3vw', md:'17.5vw'}, fontSize: {xs:'1.5rem', }}} >
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                     At Pearl Box, our mission is to empower individuals in cultivating a lifestyle worth living. We curate relevant and factual information on mindset and resilience, ensuring that our platform serves as a trusted source of knowledge in these areas.
                     </Typography>
-                </Grid>
-                <Grid item sx={{paddingInline: {xs: '3vw', md:'17.5vw'}}} xs={12}>
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                         <span className='we-can-help-span' style={{}} >Curated Information and Products</span>
                       We meticulously curate articles and resources on mindset and resilience, providing you with practical insights and strategies to enhance personal growth. Our shop features handpicked products directly sourced from the articles on our site, offering you convenient access to tools that can support your journey towards a fulfilling lifestyle.
                     </Typography>
-                </Grid>
-                <Grid sx={{paddingInline: {xs: '3vw', md:'17.5vw'}}} xs={12}>
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                         <span className='we-can-help-span' style={{}} >Goal Tracking and Reminder System</span> We understand that setting and achieving goals can be challenging. That&gt;s why we&gt;re developing a cutting-edge tracking system and reminder tool to help you stay on track once you&gt;ve defined your objectives. This innovative feature will provide gentle nudges, ensuring you maintain focus and motivation on your path towards success. As you progress, we&gt;ll also introduce a reward system to celebrate your achievements and keep you inspired along the way.
                     </Typography>
-                </Grid>
-                <Grid sx={{paddingInline: {xs: '3vw', md:'17.5vw'}}} xs={12}>
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                         <span className='we-can-help-span' style={{}} >Positive Community and Support</span> At Pearl Box, we believe that a positive environment is essential for personal growth. Our community is filled with like-minded individuals who are passionate about cultivating a lifestyle worth living. By joining our community, you&gt;ll experience the power of connection, support, and encouragement from individuals who share your aspirations. Together, we reinforce positivity and create an uplifting atmosphere that fuels personal transformation.
                     </Typography>
-                </Grid>
-                <Grid sx={{paddingInline: {xs: '3vw', md:'17.5vw'}}} xs={12}>
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                         <span className='we-can-help-span' style={{}} >Education and Technological Tools</span> We are dedicated to empowering you through education and technology. Our courses, carefully designed and led by industry experts, cover a range of topics related to personal growth and well-being. Additionally, we provide a comprehensive library of information and research, ensuring that you have access to a wealth of knowledge to support your journey.
                     </Typography>
-                </Grid>
-                <Grid sx={{paddingInline: {xs: '3vw', md:'17.5vw'}}} xs={12}>
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                         <span className='we-can-help-span mr-5' style={{}}  >Enhancing Quality of Life</span> At Pearl Box, we go beyond theory and actively seek ways to enhance the quality of life in all aspects. Our commitment to providing high-quality information and utilizing innovative tech tools ensures that we empower you to lead a more fulfilling life. From mental and physical well-being to personal development and self-discovery, we strive to be your trusted partner in every step of your journey.
 
                         Join Pearl Box today and unlock your potential for a lifestyle that exceeds expectations. Explore our courses, access our vast library of resources, and connect with our vibrant community. Together, we&gt;ll cultivate a life worth living.
                     </Typography>
-                </Grid>
+                </Box>
+                
               </Grid>
           </Grid>
 

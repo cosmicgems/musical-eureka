@@ -1,5 +1,5 @@
 // import { ExpandMore } from '@mui/icons-material'
-import { Avatar, Card, CardActions, CardContent, CardMedia, Collapse, Grid, IconButton,  Stack, Typography } from '@mui/material'
+import { Avatar, Box, Card, CardActions, CardContent, CardMedia, Collapse, Grid, IconButton,  Stack, Typography } from '@mui/material'
 import React from 'react'
 import {
     EmailShareButton,
@@ -34,6 +34,7 @@ import { styled } from '@mui/material/styles';
 import { blue, green, grey, lightBlue } from '@mui/material/colors';
 import Link from 'next/link';
 import { urlFor } from '../../../../../lib/client';
+import moment from 'moment/moment';
 
 
 
@@ -53,7 +54,7 @@ import { urlFor } from '../../../../../lib/client';
   }));
 
 
-const MainArticleCard = ({article:{title, body, image, category, subcategories, slug,}}) => {
+const MainArticleCard = ({article:{title, body, image, category, subcategories, slug, excerpt, postedBy}}) => {
     const [expanded, setExpanded] = React.useState(false);    
     const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -71,7 +72,7 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
             <CardContent sx={{color: lightBlue[50]}}>
             <Link href={`/${pathSegment}/articles/${slug.current}`}>
                 <Typography variant='h5' component='div' sx={{fontWeight: 'bold'}}>
-                    Lorem, ipsum dolor.
+                    {title}
                 </Typography>
             </Link>
 
@@ -79,17 +80,26 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
                 <Grid container spacing={0} sx={{width: '100%'}}>
 
                     <Grid item sx={{}} xs={12}>
-                    <Stack direction="row" spacing={2}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"  />
-                    <Typography variant='p' component='div' sx={{width: '100%'}}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing.
-                    </Typography>
-                    </Stack>
+                    
+              
+                    <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '2vh'}}>
+              
+              <Avatar alt="Remy Sharp"  src={urlFor(postedBy.image && postedBy.image[0])} 
+              sx={{ width: '10%', height:'10vh' }} />
+          <Box sx={{}}>
+            <Typography variant='p' component='div' sx={{}}>
+              Posted By: <span className='featuredCard'>{postedBy.username}</span>
+            </Typography>
+            <Typography variant='p' component='div' sx={{}}>
+              Date: <span className='postDate'>{moment(postedBy.createdAt).fromNow()}</span>
+            </Typography>
+          </Box>
+          </Stack>
                     </Grid>
 
                     <Grid item xs={12} sx={{}}>
                     <Typography variant='p' component='div' sx={{}}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum a illum sequi. Aspernatur dignissimos minus nesciunt tenetur eveniet voluptates fuga!
+                    {excerpt}
                     </Typography>
                     </Grid>
                     

@@ -6,6 +6,8 @@ import { urlFor } from '../../../../lib/client';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useStateContext } from '../../../../Context/StateContext';
+import { grey } from '@mui/material/colors';
+import { motion } from 'framer-motion'
 
 const CategoryCard = ({category: {name, photo, slug}}) => {
   const {pathSegment, } = useStateContext();
@@ -14,15 +16,18 @@ const CategoryCard = ({category: {name, photo, slug}}) => {
   };
   console.log(photo);
   return (
-    <div className='mb-3'>
+    <motion.div 
+    whileHover={{ scale: 2 }}
+    whileTap={{ scaleX: 0.9 }} 
+    className='mb-3'>
       <Link href={`/${pathSegment}/categories/category/${slug.current}`} >
         <Chip clickable
         avatar={<Avatar alt="Cindy Baker" src={photo.url} />}
         label={name} 
-          sx={{width: {lg: '14vw'}}}
+          sx={{width: {lg: '14vw'}, color: grey[50], fontSize:'1rem'}}
         />        
       </Link>
-    </div>
+    </motion.div>
   )
 }
 
