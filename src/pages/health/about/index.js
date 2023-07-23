@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@mu
 import Link from 'next/link';
 import React from 'react'
 import { motion } from 'framer-motion'
-import { blue, orange, yellow } from '@mui/material/colors';
+import { blue, lightBlue, orange, yellow } from '@mui/material/colors';
 
 
 
@@ -12,11 +12,11 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
 
   return (
     <div style={{width: '100%', marginBlockStart: '10vh'}}>
-      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: yellow[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
+      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: lightBlue[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
         Pearl Box
       </Typography>
       <Box sx={{}}>
-        <Grid container sx={{color: yellow[100],}} spacing={0}>
+        <Grid container sx={{color: lightBlue[100],}} spacing={0}>
 
           <Grid item sx={{}} xs>
 

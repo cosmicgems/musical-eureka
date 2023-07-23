@@ -12,11 +12,11 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
 
   return (
     <div style={{width: '100%', marginBlockStart: '10vh'}}>
-      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: yellow[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
+      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: orange[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
         Pearl Box
       </Typography>
       <Box sx={{}}>
-        <Grid container sx={{color: yellow[100],}} spacing={0}>
+        <Grid container sx={{color: orange[100],}} spacing={0}>
 
           <Grid item sx={{}} xs>
 

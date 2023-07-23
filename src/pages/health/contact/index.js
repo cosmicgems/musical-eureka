@@ -2,7 +2,7 @@ import { CardMedia, Grid, Typography, Card, CardContent, Stack, TextField, Box, 
 import Link from 'next/link'
 import React from 'react'
 import { motion } from 'framer-motion'
-import { blue, grey, red, yellow } from '@mui/material/colors'
+import { blue, grey, lightBlue, red, yellow } from '@mui/material/colors'
 import { Facebook, Instagram, YouTube, Telegram } from '@mui/icons-material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react'
@@ -86,7 +86,7 @@ const ContactPage = () => {
   }
   return (
     <div style={{}}>      
-            <CardContent sx={{ color: yellow[100], bgcolor:'transparent',  minHeight: '100vh', paddingBlockStart: '13vh'}}>
+            <CardContent sx={{ color: lightBlue[100], bgcolor:'transparent',  minHeight: '100vh', paddingBlockStart: '13vh'}}>
         <Typography component='div' variant='h1' sx={{width:'100%', textAlign:'center', fontWeight: 'bold', fontSize: {xs:'3rem', md: '6rem'}}}>Contact Us</Typography>
         <Typography component='div' variant='p' sx={{width: '100%', textAlign: 'center',marginBlockEnd: '5vh', fontSize: {md: '1.5rem'}}}>
           Curate a Lifestyle Worth Living.
