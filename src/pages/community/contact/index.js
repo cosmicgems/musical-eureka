@@ -116,7 +116,7 @@ const ContactPage = () => {
           whileTap={{ scale: 6 }}>
             <Telegram  sx={{fontSize: {xs:50, md:100}}}/>
           </motion.div>
-             
+          
         </Stack>
       </Grid>
       <Grid item lg>

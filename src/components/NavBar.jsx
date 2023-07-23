@@ -49,9 +49,12 @@ console.log(pathSegment);
   const appBarBackgroundColor = pageSegmentColors[pathSegment] || '#000';
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Link href='/'>
       <Typography variant="h6" sx={{ my: 2 }}>
         Pearl Box 
-      </Typography>
+      </Typography>      
+    </Link>
+
       <Divider />
       <List>
         {navItems.map((item) => (
