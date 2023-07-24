@@ -4,9 +4,9 @@ import { Box, Button, CardContent, Grid, Stack, Typography } from '@mui/material
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { getArticles } from '../../../sanity/query functions/query';
+import { getArticles, getArticlesByPathSegment } from '../../../sanity/query functions/query';
 import { useCallback } from 'react';
-import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red } from '@mui/material/colors';
 
 const Layout = dynamic(() => import('../../components/Layout'));
 const FeaturedArticle = dynamic(() => import('../../components/technology/blog/FeaturedArticle'));
@@ -14,27 +14,40 @@ const CategoryCard = dynamic(() => import('../../components/technology/blog/Cate
 const CategoryCardMobile = dynamic(() => import('../../components/technology/blog/all-blogs/CategoryCardMobile'));
 const RecentArticle = dynamic(() => import('../../components/technology/blog/RecentArticle'));
 
-const TechnologyHome = ({ categories, articles, tags, users }) => {
-  const [loadedArticles, setLoadedArticles] = useState(1); // Initialize with initial limit (e.g., 10)
+const HealthHome = ({ categories, articles, tags, users }) => {
+  console.log(articles);
+  const [loadedArticles, setLoadedArticles] = useState(2); // Initialize with initial limit (e.g., 10)
   const [loadedArticleData, setLoadedArticleData] = useState([]); // State to store loaded article data
 
-  console.log(articles);
+  // console.log(articles);
   const sampleFeaturedPost = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const { pageName, subcategories, pathSegment } = useStateContext();
   const pageTitle = pageName.slice(1);
 
-  console.log(subcategories, 'and a message');
+  // console.log(subcategories, 'and a message');
   
   const loadInitialArticles = useCallback(async () => {
-    const initialArticles = await getArticles(0, loadedArticles);
+    const path = pathSegment
+    const initialArticles = await getArticlesByPathSegment(path, 0, loadedArticles); // Pass pathSegment to the getArticles function
     setLoadedArticleData(initialArticles);
-  }, [loadedArticles]);
+  }, [loadedArticles, pathSegment]);
   
   useEffect(() => {
     // Call the function inside the useEffect callback
     loadInitialArticles();
   }, [loadInitialArticles]);
 
+  const pageSegmentColors = {
+    technology: blue[100], // Example color for "tech" segment
+    realty: yellow[100],
+    health: lightBlue[100],
+    intelligence: orange[100],
+    community: deepPurple[100],
+    finance: green[100], 
+    art: cyan[100],
+  };
+
+const indexFontColor = pageSegmentColors[pathSegment] || red[100];
   
   // Function to load more articles when the "Load More" button is clicked
   const handleLoadMore = async () => {
@@ -44,21 +57,11 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
     // Add the additional articles to the existing loadedArticleData state
     setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles]);
   };
-    const pageSegmentColors = {
-        technology: blue[100], // Example color for "tech" segment
-        realty: yellow[100],
-        health: lightBlue[100],
-        intelligence: orange[100],
-        community: deepPurple[100],
-        finance: green[100]
-      };
-  
-    const indexFontColor = pageSegmentColors[pathSegment] || '#000';
 
   return (
     <Box sx={{ paddingBlockStart: { xs: '12vh', sm: '12vh', md: '7vh', lg: '8vh', xl: '10vh' } }}>
       <Grid container>
-        <Typography component="div" variant="h2" sx={{ width: '100%', textAlign: 'center', fontSize: { xs: '2em' }, marginBlockEnd: { xs: '2vh' }, fontWeight: 'bold', fontSize: {xs:'4rem',md:'6rem'}, color: indexFontColor }}>
+        <Typography component="div" variant="h2" sx={{ width: '100%', textAlign: 'center', fontSize: { xs: '2em' }, marginBlockEnd: { xs: '2vh' }, fontWeight: 'bold', fontSize: {xs:'4rem',md:'5rem'}, color: indexFontColor  }}>
           Pearl Box <span className="pageTitle">{pageTitle.toUpperCase()}</span>
         </Typography>
 
@@ -76,12 +79,12 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
               display: { sm: 'flex' },
               flexDirection: { sm: 'row' },
               overflowX: { sm: 'auto' },
-              marginBlockEnd: { xs: '5vh', sm: '4vh' },
+              marginBlockEnd: { xs: '5vh', sm: '7vh' },
               padding: { xs: 0 },
             }}
           >
             {articles?.map((article) => {
-              console.log(article);
+              
               return <FeaturedArticle key={article._id} article={article} />;
             })}
           </CardContent>
@@ -90,15 +93,15 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
             <Typography
               variant="h4"
               component="div"
-              sx={{ width: '100%', textAlign: 'center', marginBlockEnd: { xs: '2vh', lg: '2vh' }, fontSize: { xs: '2em' }, fontWeight: 'bold', fontSize: {xs:'3rem',md:'4rem'}, color: indexFontColor  }}
+              sx={{ width: '100%', textAlign: 'center', marginBlockEnd: { xs: '2vh', lg: '2vh' }, fontSize: { xs: '2em' }, color: indexFontColor, fontWeight: 'bold' }}
             >
               Recent <span>{pageTitle.toUpperCase()}</span> Articles
             </Typography>
 
             <Grid container sx={{ marginBlockEnd: { lg: '4vh' } }} spacing={5}>
-              {loadedArticleData?.map((article) => {
+              {loadedArticleData?.map((article, i) => {
                 return (
-                  <Grid item key={article._id + 'recent_article'} sm={6} md={4}>
+                  <Grid item key={i + 'recent_article'} sm={6} md={4}>
                     <RecentArticle RecentArticle={article} />
                   </Grid>
                 );
@@ -123,12 +126,14 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getStaticProps({ params }) {
+    console.log({params});
   try {
+    
     const [subcategories, categories, articles, tags, users] = await Promise.all([
       import('../../../sanity/query functions/query').then((module) => module.getSubcategories()),
       import('../../../sanity/query functions/query').then((module) => module.getCategories()),
-      import('../../../sanity/query functions/query').then((module) => module.getArticles()),
+      import('../../../sanity/query functions/query').then((module) => module.getFeaturedArticlesByPathSegment('health',  0, 2)),
       import('../../../sanity/query functions/query').then((module) => module.getTags()),
       import('../../../sanity/query functions/query').then((module) => module.getUsers()),
     ]);
@@ -151,4 +156,4 @@ export async function getStaticProps() {
   }
 }
 
-export default TechnologyHome;
+export default HealthHome;

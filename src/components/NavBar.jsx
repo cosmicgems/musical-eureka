@@ -21,7 +21,7 @@ import { AiOutlineShopping } from 'react-icons/ai'
 import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
-import { blue, deepPurple, green, orange, yellow, lightBlue } from '@mui/material/colors';
+import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red } from '@mui/material/colors';
 
 const drawerWidth = 240;
 
@@ -38,15 +38,16 @@ function NavBar(props) {
   };
 console.log(pathSegment);
   const pageSegmentColors = {
-    technology: blue[900], // Example color for "tech" segment
+    technology: blue[800], // Example color for "tech" segment
     realty: yellow[600],
     health: lightBlue[200],
     intelligence: orange[500],
     community: deepPurple[400],
-    finance: green[500]
+    finance: green[500],
+    art: cyan[500],
   };
 
-  const appBarBackgroundColor = pageSegmentColors[pathSegment] || '#000';
+  const appBarBackgroundColor = pageSegmentColors[pathSegment] || red["A700"];
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
     <Link href='/'>

@@ -2,11 +2,12 @@ import { CardMedia, Grid, Typography, Card, CardContent, Stack, TextField, Box, 
 import Link from 'next/link'
 import React from 'react'
 import { motion } from 'framer-motion'
-import { blue, grey, red, yellow } from '@mui/material/colors'
 import { Facebook, Instagram, YouTube, Telegram } from '@mui/icons-material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react'
 import axios from 'axios'
+import { useStateContext } from '../../../../Context/StateContext'
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red } from '@mui/material/colors';
 
 
 const theme = createTheme({
@@ -15,7 +16,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '&$focused': {
-            color: 'yellow',
+            color: 'blue',
           },
           color: 'white',
         },
@@ -26,6 +27,10 @@ const theme = createTheme({
         root: {
           '& fieldset': {
             borderColor: 'white', // Replace this with your desired border color for default state
+            transition: 'border-color 0.3s ease-in-out', // Add transition for smooth animation
+          },
+          '&:hover fieldset': {
+            borderColor: '#EEE', // Set border color to white on hover
           },
           '&$focused fieldset': {
             borderColor: 'white', // Set border color to white when focused
@@ -63,6 +68,20 @@ const theme = createTheme({
 
 
 const ContactPage = () => {
+  const {pageName, pathSegment, subcategories} = useStateContext();
+
+  const pageSegmentColors = {
+    technology: blue[100], // Example color for "tech" segment
+    realty: yellow[100],
+    health: lightBlue[100],
+    intelligence: orange[100],
+    community: deepPurple[100],
+    finance: green[100], 
+    art: cyan[100],
+  };
+
+const indexFontColor = pageSegmentColors[pathSegment] || red[100];
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -84,9 +103,10 @@ const ContactPage = () => {
       // Handle error and display appropriate message to the user
     }
   }
+
   return (
     <div style={{}}>      
-            <CardContent sx={{ color: yellow[100], bgcolor:'transparent',  minHeight: '100vh', paddingBlockStart: '13vh'}}>
+            <CardContent sx={{ color: indexFontColor, bgcolor:'transparent',  minHeight: '100vh', paddingBlockStart: '13vh'}}>
         <Typography component='div' variant='h1' sx={{width:'100%', textAlign:'center', fontWeight: 'bold', fontSize: {xs:'3rem', md: '6rem'}}}>Contact Us</Typography>
         <Typography component='div' variant='p' sx={{width: '100%', textAlign: 'center',marginBlockEnd: '5vh', fontSize: {md: '1.5rem'}}}>
           Curate a Lifestyle Worth Living.

@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../../../components/Layout'
 import CategoryCard from '../../../components/technology/blog/category/CategoryCard'
 import { CardContent, Grid, Stack, Typography } from '@mui/material'
-import { deepOrange, grey, red } from '@mui/material/colors'
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red } from '@mui/material/colors';
 import { useStateContext } from '../../../../Context/StateContext'
 
 const TechCategoriesPage = () => {
@@ -10,11 +10,23 @@ const TechCategoriesPage = () => {
   const sampleFeaturedPost = [1, 2 ,3, 4, 5, 6, 7, 8, 9,1 ,2 ,3 , 4, 5, 6, 7, 8,];
 
 
+  const pageSegmentColors = {
+    technology: blue[100], // Example color for "tech" segment
+    realty: yellow[100],
+    health: lightBlue[100],
+    intelligence: orange[100],
+    community: deepPurple[100],
+    finance: green[100], 
+    art: cyan[100],
+  };
+
+const indexFontColor = pageSegmentColors[pathSegment] || red[100];
+  
   return (
 
 
         <div style={{paddingBlockStart: '10vh', paddingInline:'3vh', minHeight:'80vh'}}>
-          <Typography variant='h2' component='div' sx={{width: '100%', textAlign:'center', color:grey[50], fontWeight: 'bold'}}>
+          <Typography variant='h2' component='div' sx={{width: '100%', textAlign:'center', color:indexFontColor, fontWeight: 'bold'}}>
             Categories
           </Typography>
           <CardContent

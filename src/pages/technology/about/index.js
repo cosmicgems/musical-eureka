@@ -2,21 +2,36 @@ import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@mu
 import Link from 'next/link';
 import React from 'react'
 import { motion } from 'framer-motion'
-import { blue, orange } from '@mui/material/colors';
+import { useStateContext } from '../../../../Context/StateContext'
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red, } from '@mui/material/colors';
 
 
 
-const index = () => {
+const AboutPage = () => {
 
 const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', 'Impact', 'Simplicity', 'Balance', ];
 
+const {pageName, pathSegment, subcategories} = useStateContext();
+
+const pageSegmentColors = {
+  technology: blue[100], // Example color for "tech" segment
+  realty: yellow[100],
+  health: lightBlue[100],
+  intelligence: orange[100],
+  community: deepPurple[100],
+  finance: green[100], 
+  art: cyan[100],
+};
+
+const indexFontColor = pageSegmentColors[pathSegment] || red[100];
+
   return (
     <div style={{width: '100%', marginBlockStart: '10vh'}}>
-      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: blue[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
+      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: indexFontColor, fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
         Pearl Box
       </Typography>
       <Box sx={{}}>
-        <Grid container sx={{color: blue[100],}} spacing={0}>
+        <Grid container sx={{color: indexFontColor,}} spacing={0}>
 
           <Grid item sx={{}} xs>
 
@@ -147,4 +162,4 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
   )
 }
 
-export default index
+export default AboutPage

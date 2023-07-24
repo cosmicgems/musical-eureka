@@ -9,12 +9,12 @@ import { useStateContext } from '../../../../Context/StateContext';
 import { grey } from '@mui/material/colors';
 import { motion } from 'framer-motion'
 
-const CategoryCard = ({category: {name, photo, slug}}) => {
+const CategoryCard = ({category: {name, photo:{url}, slug}}) => {
   const {pathSegment, } = useStateContext();
   const handleClick = () => {
     console.info('You clicked the Chip.');
   };
-  console.log(photo);
+  // console.log(url);
   return (
     <motion.div 
     whileHover={{ scale: 2 }}
@@ -22,7 +22,7 @@ const CategoryCard = ({category: {name, photo, slug}}) => {
     className='mb-3'>
       <Link href={`/${pathSegment}/categories/category/${slug.current}`} >
         <Chip clickable
-        avatar={<Avatar alt="Cindy Baker" src={photo.url} />}
+        avatar={<Avatar alt="Cindy Baker" src={url} />}
         label={name} 
           sx={{width: {lg: '14vw'}, color: grey[50], fontSize:'1rem'}}
         />        

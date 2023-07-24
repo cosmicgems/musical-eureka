@@ -2,11 +2,11 @@ import React from 'react';
 import { Button, CardContent, Grid, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useStateContext } from '../../../../Context/StateContext';
-import { getAllArticles, getArticles } from '../../../../sanity/query functions/query';
+import { getAllArticles, getArticles, getArticlesByPathSegment } from '../../../../sanity/query functions/query';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useCallback } from 'react';
-import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red } from '@mui/material/colors';
 
 const Layout = dynamic(() => import('../../../components/Layout'));
 const FeaturedArticle = dynamic(() => import('../../../components/technology/blog/FeaturedArticle'));
@@ -22,19 +22,10 @@ const TechnologyArticles = ({ articles }) => {
   const { pageName, subcategories, pathSegment } = useStateContext();
   console.log(pageName);
   const pageTitle = pageName.slice(1);
-  const pageSegmentColors = {
-      technology: blue[100], // Example color for "tech" segment
-      realty: yellow[100],
-      health: lightBlue[100],
-      intelligence: orange[100],
-      community: deepPurple[100],
-      finance: green[100]
-    };
-
-  const allArticlesFontColor = pageSegmentColors[pathSegment] || '#000';
   
   const loadInitialArticles = useCallback(async () => {
-    const initialArticles = await getArticles(0, loadedArticles);
+    const initialArticles = await getArticlesByPathSegment('technology', 0, loadedArticles);
+    
     setLoadedArticleData(initialArticles);
   }, [loadedArticles]);
   
@@ -46,12 +37,25 @@ const TechnologyArticles = ({ articles }) => {
   
   // Function to load more articles when the "Load More" button is clicked
   const handleLoadMore = async () => {
-    const additionalArticles = await getArticles(loadedArticles, 2); // Fetch the next 10 articles (adjust the limit as needed)
+    const additionalArticles = await getArticlesByPathSegment(pathSegment, loadedArticles, 2); // Fetch the next 10 articles (adjust the limit as needed)
     setLoadedArticles((prev) => prev + 2); // Update the number of loaded articles
 
     // Add the additional articles to the existing loadedArticleData state
     setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles]);
   };
+
+  const pageSegmentColors = {
+    technology: blue[100], // Example color for "tech" segment
+    realty: yellow[100],
+    health: lightBlue[100],
+    intelligence: orange[100],
+    community: deepPurple[100],
+    finance: green[100], 
+    art: cyan[100],
+  };
+
+const indexFontColor = pageSegmentColors[pathSegment] || red[100];
+  
 
   return (
     <div style={{ paddingBlockStart: '10vh' }}>
@@ -72,7 +76,7 @@ const TechnologyArticles = ({ articles }) => {
 
         <Grid item xs={12} sx={{}}>
           <CardContent sx={{ marginBlockEnd: { lg: '4vh' }, paddingInline: { xs: '0', lg: '17.5vw' } }}>
-                <Typography variant='h2' component='div' sx={{marginBlockEnd: '5vh', width: '100%', textAlign: 'center', color: allArticlesFontColor, fontWeight: 'bold'}}>
+                <Typography variant='h2' component='div' sx={{marginBlockEnd: '5vh', width: '100%', textAlign: 'center', color: indexFontColor, fontWeight: 'bold'}}>
                   All Articles
                 </Typography>
             {loadedArticleData?.map((article) => {
@@ -95,7 +99,7 @@ const TechnologyArticles = ({ articles }) => {
 
 export async function getStaticProps() {
   try {
-    const articles = await getAllArticles();
+    const articles = await getArticlesByPathSegment("technology", 0, 2);
 
     return {
       props: {

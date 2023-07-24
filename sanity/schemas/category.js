@@ -35,8 +35,9 @@ export default {
     {
       name: 'subcategories',
       title: 'Subcategories',
-      type: 'reference',
-      to: [{    type: 'subcategory' }], // Replace 'subcategory' with the actual document type for the reference
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'subcategory' } }],
     },
+    
   ],
 };

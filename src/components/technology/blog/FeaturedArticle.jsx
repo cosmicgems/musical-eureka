@@ -69,7 +69,7 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
   const handleExpandClick = () => {
     setExpanded(!expanded);
     };    
-  console.log(image);
+  // console.log(image);
 
 
 
@@ -80,7 +80,7 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
         <CardContent sx={{ padding: 0}}>
           <CardMedia
                       id='tech'
-                      sx={{ height: {xs:'32vh', sm: '20vh', md: '30vh', xl: '32vh'}, objectFit: 'cover', width: '100%' }}
+                      sx={{ height: {xs:'32vh', sm: '20vh', md: '20vh', xl: '20vh'}, objectFit: 'cover', width: '100%' }}
                       image={image}
                       title="pearl-box-tech"
                       
@@ -101,8 +101,8 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
               <Stack direction="row" spacing={2} justifyContent='center' alignItems='center' sx={{marginBlock: '1vh  2vh'}}>
               
                   <Avatar alt="Remy Sharp"  src={urlFor(postedBy.image && postedBy.image[0])} 
-  sx={{ width: {xs: '20%', sm: '10%', lg: '15%'}, height:'100%' }} />
-              <Box sx={{width: {md:'100%'}}}>
+  sx={{ width: {xs: '20%', sm: '10%', lg: '7vh'}, height:'7vh' }} />
+              <Box sx={{ }}>
                 <Typography variant='p' component='div' sx={{}}>
                   Posted By: <span className='featuredCard'>{postedBy.username}</span>
                 </Typography>

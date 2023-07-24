@@ -37,6 +37,20 @@ const pages = [
     href: "/health",
   },
   {
+    name: "Art",
+    image: "https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    id: "art",
+    title: "pearl-box-art",
+    href: "/art",
+  },
+  {
+    name: "Home & Garden",
+    image: "https://images.pexels.com/photos/6969784/pexels-photo-6969784.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    id: "home & garden",
+    title: "pearl-box-home-and-garden",
+    href: "/home-and-garden",
+  },
+  {
     name: "Intelligence",
     image: "https://images.pexels.com/photos/10525700/pexels-photo-10525700.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     id: "intelligence",
@@ -75,9 +89,9 @@ export default function Home() {
 
 
           <Grid container spacing={0} sx={{minHeight: {md:'100vh'}, position:{lg: 'absolute'}, bgcolor: grey[900], color: red[900], display: {xs:'none', md:'flex'}}}>
-
-            <Grid item lg={2} > 
-              <Link href='/technology'>
+            {pages.map((page, i) => {
+              return <Grid key={i + " home pages"} item lg > 
+              <Link href={page.href}>
                 <motion.div
                 whileHover={{x: '-50%', scaleX: 1.1 }}
                 whileTap={{ scaleX: 0.9 }}
@@ -85,10 +99,10 @@ export default function Home() {
                   <Card sx={{borderRadius: 0}}
                   >
                     <CardMedia
-                    id='tech'
+                    id={page.id}
                     sx={{ height: '100vh', objectFit: 'cover' }}
-                    image="https://images.pexels.com/photos/4816921/pexels-photo-4816921.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    title="pearl-box-tech"
+                    image={page.image}
+                    title={page.title}
                     onMouseOver={(e)=>{setIndustryHoverName(e.target.id)}}
                     />      
 
@@ -97,111 +111,16 @@ export default function Home() {
               </Link>
 
             </Grid>
+            })}
+            
 
-            <Grid item lg={2} >
-              <Link href='/realty'>
-                <motion.div
-                whileHover={{x: '-50%', scaleX: 1.1 }}
-                whileTap={{ scaleX: 0.9 }}
-                >
-                  <Card sx={{borderRadius: 0}}> 
-                    <CardMedia
-                    id='realty'
-                    onMouseOver={(e)=>{setIndustryHoverName(e.target.id)}} 
-                    sx={{ height: '100vh', objectFit: 'cover' }}
-                    image="https://images.pexels.com/photos/7535071/pexels-photo-7535071.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    title="pearl-box-tech"
-                    />
-                  </Card>          
-                </motion.div>
-              </Link>
-            </Grid>
+            
 
 
-            <Grid item lg={2} > 
-              <Link href='/health'>
-                <motion.div
-
-                whileHover={{x: '-50%', scaleX: 1.1 }}
-                whileTap={{ scaleX: 0.9 }}
-                >
-                  <Card sx={{borderRadius: 0}}> 
-                    <CardMedia
-                    id='health'
-                  onMouseOver={(e)=>{setIndustryHoverName(e.target.id)}}
-                    sx={{ height: '100vh', objectFit: 'cover' }}
-                    image="https://images.pexels.com/photos/5452291/pexels-photo-5452291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    title="pearl-box-tech"
-                    />
-                  </Card>          
-                </motion.div>
-              </Link>
-            </Grid>
-
-
-            <Grid item lg={2} > 
-              <Link href='/intelligence'>
-                <motion.div
-                whileHover={{x: '-50%', scaleX: 1.1 }}
-                whileTap={{ scaleX: 0.9 }}
-                >
-                  <Card sx={{borderRadius: 0}}> 
-                    <CardMedia 
-                    id='intelligence'
-                  onMouseOver={(e)=>{setIndustryHoverName(e.target.id)}}
-                    sx={{ height: '100vh', objectFit: 'cover' }}
-                    image="https://images.pexels.com/photos/10525700/pexels-photo-10525700.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    title="pearl-box-tech"
-                    />
-                  </Card>          
-                </motion.div>
-              </Link>
-            </Grid>
-
-
-            <Grid item lg={2} > 
-              <Link href='/community'>
-                <motion.div
-                id='community'
-                whileHover={{x: '-50%',scaleX: 1.1 }}
-                whileTap={{ scaleX: 0.9 }}
-                >
-                  <Card sx={{borderRadius: 0}}> 
-                    <CardMedia 
-                    id='community'
-                  onMouseOver={(e)=>{setIndustryHoverName(e.target.id)}}
-                    sx={{ height: '100vh', objectFit: 'cover' }}
-                    image="https://images.pexels.com/photos/4262416/pexels-photo-4262416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    title="pearl-box-tech"
-                    />
-                  </Card>          
-                </motion.div>
-              </Link>
-            </Grid>
-
-
-            <Grid item lg={2} > 
-              <Link href='/finance'>
-                <motion.div
-                
-                whileHover={{x: '-50%', scaleX: 1.1   }}
-                whileTap={{ scaleX: 0.9 }}
-                >
-                  <Card sx={{borderRadius: 0}}> 
-                    <CardMedia 
-                    id='finance'
-                  onMouseOver={(e)=>{setIndustryHoverName(e.target.id)}}
-                    sx={{ height: '100vh', objectFit: 'cover' }}
-                    image="https://images.pexels.com/photos/4386476/pexels-photo-4386476.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    title="pearl-box-tech"
-                    />
-                  </Card>          
-                </motion.div>
-              </Link>
-            </Grid>
+            
           </Grid>
 
-          <Grid container columns={12}  sx={{ position:{xs: 'absolute',}, bgcolor: grey[900], color: red[900], display: { md:'none'}}}>
+          <Grid container columns={12}  sx={{ position:{xs: 'absolute',}, bgcolor: grey[900], color: red[900], display: { sm:'none'}}}>
 
             {pages.map((page) => {
               return <Grid item xs={4} row  sx={{}} key={page.id}>

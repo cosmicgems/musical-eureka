@@ -2,21 +2,36 @@ import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@mu
 import Link from 'next/link';
 import React from 'react'
 import { motion } from 'framer-motion'
-import { blue, lightBlue, orange, yellow } from '@mui/material/colors';
+import { useStateContext } from '../../../../Context/StateContext'
+import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red, } from '@mui/material/colors';
 
 
 
-const index = () => {
+const AboutPage = () => {
 
 const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', 'Impact', 'Simplicity', 'Balance', ];
 
+const {pageName, pathSegment, subcategories} = useStateContext();
+
+const pageSegmentColors = {
+  technology: blue[100], // Example color for "tech" segment
+  realty: yellow[100],
+  health: lightBlue[100],
+  intelligence: orange[100],
+  community: deepPurple[100],
+  finance: green[100], 
+  art: cyan[100],
+};
+
+const indexFontColor = pageSegmentColors[pathSegment] || red[100];
+
   return (
     <div style={{width: '100%', marginBlockStart: '10vh'}}>
-      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: lightBlue[100], fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
+      <Typography variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: indexFontColor, fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
         Pearl Box
       </Typography>
       <Box sx={{}}>
-        <Grid container sx={{color: lightBlue[100],}} spacing={0}>
+        <Grid container sx={{color: indexFontColor,}} spacing={0}>
 
           <Grid item sx={{}} xs>
 
@@ -75,7 +90,7 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
                 </Grid>
                 
                 <Grid item xs={12} sx={{}}>
-                  <Box sx={{paddingInline: {xs:'3vw', md:'17.5vw'}, fontSize: {xs:'1rem',}}}>
+                  <Box sx={{paddingInline: {xs:'3vw', md:'17.5vw'}, fontSize: {xs:'1.5rem',}}}>
                     <Typography variant='h4' component='div' sx={{width: '100%', textAlign: 'center', fontSize: '4rem', fontWeight: 'bold'}}> Our Story</Typography>
                     <Typography variant='body' component='div' sx={{width: '100%', textAlign: 'left', marginBlock: '3vh'}}>
                       In a world filled with uncertainties, Maliek Davis understood the deep desire to create a life that was truly worth living. He faced his own share of challenges, from the frustration of finding reliable sources of information to the struggle of maintaining positive habits. In those moments, he realized the transformative power of guidance, support, and a community of like-minded individuals.
@@ -106,12 +121,12 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
                 
               </Grid>
               <Grid item xs>
-                <Typography variant='h4' component='div' sx={{ width: '100%', textAlign: 'center', marginBlock:'5vh 2vh'}}>
+                <Typography variant='h4' component='div' sx={{ width: '100%', textAlign: 'center'}}>
                   How We Can Help?
                 </Typography>
               </Grid>
               <Grid item xs>
-                <Box  sx={{paddingInline: {xs: '3vw', md:'17.5vw'}, fontSize: {xs:'1rem', }}} >
+                <Box  sx={{paddingInline: {xs: '3vw', md:'17.5vw'}, fontSize: {xs:'1.5rem', }}} >
                     <Typography variant='body'component='div' sx={{marginBlockEnd: '3vh'}}>
                     At Pearl Box, our mission is to empower individuals in cultivating a lifestyle worth living. We curate relevant and factual information on mindset and resilience, ensuring that our platform serves as a trusted source of knowledge in these areas.
                     </Typography>
@@ -147,4 +162,4 @@ const coreValues = ['Passion', 'Purpose', 'Innovation', 'Growth', 'Integrity', '
   )
 }
 
-export default index
+export default AboutPage

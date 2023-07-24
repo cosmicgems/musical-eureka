@@ -28,10 +28,130 @@ export async function getArticles(skip = 0, limit = 1) {
   return articles;
 }
 
-// Fetch articles from Sanity
-export async function getAllArticles(skip = 0, limit = 5) {
+
+
+export async function getArticlesByPathSegment(pathSegment, skip, limit=2) {
+  
+  // Fetch the category that matches the provided pathSegment (converted to lowercase)
+  const categoryQuery = `*[_type == "category" && (slug.current) == "${pathSegment}"]{
+    _id
+  }`;
+
+  // Fetch the matching category from Sanity
+  const category = await client.fetch(categoryQuery);
+
+  // If no matching category is found, return an empty array (no articles to retrieve)
+  if (category.length === 0) {
+    return [];
+  }
+
+  // Extract the category ID from the matched category
+  const categoryId = category[0]._id;
+
+  // Fetch articles that reference the matched category ID, with skip and limit applied
+  const articlesQuery = `*[_type == "article" && references($categoryId)] | order(_createdAt desc) [${skip}...${skip + limit}] {
+    // Add the fields you want to retrieve for each article
+    title,
+    body,
+    excerpt,
+    createdAt,
+    slug,
+    metaTitle,
+    metaDescription,
+    image,
+    postedBy-> {
+      // Subquery to fetch and populate fields from the referenced "postedBy" document
+      _id,
+      username,
+      email,
+      image,
+    }
+  }`;
+
+  // Define the parameter object that includes the 'categoryId' variable
+  const params = { categoryId };
+
+  // Fetch the articles from Sanity with the 'params' parameter
+  const articles = await client.fetch(articlesQuery, params);
+  return articles;
+}
+
+export async function getFeaturedArticlesByPathSegment(pathSegment, skip, limit = 2) {
+  // Fetch the category that matches the provided pathSegment (converted to lowercase)
+  const categoryQuery = `*[_type == "category" && slug.current == "${pathSegment}"]{
+    _id
+  }`;
+
+  // Fetch the matching category from Sanity
+  const category = await client.fetch(categoryQuery);
+
+  // If no matching category is found, return an empty array (no articles to retrieve)
+  if (category.length === 0) {
+    return [];
+  }
+
+  // Extract the category ID from the matched category
+  const categoryId = category[0]._id;
+
+  // Fetch articles that reference the matched category ID, with skip and limit applied
+  const articlesQuery = `*[_type == "article" && references($categoryId)  && references($featuredTagId) ] | order(_createdAt desc) [${skip}...${skip + limit}] {
+    // Add the fields you want to retrieve for each article
+    title,
+    body,
+    excerpt,
+    createdAt,
+    slug,
+    metaTitle,
+    metaDescription,
+    image,
+    postedBy-> {
+      // Subquery to fetch and populate fields from the referenced "postedBy" document
+      _id,
+      username,
+      email,
+      image,
+    }
+  }`;
+
+  // Fetch the ID of the "Featured" tag
+  const tagQuery = '*[_type == "tag" && name == "Featured"]{_id}';
+  const tag = await client.fetch(tagQuery);
+  const featuredTagId = tag[0]._id;
+  console.log(featuredTagId, "***************");
+  // Define the parameter object that includes the 'categoryId' and 'featuredTagId' variables
+  const params = { categoryId, featuredTagId};
+
+  // Fetch the articles from Sanity with the 'params' parameter
+  const articles = await client.fetch(articlesQuery, params);
+  console.log(articles);
+  return articles;
+}
+
+
+
+export async function getAllArticles(pathSegment, skip = 0, limit = 5) {
+
+  // Fetch the categories that match the provided pageSegment (converted to lowercase)
+  const categoriesQuery = groq`
+    *[_type == "category" && lowercase(name) == "${pathSegment.toLowerCase()}"] {
+      _id
+    }
+  `;
+
+  // Fetch the matching categories from Sanity
+  const categories = await client.fetch(categoriesQuery);
+
+  // Extract the category IDs from the matched categories
+  const categoryIds = categories.map((category) => category._id);
+
+  // If no matching categories are found, return an empty array
+  if (categoryIds.length === 0) {
+    return [];
+  }
+
+  // Fetch articles that belong to the matched categories, ordered by _createdAt in descending order
   const query = groq`
-    *[_type == "article"] | order(_createdAt desc) [${skip}...${skip + limit}]{
+    *[_type == "article" && references($categoryIds)] | order(_createdAt desc) [${skip}...${skip + limit}]{
       title,
       body,
       excerpt,
@@ -50,13 +170,17 @@ export async function getAllArticles(skip = 0, limit = 5) {
     }
   `;
 
-  // Fetch the articles from Sanity with the 'skip' and 'limit' parameters
-  const articles = await client.fetch(query);
+  // Define the parameter object that includes the 'categoryIds' variable
+  const params = { categoryIds };
+
+  // Fetch the articles from Sanity with the 'skip', 'limit', and 'params' parameters
+  const articles = await client.fetch(query, params);
   return articles;
 }
 
 
-export async function getArticlesBySubcategory(subcategorySlug) {
+
+export async function getArticlesBySubcategory(subcategorySlug, skip = 0, limit = 5) {
   // Fetch subcategories to get their IDs
   const subcategoryQuery = groq`
     *[_type == "subcategory" && slug.current == $subcategorySlug] {
@@ -67,12 +191,12 @@ export async function getArticlesBySubcategory(subcategorySlug) {
 
   // If the subcategory is not found, return an empty array
   if (!subcategory) {
-    return [];
+    return { articles: [], totalCount: 0 };
   }
 
   const subcategoryId = subcategory._id;
-  console.log(subcategoryId);
-  // Query articles based on the subcategory ID
+
+  // Query articles based on the subcategory ID, with skip and limit applied
   const articlesQuery = groq`
     *[_type == "article" && references($subcategoryId)] {
       title,
@@ -91,10 +215,25 @@ export async function getArticlesBySubcategory(subcategorySlug) {
       }
     }
   `;
-  
-  const articles = await client.fetch(articlesQuery, { subcategoryId });
-  return articles;
+
+  // Query all articles that match the subcategory ID (without applying skip and limit)
+  const allArticlesQuery = groq`
+    *[_type == "article" && references($subcategoryId)] {
+      _id
+    }
+  `;
+
+  // Execute both queries in parallel using Promise.all
+  const [articles, allArticles] = await Promise.all([
+    client.fetch(articlesQuery, { subcategoryId, skip, limit }),
+    client.fetch(allArticlesQuery, { subcategoryId }),
+  ]);
+
+  const totalCount = allArticles.length; // Get the total count of articles
+
+  return { articles, totalCount };
 }
+
 
 
 
@@ -116,6 +255,8 @@ export async function getCategories() {
   return categories;
 }
 
+
+
 export async function getSubcategoryBySlug(slug) {
   console.log(slug);
   const query = groq`*[_type == 'subcategory' && slug.current == $slug]{
@@ -128,6 +269,8 @@ export async function getSubcategoryBySlug(slug) {
     return subcategory;
   
 }
+
+
 
 export async function getSubcategories() {
   const query = groq`
@@ -145,14 +288,16 @@ export async function getSubcategories() {
 
 
 
-// Fetch tags from Sanity
+
+
 export async function getTags() {
   const query = `*[_type == "tag"]`;
   const tags = await client.fetch(query);
   return tags;
 }
 
-// Fetch users from Sanity
+
+
 export async function getUsers() {
   const query = `*[_type == "user"]`;
   const users = await client.fetch(query);
