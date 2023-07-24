@@ -28,7 +28,7 @@ const drawerWidth = 240;
 
 function NavBar(props) {
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const navItems = [`${pathSegment} Home`, 'Articles', 'Categories', 'About', 'Contact', 'Shop'];
+    const navItems = [`${pathSegment} Home`, 'Articles', 'Categories', 'About', 'Contact'];
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     console.log(subcategories);
@@ -167,13 +167,13 @@ console.log(pathSegment);
           {drawer}
         </Drawer>
       </Box>
-          
+{/*           
       {showCart && 
       <div className='navbar-container'>
       <Cart />
       </div>
       }
-   
+    */}
     </Box>
   );
 }

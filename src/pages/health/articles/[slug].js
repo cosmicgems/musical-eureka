@@ -62,11 +62,11 @@ const DynamicArticlePage = ({ article, related }) => {
           overflowWrap: 'unset',
         }}
       >
-        <Stack direction="row" justifyContent="center" alignItems="center" style={{ display: 'flex', textAlign: 'center', paddingInline: 0 }}>
+        {/* <Stack direction="row" justifyContent="center" alignItems="center" style={{ display: 'flex', textAlign: 'center', paddingInline: 0 }}>
           {related.map((relatedArticle, i) => {
             return <CardContent sx={{}} key={i * 99 + 99}><RelatedArticle relatedArticle={relatedArticle} /></CardContent>;
           })}
-        </Stack>
+        </Stack> */}
       </CardContent>
     </Card>
   );
