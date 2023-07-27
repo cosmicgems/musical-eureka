@@ -22,6 +22,7 @@ import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
 import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red } from '@mui/material/colors';
+import { motion } from 'framer-motion'
 
 const drawerWidth = 240;
 
@@ -87,14 +88,14 @@ console.log(pathSegment);
             <MenuIcon />
           </IconButton>
          
-          <AdbIcon sx={{ display: { md: 'none' }, mr: 1, ml:6 }} />
+          
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="/"
             sx={{
-              mr: 4,
+              ml: 'auto',
               display: { sm: 'none' },
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -108,13 +109,17 @@ console.log(pathSegment);
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
             <Link href='/'>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-              >
-                Pearl Box
-              </Typography>            
+                <motion.div
+                whileTap={{ scale: 0.9 }}>
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                  >
+                    Pearl Box
+                  </Typography>                  
+                </motion.div>
+            
             </Link>            
           </Box>
 
@@ -122,14 +127,19 @@ console.log(pathSegment);
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button key={item} sx={{ color: '#fff', marginInlineEnd: '2vw' }} href={item.toLowerCase() === `${pathSegment} home` ? `/${pathSegment}` : `/${pathSegment}/${item.toLowerCase()}`}>
-                {item}
+                <motion.div
+                whileHover={{ scale: 2 }}
+                whileTap={{ scale: 0.9 }}>
+                    {item}
+                </motion.div>
+
               </Button>
             ))}
-                <button type='button'
+                {/* <button type='button'
                   className='cart-icon' style={{marginInline:'1vw', justifyContent: 'center', alignItems:'center'}} onClick={() => setShowCart(true)}>
                   <AiOutlineShopping/>
                   <span className='cart-item-qty'>{totalQuantities}</span>
-                </button>  
+                </button>   */}
           </Box>
         </Toolbar>
 
@@ -138,9 +148,15 @@ console.log(pathSegment);
             {subcategories?.map((item) => (
               
               <Grid item key={item._id}>
-                <Button  sx={{ color: '#fff', fontSize: '.5rem', padding:0 }} href={`/${pathSegment}/categories/category/${item.slug.current}`} >
-                  {item.name}
-                </Button>
+                <motion.div
+                whileHover={{scale: 2 }}
+                whileTap={{ scale: 0.9 }}
+                >
+                  <Button  sx={{ color: '#fff', fontSize: '.5rem', padding:0 }} href={`/${pathSegment}/categories/category/${item.slug.current}`} >
+                    {item.name}
+                  </Button>                  
+                </motion.div>
+
               </Grid>
 
             ))}

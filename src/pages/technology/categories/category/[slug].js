@@ -65,9 +65,13 @@ const handleLoadMore = async () => {
 
         <Grid item xs={12} sx={{}}>
           <CardContent sx={{ marginBlockEnd: { lg: '4vh' }, paddingInline: { xs: '0', lg: '17.5vw' } }}>
-            {loadedArticleData?.map((article) => {
-              return <MainArticleCard key={article._id} article={article} />;
-            })}
+            {loadedArticleData && loadedArticleData.length > 0 ? (
+                loadedArticleData.map((article) => {
+                  return <MainArticleCard key={article._id} article={article} />;
+                })
+              ) : (
+                <Typography>No articles to display.</Typography>
+              )}
           </CardContent>
 
           <Grid item sx={{ paddingInline: { xs: '17.5%', lg: '33.3%' } }}>

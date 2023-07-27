@@ -54,7 +54,7 @@ import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, }
   }));
 
 
-const MainArticleCard = ({article:{title, body, image, category, subcategories, slug, excerpt, postedBy}}) => {
+const MainArticleCard = ({article:{title, body, image, category, subcategories, slug, excerpt, postedBy, createdAt}}) => {
     const [expanded, setExpanded] = React.useState(false);    
     const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -101,7 +101,7 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
               Posted By: <span className='featuredCard'>{postedBy.username}</span>
             </Typography>
             <Typography variant='p' component='div' sx={{}}>
-              Date: <span className='postDate'>{moment(postedBy.createdAt).fromNow()}</span>
+              Date: <span className='postDate'>{moment(createdAt).fromNow()}</span>
             </Typography>
           </Box>
           </Stack>

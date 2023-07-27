@@ -107,7 +107,7 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
                   Posted By: <span className='featuredCard'>{postedBy.username}</span>
                 </Typography>
                 <Typography variant='p' component='div' sx={{}}>
-                  Date: <span className='postDate'>{moment(postedBy.createdAt).fromNow()}</span>
+                  Date: <span className='postDate'>{moment(createdAt).fromNow()}</span>
                 </Typography>
               </Box>
               </Stack>

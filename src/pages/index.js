@@ -93,7 +93,7 @@ export default function Home() {
               return <Grid key={i + " home pages"} item lg > 
               <Link href={page.href}>
                 <motion.div
-                whileHover={{x: '-50%', scaleX: 1.1 }}
+                whileHover={{ scale: 1.5 }}
                 whileTap={{ scaleX: 0.9 }}
                 >
                   <Card sx={{borderRadius: 0}}
@@ -123,7 +123,7 @@ export default function Home() {
           <Grid container columns={12}  sx={{ position:{xs: 'absolute',}, bgcolor: grey[900], color: red[900], display: { sm:'none'}}}>
 
             {pages.map((page) => {
-              return <Grid item xs={4} row  sx={{}} key={page.id}>
+              return <Grid item xs={3} row  sx={{}} key={page.id}>
                 <MobileIndexCategoryCard page={page} />
               </Grid>
             })}
