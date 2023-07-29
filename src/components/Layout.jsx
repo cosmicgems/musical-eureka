@@ -17,9 +17,11 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
   if (ogTitle) {
     title = ogTitle;
   }
+
   if (ogDescription) {
     description = ogDescription;
   }
+  
   if (ogImage) {
     image = ogImage;
   }
@@ -36,13 +38,12 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
   return (
     <>
       <div className='layout' style={{ maxHeight: '100vh' }}>
+
         <Head>
           <title>Pearl Box</title>
-          {/* Use the page-specific data in the Head section */}
-          {title && <meta property='og:title' content={title} />}
-          {description && <meta property='og:description' content={description} />}
           {ogImageUrl && <meta property='og:image' content={ogImageUrl} />}
         </Head>
+
         <div className='header-div' style={{ paddingInline: 0 }}>
           <header style={{ paddingInline: 0 }}>
             {pageName !== '/' && <NavBar />}
