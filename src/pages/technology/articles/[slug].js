@@ -13,9 +13,18 @@ const RelatedArticle = dynamic(() => import('../../../components/technology/blog
 
 const DynamicArticlePage = ({ article, related }) => {
   const [ogImageUrl, setOgImageUrl] = useState(null);
+  const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
+  const head = () => {
+      <Head>
+          <title>Pearl Box</title>
+          <meta property='og:image' content={ ogImageUrl} />
+          <meta property='og:title' content="Pearl Box" />
+        </Head>
+  }
+  
   useEffect(() => {
     const fetchOgImageUrl = async () => {
-      const imageUrl = await getOgImageUrl(ogTitle, ogDescription, 'https://example.com/sample-image.jpg');
+      const imageUrl = await getOgImageUrl(ogTitle, ogDescription, );
       setOgImageUrl(imageUrl);
     };
 
@@ -25,14 +34,6 @@ const DynamicArticlePage = ({ article, related }) => {
   if (!ogImageUrl) {
     // Return a loading state or a placeholder while ogImageUrl is being fetched
     return <div>Loading...</div>;
-  }
-  const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
-  const head = () => {
-      <Head>
-          <title>Pearl Box</title>
-          <meta property='og:image' content={ ogImageUrl} />
-          <meta property='og:title' content="Pearl Box" />
-        </Head>
   }
 
   return (
