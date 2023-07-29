@@ -34,7 +34,7 @@ const DynamicArticlePage = ({ article, related }) => {
   const head = () => {
       <Head>
           <title>Pearl Box</title>
-          <meta property='og:image' content={`https://pearlbox.co` + url} />
+          <meta property='og:image' content={`https://pearlbox.co/api/og-image?title=Sample%20Related%20Article%20Post&description=Lorem%20ipsum%20dolor%20sit%20amet%2C%20consectetur%20adipisicing%20elit.%20Modi%20dolorem%20nihil%20maxime%20quasi%20unde%20nisi%20labore%20quaerat%20illum%20dolores%2C%20eligendi%20odit%20deserunt%20iste%20itaque%20laudantium.%20Ab%20iure%20quas%20labore%20quidem%20inventore%20placeat%2C%20laudantium%20explicabo%20deserunt%2C%20repellendus%20nihil%20ea.&image=https%3A%2F%2Fimages%252Epexels%252Ecom%2Fphotos%2F2280571%2Fpexels-photo-2280571%252Ejpeg%3Fauto%3Dcompress%26cs%3Dtinysrgb%26w%3D1260%26h%3D750%26dpr%3D1` } />
           <meta property='og:title' content="Pearl Box" />
         </Head>
   }
