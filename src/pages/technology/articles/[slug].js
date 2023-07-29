@@ -16,6 +16,9 @@ const DynamicArticlePage = ({ article, related }) => {
   const [ogImageUrl, setOgImageUrl] = useState("");
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
   
+  const ogTitle = title;
+  const ogDescription = excerpt;
+  const ogImage = image;
 
  
     const fetchOgImageUrl = async () => {
@@ -25,12 +28,13 @@ const DynamicArticlePage = ({ article, related }) => {
 
     fetchOgImageUrl();
 
+    const url = ogImageUrl;
 
   console.log(ogImageUrl);
   const head = () => {
       <Head>
           <title>Pearl Box</title>
-          {ogImageUrl && <meta property='og:image' content={ ogImageUrl} />}
+          <meta property='og:image' content={`https://pearlbox.com` + url} />
           <meta property='og:title' content="Pearl Box" />
         </Head>
   }
