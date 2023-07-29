@@ -34,7 +34,7 @@ const DynamicArticlePage = ({ article, related }) => {
   const head = () => {
       <Head>
           <title>Pearl Box</title>
-          <meta property='og:image' content={`https://pearlbox.com` + url} />
+          <meta property='og:image' content={`https://pearlbox.co` + url} />
           <meta property='og:title' content="Pearl Box" />
         </Head>
   }
