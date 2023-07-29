@@ -24,12 +24,12 @@ const DynamicArticlePage = ({ article, related }) => {
 
   useEffect(() => {
     const fetchOgImageUrl = async () => {
-      const imageUrl = await getOgImageUrl(ogTitle, ogDescription, );
+      const imageUrl = await getOgImageUrl(title, excerpt, image );
       setOgImageUrl(imageUrl);
     };
 
     fetchOgImageUrl();
-  }, [ogTitle, ogDescription]);
+  }, [title,excerpt, image]);
 
   if (!ogImageUrl) {
     // Return a loading state or a placeholder while ogImageUrl is being fetched
