@@ -27,15 +27,20 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
   }
 
   useEffect(() => {
-
     const fetchOgImageUrl = async () => {
-      const imageUrl = await getOgImageUrl(title, description, image);
+      const imageUrl = await getOgImageUrl(ogTitle, ogDescription, 'https://example.com/sample-image.jpg');
       setOgImageUrl(imageUrl);
     };
 
     fetchOgImageUrl();
+  }, [ogTitle, ogDescription]);
 
-  }, [title, description, image]);
+  if (!ogImageUrl) {
+    // Return a loading state or a placeholder while ogImageUrl is being fetched
+    return <div>Loading...</div>;
+  }
+
+
 
 
 
@@ -45,7 +50,7 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
 
         <Head>
           <title>Pearl Box</title>
-          <meta property='og:image' content={ ogImageUrl && ogImageUrl} />
+          <meta property='og:image' content={ ogImageUrl} />
         </Head>
 
         <div className='header-div' style={{ paddingInline: 0 }}>
@@ -54,7 +59,9 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
           </header>
         </div>
 
-        <main className='main-container'>{children}</main>
+        <main className='main-container'>
+        {children}
+        </main>
         <footer className='footer'>
           <Footer />
         </footer>
