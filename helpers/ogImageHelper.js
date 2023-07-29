@@ -8,7 +8,7 @@ const getOgImageUrl = async (title, description, image) => {
     };
     const encodedImageUrl = encodeImageUrl(image);
 
-    const apiUrl = `https://pearlbox.co/api/og-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(encodedImageUrl)}`;
+    const apiUrl = `/api/og-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(encodedImageUrl)}`;
     
     
   
@@ -17,7 +17,7 @@ const getOgImageUrl = async (title, description, image) => {
       console.log("Response:", response);
   
       if (response.ok) {
-        const data = await response;
+        const data =  response;
         console.log("Data:", data);
         return apiUrl;
       } else {

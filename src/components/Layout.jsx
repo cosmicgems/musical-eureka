@@ -8,38 +8,6 @@ import { getOgImageUrl } from '../../helpers/ogImageHelper';
 
 const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
   const { pageName, pathSegment } = useStateContext();
-  const [ogImageUrl, setOgImageUrl] = useState(null);
-
-  let title;
-  let description;
-  let image;
-
-  if (ogTitle) {
-    title = ogTitle;
-  }
-
-  if (ogDescription) {
-    description = ogDescription;
-  }
-
-  if (ogImage) {
-    image = ogImage;
-  }
-
-  useEffect(() => {
-    const fetchOgImageUrl = async () => {
-      const imageUrl = await getOgImageUrl(ogTitle, ogDescription, 'https://example.com/sample-image.jpg');
-      setOgImageUrl(imageUrl);
-    };
-
-    fetchOgImageUrl();
-  }, [ogTitle, ogDescription]);
-
-  if (!ogImageUrl) {
-    // Return a loading state or a placeholder while ogImageUrl is being fetched
-    return <div>Loading...</div>;
-  }
-
 
 
 

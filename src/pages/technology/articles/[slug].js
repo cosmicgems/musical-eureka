@@ -8,12 +8,25 @@ import { lightBlue } from '@mui/material/colors';
 import { getArticlesBySubcategory } from '../../../../sanity/query functions/query';
 import Layout from '../../../components/Layout'
 import Head from 'next/head';
+import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
 
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
 const DynamicArticlePage = ({ article, related }) => {
-  const [ogImageUrl, setOgImageUrl] = useState(null);
+  const [ogImageUrl, setOgImageUrl] = useState("");
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
+  
+
+ 
+    const fetchOgImageUrl = async () => {
+      const imageUrl = await getOgImageUrl(title, excerpt, image );
+      setOgImageUrl(imageUrl);
+    };
+
+    fetchOgImageUrl();
+
+
+  console.log(ogImageUrl);
   const head = () => {
       <Head>
           <title>Pearl Box</title>
@@ -22,20 +35,10 @@ const DynamicArticlePage = ({ article, related }) => {
         </Head>
   }
 
-  useEffect(() => {
-    const fetchOgImageUrl = async () => {
-      const imageUrl = await getOgImageUrl(title, excerpt, image );
-      setOgImageUrl(imageUrl);
-    };
-
-    fetchOgImageUrl();
-  }, [title,excerpt, image]);
-
-  if (!ogImageUrl) {
+    if (!ogImageUrl) {
     // Return a loading state or a placeholder while ogImageUrl is being fetched
     return <div>Loading...</div>;
   }
-
   return (
     <Layout ogTitle={title} ogDescription={excerpt} ogImage={image}  >
       {head()}
