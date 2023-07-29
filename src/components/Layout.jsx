@@ -48,10 +48,7 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
     <>
       <div className='layout' style={{ maxHeight: '100vh' }}>
 
-        <Head>
-          <title>Pearl Box</title>
-          <meta property='og:image' content={ ogImageUrl} />
-        </Head>
+      
 
         <div className='header-div' style={{ paddingInline: 0 }}>
           <header style={{ paddingInline: 0 }}>

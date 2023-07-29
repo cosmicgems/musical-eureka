@@ -7,16 +7,24 @@ import { client } from '../../../../sanity/lib/client';
 import { lightBlue } from '@mui/material/colors';
 import { getArticlesBySubcategory } from '../../../../sanity/query functions/query';
 import Layout from '../../../components/Layout'
+import Head from 'next/head';
 
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
 const DynamicArticlePage = ({ article, related }) => {
   
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
-
+  const head = () => {
+      <Head>
+          <title>Pearl Box</title>
+          <meta property='og:image' content={ ogImageUrl} />
+          <meta property='og:title' content="Pearl Box" />
+        </Head>
+  }
 
   return (
    <Layout ogTitle={title} ogDescription={excerpt} ogImage={image}  >
+    {head()}
     <Card elevation={0} sx={{}}>
       <Box sx={{ position: 'absolute', marginBlockStart: { xs: '37.5vh', sm: '40vh' }, zIndex: 3, width: '100%' }}>
         <Typography sx={{ fontSize: { xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center' }} variant="h6" component="div">
