@@ -23,6 +23,7 @@ import { Grid } from '@mui/material';
 import Link from 'next/link';
 import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red } from '@mui/material/colors';
 import { motion } from 'framer-motion'
+import Subscribe from './Subscribe';
 
 const drawerWidth = 240;
 
@@ -122,6 +123,10 @@ console.log(pathSegment);
             
             </Link>            
           </Box>
+
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, paddingInline: '5vw', paddingBlock:'1vh' }}>
+           <Subscribe />            
+          </Box> */}
 
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

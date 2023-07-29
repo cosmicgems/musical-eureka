@@ -14,15 +14,16 @@ const clientSideEmotionCache = createEmotionCache();
 
 export default function App({ Component,
   emotionCache = clientSideEmotionCache, pageProps }) {
+
+   
+
   return (
       
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={lightTheme}>
           <StateContext>
-          <Layout>
               <Toaster />
               <Component {...pageProps} />
-          </Layout>
             </StateContext>
         </ThemeProvider>
       </CacheProvider>

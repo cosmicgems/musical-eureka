@@ -36,6 +36,7 @@ import {
 import ShareIcon from '@mui/icons-material/Share';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 import { styled } from '@mui/material/styles';
+import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
 
 
 
@@ -53,7 +54,10 @@ const ExpandMore = styled((props) => {
 
 
 const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, postedBy, image, metaTitle, metaDescription,}}) => {  
+
+
   const { pageSlug, pathSegment } = useStateContext();
+
   const pageSegmentColors = {
       technology: blue[900], // Example color for "tech" segment
       realty: yellow[600],
@@ -64,12 +68,13 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
     };
 
   const featuredArticleBackgroundColor = pageSegmentColors[pathSegment] || '#000';
-  // console.log(postedBy);
+  
   const [expanded, setExpanded] = React.useState(false);    
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
-    };    
-  // console.log(image);
+    };  
+      
 
 
 
@@ -122,72 +127,63 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
           </Grid>
                     
           <CardActions disableSpacing>
-          <Link href={`/${pathSegment}/articles/${slug.current}`}>
-            <IconButton aria-label="add to favorites">
-              Read More <ReadMoreRoundedIcon fontSize='large' />
-            </IconButton>
-          </Link>
-            
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ShareIcon sx={{color: green['A400']}} />
-            </ExpandMore>
-          </CardActions>
 
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-            <Stack direction='row' justifyContent='center'>
+            <Link href={`/${pathSegment}/articles/${slug.current}`}>
+              <IconButton aria-label="add to favorites">
+                Read More <ReadMoreRoundedIcon fontSize='large' />
+              </IconButton>
+            </Link>
+              
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ShareIcon sx={{color: green['A400']}} />
+              </ExpandMore>
 
-                
-            <IconButton aria-label="add to favorites">
-              <FacebookShareButton
-            url=''
-            quote={'Dummy text!'}
-            hashtag="#muo">
-              <FacebookIcon size={32} round />
-              </FacebookShareButton>
-            </IconButton>
-            
-            <IconButton aria-label="add to favorites">
-              <TwitterShareButton
-            url=''
-            quote={'Dummy text!'}
-            hashtag="#muo">
-                <TwitterIcon size={32} round />
-              </TwitterShareButton>
-            </IconButton>
-            <IconButton aria-label="add to favorites">
-              <TelegramShareButton
-            url=''
-            quote={'Dummy text!'}
-            hashtag="#muo">
-                <TelegramIcon size={32} round />
-              </TelegramShareButton>
-            </IconButton>
-            <IconButton aria-label="add to favorites">
-              <WhatsappShareButton
-            url=''
-            quote={'Dummy text!'}
-            hashtag="#muo">
-                <WhatsappIcon size={32} round />
-              </WhatsappShareButton>
-            </IconButton>
-            <IconButton aria-label="add to favorites">
-              <PinterestShareButton
-            url=''
-            quote={'Dummy text!'}
-            hashtag="#muo">
-                <PinterestIcon size={32} round />
-              </PinterestShareButton>
-            </IconButton>
+            </CardActions>
 
-            </Stack>
-            </CardContent>
-          </Collapse>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+              <Stack direction='row' justifyContent='center'>
+
+                  
+              <IconButton
+              o aria-label="add to favorites">
+                <FacebookShareButton
+              url=""
+              quote={'Dummy text!'}
+              hashtag="#muo"
+              >
+                <FacebookIcon size={32} round />
+                </FacebookShareButton>
+              </IconButton>
+              
+              <IconButton aria-label="add to favorites">
+                <TwitterShareButton
+              url=''
+              quote={'Dummy text!'}
+              hashtag="#muo"
+              >
+                  <TwitterIcon size={32} round />
+                </TwitterShareButton>
+              </IconButton>
+              <IconButton aria-label="add to favorites">
+                <WhatsappShareButton
+              url=''
+              quote={'Dummy text!'}
+              hashtag="#muo"
+              >
+                  <WhatsappIcon size={32} round />
+                </WhatsappShareButton>
+              </IconButton>
+              
+
+              </Stack>
+              </CardContent>
+            </Collapse>
 
         </CardContent>
       </Card>

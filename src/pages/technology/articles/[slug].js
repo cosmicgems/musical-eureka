@@ -6,14 +6,17 @@ import { urlFor } from '../../../../lib/client';
 import { client } from '../../../../sanity/lib/client';
 import { lightBlue } from '@mui/material/colors';
 import { getArticlesBySubcategory } from '../../../../sanity/query functions/query';
+import Layout from '../../../components/Layout'
 
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
 const DynamicArticlePage = ({ article, related }) => {
-  console.log(related);
+  
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
-  // console.log(userImage);
+
+
   return (
+   <Layout ogTitle={title} ogDescription={excerpt} ogImage={image}  >
     <Card elevation={0} sx={{}}>
       <Box sx={{ position: 'absolute', marginBlockStart: { xs: '37.5vh', sm: '40vh' }, zIndex: 3, width: '100%' }}>
         <Typography sx={{ fontSize: { xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center' }} variant="h6" component="div">
@@ -68,7 +71,11 @@ const DynamicArticlePage = ({ article, related }) => {
           })}
         </Stack> */}
       </CardContent>
-    </Card>
+    </Card>    
+   </Layout>
+
+
+
   );
 };
 
