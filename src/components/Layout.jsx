@@ -21,7 +21,7 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
   if (ogDescription) {
     description = ogDescription;
   }
-  
+
   if (ogImage) {
     image = ogImage;
   }
@@ -41,7 +41,7 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
 
         <Head>
           <title>Pearl Box</title>
-          {ogImageUrl && <meta property='og:image' content={ogImageUrl} />}
+          {ogImageUrl && <meta property='og:image' content={"https://pearlbox.co" + ogImageUrl} />}
         </Head>
 
         <div className='header-div' style={{ paddingInline: 0 }}>
