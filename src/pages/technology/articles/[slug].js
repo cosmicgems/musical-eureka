@@ -30,7 +30,7 @@ const DynamicArticlePage = ({ article, related }) => {
   const head = () => {
       <Head>
           <title>Pearl Box</title>
-          <meta property='og:image' content={ ogImageUrl} />
+          {ogImageUrl && <meta property='og:image' content={ ogImageUrl} />}
           <meta property='og:title' content="Pearl Box" />
         </Head>
   }
