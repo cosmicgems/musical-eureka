@@ -3,11 +3,9 @@ import Head from 'next/head';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import { useStateContext } from '../../Context/StateContext';
-import { getCategories } from '../../sanity/query functions/query';
-import { getOgImageUrl } from '../../helpers/ogImageHelper';
 
-const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
-  const { pageName, pathSegment } = useStateContext();
+const Layout = ({ children, categories }) => {
+  const { pageName } = useStateContext();
 
 
 

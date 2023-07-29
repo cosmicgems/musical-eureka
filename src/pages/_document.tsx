@@ -5,6 +5,7 @@ import createEmotionCache from '../../utility/createEmotionCache';
 
 export default class MyDocument extends Document {
   render() {
+  
     return (
       <Html lang="en">
         <Head><link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -16,8 +17,8 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="https://use.typekit.net/bve3xre.css"></link>
         </Head>
         <body>
-          <Main />
           <NextScript />
+          <Main />
             <script src="//cdn.quilljs.com/1.3.6/quill.js" async></script>
             <script id="dsq-count-scr" src="//pearlbox.disqus.com/count.js" async></script>
             <script src="/node_modules/quill-image-resize-module/image-resize.min.js" async></script>
@@ -28,7 +29,7 @@ export default class MyDocument extends Document {
   }
 }
 
-// `getInitialProps` belongs to `_document` (instead of `_app`),
+// `getInitialProps` belongs to `_document` (instead of `_app`),sh
 // it's compatible with static-site generation (SSG).
 MyDocument.getInitialProps = async (ctx) => {
   // Resolution order
@@ -80,7 +81,8 @@ MyDocument.getInitialProps = async (ctx) => {
       dangerouslySetInnerHTML={{ __html: style.css }}
     />
   ));
-
+    
+    
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.

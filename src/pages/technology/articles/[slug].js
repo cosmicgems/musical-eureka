@@ -12,40 +12,20 @@ import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
 
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
-const DynamicArticlePage = ({ article, related }) => {
-  const [ogImageUrl, setOgImageUrl] = useState("");
+const DynamicArticlePage = ({ article, related, ogImageUrl }) => {
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
   
-  const ogTitle = title;
-  const ogDescription = excerpt;
-  const ogImage = image;
+console.log(ogImageUrl);
 
- 
-    const fetchOgImageUrl = async () => {
-      const imageUrl = await getOgImageUrl(title, excerpt, image );
-      setOgImageUrl(imageUrl);
-    };
 
-    fetchOgImageUrl();
-
-    const url = ogImageUrl;
-
-  console.log(ogImageUrl);
-  const head = () => {
-      <Head>
+  return (
+    <>
+                  <Head>
           <title>Pearl Box</title>
-          <meta property='og:image' content={`https://pearlbox.co/api/og-image?title=Sample%20Related%20Article%20Post&description=Lorem%20ipsum%20dolor%20sit%20amet%2C%20consectetur%20adipisicing%20elit.%20Modi%20dolorem%20nihil%20maxime%20quasi%20unde%20nisi%20labore%20quaerat%20illum%20dolores%2C%20eligendi%20odit%20deserunt%20iste%20itaque%20laudantium.%20Ab%20iure%20quas%20labore%20quidem%20inventore%20placeat%2C%20laudantium%20explicabo%20deserunt%2C%20repellendus%20nihil%20ea.&image=https%3A%2F%2Fimages%252Epexels%252Ecom%2Fphotos%2F2280571%2Fpexels-photo-2280571%252Ejpeg%3Fauto%3Dcompress%26cs%3Dtinysrgb%26w%3D1260%26h%3D750%26dpr%3D1` } />
+          <meta property="og:image" content={ogImageUrl} />
           <meta property='og:title' content="Pearl Box" />
         </Head>
-  }
-
-    if (!ogImageUrl) {
-    // Return a loading state or a placeholder while ogImageUrl is being fetched
-    return <div>Loading...</div>;
-  }
-  return (
-    <Layout ogTitle={title} ogDescription={excerpt} ogImage={image}  >
-      {head()}
+    <Layout  >
       <Card elevation={0} sx={{}}>
         <Box sx={{ position: 'absolute', marginBlockStart: { xs: '37.5vh', sm: '40vh' }, zIndex: 3, width: '100%' }}>
           <Typography sx={{ fontSize: { xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center' }} variant="h6" component="div">
@@ -102,6 +82,8 @@ const DynamicArticlePage = ({ article, related }) => {
         </CardContent>
       </Card>    
     </Layout>
+    </>
+
 
 
 
@@ -174,9 +156,15 @@ export const getStaticProps = async ({ params: { slug } }) => {
   
 
   const related = await getArticlesBySubcategory(slug);
-  console.log(related);
+
+  const title = article.title
+  const description = article.excerpt
+  const image = article.image
+  const ogImageUrl = await getOgImageUrl(title, description, image);
+  console.log(ogImageUrl);
+  
   return {
-    props: { article, related },
+    props: { article, related, ogImageUrl },
   };
 };
 
