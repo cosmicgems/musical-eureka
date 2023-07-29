@@ -9,19 +9,21 @@ import { getArticlesBySubcategory } from '../../../../sanity/query functions/que
 import Layout from '../../../components/Layout'
 import Head from 'next/head';
 import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
-
+import { useStateContext } from '../../../../Context/StateContext';import ReactMarkdown from 'react-markdown';
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
 const DynamicArticlePage = ({ article, related, ogImageUrl }) => {
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
   
-console.log(ogImageUrl);
-
+  console.log(ogImageUrl);
+  const {pathSegment} = useStateContext();
 
   return (
     <>
                   <Head>
           <title>Pearl Box</title>
+          <meta property="og:url" content={`https://pearlbox.co/${pathSegment}/articles/${slug}`} />
+          <meta property="og:type" content="article" />
           <meta property="og:image" content={ogImageUrl} />
           <meta property='og:title' content="Pearl Box" />
         </Head>
@@ -54,9 +56,11 @@ console.log(ogImageUrl);
               </Box>
             </Stack>
           </Grid>
-          <Typography variant="paragraph" component="div" sx={{ width: '100%' }}>
+          <ReactMarkdown>
             {body}
-          </Typography>
+          </ReactMarkdown>
+
+
         </Box>
 
         <Box sx={{ width: '100%', marginBlock: '4vh 1vh' }}>
@@ -69,7 +73,7 @@ console.log(ogImageUrl);
             maxWidth: '100%',
             minWidth: '100%',
             display: 'flex',
-            overflowX: 'scroll',
+            overflowX: 'auto',
             paddingInline: 0,
             overflowWrap: 'unset',
           }}

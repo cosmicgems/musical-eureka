@@ -10,9 +10,6 @@ export default {
         name: 'image',
         title: 'Image',
         type: 'string',
-        options: {
-          isHighlighted: true,
-        },
         validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }),
       }
       ,
@@ -29,11 +26,6 @@ export default {
           source: 'title',
           maxLength: 90,
         },
-      },
-      {
-        name: 'desc',
-        title: 'Desc',
-        type: 'string',
       },
       {
         name: 'body',
@@ -97,11 +89,6 @@ export default {
         type: 'text',
       },
       {
-        name: 'excerptMobile',
-        title: 'Excerpt (Mobile)',
-        type: 'text',
-      },
-      {
         name: 'metaTitle',
         title: 'Meta Title',
         type: 'string',
@@ -110,6 +97,7 @@ export default {
         name: 'metaDescription',
         title: 'Meta Description',
         type: 'text',
+        validation: (Rule) => Rule.max(160).warning('Should be 160 characters or less.'),
       },
       {
         name: 'category',

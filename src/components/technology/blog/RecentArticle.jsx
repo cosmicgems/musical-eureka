@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Collapse, IconButton, CardActions  } from '@mui/material'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useStateContext } from '../../../../Context/StateContext'
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
@@ -36,6 +36,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 import { styled } from '@mui/material/styles';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
+import { getClientOgImageUrl } from '../../../../helpers/ogImageHelper';
 
 
 
@@ -69,6 +70,26 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
     setExpanded(!expanded);
     };    
   
+    
+    const [ogImageUrl, setOgImageUrl] = React.useState(null);   
+    const description = excerpt
+  
+    useEffect(() => {
+      const fetchOgImageUrl = async () => {
+        try {
+          // Call the async function and wait for the result
+          const imageUrl = await getClientOgImageUrl(title, description, image);
+          
+          setOgImageUrl(imageUrl); // Set the resolved URL to the state
+        } catch (error) {
+          console.error("Error fetching OG image:", error);
+        }
+      };
+  
+      fetchOgImageUrl();
+    }, [title, description, image]);
+  
+
   
   
   return (
@@ -140,7 +161,7 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
                           
                       <IconButton aria-label="add to favorites">
                         <FacebookShareButton
-                      url=''
+                      url={ogImageUrl}
                       quote={'Dummy text!'}
                       hashtag="#muo">
                         <FacebookIcon size={32} round />
@@ -155,14 +176,7 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
                           <TwitterIcon size={32} round />
                         </TwitterShareButton>
                       </IconButton>
-                      <IconButton aria-label="add to favorites">
-                        <TelegramShareButton
-                      url=''
-                      quote={'Dummy text!'}
-                      hashtag="#muo">
-                          <TelegramIcon size={32} round />
-                        </TelegramShareButton>
-                      </IconButton>
+                      
                       <IconButton aria-label="add to favorites">
                         <WhatsappShareButton
                       url=''
@@ -171,14 +185,7 @@ const RecentArticle = ({RecentArticle: {title, body, excerpt, createdAt, slug, e
                           <WhatsappIcon size={32} round />
                         </WhatsappShareButton>
                       </IconButton>
-                      <IconButton aria-label="add to favorites">
-                        <PinterestShareButton
-                      url=''
-                      quote={'Dummy text!'}
-                      hashtag="#muo">
-                          <PinterestIcon size={32} round />
-                        </PinterestShareButton>
-                      </IconButton>
+                      
           
                       </Stack>
                       </CardContent>

@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { getArticles, getArticlesByPathSegment } from '../../../sanity/query functions/query';
 import { useCallback } from 'react';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red } from '@mui/material/colors';
+import Head from 'next/head';
+import { getOgImageUrl } from '../../../helpers/ogImageHelper';
+
 
 const Layout = dynamic(() => import('../../components/Layout'));
 const FeaturedArticle = dynamic(() => import('../../components/technology/blog/FeaturedArticle'));
@@ -14,22 +17,19 @@ const CategoryCard = dynamic(() => import('../../components/technology/blog/Cate
 const CategoryCardMobile = dynamic(() => import('../../components/technology/blog/all-blogs/CategoryCardMobile'));
 const RecentArticle = dynamic(() => import('../../components/technology/blog/RecentArticle'));
 
-const TechnologyHome = ({ categories, articles, tags, users }) => {
-  console.log(articles);
+const TechnologyHome = ({ categories, articles, tags, users, totalCount, ogImageUrl }) => {
   const [loadedArticles, setLoadedArticles] = useState(2); // Initialize with initial limit (e.g., 10)
   const [loadedArticleData, setLoadedArticleData] = useState([]); // State to store loaded article data
 
   
-  const sampleFeaturedPost = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const { pageName, subcategories, pathSegment } = useStateContext();
   const pageTitle = pageName.slice(1);
 
   
   
   const loadInitialArticles = useCallback(async () => {
-    const path = pathSegment
-    const initialArticles = await getArticlesByPathSegment(path, 0, loadedArticles); // Pass pathSegment to the getArticles function
-    setLoadedArticleData(initialArticles);
+    const initialArticles = await getArticlesByPathSegment("technology", 0, loadedArticles); // Pass pathSegment to the getArticles function
+    setLoadedArticleData(initialArticles.articles);
   }, [loadedArticles, pathSegment]);
   
   useEffect(() => {
@@ -51,14 +51,26 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
   
   
   const handleLoadMore = async () => {
-    const additionalArticles = await getArticles(loadedArticles, 2); // Fetch the next 10 articles (adjust the limit as needed)
+    const skip = loadedArticleData.length;
+    const limit = 5;
+    const additionalArticles = await getArticlesByPathSegment("technology", skip, limit); // Fetch the next 10 articles (adjust the limit as needed)
     setLoadedArticles((prev) => prev + 2); // Update the number of loaded articles
 
     
-    setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles]);
+    setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles.articles]);
   };
+  const showLoadMoreButton = loadedArticles < totalCount;
+
+
 
   return (
+    <>
+    <Head>
+    <title>Pearl Box</title>
+    <meta property="og:url" content={`https://pearlbox.co/${pathSegment}`}/>
+    <meta property="og:image" content="https://pearlbox.co/api/og-image" />
+    <meta property='og:title' content="Pearl Box" />
+    </Head>
     <Layout>
       <Box sx={{ paddingBlockStart: { xs: '12vh', sm: '12vh', md: '7vh', lg: '8vh', xl: '10vh' } }}>
         <Grid container>
@@ -68,8 +80,8 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
 
           <Grid item sx={{ display: { xs: 'none', lg: 'initial' } }} lg={2}>
             <div style={{ padding: '2vh' }}>
-              {subcategories?.map((category) => {
-                return <CategoryCard key={category._id} category={category} />;
+              {subcategories?.map((category,i) => {
+                return <CategoryCard key={category.name + pathSegment} category={category} />;
               })}
             </div>
           </Grid>
@@ -86,7 +98,7 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
             >
               {articles?.map((article) => {
                 
-                return <FeaturedArticle key={article._id} article={article} />;
+                return <FeaturedArticle key={article._id + pathSegment} article={article} />;
               })}
             </CardContent>
 
@@ -114,9 +126,17 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
 
                 <Grid item xs={12}>
                   <div style={{ width: '100%', paddingInline: '33.3%' }}>
-                  <Button type="button" variant="outlined" sx={{ width: '100%' }} size="large" onClick={handleLoadMore}>
-                    Load More
-                  </Button>
+                    {showLoadMoreButton && (
+                      <Button
+                        type="button"
+                        variant="outlined"
+                        sx={{ width: '100%' }}
+                        size="large"
+                        onClick={handleLoadMore}
+                      >
+                        Load More
+                      </Button>
+                    )}
                   </div>
                 </Grid>
               </Grid>
@@ -124,7 +144,9 @@ const TechnologyHome = ({ categories, articles, tags, users }) => {
           </Grid>
         </Grid>
       </Box>      
-    </Layout>
+    </Layout>      
+    </>
+
 
 
   );
@@ -134,16 +156,20 @@ export async function getStaticProps({ params }) {
     console.log({params});
   try {
     
-    const [subcategories, categories, articles, tags, users] = await Promise.all([
+    const [subcategories, categories, articles, tags, users, {totalCount}] = await Promise.all([
       import('../../../sanity/query functions/query').then((module) => module.getSubcategories()),
       import('../../../sanity/query functions/query').then((module) => module.getCategories()),
       import('../../../sanity/query functions/query').then((module) => module.getFeaturedArticlesByPathSegment('technology',  0, 2)),
       import('../../../sanity/query functions/query').then((module) => module.getTags()),
       import('../../../sanity/query functions/query').then((module) => module.getUsers()),
+      import('../../../sanity/query functions/query').then((module) => module.getArticlesByPathSegment('technology',  0, 2)),
     ]);
 
+    
+  const ogImageUrl = await getOgImageUrl();
+
     return {
-      props: { subcategories, categories, articles, tags, users },
+      props: { subcategories, categories, articles, tags, users, totalCount, ogImageUrl },
       revalidate: 86400, // Set a revalidation period in seconds (e.g., 24 hours)
     };
   } catch (error) {

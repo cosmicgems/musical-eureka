@@ -24,7 +24,7 @@ const indexFontColor = pageSegmentColors[pathSegment] || red[100];
   
   return (
 
-
+      <Layout>
         <div style={{paddingBlockStart: '10vh', paddingInline:'3vh', minHeight:'80vh'}}>
           <Typography variant='h2' component='div' sx={{width: '100%', textAlign:'center', color:indexFontColor, fontWeight: 'bold'}}>
             Categories
@@ -45,7 +45,9 @@ const indexFontColor = pageSegmentColors[pathSegment] || red[100];
             </CardContent>
           
          
-        </div>
+        </div>        
+      </Layout>
+
 
   
 

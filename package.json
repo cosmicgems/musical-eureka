@@ -50,6 +50,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
+    "react-markdown": "^8.0.7",
     "react-share": "^4.4.1",
     "sanity": "^3.14.1",
     "stripe": "^12.10.0",

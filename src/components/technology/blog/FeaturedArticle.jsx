@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Collapse, IconButton, CardActions } from '@mui/material'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useStateContext } from '../../../../Context/StateContext'
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
@@ -36,7 +36,7 @@ import {
 import ShareIcon from '@mui/icons-material/Share';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
 import { styled } from '@mui/material/styles';
-import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
+import { getClientOgImageUrl } from '../../../../helpers/ogImageHelper';
 
 
 
@@ -69,12 +69,31 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
 
   const featuredArticleBackgroundColor = pageSegmentColors[pathSegment] || '#000';
   
-  const [expanded, setExpanded] = React.useState(false);    
+  const [expanded, setExpanded] = React.useState(false);  
+  const [ogImageUrl, setOgImageUrl] = React.useState(null);    
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
     };  
       
+    
+  const description = excerpt
+  
+  useEffect(() => {
+    const fetchOgImageUrl = async () => {
+      try {
+        // Call the async function and wait for the result
+        const imageUrl = await getClientOgImageUrl(title, description, image);
+        
+        setOgImageUrl(imageUrl); // Set the resolved URL to the state
+      } catch (error) {
+        console.error("Error fetching OG image:", error);
+      }
+    };
+
+    fetchOgImageUrl();
+  }, [title, description, image]);
+
 
 
 
@@ -120,7 +139,7 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
 
             <Grid item xs={12} sx={{}}>
               <Typography variant='p' component='div' sx={{}}>
-                  {excerpt}
+                  {metaDescription}...
               </Typography>
             </Grid>
             
@@ -151,9 +170,9 @@ const FeaturedArticle = ({article: {title, body, excerpt, createdAt, slug, poste
 
                   
               <IconButton
-              o aria-label="add to favorites">
+               aria-label="add to favorites">
                 <FacebookShareButton
-              url=""
+              url={ogImageUrl}
               quote={'Dummy text!'}
               hashtag="#muo"
               >

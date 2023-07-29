@@ -6,9 +6,10 @@ import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
 import { useStateContext } from '../../../../../Context/StateContext';
+import Layout from '../../../../components/Layout';
 // ... import other components as needed
 
-function SlugPage({ articles, slug, name }) {
+function SlugPage({ articles, slug, name, totalCount }) {
   const {pathSegment} = useStateContext();
   const pageSegmentColors = {
     technology: blue[100], // Example color for "tech" segment
@@ -19,89 +20,96 @@ function SlugPage({ articles, slug, name }) {
     finance: green[100]
   };
 
-const indexFontColor = pageSegmentColors[pathSegment] || '#000';
+  const indexFontColor = pageSegmentColors[pathSegment] || '#000';
 
-const [loadedCount, setLoadedCount] = useState(2); // Initialize with initial limit (e.g., 10)
-const [loadedArticleData, setLoadedArticleData] = useState(articles); // State to store loaded article data
+  const [loadedCount, setLoadedCount] = useState(2); 
+  const [loadedArticleData, setLoadedArticleData] = useState(articles); 
 
-const loadInitialArticles = useCallback(async () => {
-  const initialArticles = await getArticlesBySubcategory(slug, 0, loadedCount); // Pass slug to the getArticles function
-  setLoadedArticleData(initialArticles.articles);
-  setLoadedCount(initialArticles.totalCount);
-}, [loadedCount, slug]);
+  const loadInitialArticles = useCallback(async () => {
+    const initialArticles = await getArticlesBySubcategory("health",slug, 0, loadedCount); 
+    setLoadedArticleData(initialArticles.articles);
+    setLoadedCount(initialArticles.totalCount);
+  }, [loadedCount, slug]);
 
-useEffect(() => {
-  // Call the function inside the useEffect callback
-  loadInitialArticles();
-}, [loadInitialArticles]);
+  useEffect(() => {
+    
+    loadInitialArticles();
+  }, [loadInitialArticles]);
 
-const handleLoadMore = async () => {
-  const skip = loadedArticleData.length; // Calculate the number of articles already loaded
-  const limit = 5; // Set the number of articles to load in each call
+  const handleLoadMore = async () => {
+    const skip = loadedArticleData.length; 
+    const limit = 2; 
 
-  // Fetch additional articles using the skip and limit parameters
-  const additionalArticles = await getArticlesBySubcategory(slug, skip, limit);
+    
+    const additionalArticles = await getArticlesBySubcategory("health",slug, skip, limit);
 
-  // Update the state with the new loaded articles
-  setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles.articles]);
+    
+    setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles.articles]);
 
-  // If there are no additional articles to load, hide the "Load More" button
-  if (additionalArticles.totalCount === loadedArticleData.length) {
-    setLoadedCount(0);
-  } else {
-    // Increment the loaded count to fetch more articles next time
-    setLoadedCount(loadedCount + limit);
-  }
-};
-
+    
+    if (additionalArticles.totalCount === loadedArticleData.length) {
+      setLoadedCount(0);
+    } else {
+      
+      setLoadedCount(loadedCount + limit);
+    }
+  };
+  const showLoadMoreButton = loadedCount < totalCount;
   
   return(
     <>
-    <div style={{ paddingBlockStart: '10vh', width:'100%' }}>
-      <Grid container spacing={{ xs: 0, md: 2 }}>
-        <Typography component='div' variant='h2' sx={{width: '100%', textAlign: 'center', color:indexFontColor}}>
-          {name}
-        </Typography>
+    <Layout>
+      <div style={{ paddingBlockStart: '10vh', width:'100%' }}>
+            <Grid container spacing={{ xs: 0, md: 2 }}>
+              <Typography component='div' variant='h2' sx={{width: '100%', textAlign: 'center', color:indexFontColor}}>
+                {name}
+              </Typography>
 
-        <Grid item xs={12} sx={{}}>
-          <CardContent sx={{ marginBlockEnd: { lg: '4vh' }, paddingInline: { xs: '0', lg: '17.5vw' } }}>
-            {loadedArticleData?.map((article) => {
-              return <MainArticleCard key={article._id} article={article} />;
-            })}
-          </CardContent>
+              <Grid item xs={12} sx={{}}>
+                <CardContent sx={{ marginBlockEnd: { lg: '4vh' }, paddingInline: { xs: '0', lg: '17.5vw' } }}>
+                  {loadedArticleData && loadedArticleData.length > 0 ? (
+                      loadedArticleData.map((article) => {
+                        return <MainArticleCard key={article._id} article={article} />;
+                      })
+                    ) : (
+                      <Typography>No articles to display.</Typography>
+                    )}
+                </CardContent>
 
-          <Grid item sx={{ paddingInline: { xs: '17.5%', lg: '33.3%' } }}>
-            <div style={{ width: '100%' }}>
-              {loadedCount > loadedArticleData.length && ( // Only render the button if there are more articles to load
+                <Grid item sx={{ paddingInline: { xs: '17.5%', lg: '33.3%' } }}>
+                  <div style={{ width: '100%' }}>
+                  {showLoadMoreButton && (
                 <Button
                   type="button"
                   variant="outlined"
                   sx={{ width: '100%' }}
                   size="large"
-                  onClick={handleLoadMore} // Call the handleLoadMore function when clicked
+                  onClick={handleLoadMore}
                 >
                   Load More
                 </Button>
               )}
-            </div>
-          </Grid>
-        </Grid>
-      </Grid>
-    </div>
+                  </div>
+                </Grid>
+              </Grid>
+            </Grid>
+          </div>
+    </Layout>
+    
     </>
   )
 }
 
 export async function getStaticProps({ params }) {
   const { slug} = params;
-  const articles = await getArticlesBySubcategory(slug);
+  const {articles, totalCount} = await getArticlesBySubcategory("health",slug);
   // console.log(articles, "this it?");
   const subcategory = await getSubcategoryBySlug(slug);
   console.log(subcategory, "this how I know");
   const {name} = subcategory;
 
   return {
-    props: {articles, name, slug},
+    props: {articles, name, slug, totalCount},
   };
 }
 

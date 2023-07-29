@@ -4,12 +4,9 @@ import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { blue, grey, red } from '@mui/material/colors'
 import { useStateContext } from '../../Context/StateContext'
 import { motion } from 'framer-motion'
-import { set } from 'mongoose'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
-import Layout from '../components/Layout'
-import NavBar from '../components/NavBar'
 import MobileIndexCategoryCard from '../components/technology/MobileIndexCategoryCard'
+import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -85,12 +82,19 @@ export default function Home() {
   return (
     <main
     >
+    
+    <Head>
+    <title>Pearl Box</title>
+    <meta property="og:url" content={`https://pearlbox.co`}/>
+    <meta property="og:image" content="https://pearlbox.co/api/og-image" />
+    <meta property='og:title' content="Pearl Box" />
+    </Head>
 
 
 
-          <Grid container spacing={0} sx={{minHeight: {md:'100vh'}, position:{lg: 'absolute'}, bgcolor: grey[900], color: red[900], display: {xs:'none', md:'flex'}}}>
+          <Grid container spacing={0} sx={{minHeight: {sm:'100vh'}, position:{sm: 'absolute'}, bgcolor: grey[900], color: red[900], display: {xs:'none', sm:'flex'}}}>
             {pages.map((page, i) => {
-              return <Grid key={i + " home pages"} item lg > 
+              return <Grid key={i + " home pages"} item sm > 
               <Link href={page.href}>
                 <motion.div
                 whileHover={{ scale: 1.5 }}
@@ -132,7 +136,7 @@ export default function Home() {
 
           <Grid container style={{paddingBlock: 0, marginBlock: 0,  justifyContent: 'center', alignItems:'center', minHeight: '100vh'}}>
             <Grid item >
-              <Typography variant='h1' component='div' sx={{position:'relative', color: grey[50], width: '100%', textAlign: 'center', height: '100%',   fontSize: {xs: '8rem', sm: '15rem',md:'20vh'}, lineHeight: {xs: '.75'}, textShadow: '1px 1px #000000'}}>
+              <Typography variant='h1' component='div' sx={{position:'relative', color: grey[50], width: '100%', textAlign: 'center', height: '100%',   fontSize: {xs: '8rem', sm: '15rem',md:'20vh'}, lineHeight: {xs: '.75'}, textShadow: '1px 1px #000000',pointerEvents: 'none'}}>
                 Pearl Box <span className='index-hover-title-span' style={{fontWeight: 'bold'}}>{industryHoverName !== '' && industryHoverName.toUpperCase() }</span>
               </Typography>     
             </Grid>

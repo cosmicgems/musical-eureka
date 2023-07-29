@@ -69,6 +69,8 @@ const theme = createTheme({
 
 
 const ContactPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const { pathSegment} = useStateContext();
 
   const pageSegmentColors = {
@@ -81,7 +83,7 @@ const ContactPage = () => {
     art: cyan[100],
   };
 
-const indexFontColor = pageSegmentColors[pathSegment] || red[100];
+  const indexFontColor = pageSegmentColors[pathSegment] || red[100];
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -90,10 +92,11 @@ const indexFontColor = pageSegmentColors[pathSegment] || red[100];
   
   const handleSubmit = async (e) => { 
     e.preventDefault();
+    setIsLoading(true);
     try {
       console.log(name, email, phone, message);
       await axios.post('/api/contact', { name, email, phone, message });
-      console.log('Form submitted successfully!');
+      setIsSuccess(true);
       setName('');
       setEmail('');
       setPhone('');
@@ -102,7 +105,8 @@ const indexFontColor = pageSegmentColors[pathSegment] || red[100];
     } catch (error) {
       console.error('Error submitting form:', error);
      
-    }
+    } 
+    setIsLoading(false);
   }
 
   return (
@@ -175,8 +179,21 @@ const indexFontColor = pageSegmentColors[pathSegment] || red[100];
                 </Grid>
               </Grid>
               <div style={{width: '100%'}}>
-                <Button type='submit' variant='outlined' size='large' fullWidth sx={{padding: '1vh', fontWeight: 'bold', color: grey[50], borderWidth: '3px'}}>
-                  Get Your Answer!
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  size="large"
+                  fullWidth
+                  sx={{
+                    padding: '1vh',
+                    fontWeight: 'bold',
+                    color: grey[50],
+                    borderWidth: '3px',
+                    cursor: isLoading || isSuccess ? 'not-allowed' : 'pointer',
+                    pointerEvents: isLoading || isSuccess ? 'none' : 'auto',
+                  }}
+                >
+                  {isLoading ? 'Loading...' : isSuccess ? 'Form Submitted' : 'Get Your Answer!'}
                 </Button>
 
               </div>

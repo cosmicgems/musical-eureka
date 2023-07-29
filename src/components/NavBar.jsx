@@ -33,12 +33,12 @@ function NavBar(props) {
     const navItems = [`${pathSegment} Home`, 'Articles', 'Categories', 'About', 'Contact'];
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    console.log(subcategories);
+    
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-console.log(pathSegment);
+
   const pageSegmentColors = {
     technology: blue[800], // Example color for "tech" segment
     realty: yellow[600],
@@ -60,8 +60,8 @@ console.log(pathSegment);
 
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+        {navItems.map((item, i) => (
+          <ListItem key={item + i.toString()} disablePadding>
             <ListItemButton href={item.toLowerCase() === `${pathSegment} home` ? `/${pathSegment}` : `/${pathSegment}/${item.toLowerCase()}`} sx={{ textAlign: 'center' }}>
               <ListItemText primary={item.toLocaleUpperCase()} />
             </ListItemButton>
@@ -130,8 +130,8 @@ console.log(pathSegment);
 
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff', marginInlineEnd: '2vw' }} href={item.toLowerCase() === `${pathSegment} home` ? `/${pathSegment}` : `/${pathSegment}/${item.toLowerCase()}`}>
+            {navItems.map((item, i) => (
+              <Button key={item + i.toString() + "forbigger"} sx={{ color: '#fff', marginInlineEnd: '2vw' }} href={item.toLowerCase() === `${pathSegment} home` ? `/${pathSegment}` : `/${pathSegment}/${item.toLowerCase()}`}>
                 <motion.div
                 whileHover={{ scale: 2 }}
                 whileTap={{ scale: 0.9 }}>
@@ -150,9 +150,9 @@ console.log(pathSegment);
 
         
           <Grid container spacing={0} justifyContent='space-evenly' sx={{ display: { xs: 'none', sm: 'flex' }, padding: 0 }}>
-            {subcategories?.map((item) => (
+            {subcategories?.map((item, i) => (
               
-              <Grid item key={item._id}>
+              <Grid item key={item._id + i.toString()}>
                 <motion.div
                 whileHover={{scale: 2 }}
                 whileTap={{ scale: 0.9 }}

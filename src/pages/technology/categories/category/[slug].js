@@ -9,7 +9,7 @@ import { useStateContext } from '../../../../../Context/StateContext';
 import Layout from '../../../../components/Layout';
 // ... import other components as needed
 
-function SlugPage({ articles, slug, name }) {
+function SlugPage({ articles, slug, name, totalCount }) {
   const {pathSegment} = useStateContext();
   const pageSegmentColors = {
     technology: blue[100], // Example color for "tech" segment
@@ -20,41 +20,41 @@ function SlugPage({ articles, slug, name }) {
     finance: green[100]
   };
 
-const indexFontColor = pageSegmentColors[pathSegment] || '#000';
+  const indexFontColor = pageSegmentColors[pathSegment] || '#000';
 
-const [loadedCount, setLoadedCount] = useState(2); 
-const [loadedArticleData, setLoadedArticleData] = useState(articles); 
+  const [loadedCount, setLoadedCount] = useState(2); 
+  const [loadedArticleData, setLoadedArticleData] = useState(articles); 
 
-const loadInitialArticles = useCallback(async () => {
-  const initialArticles = await getArticlesBySubcategory(slug, 0, loadedCount); 
-  setLoadedArticleData(initialArticles.articles);
-  setLoadedCount(initialArticles.totalCount);
-}, [loadedCount, slug]);
+  const loadInitialArticles = useCallback(async () => {
+    const initialArticles = await getArticlesBySubcategory("technology",slug, 0, loadedCount); 
+    setLoadedArticleData(initialArticles.articles);
+    setLoadedCount(initialArticles.totalCount);
+  }, [loadedCount, slug]);
 
-useEffect(() => {
-  
-  loadInitialArticles();
-}, [loadInitialArticles]);
-
-const handleLoadMore = async () => {
-  const skip = loadedArticleData.length; 
-  const limit = 5; 
-
-  
-  const additionalArticles = await getArticlesBySubcategory(slug, skip, limit);
-
-  
-  setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles.articles]);
-
-  
-  if (additionalArticles.totalCount === loadedArticleData.length) {
-    setLoadedCount(0);
-  } else {
+  useEffect(() => {
     
-    setLoadedCount(loadedCount + limit);
-  }
-};
+    loadInitialArticles();
+  }, [loadInitialArticles]);
 
+  const handleLoadMore = async () => {
+    const skip = loadedArticleData.length; 
+    const limit = 2; 
+
+    
+    const additionalArticles = await getArticlesBySubcategory("technology",slug, skip, limit);
+
+    
+    setLoadedArticleData((prevArticles) => [...prevArticles, ...additionalArticles.articles]);
+
+    
+    if (additionalArticles.totalCount === loadedArticleData.length) {
+      setLoadedCount(0);
+    } else {
+      
+      setLoadedCount(loadedCount + limit);
+    }
+  };
+  const showLoadMoreButton = loadedCount < totalCount;
   
   return(
     <>
@@ -78,17 +78,17 @@ const handleLoadMore = async () => {
 
                 <Grid item sx={{ paddingInline: { xs: '17.5%', lg: '33.3%' } }}>
                   <div style={{ width: '100%' }}>
-                    {loadedCount > loadedArticleData.length && ( 
-                      <Button
-                        type="button"
-                        variant="outlined"
-                        sx={{ width: '100%' }}
-                        size="large"
-                        onClick={handleLoadMore} 
-                      >
-                        Load More
-                      </Button>
-                    )}
+                  {showLoadMoreButton && (
+                <Button
+                  type="button"
+                  variant="outlined"
+                  sx={{ width: '100%' }}
+                  size="large"
+                  onClick={handleLoadMore}
+                >
+                  Load More
+                </Button>
+              )}
                   </div>
                 </Grid>
               </Grid>
@@ -102,14 +102,14 @@ const handleLoadMore = async () => {
 
 export async function getStaticProps({ params }) {
   const { slug} = params;
-  const articles = await getArticlesBySubcategory(slug);
+  const {articles, totalCount} = await getArticlesBySubcategory("technology",slug);
   // console.log(articles, "this it?");
   const subcategory = await getSubcategoryBySlug(slug);
   console.log(subcategory, "this how I know");
   const {name} = subcategory;
 
   return {
-    props: {articles, name, slug},
+    props: {articles, name, slug, totalCount},
   };
 }
 

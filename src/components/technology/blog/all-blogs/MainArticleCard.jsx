@@ -1,31 +1,12 @@
 // import { ExpandMore } from '@mui/icons-material'
 import { Avatar, Box, Card, CardActions, CardContent, CardMedia, Collapse, Grid, IconButton,  Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {
-    EmailShareButton,
     FacebookShareButton, FacebookIcon,
-    HatenaShareButton,
-    InstapaperShareButton,
-    LineShareButton,
-    LinkedinShareButton,
-    LinkedinIcon,
-    LivejournalShareButton,
-    MailruShareButton,
-    OKShareButton,
-    PinterestShareButton,
-    PinterestIcon,
-    PocketShareButton,
-    RedditShareButton,
-    TelegramShareButton,
-    TelegramIcon,
-    TumblrShareButton,
     TwitterShareButton,
     TwitterIcon,
-    ViberShareButton,
-    VKShareButton,
     WhatsappShareButton,
     WhatsappIcon,
-    WorkplaceShareButton
 } from "react-share";
 import ShareIcon from '@mui/icons-material/Share';
 import ReadMoreRoundedIcon from '@mui/icons-material/ReadMoreRounded';
@@ -35,7 +16,7 @@ import Link from 'next/link';
 import { urlFor } from '../../../../../lib/client';
 import moment from 'moment/moment';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
-
+import { getClientOgImageUrl } from '../../../../../helpers/ogImageHelper';
 
 
 
@@ -55,7 +36,8 @@ import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, }
 
 
 const MainArticleCard = ({article:{title, body, image, category, subcategories, slug, excerpt, postedBy, createdAt}}) => {
-    const [expanded, setExpanded] = React.useState(false);    
+    const [expanded, setExpanded] = React.useState(false); 
+    const [ogImageUrl, setOgImageUrl] = React.useState(null);       
     const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -70,6 +52,24 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
       };
   
     const mainArticleBackgroundColor = pageSegmentColors[pathSegment] || '#000';
+    const description = excerpt
+  
+  useEffect(() => {
+    const fetchOgImageUrl = async () => {
+      try {
+        // Call the async function and wait for the result
+        const imageUrl = await getClientOgImageUrl(title, description, image);
+        
+        setOgImageUrl(imageUrl); // Set the resolved URL to the state
+      } catch (error) {
+        console.error("Error fetching OG image:", error);
+      }
+    };
+
+    fetchOgImageUrl();
+  }, [title, description, image]);
+
+
   return (
     <div>
         <Card elevation={2} sx={{borderRadius:{xs:'0', lg:'10px'}, marginBlockEnd: '2vh', bgcolor: mainArticleBackgroundColor}}>
@@ -138,7 +138,7 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
             
         <IconButton aria-label="add to favorites">
           <FacebookShareButton
-        url=''
+        url={ogImageUrl}
         quote={'Dummy text!'}
         hashtag="#muo">
           <FacebookIcon size={32} round />
@@ -153,14 +153,7 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
             <TwitterIcon size={32} round />
           </TwitterShareButton>
         </IconButton>
-        <IconButton aria-label="add to favorites">
-          <TelegramShareButton
-        url=''
-        quote={'Dummy text!'}
-        hashtag="#muo">
-            <TelegramIcon size={32} round />
-          </TelegramShareButton>
-        </IconButton>
+        
         <IconButton aria-label="add to favorites">
           <WhatsappShareButton
         url=''
@@ -169,14 +162,7 @@ const MainArticleCard = ({article:{title, body, image, category, subcategories, 
             <WhatsappIcon size={32} round />
           </WhatsappShareButton>
         </IconButton>
-        <IconButton aria-label="add to favorites">
-          <PinterestShareButton
-        url=''
-        quote={'Dummy text!'}
-        hashtag="#muo">
-            <PinterestIcon size={32} round />
-          </PinterestShareButton>
-        </IconButton>
+        
 
         </Stack>
         </CardContent>
