@@ -27,13 +27,17 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
   }
 
   useEffect(() => {
+
     const fetchOgImageUrl = async () => {
       const imageUrl = await getOgImageUrl(title, description, image);
       setOgImageUrl(imageUrl);
     };
 
     fetchOgImageUrl();
+
   }, [title, description, image]);
+
+
 
   return (
     <>
@@ -41,7 +45,7 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
 
         <Head>
           <title>Pearl Box</title>
-          <meta property='og:image' content={"https://pearlbox.co" + ogImageUrl} />
+          <meta property='og:image' content={ ogImageUrl && ogImageUrl} />
         </Head>
 
         <div className='header-div' style={{ paddingInline: 0 }}>
@@ -58,5 +62,7 @@ const Layout = ({ children, categories, ogTitle, ogDescription, ogImage }) => {
     </>
   );
 };
+
+
 
 export default Layout;
