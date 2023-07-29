@@ -22,7 +22,7 @@ const handler = async ( req: NextRequest ) => {
     const title = searchParams.get('title')
     const description = searchParams.get("description");
     const image = decodeURIComponent(searchParams.get("image")); // Decode the image URL
-  
+
 
 
 
@@ -46,20 +46,20 @@ return new ImageResponse(
     </div>
     </div>
     ),
-{
-    fonts: [
-        {
-            name: "RajhaniBold",
-            data: boldFontData,
-            weight: 800,
-        },
-        {
-            name: "RajhaniRegular",
-            data: regularFontData,
-            weight: 300,
-        },
-    ],
-}
+    {
+        fonts: [
+            {
+                name: "RajhaniBold",
+                data: boldFontData,
+                weight: 800,
+            },
+            {
+                name: "RajhaniRegular",
+                data: regularFontData,
+                weight: 300,
+            },
+        ],
+    }
 )
 }
 

@@ -5,7 +5,7 @@ const getOgImageUrl = async (title, description, image) => {
     };
     const encodedImageUrl = encodeImageUrl(image);
 
-    const apiUrl = `/api/og-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(encodedImageUrl)}`;
+    const apiUrl = `https://pearlbox.co/api/og-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(encodedImageUrl)}`;
     console.log("Constructed apiUrl:", apiUrl);
   
     try {
