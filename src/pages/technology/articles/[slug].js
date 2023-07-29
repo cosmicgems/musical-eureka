@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Avatar, Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import moment from 'moment/moment';
@@ -12,7 +12,20 @@ import Head from 'next/head';
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
 const DynamicArticlePage = ({ article, related }) => {
-  
+  const [ogImageUrl, setOgImageUrl] = useState(null);
+  useEffect(() => {
+    const fetchOgImageUrl = async () => {
+      const imageUrl = await getOgImageUrl(ogTitle, ogDescription, 'https://example.com/sample-image.jpg');
+      setOgImageUrl(imageUrl);
+    };
+
+    fetchOgImageUrl();
+  }, [ogTitle, ogDescription]);
+
+  if (!ogImageUrl) {
+    // Return a loading state or a placeholder while ogImageUrl is being fetched
+    return <div>Loading...</div>;
+  }
   const { title, body, createdAt, excerpt, image, lastUpdated, metaDescription, metaTitle, postedBy: { image: userImage, username }, slug: { current: slug }, _createdAt, _id, _updatedAt } = article;
   const head = () => {
       <Head>
