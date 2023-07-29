@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Avatar, Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import moment from 'moment/moment';
@@ -21,7 +21,7 @@ const DynamicArticlePage = ({ article, related }) => {
           <meta property='og:title' content="Pearl Box" />
         </Head>
   }
-  
+
   useEffect(() => {
     const fetchOgImageUrl = async () => {
       const imageUrl = await getOgImageUrl(ogTitle, ogDescription, );
@@ -37,64 +37,64 @@ const DynamicArticlePage = ({ article, related }) => {
   }
 
   return (
-   <Layout ogTitle={title} ogDescription={excerpt} ogImage={image}  >
-    {head()}
-    <Card elevation={0} sx={{}}>
-      <Box sx={{ position: 'absolute', marginBlockStart: { xs: '37.5vh', sm: '40vh' }, zIndex: 3, width: '100%' }}>
-        <Typography sx={{ fontSize: { xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center' }} variant="h6" component="div">
-          {title}
-        </Typography>
-      </Box>
-      <CardContent sx={{ height: '45vh', padding: 0, position: 'relative' }}>
-        <CardMedia
-          title={title && title}
-          sx={{ objectFit: 'cover', width: '100%', height: '45vh' }}
-          id={slug && slug}
-          image={image && image}
-        />
-      </CardContent>
-      <Box sx={{ width: '100%', paddingInline: { xs: '6vw', sm: '17.5vw' }, paddingBlockStart: '3vh' }}>
-        <Grid item xs={12}>
-          <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{ marginBlock: '2vh' }}>
-            <Avatar alt="Remy Sharp" src={urlFor(userImage && userImage[0])} sx={{ width: '7vh', height: '7vh' }} />
-            <Box sx={{ width: '100%' }}>
-              <Typography variant="p" component="div" sx={{}}>
-                Posted By: <span className="featuredCard">{username}</span>
-              </Typography>
-              <Typography variant="p" component="div" sx={{}}>
-                Date: <span className="postDate">{moment(createdAt).fromNow()}</span>
-              </Typography>
-            </Box>
-          </Stack>
-        </Grid>
-        <Typography variant="paragraph" component="div" sx={{ width: '100%' }}>
-          {body}
-        </Typography>
-      </Box>
+    <Layout ogTitle={title} ogDescription={excerpt} ogImage={image}  >
+      {head()}
+      <Card elevation={0} sx={{}}>
+        <Box sx={{ position: 'absolute', marginBlockStart: { xs: '37.5vh', sm: '40vh' }, zIndex: 3, width: '100%' }}>
+          <Typography sx={{ fontSize: { xs: '2rem' }, fontWeight: 'bold', color: lightBlue[100], width: '100%', textAlign: 'center' }} variant="h6" component="div">
+            {title}
+          </Typography>
+        </Box>
+        <CardContent sx={{ height: '45vh', padding: 0, position: 'relative' }}>
+          <CardMedia
+            title={title && title}
+            sx={{ objectFit: 'cover', width: '100%', height: '45vh' }}
+            id={slug && slug}
+            image={image && image}
+          />
+        </CardContent>
+        <Box sx={{ width: '100%', paddingInline: { xs: '6vw', sm: '17.5vw' }, paddingBlockStart: '3vh' }}>
+          <Grid item xs={12}>
+            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{ marginBlock: '2vh' }}>
+              <Avatar alt="Remy Sharp" src={urlFor(userImage && userImage[0])} sx={{ width: '7vh', height: '7vh' }} />
+              <Box sx={{ width: '100%' }}>
+                <Typography variant="p" component="div" sx={{}}>
+                  Posted By: <span className="featuredCard">{username}</span>
+                </Typography>
+                <Typography variant="p" component="div" sx={{}}>
+                  Date: <span className="postDate">{moment(createdAt).fromNow()}</span>
+                </Typography>
+              </Box>
+            </Stack>
+          </Grid>
+          <Typography variant="paragraph" component="div" sx={{ width: '100%' }}>
+            {body}
+          </Typography>
+        </Box>
 
-      <Box sx={{ width: '100%', marginBlock: '4vh 1vh' }}>
-        <Typography variant="h5" component="div" sx={{ width: '100%', textAlign: 'center' }}>
-          Related Articles
-        </Typography>
-      </Box>
-      <CardContent
-        sx={{
-          maxWidth: '100%',
-          minWidth: '100%',
-          display: 'flex',
-          overflowX: 'scroll',
-          paddingInline: 0,
-          overflowWrap: 'unset',
-        }}
-      >
-        {/* <Stack direction="row" justifyContent="center" alignItems="center" style={{ display: 'flex', textAlign: 'center', paddingInline: 0 }}>
-          {related.map((relatedArticle, i) => {
-            return <CardContent sx={{}} key={i * 99 + 99}><RelatedArticle relatedArticle={relatedArticle} /></CardContent>;
-          })}
-        </Stack> */}
-      </CardContent>
-    </Card>    
-   </Layout>
+        <Box sx={{ width: '100%', marginBlock: '4vh 1vh' }}>
+          <Typography variant="h5" component="div" sx={{ width: '100%', textAlign: 'center' }}>
+            Related Articles
+          </Typography>
+        </Box>
+        <CardContent
+          sx={{
+            maxWidth: '100%',
+            minWidth: '100%',
+            display: 'flex',
+            overflowX: 'scroll',
+            paddingInline: 0,
+            overflowWrap: 'unset',
+          }}
+        >
+          {/* <Stack direction="row" justifyContent="center" alignItems="center" style={{ display: 'flex', textAlign: 'center', paddingInline: 0 }}>
+            {related.map((relatedArticle, i) => {
+              return <CardContent sx={{}} key={i * 99 + 99}><RelatedArticle relatedArticle={relatedArticle} /></CardContent>;
+            })}
+          </Stack> */}
+        </CardContent>
+      </Card>    
+    </Layout>
 
 
 
