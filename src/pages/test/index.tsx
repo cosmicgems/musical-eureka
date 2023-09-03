@@ -18,6 +18,7 @@ const Test = () => {
     const [subcategories, setSubcategories] = useState<any>([]);
     const [checked, setChecked] = useState<any>([]);
     const [checkedSubcategory, setCheckedSubcategory] = useState<any>([]);
+    
     const [values, setValues] = useState<any>({
         error: '',
         sizeError: '',
