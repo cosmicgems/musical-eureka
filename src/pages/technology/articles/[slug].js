@@ -9,7 +9,8 @@ import { getArticlesBySubcategory } from '../../../../sanity/query functions/que
 import Layout from '../../../components/Layout'
 import Head from 'next/head';
 import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
-import { useStateContext } from '../../../../Context/StateContext';import ReactMarkdown from 'react-markdown';
+import { useStateContext } from '../../../../Context/StateContext';
+import ReactMarkdown from 'react-markdown';
 const RelatedArticle = dynamic(() => import('../../../components/technology/blog/RelatedArticle'));
 
 const DynamicArticlePage = ({ article, related, ogImageUrl }) => {
