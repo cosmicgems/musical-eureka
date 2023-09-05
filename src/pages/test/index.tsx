@@ -262,7 +262,7 @@ const Test = () => {
     return (
         <>
 
-            <Box className='min-h-screen p-6 flex flex-col' sx={{bgcolor: grey[500]}} >
+            <Box className='min-h-screen p-6 flex flex-col' sx={{bgcolor: grey[200]}} >
                 { sending ?
                     <Box className="p-3 mb-3" sx={{bgcolor: amber[600], borderRadius: "10px", fontSize: '2rem'}}>
                         <Typography variant='h4' sx={{}} className=''>
@@ -284,8 +284,13 @@ const Test = () => {
                         </Typography>
                     </Box> 
                     :
-                    "" 
+                    <div className='w-full p-3 mb-3'>
+                        <Typography variant="h3" className='font-bold w-full text-center' sx={{color: green[500]}}>
+                            Create A Post
+                        </Typography>
+                    </div>
                 }
+
 
 
                 <div className='flex '>
@@ -344,7 +349,7 @@ const Test = () => {
                         
                     </div>
 
-                    <div className='flex flex-col sm:w-2/5'>
+                    <div className='flex flex-col sm:w-2/5 p-3'>
 
                         {!cleared ?
                             <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
@@ -386,7 +391,7 @@ const Test = () => {
 
                         <div className='flex '>
 
-                            <div className='p-3 w-1/3'>
+                            <div className='p-3 w-1/2'>
                                 <div>
                                     <Typography variant='h6' sx={{}}>
                                         Categories
@@ -399,7 +404,7 @@ const Test = () => {
 
                             </div>
 
-                            <div className='p-3 w-1/3'>
+                            <div className='p-3 w-1/2'>
                                 <div>
                                     <Typography variant='h6' sx={{}}>
                                         Subcategories
@@ -410,11 +415,6 @@ const Test = () => {
                                 </FormGroup>                 
                             </div>
 
-                            <div className='p-3 w-1/3'>
-                                <Typography variant='h6' sx={{}}>
-                                    Tags
-                                </Typography>                        
-                            </div>
 
                         </div>
                     </div>
