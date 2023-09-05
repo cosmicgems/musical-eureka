@@ -16,7 +16,7 @@ const blogSchema = new Schema({
         index: true,
     },
     body: {
-        type: {},
+        type: String,
         trim: true,
         required: true,
         min: 200,
@@ -29,9 +29,6 @@ const blogSchema = new Schema({
         type: String,
         
     },
-    about: {
-        type: String
-    }, 
     photo: {
         type: String
     },
@@ -40,7 +37,7 @@ const blogSchema = new Schema({
     tags: [{type: ObjectId, ref: 'Tag', required: true}],
     postedBy: {
         type: ObjectId,
-        ref: 'User', required: true
+        ref: 'User', required: false
     }
 }, {timestamps: true});
 

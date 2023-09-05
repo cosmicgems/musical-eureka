@@ -10,33 +10,25 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ onPropsChange }) => {
     const editorRef = useRef<any>(null);
     const [editorContent, setEditorContent] = useState<string>('');
     const [title, setTitle] = useState<string>('');
+    const [savedPost, setSavedPost] = useState<boolean>(null)
 
-    useEffect(() => {
-        // Load content from local storage when the component mounts
-        const savedContent = localStorage.getItem('editorContent');
-        const savedTitle = localStorage.getItem('title');
+ 
 
-        if (savedContent) {
-        setEditorContent(savedContent);
-        }
 
-        if (savedTitle) {
-        setTitle(savedTitle);
-        }
-    }, []);
-
-    useEffect(() => {
-        // Save content to local storage whenever the content changes
-        localStorage.setItem('editorContent', editorContent);
-    }, [editorContent]);
-
-    useEffect(() => {
-        // Save title to local storage whenever it changes
-        localStorage.setItem('title', title);
-    }, [title]);
 
     const handleEditorChange = (content: string) => {
         setEditorContent(content);
+        localStorage.setItem("Body", content);
+    };
+    
+    const handleChange = (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (type === 'title') {
+            console.log(e.target.value);
+            setTitle(e.target.value);
+            localStorage.setItem('Title', e.target.value);
+        } else{
+            return
+        }
     };
 
     const log = () => {
@@ -61,7 +53,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ onPropsChange }) => {
                 className=''
                 value={title}
                 label='title'
-                onChange={(e) => setTitle(e.target.value)} // Update title state on change
+                onChange={handleChange('title')} // Update title state on change
             />
             </div>
             <div className='py-3'>
@@ -70,7 +62,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ onPropsChange }) => {
                 editorRef.current = editor;
                 editor.setContent(editorContent); // Set editor content from state
                 }}
-                initialValue={editorContent !== "<p>Create the extraordinary</p>" ? editorContent : "<p>Create the extraordinary</p>"}
+                initialValue={savedPost ? editorContent :"Write something beautiful"}
                 init={{
                 height: 500,
                 menubar: false,
