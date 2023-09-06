@@ -3,7 +3,7 @@ import { amber, green, grey, red } from '@mui/material/colors'
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
-
+import { useRouter } from 'next/router';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -27,6 +27,8 @@ const ModifyPage = () => {
   const perPage = 10; 
   const handleOpen = (id:any) =>{ setId(id);setOpen(true)};
   const handleClose = () => setOpen(false);
+
+  const router = useRouter();
 
   
   const fetchPosts = useCallback(async () => {
@@ -70,6 +72,11 @@ const ModifyPage = () => {
     
   }
   
+  const handleUpdate = (e:any, slug:any) => {
+    e.preventDefault()
+    router.push(`/test/modify/${slug}`)
+  }
+
   console.log(posts);
   
 
@@ -98,7 +105,7 @@ const ModifyPage = () => {
 
                 <div className='flex items-center'>
                   <div className='flex flex-row gap-6 justify-center items-center'>
-                    <Button variant='contained' size='large' sx={{bgcolor: amber[500], }} className=''>
+                    <Button onClick={(e)=>handleUpdate(e, p.slug)} variant='contained' size='large' sx={{bgcolor: amber[500], }} className=''>
                       Update
                     </Button>
 
