@@ -23,8 +23,9 @@ const ModifyPage = () => {
   const [posts, setPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1); 
+  const [id, setId] = useState<any>("");
   const perPage = 10; 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (id:any) =>{ setId(id);setOpen(true)};
   const handleClose = () => setOpen(false);
 
   
@@ -61,12 +62,15 @@ const ModifyPage = () => {
   };
 
   const handleDelete = async (postId:any) => {
-    const id = postId;
+    console.log(postId);
     
     const deletedPost = await axios.delete(`/api/blog/post/delete/${postId}`, )
+    handleClose()
     console.log("The post have been successfully deleted.", deletedPost);
     
   }
+  
+  console.log(posts);
   
 
   return (
@@ -80,12 +84,11 @@ const ModifyPage = () => {
                 </Typography>
             </div>   
 
-            <div className='flex flex-col gap-3 justify-center p-3'>
+            <div className='flex flex-col gap-3 justify-center p-3 w-3/5'>
 
               {posts.map((p:any, i:number)=>{
-                const id = p._id;
                 return (
-              <Box key={p._id} sx={{bgcolor: i % 2 === 0 ? grey[600] : green[600], borderRadius: '10px'}} className='flex flex-row gap-3 justify-between p-3'>
+              <Box key={p._id} sx={{bgcolor: i % 2 === 0 ? grey[600] : grey[800], borderRadius: '10px'}} className='flex flex-row gap-3 justify-between p-3'>
 
                 <div>
                   <Typography variant='h3' className='font-bold' sx={{color: grey[50]}}>
@@ -93,42 +96,15 @@ const ModifyPage = () => {
                   </Typography>                  
                 </div>
 
-                <div className='flex flex-row gap-3'>
+                <div className='flex items-center'>
+                  <div className='flex flex-row gap-6 justify-center items-center'>
+                    <Button variant='contained' size='large' sx={{bgcolor: amber[500], }} className=''>
+                      Update
+                    </Button>
 
-                  <Button variant='contained' sx={{bgcolor: amber[500], }} className=''>
-                    Update
-                  </Button>
+                    <Button onClick={()=>handleOpen(p._id)} size='large' variant='contained' sx={{bgcolor: red[500]}}>Delete</Button>               
+                  </div>
 
-                  <Button onClick={handleOpen} variant='outlined' sx={{color: red[500], borderColor: red[500], borderWidth: '2px'}}>Delete</Button>     
-                  <Modal
-                  sx={{}}
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box className="flex flex-col gap-2 text-center" sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" >
-                      Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description mb-2" >
-                      Are you sure you would like to delete this post? This action is <span className='font-bold'>irreversible</span> .
-                    </Typography>
-                    <Typography variant='body2' sx={{color: grey[500]}} className='font-bold'>
-                      Click outside this alert to cancel.
-                    </Typography>
-                    <div className='flex flex-row gap-3 justify-center items-center'>
-                      <Button variant='outlined' id={p._id} onClick={()=>handleDelete(id)} sx={{color: red[500], borderColor: red[500], borderWidth: '2px'}} className=''>
-                        Delete
-                      </Button>
-                      <Button onClick={handleClose} variant='contained' sx={{bgcolor: grey[700]}} className=''>
-                        Cancel
-                      </Button>   
-
-                    </div>
-
-                  </Box>
-                </Modal>
 
 
                 </div>
@@ -136,13 +112,42 @@ const ModifyPage = () => {
               </Box>
                 )
               })}
-            </div>
+            </div>     
+                    <Modal
+                    sx={{}}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box className="flex flex-col gap-2 text-center" sx={style}>
+                      <Typography id="modal-modal-title" variant="h6" >
+                        Text in a modal
+                      </Typography>
+                      <Typography id="modal-modal-description mb-2" >
+                        Are you sure you would like to delete this post? This action is <span className='font-bold'>irreversible</span> .
+                      </Typography>
+                      <Typography variant='body2' sx={{color: grey[500]}} className='font-bold'>
+                        Click outside this alert to cancel.
+                      </Typography>
+                      <div className='flex flex-row gap-3 justify-center items-center'>
+                        <Button variant='contained' id={id} onClick={()=>handleDelete(id)} sx={{bgcolor: red[500]}} className=''>
+                          Delete
+                        </Button>
+                        <Button onClick={handleClose} variant='contained' sx={{bgcolor: grey[700]}} className=''>
+                          Cancel
+                        </Button>   
 
-            <div>
+                      </div>
+
+                    </Box>
+                  </Modal>     
+
+            <div className='mb-6'>
               {loading ? (
                 <p>Loading...</p>
               ) : (
-                <button onClick={handleLoadMore}>Load More</button>
+                <Button variant='outlined' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
               )}
             </div>
             

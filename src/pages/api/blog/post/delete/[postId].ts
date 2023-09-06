@@ -12,13 +12,10 @@ export default async function handler(
 
     if (req.method === "DELETE") {
         try {
-            // Assuming you send the blog post ID in the request body
-            const { postId } = req.query;
-            console.log(postId);
             
-
-            // Use Mongoose to find and delete the blog post
-            const deletedPost = await Blog.findByIdAndDelete(postId);
+            let { postId } = req.query;
+            
+            let deletedPost = await Blog.findByIdAndDelete(postId);
             console.log(deletedPost);
             
             if (!deletedPost) {
