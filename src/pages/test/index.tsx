@@ -96,7 +96,7 @@ const Test = () => {
 
     const handleSubcategoryToggle = (t:any) => () => {
         setValues({...values, error: ''});
-        const clickedSubcategory = checked.indexOf(t)
+        const clickedSubcategory = checkedSubcategory.indexOf(t)
         const all = [...checkedSubcategory]
 
         if(clickedSubcategory === -1) {

@@ -4,6 +4,7 @@ import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/router';
+import CategoryModify from '../../../components/Blog Crud/CategoryModify';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -83,15 +84,16 @@ const ModifyPage = () => {
   return (
     <Box sx={{bgcolor: grey[200]}} className="min-h-screen">
 
-        <div className='flex flex-col justify-center items-center gap-3'>
+        <div className='flex lg:flex-row flex-col justify-center  gap-3'>
 
-            <div className='w-full text-center p-3'>
-                <Typography variant='h3' sx={{color: green[500]}} className='text-bold font-bold'>
-                    Modify Post
-                </Typography>
-            </div>   
 
-            <div className='flex flex-col gap-3 justify-center p-3 w-3/5'>
+            <div className='flex flex-col gap-3  p-3 sm:w-3/5'>
+
+              <div className='w-full text-center p-3'>
+                  <Typography variant='h3' sx={{color: green[500]}} className='text-bold font-bold'>
+                      Modify Post
+                  </Typography>
+              </div>   
 
               {posts.map((p:any, i:number)=>{
                 return (
@@ -119,7 +121,28 @@ const ModifyPage = () => {
               </Box>
                 )
               })}
-            </div>     
+            <div className='mb-6'>
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <Button variant='outlined' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
+              )}
+            </div>
+            </div>
+
+            <div className='flex flex-col gap-3 p-3 md:w-2/5'>
+
+              <div className='w-full text-center p-3'>
+                <Typography variant='h3' sx={{color: green[500]}} className='text-bold font-bold'>
+                  Categories
+                </Typography>                
+              </div>
+
+              <div>
+                <CategoryModify/>
+              </div>
+
+            </div>  
                     <Modal
                     sx={{}}
                     open={open}
@@ -150,13 +173,6 @@ const ModifyPage = () => {
                     </Box>
                   </Modal>     
 
-            <div className='mb-6'>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <Button variant='outlined' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
-              )}
-            </div>
             
 
         </div>
