@@ -21,7 +21,7 @@ import { AiOutlineShopping } from 'react-icons/ai'
 import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
-import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red } from '@mui/material/colors';
+import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red, grey } from '@mui/material/colors';
 import { motion } from 'framer-motion'
 import Subscribe from './Subscribe';
 
@@ -30,7 +30,7 @@ const drawerWidth = 240;
 
 function NavBar(props) {
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const navItems = [`${pathSegment} Home`, 'Articles', 'Categories', 'About', 'Contact'];
+    const navItems = [`  ${pathSegment} Home`, 'Articles', 'Categories', 'About', 'Contact'];
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     
@@ -49,7 +49,7 @@ function NavBar(props) {
     art: cyan[500],
   };
 
-  const appBarBackgroundColor = pageSegmentColors[pathSegment] || red["A700"];
+  const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
     <Link href='/'>
@@ -96,26 +96,40 @@ function NavBar(props) {
             component="a"
             href="/"
             sx={{
+              fontSize: "1.5rem",
               ml: 'auto',
               display: { sm: 'none' },
-              fontFamily: 'monospace',
+              // fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              // color: 'inherit',
               textDecoration: 'none',
             }}
+            className='gradient-text'
           >
             {pathSegment?.toLocaleUpperCase()}
           </Typography>
+
+          <Box sx={{display:{sm:"none"}}} className="ml-12" >
+            <div className='flex gap-3'>
+              <Button variant='contained' className='' sx={{}}>
+                Login
+              </Button>
+              <Button variant='outlined' className='' sx={{}}>
+                Logout
+              </Button>
+            </div>
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
             <Link href='/'>
                 <motion.div
                 whileTap={{ scale: 0.9 }}>
                   <Typography
+                  className='gradient-text'
                     variant="h6"
                     component="div"
-                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, fontSize: '2rem' }}
                   >
                     Pearl Box
                   </Typography>                  

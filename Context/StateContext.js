@@ -33,7 +33,8 @@ export const StateContext = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [subNavbar, setSubNavbar] = useState([])
 
-    const pathSegment = pageName.split("/")[1]
+    let pathSegment = pageName === "/" ? "home" : pageName.split("/")[1]
+
     console.log(pathSegment);
     
 

@@ -12,6 +12,27 @@ body, * {
 
 }
 
+.gradient-text {
+  font-weight: bold;
+  background-image: linear-gradient(to right, #a8caba 0%, #5d4157 100%);
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 p{
   font-family: "Rajdhani";
@@ -31,6 +52,8 @@ h4{
 h5{
   font-family: "Rajdhani";
 }
+/* 
+
 body{
   min-height: 100vh;
   background-image: linear-gradient(to right, #434343 0%, black 100%);
@@ -38,8 +61,16 @@ body{
 	animation: gradient 7s ease infinite;
   overflow-x: hidden;
 
-}
+} */
 
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
 
 .we-can-help-span{
   font-weight: bold;
