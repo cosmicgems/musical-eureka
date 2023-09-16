@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import { useStateContext } from '../../Context/StateContext';
 
-const Layout = ({ children}) => {
+const Layout = ({ children, categories }) => {
   const { pageName } = useStateContext();
 
 
@@ -12,17 +12,17 @@ const Layout = ({ children}) => {
 
   return (
     <>
-      <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
+      <div className='layout' style={{ maxHeight: '100vh' }}>
 
       
 
         <div className='header-div' style={{ paddingInline: 0 }}>
           <header style={{ paddingInline: 0 }}>
-             <NavBar />
+            {pageName !== '/' && <NavBar />}
           </header>
         </div>
 
-        <main className='main-container grow flex flex-col '>
+        <main className='main-container'>
         {children}
         </main>
         <footer className='footer'>

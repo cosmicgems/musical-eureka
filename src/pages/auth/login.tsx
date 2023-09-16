@@ -3,9 +3,10 @@ import { green, grey, red } from '@mui/material/colors'
 import React, { useState, FormEventHandler, useEffect } from 'react'
 import { signIn } from "next-auth/react"
 import { useRouter } from 'next/router'
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 import validator from 'validator';
 import axios from 'axios';
+import { getToken } from 'next-auth/jwt'
 import { getSession } from 'next-auth/react'
 
 
@@ -67,15 +68,37 @@ const LoginPage = () => {
 
     useEffect(() => {
         handleValidation("first name", firstName);
-        handleValidation("last name", lastName);
-        handleValidation("username", username);
-        handleValidation("email", email);
-        handleValidation("email confirm", confirmEmail);
-        handleValidation("password", password);
-        handleValidation("confirm password", confirmPassword);
-    }, [firstName, lastName, username, email, confirmEmail, password, confirmPassword]);
+    }, [firstName]);
 
     // Use useEffect to trigger validation when lastName changes
+    useEffect(() => {
+        handleValidation("last name", lastName);
+    }, [lastName]);
+
+    // Use useEffect to trigger validation when username changes
+    useEffect(() => {
+        handleValidation("username", username);
+    }, [username]);
+
+    // Use useEffect to trigger validation when email changes
+    useEffect(() => {
+        handleValidation("email", email);
+    }, [email]);
+
+    // Use useEffect to trigger validation when email changes
+    useEffect(() => {
+        handleValidation("email confirm", confirmEmail);
+    }, [confirmEmail]);
+
+    // Use useEffect to trigger validation when password changes
+    useEffect(() => {
+        handleValidation("password", password);
+    }, [password, ]);
+
+    useEffect(() => {
+        handleValidation("confirm password", confirmPassword);
+    }, [confirmPassword, ]);
+
 
     const router = useRouter();
 
@@ -273,69 +296,112 @@ const LoginPage = () => {
 
     }
 
-    useEffect(() => {
-        const checkSession = async () => {
+    const fetchData = async () => {
         const session = await getSession();
+    
         if (session) {
-            const u = session.user
-            console.log(u);
-
-            router.push('/'); 
+        // The session object contains user data and other session-related information.
+        console.log(session);
+    
+        // Access user data from the session.
+        const user = session.user;
+        console.log(user);
+        } else {
+        // There is no active session.
+        console.log('No active session.');
         }
-        };
+    };
+    
+    useEffect(() => {
+        fetchData();
+    }, []);   
+useEffect(() => {
+    const checkSession = async () => {
+    const session = await getSession();
+    if (session) {
+        const u = session.user
+        console.log(u);
 
-        checkSession();
-    }, [router]);
+        // router.push('/'); 
+    }
+    };
 
-    return (
-        <div className='h-screen'>
+    checkSession();
+}, []);
 
-            <Box sx={{bgcolor: grey[200]}} className=' flex flex-col justify-center items-center  min-h-screen gap-6'>
+return (
+    <div className='h-screen'>
 
-                <div>
-                    <Typography className='font-bold ' sx={{color: green[500]}} variant='h1' >
-                        Signup 
+        <Box sx={{bgcolor: grey[200]}} className=' flex flex-col justify-center items-center  min-h-screen gap-6'>
+
+            <div>
+                <Typography className='font-bold ' sx={{color: green[500]}} variant='h1' >
+                    Signup 
+                </Typography>
+            </div>
+
+            <Box sx={{bgcolor: grey[400], borderRadius: '10px'}} className="md:w-2/5 flex flex-col gap-6" >
+                
+                <Box sx={{bgcolor: grey[600], borderTopLeftRadius: '10px', borderTopRightRadius: '10px'}} className='text-center flex flex-col gap-1 py-3 px-6'>
+                    <Typography variant='h3' sx={{color:green[400]}} className='font-bold'>
+                        Pearl Box
                     </Typography>
-                </div>
+                    <Typography variant='body1' sx={{color:green[400]}} className=''>
+                        Cultivating a lifestyle worth living.
+                    </Typography>
+                </Box>
 
-                <Box sx={{bgcolor: grey[400], borderRadius: '10px'}} className="md:w-2/5 flex flex-col gap-6" >
-                    
-                    <Box sx={{bgcolor: grey[600], borderTopLeftRadius: '10px', borderTopRightRadius: '10px'}} className='text-center flex flex-col gap-1 py-3 px-6'>
-                        <Typography variant='h3' sx={{color:green[400]}} className='font-bold'>
-                            Pearl Box
-                        </Typography>
-                        <Typography variant='body1' sx={{color:green[400]}} className=''>
-                            Cultivating a lifestyle worth living.
-                        </Typography>
-                    </Box>
-
-                    <div className=' pb-3 px-6'>
-                        <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
-                            
-                            {
-                                signup &&
+                <div className=' pb-3 px-6'>
+                    <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
+                        
+                        {
+                            signup &&
+                            <div>
+                                <CssTextField fullWidth  value={firstName} className='' onChange={(e)=>{ setFirstName(e.target.value);
+                                    setTouched({firstName:true}); }} variant='outlined' label="First Name" 
+                                error={invalidFirstName}
+                                helperText={invalidFirstName ? validationErrorMessage.firstName : ''}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                    '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: red[500], // Change border color when there is an error
+                                    },
+                                    },
+                                }}
+                                />
+                            </div>                            
+                        }                        
+                        {
+                            signup &&
+                            <div>
+                                <CssTextField fullWidth  value={lastName} className='' onChange={(e)=>{ setLastName(e.target.value);
+                                    setTouched({lastName:true});}} variant='outlined' label="Last Name" 
+                                error={invalidLastName}
+                                helperText={invalidLastName ? validationErrorMessage.lastName : ''}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                    '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: red[500], // Change border color when there is an error
+                                    },
+                                    },
+                                }}
+                                /> 
+                            </div>                            
+                        }                        
+                        {
+                            signup &&
+                            <>
                                 <div>
-                                    <CssTextField fullWidth  value={firstName} className='' onChange={(e)=>{ setFirstName(e.target.value);
-                                        setTouched({firstName:true}); }} variant='outlined' label="First Name" 
-                                    error={invalidFirstName}
-                                    helperText={invalidFirstName ? validationErrorMessage.firstName : ''}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                        '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: red[500], // Change border color when there is an error
-                                        },
-                                        },
-                                    }}
-                                    />
-                                </div>                            
-                            }                        
-                            {
-                                signup &&
-                                <div>
-                                    <CssTextField fullWidth  value={lastName} className='' onChange={(e)=>{ setLastName(e.target.value);
-                                        setTouched({lastName:true});}} variant='outlined' label="Last Name" 
-                                    error={invalidLastName}
-                                    helperText={invalidLastName ? validationErrorMessage.lastName : ''}
+                                    <Typography variant='body1' sx={{fontSize: '.75rem'}} className='mt-4'>
+                                        Username should include letters and numbers only
+                                    </Typography>
+                                </div>
+                                <div className='mb-3'>
+                                    <CssTextField fullWidth value={username} className='' onChange={(e)=>{ const value = e.target.value; console.log(value);
+                                    setUsername(value);
+                                    setTouched({username:true});}} variant='outlined' label="Username"
+                                    error={invalidUsername}
+                                    helperText={invalidUsername ? validationErrorMessage.username : ''}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
                                         '&.Mui-error .MuiOutlinedInput-notchedOutline': {
@@ -344,114 +410,18 @@ const LoginPage = () => {
                                         },
                                     }}
                                     /> 
-                                </div>                            
-                            }                        
-                            {
-                                signup &&
-                                <>
-                                    <div>
-                                        <Typography variant='body1' sx={{fontSize: '.75rem'}} className='mt-4'>
-                                            Username should include letters and numbers only
-                                        </Typography>
-                                    </div>
-                                    <div className='mb-3'>
-                                        <CssTextField fullWidth value={username} className='' onChange={(e)=>{ const value = e.target.value; console.log(value);
-                                        setUsername(value);
-                                        setTouched({username:true});}} variant='outlined' label="Username"
-                                        error={invalidUsername}
-                                        helperText={invalidUsername ? validationErrorMessage.username : ''}
-                                        sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                            '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: red[500], // Change border color when there is an error
-                                            },
-                                            },
-                                        }}
-                                        /> 
-                                    </div>                              
-                                </>
-                            }
+                                </div>                              
+                            </>
+                        }
 
-                            {
-                                signup ?
-                                    <div>
-                                        {validationErrorMessage.email}
-                                        <CssTextField fullWidth type='email' value={email} className='' onChange={(e)=>{ const value = e.target.value; setEmail(value);
-                                                setTouched({email:true}); }} variant='outlined' label="Email"
-                                            error={invalidEmail}
-                                            helperText={invalidEmail ? validationErrorMessage.email : ''}
-                                            sx={{
-                                                '& .MuiOutlinedInput-root': {
-                                                '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: red[500], // Change border color when there is an error
-                                                },
-                                                },
-                                            }}
-                                            />
-                                    </div>
-                                    :
-                                    <div>
-                                        {validationErrorMessage.email}
-                                        <CssTextField fullWidth type='email' value={emailLogin} className='' onChange={(e)=>{ const value = e.target.value; setEmailLogin(value);
-                                                setTouched({email:true}); }} variant='outlined' label="Email"
-                                            error={invalidEmail}
-                                            helperText={invalidEmail ? validationErrorMessage.email : ''}
-                                            sx={{
-                                                '& .MuiOutlinedInput-root': {
-                                                '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: red[500], // Change border color when there is an error
-                                                },
-                                                },
-                                            }}
-                                            />
-                                    </div>                           
-                            }
-
-
-                            {
-                                signup &&
+                        {
+                            signup ?
                                 <div>
-                                    <CssTextField
-                                    fullWidth
-                                    type='email'
-                                    value={confirmEmail}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        setConfirmEmail(value);
-                                        setTouched({confirmEmail:true});
-                                    }}
-                                    variant='outlined'
-                                    label="Confirm email"
-                                    error={matchEmailError}
-                                    helperText={matchEmailError ? 'Emails do not match' : ''}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                        '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-                                            borderColor: red[500], // Change border color when there is an error
-                                        },
-                                        },
-                                    }}
-                                    />
-                                </div>                            
-                            }
-
-                            {
-                                signup &&
-
-                                <div>
-                                    <Typography variant='body1' sx={{fontSize: '.75rem'}} className='mt-4'>
-                                        Password should be at least 8 characters in length, and include one of each: lowercase letter, uppercase letter, number, and special symbol
-                                    </Typography>
-                                </div>
-                            }
-
-                            {
-                                signup ?
-                                <div>
-                                    <CssTextField fullWidth type='password' value={password} className='' onChange={(e)=>{ setPassword(e.target.value);
-                                            setTouched({password:true});}} variant='outlined' label="Password" 
-                                        error={invalidPassword}
-                                        helperText={invalidPassword ? validationErrorMessage.password : ''}
+                                    {validationErrorMessage.email}
+                                    <CssTextField fullWidth type='email' value={email} className='' onChange={(e)=>{ const value = e.target.value; setEmail(value);
+                                            setTouched({email:true}); }} variant='outlined' label="Email"
+                                        error={invalidEmail}
+                                        helperText={invalidEmail ? validationErrorMessage.email : ''}
                                         sx={{
                                             '& .MuiOutlinedInput-root': {
                                             '&.Mui-error .MuiOutlinedInput-notchedOutline': {
@@ -463,10 +433,11 @@ const LoginPage = () => {
                                 </div>
                                 :
                                 <div>
-                                    <CssTextField fullWidth type='password' value={passwordLogin} className='' onChange={(e)=>{ setPasswordLogin(e.target.value);
-                                            setTouched({password:true});}} variant='outlined' label="Password" 
-                                        error={invalidPassword}
-                                        helperText={invalidPassword ? validationErrorMessage.password : ''}
+                                    {validationErrorMessage.email}
+                                    <CssTextField fullWidth type='email' value={emailLogin} className='' onChange={(e)=>{ const value = e.target.value; setEmailLogin(value);
+                                            setTouched({email:true}); }} variant='outlined' label="Email"
+                                        error={invalidEmail}
+                                        helperText={invalidEmail ? validationErrorMessage.email : ''}
                                         sx={{
                                             '& .MuiOutlinedInput-root': {
                                             '&.Mui-error .MuiOutlinedInput-notchedOutline': {
@@ -475,26 +446,54 @@ const LoginPage = () => {
                                             },
                                         }}
                                         />
-                                </div>                                                       
-                            }
+                                </div>                           
+                        }
 
 
-                            
-                            {
-                                signup && 
-                                <div>
-                                    <CssTextField
-                                    fullWidth
-                                    type='password'
-                                    value={confirmPassword}
-                                    onChange={(e) => {
-                                        setConfirmPassword(e.target.value);
-                                        setTouched({confirmPassword:true});
-                                    }}
-                                    variant='outlined'
-                                    label="Confirm password"
-                                    error={matchPasswordError}
-                                    helperText={matchPasswordError ? 'Passwords do not match' : ''}
+                        {
+                            signup &&
+                            <div>
+                                <CssTextField
+                                fullWidth
+                                type='email'
+                                value={confirmEmail}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setConfirmEmail(value);
+                                    setTouched({confirmEmail:true});
+                                }}
+                                variant='outlined'
+                                label="Confirm email"
+                                error={matchEmailError}
+                                helperText={matchEmailError ? 'Emails do not match' : ''}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                    '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: red[500], // Change border color when there is an error
+                                    },
+                                    },
+                                }}
+                                />
+                            </div>                            
+                        }
+
+                        {
+                            signup &&
+
+                            <div>
+                                <Typography variant='body1' sx={{fontSize: '.75rem'}} className='mt-4'>
+                                    Password should be at least 8 characters in length, and include one of each: lowercase letter, uppercase letter, number, and special symbol
+                                </Typography>
+                            </div>
+                        }
+
+                        {
+                            signup ?
+                            <div>
+                                <CssTextField fullWidth type='password' value={password} className='' onChange={(e)=>{ setPassword(e.target.value);
+                                        setTouched({password:true});}} variant='outlined' label="Password" 
+                                    error={invalidPassword}
+                                    helperText={invalidPassword ? validationErrorMessage.password : ''}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
                                         '&.Mui-error .MuiOutlinedInput-notchedOutline': {
@@ -503,61 +502,104 @@ const LoginPage = () => {
                                         },
                                     }}
                                     />
-                                </div>                            
-                            }
-
-                            {
-                                !signup ?
-                                <div className='text-center'>
-                                    <Button sx={{}} onClick={()=>setSignup(!signup)}>
-                                        Don&apos;t have an account?
-                                    </Button>
-                                </div>
-                                :
-                                <div className='text-center'>
-                                    <Button sx={{}} onClick={()=>setSignup(!signup)}>
-                                        Already have an account? Login!
-                                    </Button>
-                                </div>
-                            }
-
-                            {
-                                matchPasswordError || matchEmailError || invalidEmail || invalidFirstName || invalidLastName || invalidPassword || invalidUsername ?
-                                <div className='flex justify-center items-center'>
-                                    <Button onClick={handleSubmitSignup} disabled type='submit' variant='contained' sx={{bgcolor: green[500]}} className=''>
-                                        {button}
-                                    </Button>
-                                </div>  
-                                :
-                                signup ?
-                                <div className='flex justify-center items-center'>
-                                    <Button onClick={handleSubmitSignup} type='submit' variant='contained' sx={{bgcolor: green[500]}} className=''>
-                                        {button}
-                                    </Button>
-                                </div>
-                                :
-                                !signup ? 
-                                <div className='flex justify-center items-center'>
-                                    <Button onClick={()=>handleSubmit} type='submit' variant='contained' sx={{bgcolor: green[500]}} className=''>
-                                        {button}
-                                    </Button>
-                                </div>
-                                :
-                                null
-                            }
+                            </div>
+                            :
+                            <div>
+                                <CssTextField fullWidth type='password' value={passwordLogin} className='' onChange={(e)=>{ setPasswordLogin(e.target.value);
+                                        setTouched({password:true});}} variant='outlined' label="Password" 
+                                    error={invalidPassword}
+                                    helperText={invalidPassword ? validationErrorMessage.password : ''}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                        '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: red[500], // Change border color when there is an error
+                                        },
+                                        },
+                                    }}
+                                    />
+                            </div>                                                       
+                        }
 
 
+                        
+                        {
+                            signup && 
+                            <div>
+                                <CssTextField
+                                fullWidth
+                                type='password'
+                                value={confirmPassword}
+                                onChange={(e) => {
+                                    setConfirmPassword(e.target.value);
+                                    setTouched({confirmPassword:true});
+                                }}
+                                variant='outlined'
+                                label="Confirm password"
+                                error={matchPasswordError}
+                                helperText={matchPasswordError ? 'Passwords do not match' : ''}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                    '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: red[500], // Change border color when there is an error
+                                    },
+                                    },
+                                }}
+                                />
+                            </div>                            
+                        }
+
+                        {
+                            !signup ?
+                            <div className='text-center'>
+                                <Button sx={{}} onClick={()=>setSignup(!signup)}>
+                                    Don&apos;t have an account?
+                                </Button>
+                            </div>
+                            :
+                            <div className='text-center'>
+                                <Button sx={{}} onClick={()=>setSignup(!signup)}>
+                                    Already have an account? Login!
+                                </Button>
+                            </div>
+                        }
+
+                        {
+                            matchPasswordError || matchEmailError || invalidEmail || invalidFirstName || invalidLastName || invalidPassword || invalidUsername ?
+                            <div className='flex justify-center items-center'>
+                                <Button onClick={handleSubmitSignup} disabled type='submit' variant='contained' sx={{bgcolor: green[500]}} className=''>
+                                    {button}
+                                </Button>
+                            </div>  
+                            :
+                            signup ?
+                            <div className='flex justify-center items-center'>
+                                <Button onClick={handleSubmitSignup} type='submit' variant='contained' sx={{bgcolor: green[500]}} className=''>
+                                    {button}
+                                </Button>
+                            </div>
+                            :
+                            !signup ? 
+                            <div className='flex justify-center items-center'>
+                                <Button onClick={()=>handleSubmit} type='submit' variant='contained' sx={{bgcolor: green[500]}} className=''>
+                                    {button}
+                                </Button>
+                            </div>
+                            :
+                            null
+                        }
 
 
-                        </form>
-                    </div>
 
-                </Box>
+
+                    </form>
+                </div>
 
             </Box>
 
-        </div>
-    )
+        </Box>
+
+    </div>
+)
 }
 
 export default LoginPage

@@ -116,7 +116,7 @@ const Test = () => {
                         
             <>
             {categories.map((c:any, i:number) => (
-                <FormControlLabel onChange={handleToggle(c._id)} key={c._id} control={<Checkbox  checked={checked?.includes(c._id)} />} label={c.name} />
+                <FormControlLabel onChange={handleToggle(c._id)} key={c._id} control={<Checkbox  checked={checked.includes(c._id)} />} label={c.name} />
             ))}
             </>
         );
@@ -128,7 +128,7 @@ const Test = () => {
             
             <>
             {subcategories.map((t:any, i:number) => (
-                <FormControlLabel onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory?.includes(t._id)} />} label={t.name} />
+                <FormControlLabel onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
             ))}
             </>
 
