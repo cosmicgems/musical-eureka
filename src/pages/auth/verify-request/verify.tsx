@@ -30,6 +30,8 @@ const Verify = () => {
         
     }, [token]);
 
+    // This is a comment
+    
     return (
         <Box sx={{bgcolor: grey[200]}}>
             <Layout>
