@@ -1,4 +1,4 @@
-import { Box, Button, CardMedia, Typography } from '@mui/material';
+import { Avatar, Box, Button, CardMedia, Chip, Grid, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React, { useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
@@ -10,8 +10,8 @@ interface BlogPostProps {
     blog: {
         _id: string;
         title: string;
-        categories: string[];
-        sub_categories: string[];
+        categories: any[];
+        sub_categories: any[];
         photo: string;
         body: string;
         slug: string;
@@ -46,8 +46,28 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                         {title}
                     </Typography>                    
                 </Button>
+                
+                <div>
+                            
+                    <Grid container className='w-full' spacing={1} >
+                    {sub_categories.map((sc,i) => {
+                        return (
+                            <Grid item key={sc._id} xs={6} >
+                                <Button >
+                                    <Chip
+                                    avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
+                                    label={sc.name}
+                                    variant="outlined"
+                                    />  
+                                </Button>
+                            </Grid>
 
-                <Typography variant='body1' className='truncate-text w-[300px] sm:w-[375px]'   >
+                        )
+                    })}
+                </Grid>
+                </div>
+
+                <Typography variant='body1' className='truncate-text w-[325px] sm:w-[375px]'   >
                         {excerpt}      
 
                 </Typography>        

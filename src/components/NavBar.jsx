@@ -21,18 +21,20 @@ import { AiOutlineShopping } from 'react-icons/ai'
 import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
-import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red } from '@mui/material/colors';
+import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red, grey } from '@mui/material/colors';
 import { motion } from 'framer-motion'
 import Subscribe from './Subscribe';
+import { navItems } from '../../public/assets/navItems';
+import { getSession } from 'next-auth/react';
 
 const drawerWidth = 240;
 
 
 function NavBar(props) {
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const navItems = [`${pathSegment} Home`, 'Articles', 'Categories', 'About', 'Contact'];
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [loggedIn, setLoggedIn] = React.useState(false);
     
 
   const handleDrawerToggle = () => {
@@ -49,7 +51,7 @@ function NavBar(props) {
     art: cyan[500],
   };
 
-  const appBarBackgroundColor = pageSegmentColors[pathSegment] || red["A700"];
+  const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
     <Link href='/'>
@@ -61,15 +63,29 @@ function NavBar(props) {
       <Divider />
       <List>
         {navItems.map((item, i) => (
-          <ListItem key={item + i.toString()} disablePadding>
-            <ListItemButton href={item.toLowerCase() === `${pathSegment} home` ? `/${pathSegment}` : `/${pathSegment}/${item.toLowerCase()}`} sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item.toLocaleUpperCase()} />
+          <ListItem key={item.name + i.toString()} disablePadding>
+            <ListItemButton href={item.path} sx={{ textAlign: 'center' }}>
+              <ListItemText primary={item.name.toLocaleUpperCase()} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
     </Box>
   );
+
+  React.useEffect(() => {
+      const checkSession = async () => {
+      const session = await getSession();
+
+      if (session) {
+        setLoggedIn(true)
+      }
+      };
+      if(!loggedIn){
+        checkSession();        
+      }
+
+  }, [loggedIn, setLoggedIn]);
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -88,7 +104,7 @@ function NavBar(props) {
           >
             <MenuIcon />
           </IconButton>
-         
+
           
           <Typography
             variant="h6"
@@ -96,26 +112,56 @@ function NavBar(props) {
             component="a"
             href="/"
             sx={{
+              fontSize: "2rem",
               ml: 'auto',
               display: { sm: 'none' },
-              fontFamily: 'monospace',
+              // fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              // color: 'inherit',
               textDecoration: 'none',
             }}
+            className='gradient-text font-bold'
           >
             {pathSegment?.toLocaleUpperCase()}
           </Typography>
+
+          <Box sx={{display:{sm:"none"}}} className="ml-12" >
+            <div className='flex gap-3'>
+              {
+                loggedIn ?
+                  <div className='flex gap-3'>
+                    <Button variant='contained' className='gradient-button' sx={{border:"none"}}>
+                      Login
+                    </Button>
+                    <Button variant='outlined' className='gradient-button-signup' sx={{p:"3px", border: "none"}}>
+                      <Box sx={{bgcolor:grey[900], p:1, borderRadius: "2px"}}>
+                        <Typography  className='gradient-text-button font-bold'>
+                          Signup
+                        </Typography>
+                      </Box>
+                    </Button>
+                  </div>
+                :
+                  <div className='flex gap-3'>
+                    <Button variant='contained' className='gradient-button' sx={{}}>
+                      Logout
+                    </Button>
+                  </div>
+              }
+
+            </div>
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
             <Link href='/'>
                 <motion.div
                 whileTap={{ scale: 0.9 }}>
                   <Typography
-                    variant="h6"
+                  className='gradient-text'
+                    variant="h5"
                     component="div"
-                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, fontSize: '3rem' }}
                   >
                     Pearl Box
                   </Typography>                  
@@ -131,11 +177,11 @@ function NavBar(props) {
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item, i) => (
-              <Button key={item + i.toString() + "forbigger"} sx={{ color: '#fff', marginInlineEnd: '2vw' }} href={item.toLowerCase() === `${pathSegment} home` ? `/${pathSegment}` : `/${pathSegment}/${item.toLowerCase()}`}>
+              <Button key={item.name + i.toString() + item.path} sx={{ color: '#fff', marginInlineEnd: '2vw' }} href={item.path}>
                 <motion.div
                 whileHover={{ scale: 2 }}
                 whileTap={{ scale: 0.9 }}>
-                    {item}
+                    {item.name}
                 </motion.div>
 
               </Button>

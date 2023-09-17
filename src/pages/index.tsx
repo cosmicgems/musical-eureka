@@ -36,8 +36,10 @@ const HomePage = ({ blogs }: { blogs: Blog[] }) => {
     // console.log(blogs);
     
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const [homeSearch, setHomeSearch] = useState<string>("")
-    const [subscriber, setSubscriber] = useState<string>("")
+    const [homeSearch, setHomeSearch] = useState<string>("");
+    const [subscriber, setSubscriber] = useState<string>("");
+
+
 
 
   return (
@@ -64,8 +66,9 @@ const HomePage = ({ blogs }: { blogs: Blog[] }) => {
                 </div>
                     <div className='flex gap-6 overflow-x-auto w-screen pb-6'>
                         {blogs.map((b, i)=> {
-                            return (
-                                <div key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
+                            if(i === 0) {
+                                return (
+                                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                     <div className='flex justify-center items-center'>
                                         <Button href={`/categories/category/${b.categories[0].slug}`}>
                                             <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -75,8 +78,38 @@ const HomePage = ({ blogs }: { blogs: Blog[] }) => {
 
                                     </div>
                                     <BlogPost blog={b} />
-                                </div>
-                            )
+                                </Box>
+                                )
+                            } else if (i === blogs.length -1){
+                                return (
+                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-24 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                    <div className='flex justify-center items-center'>
+                                        <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                            <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                {b.categories[0].name}
+                                            </Typography>                                            
+                                        </Button>
+
+                                    </div>
+                                    <BlogPost blog={b} />
+                                </Box>
+                                )
+                            } else {
+                                return (
+                                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
+                                        <div className='flex justify-center items-center'>
+                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                    {b.categories[0].name}
+                                                </Typography>                                            
+                                            </Button>
+
+                                        </div>
+                                        <BlogPost blog={b} />
+                                    </Box>
+                                )                                
+                            }
+
                         })}
                     </div>                
             </div>

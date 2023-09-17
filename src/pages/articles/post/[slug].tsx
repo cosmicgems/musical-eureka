@@ -3,13 +3,13 @@ import { Avatar, Box, Card, CardContent, CardMedia, Grid, Stack, Typography } fr
 import dynamic from 'next/dynamic';
 import moment from 'moment/moment';;
 import { lightBlue } from '@mui/material/colors';
-import Layout from '../../components/Layout'
+import Layout from '../../../components/Layout'
 import Head from 'next/head';
-import { getOgImageUrl } from '../../../helpers/ogImageHelper';
-import { useStateContext } from '../../../Context/StateContext';
+import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
+import { useStateContext } from '../../../../Context/StateContext';
 import axios from 'axios';
 
-const DynamicArticlePage = ({title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug}= post) => {
+const DynamicArticlePage = ({title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug}) => {
     
     // console.log(post.title);
     const {pathSegment} = useStateContext();
