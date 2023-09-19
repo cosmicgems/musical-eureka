@@ -22,7 +22,7 @@ const Layout = ({ children}) => {
           </header>
         </div>
 
-        <main className='main-container grow flex flex-col '>
+        <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
         {children}
         </main>
         <footer className='footer'>

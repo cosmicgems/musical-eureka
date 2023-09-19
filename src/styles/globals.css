@@ -59,6 +59,17 @@ body, * {
   background-clip: text;
   animation: gradientAnimation 5s linear infinite;
 }
+.gradient-text-home {
+  font-weight: bold;
+  background: #5d4157;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #a8caba 0%, #5d4157 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to right, #a8caba 0%, #5d4157 100%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
 .gradient-text-two {
   font-weight: bold;
   background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);

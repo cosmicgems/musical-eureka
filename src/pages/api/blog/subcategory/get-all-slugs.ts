@@ -12,14 +12,12 @@ export default async function handler(
 
             await connectDB();
 
-            await SubCategory.find({})
             
-            const categories = await Category.find({})
-                                            .populate("sub_categories")
-            console.log(categories);
+            const sub_categories = await SubCategory.find({}, 'slug')
+            console.log(sub_categories);
             
             
-            res.status(200).json({message: "Successfully fetched all categories!", categories})
+            res.status(200).json({message: "Successfully fetched all subcategory slugs!", sub_categories})
             return
         } catch (error) {
             res.status(500).json({message: error, error:error})

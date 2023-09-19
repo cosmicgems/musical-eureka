@@ -24,7 +24,6 @@ interface BlogPostProps {
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
-    const textRef = useRef(null);
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt} = blog;
 
 
@@ -34,14 +33,14 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
         <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[50]}}>
             <CardMedia 
             component="img"
-            image={photo}
+            image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
             alt=''
             sx={{objectFit: "cover", borderTopRightRadius: "5px", borderTopLeftRadius: "5px"}}
-            className=''
+            className='h-[33vh]'
             />
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
-                <Button href={`/articles/${slug}`}>
+                <Button href={`/articles/post/${slug}`}>
                     <Typography variant='h4' className='' sx={{}}>
                         {title}
                     </Typography>                    
@@ -53,7 +52,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                     {sub_categories.map((sc,i) => {
                         return (
                             <Grid item key={sc._id} xs={6} >
-                                <Button >
+                                <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
                                     label={sc.name}
@@ -67,7 +66,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 </Grid>
                 </div>
 
-                <Typography variant='body1' className='truncate-text w-[325px] sm:w-[375px]'   >
+                <Typography variant='body1' className='truncate-text w-[350px] sm:w-[375px]'   >
                         {excerpt}      
 
                 </Typography>        
