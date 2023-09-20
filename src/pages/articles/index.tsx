@@ -96,15 +96,15 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
 
     return (
-        <Box className='' sx={{bgcolor: grey[300]}}>
+        <Box className='' sx={{bgcolor: grey[100]}}>
 
 
             <Layout >
-                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-[100%]'>
+                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-screen'>
                     <div className='w-full'>
                         <Subscribe/>
                     </div>
-                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6 mb-6'>
+                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
@@ -117,119 +117,35 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                             </Button>
                         </div>
                     </div>
-                    <div className='flex flex-col sm:flex-row w-[100%] mb-6'>
-                      <div className=' sm:w-2/5'>
-                        <div className='w-full'>
-                          <Typography variant='h3' sx={{}} className='text-center'>
-                            Featured
-                          </Typography>
-                        </div>
-                          <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
-                              
-                              {blogs.map((b, i)=> {
-                                  if(i === 0) {
-                                      return (
-                                          <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                          <div className='flex justify-center items-center'>
-                                              <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                  <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                      {b.categories[0].name}
-                                                  </Typography>                                            
-                                              </Button>
-
-                                          </div>
-                                          <BlogPost blog={b} />
-                                      </Box>
-                                      )
-                                  } else if (i === blogs.length -1){
-                                      return (
-                                          <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                          <div  ref={targetRef} className='flex justify-center items-center'>
-                                              <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                  <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                      {b.categories[0].name}
-                                                  </Typography>                                            
-                                              </Button>
-
-                                          </div>
-                                          <BlogPost blog={b} />
-                                      </Box>
-                                      )
-                                  } else {
-                                      return (
-                                          <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
-                                              <div className='flex justify-center items-center'>
-                                                  <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                      <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                          {b.categories[0].name}
-                                                      </Typography>                                            
-                                                  </Button>
-
-                                              </div>
-                                              <BlogPost blog={b} />
-                                          </Box>
-                                      )                                
-                                  }
-
-                              })}
-                              <div className=''  >
-                                  {loading && <div>Loading more blogs...</div>}
-                                  </div> 
-                          </div>                        
-                      </div>
-                      
-                      <div className='sm:w-3/5'>
-
-                        <div className='w-full'>
-                          <Typography variant='h3' sx={{}} className='w-full text-center'>
-                              Media
-                          </Typography>
-                        </div>
-
-                        <div>
-
-                        </div>
-                      </div>
- 
-                    </div>
-
-                    <div className='w-[100%]'>
-
-                      <div className='w-full'>
-                        <Typography variant='h3' className='text-center' sx={{}}>
-                          Trending
-                        </Typography>
-                      </div>
-
-                        <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
+                        <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%]'>
                             
                             {blogs.map((b, i)=> {
                                 if(i === 0) {
                                     return (
                                         <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                        <div className='flex justify-center items-center'>
+                                        <div className='flex justify-center items-center py-3'>
                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
 
                                         </div>
-                                        <SmallBlogCard blog={b} />
+                                        <BlogPost blog={b} />
                                     </Box>
                                     )
                                 } else if (i === blogs.length -1){
                                     return (
                                         <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                        <div  ref={targetRef} className='flex justify-center items-center'>
+                                        <div  ref={targetRef} className='flex justify-center items-center py-3'>
                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
 
                                         </div>
-                                        <SmallBlogCard blog={b} />
+                                        <BlogPost blog={b} />
                                         <div className=''  >
                                             {loading && <div>Loading more blogs...</div>}
                                         </div> 
@@ -238,28 +154,26 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                 } else {
                                     return (
                                         <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
-                                            <div className='flex justify-center items-center'>
+                                            <div className='flex justify-center items-center py-3'>
                                                 <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                         {b.categories[0].name}
                                                     </Typography>                                            
                                                 </Button>
 
                                             </div>
-                                            <SmallBlogCard blog={b} />
+                                            <BlogPost blog={b} />
                                         </Box>
                                     )                                
                                 }
 
                             })}
-                        </div> 
-                          
-                    </div>
-            
+                        </div>                
                 </div>
 
             </Layout>        
         </Box>
+
 
     )
 }

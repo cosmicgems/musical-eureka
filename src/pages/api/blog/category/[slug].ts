@@ -11,12 +11,12 @@ export default async function handler(
         try {
             await connectDB()
             const {slug} = req.query;
-            console.log(slug);
+            // console.log(slug);
             await SubCategory.find({})
             const category = await Category.findOne({slug})
                                     .populate("sub_categories")
                                     .exec();
-            console.log(category);
+            // console.log(category);
             
 
             res.status(200).json({message: 'Slug successfully passed.', category})

@@ -30,7 +30,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     const excerpt = body.substring(11, 150);
 
     return (
-        <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[50]}}>
+        <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
             <CardMedia 
             component="img"
             image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
@@ -41,7 +41,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
                 <Button href={`/articles/post/${slug}`}>
-                    <Typography variant='h4' className='' sx={{}}>
+                    <Typography variant='h3' className='gradient-text-category' sx={{fontSize: "1.5rem"}}>
                         {title}
                     </Typography>                    
                 </Button>
@@ -56,6 +56,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
                                     label={sc.name}
+                                    sx={{color: grey[50]}}
                                     variant="outlined"
                                     />  
                                 </Button>
@@ -66,7 +67,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 </Grid>
                 </div>
 
-                <Typography variant='body1' className='truncate-text w-[350px] sm:w-[375px]'   >
+                <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text w-[350px] sm:w-[375px]'   >
                         {excerpt}      
 
                 </Typography>        
