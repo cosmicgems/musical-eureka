@@ -35,8 +35,8 @@ interface Blog {
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount:soon, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
-    let totalBlogCount
+const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
+    // let totalBlogCount
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
@@ -339,6 +339,8 @@ export async function fetchBlogs() {
         throw new Error('Failed to fetch blogs');
       }
       const data = await response.json();
+      console.log(data);
+      
       return data;
     } catch (error) {
       console.error('Error fetching blogs:', error);
@@ -361,13 +363,15 @@ export async function fetchBlogs() {
   }
 
   export async function getStaticProps() {
-  const blogs = await fetchBlogs();
+  const blog = await fetchBlogs();
   const videos = await fetchVideos();
-  const totalBlogCount = blogs.totalBlogCount
+  const totalBlogCount = blog.blogs.totalBlogCount
   
+  const blogs = blog.blogs.blogs
+console.log(totalBlogCount);
 
   return {
-    props: { initialBlogs: blogs.blogs, totalBlogCount, videos },
+    props: { initialBlogs: blogs, totalBlogCount, videos },
   };
 }
 
