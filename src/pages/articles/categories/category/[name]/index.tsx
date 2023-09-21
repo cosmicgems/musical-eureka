@@ -99,28 +99,49 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
 export default SlugCategoryPage
 
-export const getStaticPaths = async () => {
-    const categories = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
-    const category_slugs = categories.data.categories
-    const slugs = category_slugs.map((a)=> a.slug);
-    const paths = slugs.map((name) => ({
-        params: { name },
-}));
+export const getAllCategorySlugs = async () => {
+    try {
+      const response = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
+      return response.data.categories.map((category) => category.slug);
+    } catch (error) {
+      console.error('Error fetching category slugs:', error);
+      return [];
+    }
+  };
+  
 
-    return {
-        paths,
-        fallback: 'blocking',
+  export const getCategoryAndPostsBySlug = async (slug) => {
+    try {
+        const categoryResponse = await axios.get(`${DOMAIN}/api/blog/category/${slug}`);
+        const category = categoryResponse.data.category;
+    
+        const postsResponse = await axios.get(`${DOMAIN}/api/blog/post/get-all-by-subcategory-slug?slug=${slug}`);
+        const posts = postsResponse.data.desired_posts;
+    
+        return { category, posts };
+    } catch (error) {
+        console.error(`Error fetching data for slug ${slug}:`, error);
+      return { category: {}, posts: [] }; // Return empty data or handle the error as needed
+    }
+};
+
+    export const getStaticPaths = async () => {
+        const slugs = await getAllCategorySlugs();
+    
+        const paths = slugs.map((name) => ({
+            params: { name },
+        }));
+    
+        return {
+            paths,
+            fallback: 'blocking',
+        };
     };
-};
 
-export const getStaticProps = async ({ params: { name } }) => {
-const res = await axios.get(`${DOMAIN}/api/blog/category/${name}`)
-const category = res.data.category;
-
-const res_blogs = await axios.get(`${DOMAIN}/api/blog/post/get-all-by-subcategory-slug?slug=${name}`)
-const posts = res_blogs.data.desired_posts;
-
-return {
-  props: {category, posts}
-};
-};
+  export const getStaticProps = async ({ params: { name } }) => {
+    const { category, posts } = await getCategoryAndPostsBySlug(name);
+  
+    return {
+      props: { category, posts },
+    };
+  };
