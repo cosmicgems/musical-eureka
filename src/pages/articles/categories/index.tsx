@@ -91,23 +91,24 @@ const CategoriesPage = ({categories}) => {
     </Box>
   )
 }
-
-export async function getStaticProps() {
+export const fetchCategories = async () => {
     try {
-        
-        const res = await axios.get(`${DOMAIN}/api/blog/category/get-all`);
-        const categories = res.data.categories
-
-        return {
-                props: {categories}
-        };
+      const res = await axios.get(`${DOMAIN}/api/blog/category/get-all`);
+      const categories = res.data.categories;
+      return { categories };
     } catch (error) {
-        console.log("Error fetching data:", error);
-        return {
-            props: {
-                blogs: [],
-            },
-        };
+      console.error("Error fetching categories data:", error);
+      return { categories: [] };
     }
-}
+  };
+
+
+  export async function getStaticProps() {
+    const { categories } = await fetchCategories();
+  
+    return {
+      props: { categories },
+    };
+  }
+  
 export default CategoriesPage
