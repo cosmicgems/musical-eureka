@@ -6,18 +6,12 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import BlogPost from '../components/blog/BlogPost';
-import { GetStaticProps } from 'next';
 import Subscribe from '../components/Subscribe';
 import SmallBlogCard from '../components/blog/SmallBlogCard';
-import searchVideos from './api/youtube';
-import { NextApiRequest, NextApiResponse } from 'next';
 import VideoCard from '../components/VideoCard';
 import SearchResults from '../components/Search Bar/SearchResults';
 import { API, DOMAIN, APP_NAME } from "../../config";
-import connectDB from '../../lib/connectDB';
-import Category from '../../lib/models/category';
-import SubCategory from '../../lib/models/sub_category';
-import Blog from '../../lib/models/blog';
+import {fetchBlogs, fetchVideos} from "../../helpers/staticPropsHelper"
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -39,13 +33,11 @@ interface Blog {
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount, videos:man }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
-    // let totalBlogCount
-    let videos = []
+const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
-    
+    const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
     const [search, setSearch] = useState<any>({
         videos: [],
         blogs: [],
@@ -337,68 +329,15 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos:man }: { initialBlogs: 
 }
 
 
-export async function fetchBlogs() {
-    try {
-      const response = await fetch(`/api/blog/post/get-all-home?page=1&limit=5`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch blogs');
-      }
-      const data = await response.json();
-      console.log(data);
-      
-      return data;
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
-      return [];
-    }
-  }
-  
-  export async function fetchVideos() {
-    try {
-      const response = await fetch(`/api/youtube_playlist`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch videos');
-      }
-      const data = await response.json();
-      return data.videos;
-    } catch (error) {
-      console.error('Error fetching videos:', error);
-      return [];
-    }
-  }
 
   export async function getStaticProps() {
-//   const blog = await fetchBlogs();
-//   const videos = await fetchVideos();
-//   const totalBlogCount = blog.blogs.totalBlogCount
-
+  const blogs = await fetchBlogs();
+  const videos = await fetchVideos();
+  const totalBlogCount = blogs.totalBlogCount
   
-//   const blogs = blog.blogs.blogs
-// console.log(totalBlogCount);
-    await connectDB();
-    console.log("Connected to the database.");
 
-    
-       
-            let page = 1
-            let limit = 5
-
-            // Convert page and limit to numbers, providing default values
-            const pageValue = parseInt(Array.isArray(page) ? page[0] : page, 10) || 1;
-            const limitValue = parseInt(Array.isArray(limit) ? limit[0] : limit, 10) || 5;
-
-            const skip = (pageValue - 1) * limitValue;
-            await Category.find({})
-            await SubCategory.find({})
-            const totalBlogCount = await Blog.countDocuments();
-            const blogs = await Blog.find({})
-                .populate("categories")
-                .populate("sub_categories")
-                .skip(skip)
-                .limit(limitValue);
-       
   return {
-    props: { initialBlogs: blogs, totalBlogCount },
+    props: { initialBlogs: blogs.blogs, totalBlogCount, videos },
   };
 }
 
