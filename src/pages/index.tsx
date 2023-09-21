@@ -14,6 +14,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import VideoCard from '../components/VideoCard';
 import SearchResults from '../components/Search Bar/SearchResults';
 import { API, DOMAIN, APP_NAME } from "../../config";
+import connectDB from '../../lib/connectDB';
+import Category from '../../lib/models/category';
+import SubCategory from '../../lib/models/sub_category';
+import Blog from '../../lib/models/blog';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -35,8 +39,9 @@ interface Blog {
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
+const HomePage = ({ initialBlogs, totalBlogCount, videos:man }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
     // let totalBlogCount
+    let videos = []
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
@@ -334,7 +339,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
 export async function fetchBlogs() {
     try {
-      const response = await fetch(`${API}/api/blog/post/get-all-home?page=1&limit=5`);
+      const response = await fetch(`/api/blog/post/get-all-home?page=1&limit=5`);
       if (!response.ok) {
         throw new Error('Failed to fetch blogs');
       }
@@ -350,7 +355,7 @@ export async function fetchBlogs() {
   
   export async function fetchVideos() {
     try {
-      const response = await fetch(`${API}/api/youtube_playlist`);
+      const response = await fetch(`/api/youtube_playlist`);
       if (!response.ok) {
         throw new Error('Failed to fetch videos');
       }
@@ -363,15 +368,37 @@ export async function fetchBlogs() {
   }
 
   export async function getStaticProps() {
-  const blog = await fetchBlogs();
-  const videos = await fetchVideos();
-  const totalBlogCount = blog.blogs.totalBlogCount
-  
-  const blogs = blog.blogs.blogs
-console.log(totalBlogCount);
+//   const blog = await fetchBlogs();
+//   const videos = await fetchVideos();
+//   const totalBlogCount = blog.blogs.totalBlogCount
 
+  
+//   const blogs = blog.blogs.blogs
+// console.log(totalBlogCount);
+    await connectDB();
+    console.log("Connected to the database.");
+
+    
+       
+            let page = 1
+            let limit = 5
+
+            // Convert page and limit to numbers, providing default values
+            const pageValue = parseInt(Array.isArray(page) ? page[0] : page, 10) || 1;
+            const limitValue = parseInt(Array.isArray(limit) ? limit[0] : limit, 10) || 5;
+
+            const skip = (pageValue - 1) * limitValue;
+            await Category.find({})
+            await SubCategory.find({})
+            const totalBlogCount = await Blog.countDocuments();
+            const blogs = await Blog.find({})
+                .populate("categories")
+                .populate("sub_categories")
+                .skip(skip)
+                .limit(limitValue);
+       
   return {
-    props: { initialBlogs: blogs, totalBlogCount, videos },
+    props: { initialBlogs: blogs, totalBlogCount },
   };
 }
 
