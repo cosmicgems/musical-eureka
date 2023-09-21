@@ -35,11 +35,12 @@ interface Blog {
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
+const HomePage = ({ initialBlogs, totalBlogCount:soon, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
+    let totalBlogCount
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
-    const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
+    
     const [search, setSearch] = useState<any>({
         videos: [],
         blogs: [],
