@@ -27,7 +27,8 @@ export default async function searchVideos(
             return res.status(200).json({ message: "Videos were successfully fetched!", videos });
         } catch (error) {
             console.error('There was an error fetching the videos:', error);
-            // return res.status(500).json({ message: "Internal server error." });
+            
+            return
         }
     } else {
         res.status(500).json({ message: "Your request is unauthorized." });

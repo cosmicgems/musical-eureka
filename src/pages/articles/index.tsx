@@ -139,7 +139,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                         <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                                         <div  ref={targetRef} className='flex justify-center items-center py-3'>
                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
@@ -156,7 +156,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                         <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
                                             <div className='flex justify-center items-center py-3'>
                                                 <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem', textShadow: "3px 1px "}}>
                                                         {b.categories[0].name}
                                                     </Typography>                                            
                                                 </Button>

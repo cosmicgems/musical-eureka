@@ -30,7 +30,7 @@ const CategoriesPage = ({categories}) => {
                         </Button>
                     </div>
                     <div>
-                        <Typography variant='h3' sx={{fontSize: "2.25em"}} className='font-bold'>
+                        <Typography variant='h3' sx={{fontSize: "2.25em"}} className='font-bold gradient-text-four'>
                             Categories
                         </Typography>
                     </div>
@@ -42,7 +42,7 @@ const CategoriesPage = ({categories}) => {
                                     <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                     <div className='flex justify-center items-center'>
                                         <Button href={`/articles/categories/category/${c.slug}`}>
-                                            <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                            <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                 {c.name}
                                             </Typography>                                            
                                         </Button>
@@ -57,7 +57,7 @@ const CategoriesPage = ({categories}) => {
                                     <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
                                     <div className='flex justify-center items-center'>
                                         <Button href={`/articles/categories/category/${c.slug}`}>
-                                            <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                            <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                                 {c.name}
                                             </Typography>                                            
                                         </Button>
@@ -72,7 +72,7 @@ const CategoriesPage = ({categories}) => {
                                     <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 '>
                                     <div className='flex justify-center items-center'>
                                         <Button href={`/articles/categories/category/${c.slug}`}>
-                                            <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                            <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                 {c.name}
                                             </Typography>                                            
                                         </Button>

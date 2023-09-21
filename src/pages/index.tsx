@@ -11,6 +11,8 @@ import Subscribe from '../components/Subscribe';
 import SmallBlogCard from '../components/blog/SmallBlogCard';
 import searchVideos from './api/youtube';
 import { NextApiRequest, NextApiResponse } from 'next';
+import VideoCard from '../components/VideoCard';
+import SearchResults from '../components/Search Bar/SearchResults';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -29,24 +31,26 @@ interface Blog {
     updatedAt: Date;
 }
 
-interface ApiResponse {
-    message: string;
-    blogs: Blog[];
-}
 
 
-const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; totalBlogCount: number }) => {
+
+const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const [homeSearch, setHomeSearch] = useState<string>("");
+    const [search, setSearch] = useState<any>({
+        videos: [],
+        blogs: [],
+    });
     const [subscriber, setSubscriber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [query, setQuery] = useState<string>("");
     const targetRef = useRef();
     let loadedBlogCount = blogs.length; 
 
+    console.log({videos});
+    
 
     const loadMoreBlogs = useCallback(async () => {
         try {
@@ -68,6 +72,7 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
             setLoading(false);
         }
     }, [page, totalBlogCount, blogsPerPage]);
+
 
     useEffect(() => {
         if(!targetRef?.current) return;
@@ -96,22 +101,25 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
             }
         };
     }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
+    
 
     const handleSearch = async () => {
         try {
-        //     const response = await axios.get('/api/youtube', {
-        //         params: {
-        //         query: query,
-        //     },
-        // });
+            const response = await axios.get('/api/youtube', {
+                params: {
+                query: query,
+            },
+        });
+
+        setSearch({...search, videos: response.data.videos})
+
             const blogs = await axios.get('/api/search', {
                 params: {
                     query: query
                 },
             })
     
-        // const results = response.data.videos;
-        console.log(blogs);
+            setSearch({...search, blogs: blogs.data.suggestions})
         
         } catch (error) {
             console.error('Error searching videos:', error);
@@ -128,7 +136,7 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
                     <div className='w-full'>
                         <Subscribe/>
                     </div>
-                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6 mb-6'>
+                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
@@ -140,11 +148,15 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
                                 Search
                             </Button>
                         </div>
+                        <div className='w-full'>
+                            <SearchResults results={search} />
+                        </div>
+
                     </div>
                     <div className='flex flex-col sm:flex-row w-[100%] mb-6'>
                     <div className=' sm:w-2/5'>
                         <div className='w-full'>
-                        <Typography variant='h3' sx={{}} className='text-center gradient-text'>
+                        <Typography variant='h3' sx={{}} className='text-center gradient-text-four'>
                             Featured
                         </Typography>
                         </div>
@@ -170,7 +182,7 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
                                         <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                                         <div  ref={targetRef} className='flex justify-center items-center py-3'>
                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
@@ -205,13 +217,19 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
                     <div className='sm:w-3/5'>
 
                         <div className='w-full'>
-                        <Typography variant='h3' sx={{}} className='w-full text-center'>
+                        <Typography variant='h3' sx={{}} className='w-full text-center gradient-text-four'>
                             Media
                         </Typography>
                         </div>
 
-                        <div>
-
+                        <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
+                            {videos.map((v, i) => {
+                                return(
+                                    <div key={i} className='p-3'>
+                                        <VideoCard video={v} />
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
 
@@ -220,7 +238,7 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
                     <div className='w-[100%]'>
 
                     <div className='w-full'>
-                        <Typography variant='h3' className='text-center' sx={{}}>
+                        <Typography variant='h3' className='text-center gradient-text-four' sx={{}}>
                             Trending
                         </Typography>
                     </div>
@@ -247,7 +265,7 @@ const HomePage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; tota
                                         <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                                         <div  ref={targetRef} className='flex justify-center items-center'>
                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
@@ -293,9 +311,13 @@ export async function getStaticProps() {
         const res = await axios.get(`http://localhost:3000/api/blog/post/get-all-home?page=1&limit=5`);
         const { blogs, totalBlogCount } = res.data.blogs;
         console.log(totalBlogCount);
+        const res_videos = await axios.get('http://localhost:3000/api/youtube_playlist');
+        const videos = res_videos.data.videos
+        console.log(videos);
+        
 
     return {
-        props: { initialBlogs: blogs, totalBlogCount },
+        props: { initialBlogs: blogs, totalBlogCount, videos:videos },
     };
     } catch (error) {
         console.log("Error fetching data:", error);

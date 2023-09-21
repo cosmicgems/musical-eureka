@@ -44,6 +44,7 @@ export default async function autocomplete(req: NextApiRequest, res: NextApiResp
                         body: 1,
                         categories: 1,
                         sub_categories: 1,
+                        photo: 1,
                     },
                 },
                 {
@@ -81,7 +82,7 @@ export default async function autocomplete(req: NextApiRequest, res: NextApiResp
             ]).exec();
             
     
-            return res.status(200).json({ suggestions: results, results_body });
+            return res.status(200).json({ suggestions: {results, results_body} });
         } catch (error) {
             console.error("Error searching for suggestions:", error);
             return res.status(500).json({ message: "Internal server error." });
