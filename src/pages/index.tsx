@@ -331,14 +331,27 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
 
   export async function getStaticProps() {
-  const blogs = await fetchBlogs();
-  const videos = await fetchVideos();
-  const totalBlogCount = blogs.totalBlogCount
+    try {
+        const blogs = await fetchBlogs();
+        const videos = await fetchVideos();
+        const totalBlogCount = blogs.totalBlogCount 
+        return {
+            props: { initialBlogs: blogs.blogs, totalBlogCount, videos },
+        };       
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {
+          props: {
+            initialBlogs: [], 
+            totalBlogCount: null,
+            blogs: [],
+            videos: null
+          },
+        };
+    }
+
   
 
-  return {
-    props: { initialBlogs: blogs.blogs, totalBlogCount, videos },
-  };
 }
 
 

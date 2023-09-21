@@ -1,5 +1,5 @@
 
-
+const DOMAIN = "https://pearlbox.co"
 
 export async function fetchBlogs() {
     try {
