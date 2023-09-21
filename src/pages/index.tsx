@@ -334,7 +334,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
 export async function fetchBlogs() {
     try {
-      const response = await fetch(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
+      const response = await fetch(`${API}/api/blog/post/get-all-home?page=1&limit=5`);
       if (!response.ok) {
         throw new Error('Failed to fetch blogs');
       }
@@ -350,7 +350,7 @@ export async function fetchBlogs() {
   
   export async function fetchVideos() {
     try {
-      const response = await fetch(`${DOMAIN}/api/youtube_playlist`);
+      const response = await fetch(`${API}/api/youtube_playlist`);
       if (!response.ok) {
         throw new Error('Failed to fetch videos');
       }
