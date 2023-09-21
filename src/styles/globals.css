@@ -12,6 +12,137 @@ body, * {
 
 }
 
+.gradient-button {
+  background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
+  background-size: 400% 600%;
+  color: white; /* Set the text color to white */
+  font-weight: bold;
+  animation: gradientAnimation 5s linear infinite;
+}
+
+.gradient-button-signout {
+  background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
+  background-size: 400% 600%;
+  color: white; /* Set the text color to white */
+  font-weight: bold;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-button-signup {
+  background: #C9FFBF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFAFBD, #C9FFBF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFAFBD, #C9FFBF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: white; /* Set the text color to white */
+  font-weight: bold;
+  animation: gradientAnimation 5s linear infinite;
+}
+
+.gradient-text-button {
+  font-weight: bold;
+  background: #C9FFBF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFAFBD, #C9FFBF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFAFBD, #C9FFBF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text {
+  font-weight: bold;
+  background: #a8edea;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #a8edea 0%, #fed6e3 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-subcategories {
+  font-weight: bold;
+  background: #d558c8;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(-20deg, #d558c8 0%, #24d292 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-category {
+  font-weight: bold;
+  background: #a8edea;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-home {
+  font-weight: bold;
+  background: #5d4157;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #a8caba 0%, #5d4157 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(to right, #a8caba 0%, #5d4157 100%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-two {
+  font-weight: bold;
+  background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-three {
+  font-weight: bold;
+  background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%);
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-four {
+  font-weight: bold;
+  background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+.gradient-text-five{
+  background: #fffc00; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #fffc00, #ffffff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #fffc00, #ffffff);
+  background-size: 400% 600%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientAnimation 5s linear infinite;
+}
+
+
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 p{
   font-family: "Rajdhani";
@@ -31,6 +162,8 @@ h4{
 h5{
   font-family: "Rajdhani";
 }
+/* 
+
 body{
   min-height: 100vh;
   background-image: linear-gradient(to right, #434343 0%, black 100%);
@@ -38,8 +171,16 @@ body{
 	animation: gradient 7s ease infinite;
   overflow-x: hidden;
 
-}
+} */
 
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
 
 .we-can-help-span{
   font-weight: bold;

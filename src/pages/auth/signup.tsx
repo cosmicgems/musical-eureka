@@ -31,7 +31,7 @@ const CssTextField = styled(TextField)({
     },
 });
 
-const LoginPage = () => {
+const SignupPage = () => {
 
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
@@ -42,7 +42,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState<string>("");
     const [passwordLogin, setPasswordLogin] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
-    const [signup, setSignup] = useState<boolean>(false);
+    const [signup, setSignup] = useState<boolean>(true);
     const [matchEmailError, setMatchEmailError] = useState<boolean>(null);
     const [matchPasswordError, setMatchPasswordError] = useState<boolean>(null);
     const [invalidFirstName, setInvalidFirstName] = useState<boolean>(null);
@@ -66,6 +66,7 @@ const LoginPage = () => {
         password: false,
         confirmPassword: false,
     })
+    const [registered, setRegistered] = useState<boolean>(false);
 
     useEffect(() => {
         handleValidation("first name", firstName);
@@ -100,6 +101,12 @@ const LoginPage = () => {
         handleValidation("confirm password", confirmPassword);
     }, [confirmPassword, ]);
 
+    useEffect(() => {
+        if(registered) {
+            router.push({pathname:"/auth/verify-request", query: { first_name: firstName, last_name: lastName, email: email}})
+        }
+    })
+
 
     const router = useRouter();
 
@@ -111,6 +118,8 @@ const LoginPage = () => {
         const res = await signIn('credentials', {
             emailLogin, passwordLogin
         });
+
+
     }
 
     const button = signup ? "Sign up" : "Login";
@@ -154,7 +163,7 @@ const LoginPage = () => {
 
         switch (field) {
             case "first name":
-                console.log(value);
+                console.log(value, "where at?");
                 if(touched.firstName && value === ""){
                     if (!value.match(nameRegex) ) {
                         setInvalidFirstName(true);
@@ -190,7 +199,7 @@ const LoginPage = () => {
             case "username":
 
                 user = await usernameInUse()
-                console.log(value);
+                console.log(value, "where at?");
                 
                 if(touched.username && value !== ""){
                     if (value.length < 2 ) {
@@ -202,8 +211,13 @@ const LoginPage = () => {
                     } else if (user === null) {
                         setInvalidUsername(true)
                         setValidationErrorMessage({username: "Profile with this username already exist. Try signing in."})
-                    }                    
+                    }  else {
+                                            
+                    setInvalidUsername(false)
+                    setValidationErrorMessage({...validationErrorMessage ,username: ""})
+                    }              
                 } else {
+
                     setInvalidUsername(false)
                     setValidationErrorMessage({...validationErrorMessage ,username: ""})
                 }
@@ -220,6 +234,9 @@ const LoginPage = () => {
                     } else if (userEmail) {
                         setInvalidEmail(true)
                         setValidationErrorMessage({email: "Profile with this email already exist. Try signing in."})
+                    } else {
+                        setInvalidEmail(false);
+                        setValidationErrorMessage({...validationErrorMessage, email: ""})
                     }                     
                 } else {
                     setInvalidEmail(false);
@@ -243,6 +260,9 @@ const LoginPage = () => {
                         if (!value.match(passwordRegex)) {
                             setInvalidPassword(true);
                             setValidationErrorMessage({...validationErrorMessage, password: "Password should be at least 8 characters in length, and include one of each: lowercase letter, uppercase letter, number, and special symbol"})
+                        } else {
+                            setInvalidPassword(false);
+                            setValidationErrorMessage({...validationErrorMessage, password: ""})
                         }                         
                     } else {
                     setInvalidPassword(false);
@@ -296,6 +316,10 @@ const LoginPage = () => {
         };
 
         const res = await axios.post("/api/auth/signup/register", {signupForm})
+
+        if(res.status === 200) {
+            setRegistered(true);
+        }
 
 
     }
@@ -364,7 +388,7 @@ const LoginPage = () => {
                                         signup &&
                                         <div>
                                             <CssTextField fullWidth  value={firstName} className='' onChange={(e)=>{ setFirstName(e.target.value);
-                                                setTouched({firstName:true}); }} variant='outlined' label="First Name" 
+                                                setTouched({...touched,firstName:true}); }} variant='outlined' label="First Name" 
                                             error={invalidFirstName}
                                             helperText={invalidFirstName ? validationErrorMessage.firstName : ''}
                                             sx={{
@@ -381,7 +405,7 @@ const LoginPage = () => {
                                         signup &&
                                         <div>
                                             <CssTextField fullWidth  value={lastName} className='' onChange={(e)=>{ setLastName(e.target.value);
-                                                setTouched({lastName:true});}} variant='outlined' label="Last Name" 
+                                                setTouched({...touched,lastName:true});}} variant='outlined' label="Last Name" 
                                             error={invalidLastName}
                                             helperText={invalidLastName ? validationErrorMessage.lastName : ''}
                                             sx={{
@@ -405,7 +429,7 @@ const LoginPage = () => {
                                             <div className='mb-3'>
                                                 <CssTextField fullWidth value={username} className='' onChange={(e)=>{ const value = e.target.value; console.log(value);
                                                 setUsername(value);
-                                                setTouched({username:true});}} variant='outlined' label="Username"
+                                                setTouched({...touched,username:true});}} variant='outlined' label="Username"
                                                 error={invalidUsername}
                                                 helperText={invalidUsername ? validationErrorMessage.username : ''}
                                                 sx={{
@@ -425,7 +449,7 @@ const LoginPage = () => {
                                             <div>
                                                 {validationErrorMessage.email}
                                                 <CssTextField fullWidth type='email' value={email} className='' onChange={(e)=>{ const value = e.target.value; setEmail(value);
-                                                        setTouched({email:true}); }} variant='outlined' label="Email"
+                                                        setTouched({...touched,email:true}); }} variant='outlined' label="Email"
                                                     error={invalidEmail}
                                                     helperText={invalidEmail ? validationErrorMessage.email : ''}
                                                     sx={{
@@ -466,7 +490,7 @@ const LoginPage = () => {
                                             onChange={(e) => {
                                                 const value = e.target.value;
                                                 setConfirmEmail(value);
-                                                setTouched({confirmEmail:true});
+                                                setTouched({...touched,confirmEmail:true});
                                             }}
                                             variant='outlined'
                                             label="Confirm email"
@@ -497,7 +521,7 @@ const LoginPage = () => {
                                         signup ?
                                         <div>
                                             <CssTextField fullWidth type='password' value={password} className='' onChange={(e)=>{ setPassword(e.target.value);
-                                                    setTouched({password:true});}} variant='outlined' label="Password" 
+                                                    setTouched({...touched,password:true});}} variant='outlined' label="Password" 
                                                 error={invalidPassword}
                                                 helperText={invalidPassword ? validationErrorMessage.password : ''}
                                                 sx={{
@@ -537,7 +561,7 @@ const LoginPage = () => {
                                             value={confirmPassword}
                                             onChange={(e) => {
                                                 setConfirmPassword(e.target.value);
-                                                setTouched({confirmPassword:true});
+                                                setTouched({...touched,confirmPassword:true});
                                             }}
                                             variant='outlined'
                                             label="Confirm password"
@@ -613,4 +637,4 @@ const LoginPage = () => {
     )
 };
 
-export default LoginPage
+export default SignupPage
