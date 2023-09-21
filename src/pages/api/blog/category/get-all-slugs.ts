@@ -16,7 +16,7 @@ export default async function handler(
             
             const categories = await Category.find({})
                                             .populate("sub_categories")
-            console.log(categories);
+            // console.log(categories);
             
             
             res.status(200).json({message: "Successfully fetched all categories!", categories})

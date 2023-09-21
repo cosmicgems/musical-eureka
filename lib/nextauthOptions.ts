@@ -13,7 +13,7 @@ export const nextauthOptions: AuthOptions = {
             id: "credentials",
             credentials: {},
             async authorize(credentials, req) {
-                connectDB()
+                await connectDB()
                 
                 const {emailLogin: email, passwordLogin: password} = credentials as {
                     emailLogin: string,
@@ -50,7 +50,7 @@ export const nextauthOptions: AuthOptions = {
         signIn: "/auth/login",      // URL for the login page
         signOut: "/auth/logout",    // URL for the logout page
         error: "/auth/error",       // URL for error page (e.g., for displaying authentication errors)
-        verifyRequest: "/auth/verify-request", // URL for request to verify email
+        verifyRequest: "/auth/verify-request/verify", // URL for request to verify email
         newUser: null,              // URL for new user registration (set to null if you don't have this page)
     },
     session: {

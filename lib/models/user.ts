@@ -38,6 +38,15 @@ const userSchema = new Schema(
         photo: {
         type: String
         },
+        verification_token: {
+            type: String,
+            required: true,
+        },
+        verification_token_expiration: {
+            type: Date,
+            required: true,
+        }
+        ,
         password: String,
         googleId: String,
         confirmed_account: {
@@ -54,6 +63,7 @@ export interface IUser extends Document {
     username: string;
     email: string;
     about?: string;
+    verification_token: string;
     role: number;
     photo?: string;
     password?: string;
