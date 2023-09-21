@@ -6,6 +6,9 @@ import Layout from '../../../components/Layout';
 import Subscribe from '../../../components/Subscribe';
 import CategoryCard from '../../../components/category/CategoryCard';
 import { API, DOMAIN, APP_NAME } from "../../../../config";
+import connectDB from '../../../../lib/connectDB';
+import SubCategory from '../../../../lib/models/sub_category';
+import Category from '../../../../lib/models/category';
 
 const CategoriesPage = ({categories}) => {
   const [homeSearch, setHomeSearch] = useState<string>("");
@@ -91,24 +94,30 @@ const CategoriesPage = ({categories}) => {
     </Box>
   )
 }
-export const fetchCategories = async () => {
-    try {
-      const res = await axios.get(`${API}/api/blog/category/get-all`);
-      const categories = res.data.categories;
-      return { categories };
-    } catch (error) {
-      console.error("Error fetching categories data:", error);
-      return { categories: [] };
-    }
-  };
+
 
 
   export async function getStaticProps() {
-    const { categories } = await fetchCategories();
+    try {
+
+        await connectDB();
+
+        await SubCategory.find({});
+
+        const categoriez = await Category.find({})
+                                        .populate("sub_categories");
+
+        const categories = JSON.parse(JSON.stringify(categoriez))
+        return {
+        props: { categories },
+        };        
+    } catch (error) {
+        return {
+            props: { categories : [] },
+            };           
+    }
   
-    return {
-      props: { categories },
-    };
+
   }
   
 export default CategoriesPage

@@ -12,6 +12,10 @@ import VideoCard from '../components/VideoCard';
 import SearchResults from '../components/Search Bar/SearchResults';
 import { API, DOMAIN, APP_NAME } from "../../config";
 import {fetchBlogs, fetchVideos} from "../../helpers/staticPropsHelper"
+import connectDB from '../../lib/connectDB';
+import Blog from '../../lib/models/blog';
+import Category from '../../lib/models/category';
+import SubCategory from '../../lib/models/sub_category';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -48,9 +52,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
     const targetRef = useRef();
     let loadedBlogCount = blogs.length; 
 
-    console.log({videos});
-    
-    console.log(APP_NAME, DOMAIN, API);
+
     
     const loadMoreBlogs = useCallback(async () => {
         try {
@@ -76,7 +78,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
     useEffect(() => {
         if(!targetRef?.current) return;
-        console.log(loadedBlogCount);
+        // console.log(loadedBlogCount);
         
         if(loadedBlogCount >= totalBlogCount) return;
         const observer = new IntersectionObserver(
@@ -223,7 +225,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                         </div>
 
                             {
-                                videos.length > 0 ?
+                                videos?.length > 0 ?
                                     <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
                                         {videos.map((v, i) => {
                                             if (videos.length > 0) {
@@ -329,30 +331,41 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 }
 
 
-
-  export async function getStaticProps() {
+export async function getStaticProps() {
     try {
-        const blogs = await fetchBlogs();
-        const videos = await fetchVideos();
-        const totalBlogCount = blogs.totalBlogCount 
+        await connectDB() 
+        let page = 1;
+        let limit = 5;
+        const pageValue = parseInt(Array.isArray(page) ? page[0] : page, 10) || 1;
+        const limitValue = parseInt(Array.isArray(limit) ? limit[0] : limit, 10) || 5;
+
+        const skip = (pageValue - 1) * limitValue;
+
+        await Category.find({});
+        await SubCategory.find({});
+        const totalBlogCount = await Blog.countDocuments();
+        const blogs = await Blog.find({})
+            .populate("categories")
+            .populate("sub_categories")
+            .skip(skip)
+            .limit(limitValue);
+
+        console.log(blogs, totalBlogCount);
         return {
-            props: { initialBlogs: blogs.blogs, totalBlogCount, videos },
+            props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), totalBlogCount, videos: [] },
         };       
     } catch (error) {
         console.error('Error fetching data:', error);
         return {
-          props: {
-            initialBlogs: [], 
-            totalBlogCount: null,
-            blogs: [],
-            videos: null
-          },
+            props: {
+                initialBlogs: [], 
+                totalBlogCount: null,
+                videos: null
+            },
         };
     }
-
-  
-
 }
+
 
 
 export default HomePage

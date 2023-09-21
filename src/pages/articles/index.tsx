@@ -10,6 +10,10 @@ import { GetStaticProps } from 'next';
 import Subscribe from '../../components/Subscribe';
 import SmallBlogCard from '../../components/blog/SmallBlogCard';
 import { API, DOMAIN, APP_NAME } from "../../../config";
+import connectDB from '../../../lib/connectDB';
+import Category from '../../../lib/models/category';
+import SubCategory from '../../../lib/models/sub_category';
+import Blog from '../../../lib/models/blog';
 
 
 const Layout = dynamic(() => import('../../components/Layout'));
@@ -180,24 +184,40 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
     )
 }
 
-export const fetchBlogsForHome = async () => {
-    try {
-      const res = await axios.get(`${API}/api/blog/post/get-all-home?page=1&limit=5`);
-      const { blogs, totalBlogCount } = res.data.blogs;
-      console.log(totalBlogCount);
-      return { initialBlogs: blogs, totalBlogCount };
-    } catch (error) {
-      console.log("Error fetching data:", error);
-      return { initialBlogs: [], totalBlogCount: 0 };
-    }
-  };
 
   export async function getStaticProps() {
-    const { initialBlogs, totalBlogCount } = await fetchBlogsForHome();
-  
-    return {
-      props: { initialBlogs, totalBlogCount },
-    };
-  }
+    try {
+        await connectDB() 
+        let page = 1;
+        let limit = 5;
+        const pageValue = parseInt(Array.isArray(page) ? page[0] : page, 10) || 1;
+        const limitValue = parseInt(Array.isArray(limit) ? limit[0] : limit, 10) || 5;
+
+        const skip = (pageValue - 1) * limitValue;
+
+        await Category.find({});
+        await SubCategory.find({});
+        const totalBlogCount = await Blog.countDocuments();
+        const blogs = await Blog.find({})
+            .populate("categories")
+            .populate("sub_categories")
+            .skip(skip)
+            .limit(limitValue);
+
+        console.log(blogs, totalBlogCount);
+        return {
+            props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), totalBlogCount, videos: [] },
+        };       
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {
+            props: {
+                initialBlogs: [], 
+                totalBlogCount: null,
+                videos: null
+            },
+        };
+    }
+}
 
 export default AllArticlesPage
