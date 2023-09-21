@@ -101,7 +101,7 @@ export default SlugCategoryPage
 
 export const getAllCategorySlugs = async () => {
     try {
-      const response = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
+      const response = await axios.get(`${API}/api/blog/category/get-all-slugs`);
       return response.data.categories.map((category) => category.slug);
     } catch (error) {
       console.error('Error fetching category slugs:', error);
@@ -112,10 +112,10 @@ export const getAllCategorySlugs = async () => {
 
   export const getCategoryAndPostsBySlug = async (slug) => {
     try {
-        const categoryResponse = await axios.get(`${DOMAIN}/api/blog/category/${slug}`);
+        const categoryResponse = await axios.get(`${API}/api/blog/category/${slug}`);
         const category = categoryResponse.data.category;
     
-        const postsResponse = await axios.get(`${DOMAIN}/api/blog/post/get-all-by-subcategory-slug?slug=${slug}`);
+        const postsResponse = await axios.get(`${API}/api/blog/post/get-all-by-subcategory-slug?slug=${slug}`);
         const posts = postsResponse.data.desired_posts;
     
         return { category, posts };

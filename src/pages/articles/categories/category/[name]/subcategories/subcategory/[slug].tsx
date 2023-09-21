@@ -14,7 +14,7 @@ export default SubcategorySlugPage
 
 const fetchCategoryDataForPaths = async () => {
   try {
-    const response = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
+    const response = await axios.get(`${API}/api/blog/category/get-all-slugs`);
     return response.data.categories;
   } catch (error) {
     console.error('Error fetching category data:', error);
@@ -46,7 +46,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params: { slug } }) => {
   // Fetch data for the given slug during build time
   try {
-    const response = await axios.get(`${DOMAIN}/api/blog/subcategory/${slug}`);
+    const response = await axios.get(`${API}/api/blog/subcategory/${slug}`);
     const sub_category = response.data.sub_category;
     return {
       props: sub_category,

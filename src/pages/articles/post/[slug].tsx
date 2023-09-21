@@ -177,7 +177,7 @@ const DynamicArticlePage = (props) => {
 
 export const getAllPostSlugs = async () => {
   try {
-    const response = await axios.get(`${DOMAIN}/api/blog/post/get-all-slugs`);
+    const response = await axios.get(`${API}/api/blog/post/get-all-slugs`);
     return response.data.post.map((post) => post.slug);
   } catch (error) {
     console.error('Error fetching post slugs:', error);
@@ -188,7 +188,7 @@ export const getAllPostSlugs = async () => {
 // Function to fetch post details by slug
 export const getPostBySlug = async (slug) => {
   try {
-    const response = await axios.get(`${DOMAIN}/api/blog/post/${slug}`);
+    const response = await axios.get(`${API}/api/blog/post/${slug}`);
     return response.data.post;
   } catch (error) {
     console.error(`Error fetching post data for slug ${slug}:`, error);
@@ -199,7 +199,7 @@ export const getPostBySlug = async (slug) => {
 // Function to fetch related articles by subcategories
 export const getRelatedArticles = async (subcategories) => {
   try {
-    const relatedArticlesResponse = await axios.post(`${DOMAIN}/api/blog/post/get-related`, { sub_categories: subcategories });
+    const relatedArticlesResponse = await axios.post(`${API}/api/blog/post/get-related`, { sub_categories: subcategories });
     return relatedArticlesResponse.data.related_blogs;
   } catch (error) {
     console.error('Error fetching related articles:', error);

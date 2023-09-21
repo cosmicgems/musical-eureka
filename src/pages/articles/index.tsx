@@ -182,7 +182,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
 export const fetchBlogsForHome = async () => {
     try {
-      const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
+      const res = await axios.get(`${API}/api/blog/post/get-all-home?page=1&limit=5`);
       const { blogs, totalBlogCount } = res.data.blogs;
       console.log(totalBlogCount);
       return { initialBlogs: blogs, totalBlogCount };

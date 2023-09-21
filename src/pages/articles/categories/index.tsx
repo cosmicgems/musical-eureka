@@ -93,7 +93,7 @@ const CategoriesPage = ({categories}) => {
 }
 export const fetchCategories = async () => {
     try {
-      const res = await axios.get(`${DOMAIN}/api/blog/category/get-all`);
+      const res = await axios.get(`${API}/api/blog/category/get-all`);
       const categories = res.data.categories;
       return { categories };
     } catch (error) {
