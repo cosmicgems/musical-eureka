@@ -330,6 +330,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
     )
 }
 
+
 export const fetchBlogsForHome = async () => {
     try {
       const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
