@@ -12,28 +12,30 @@ export default SubcategorySlugPage
 
 //New commit needed
 
-export const getStaticPaths = async () => {
+const fetchCategoryDataForPaths = async () => {
+  try {
+    const response = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
+    return response.data.categories;
+  } catch (error) {
+    console.error('Error fetching category data:', error);
+    return [];
+  }
+};
 
-  const categories = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
+export const getStaticPaths = async () => {
+  const categories = await fetchCategoryDataForPaths();
+
   const paths = [];
 
-  // Generate paths for category pages
-  categories.data.categories.forEach((category) => {
+  categories.forEach((category) => {
     const subcategoriesData = category.sub_categories.map((subcategory) => ({
       name: category.slug,
       slug: subcategory.name,
-    }
-    
-    ));
+    }));
     subcategoriesData.map((p) => {
-      paths.push({params: {name: p.name, slug: p.slug}});
-    })
-    
-
-    
+      paths.push({ params: { name: p.name, slug: p.slug } });
+    });
   });
-
-  console.log(paths);
 
   return {
     paths,
@@ -41,13 +43,20 @@ export const getStaticPaths = async () => {
   };
 };
 
-
 export const getStaticProps = async ({ params: { slug } }) => {
-    const res = await axios.get(`${DOMAIN}/api/blog/subcategory/${slug}`)
-    const sub_category = res.data.sub_category;
+  // Fetch data for the given slug during build time
+  try {
+    const response = await axios.get(`${DOMAIN}/api/blog/subcategory/${slug}`);
+    const sub_category = response.data.sub_category;
     return {
-        props: sub_category,
+      props: sub_category,
     };
+  } catch (error) {
+    console.error(`Error fetching data for slug ${slug}:`, error);
+    return {
+      props: {}, // Return empty props or handle the error as needed
+    };
+  }
 };
 
 //checkout somethung

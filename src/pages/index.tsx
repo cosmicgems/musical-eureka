@@ -330,27 +330,38 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
     )
 }
 
-export async function getStaticProps() {
+export const fetchBlogsForHome = async () => {
     try {
-        const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
-        const { blogs, totalBlogCount } = res.data.blogs;
-        console.log(totalBlogCount);
-        const res_videos = await axios.get(`${DOMAIN}/api/youtube_playlist`);
-        const videos = res_videos.data.videos
-        console.log(videos);
-        
-
-    return {
-        props: { initialBlogs: blogs, totalBlogCount, videos:videos },
-    };
+      const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
+      const { blogs, totalBlogCount } = res.data.blogs;
+      console.log(totalBlogCount);
+      return { initialBlogs: blogs, totalBlogCount };
     } catch (error) {
-        console.log("Error fetching data:", error);
-    return {
-        props: {
-        blogs: [],
-        },
-    };
+      console.log("Error fetching blogs data:", error);
+      return { initialBlogs: [], totalBlogCount: 0 };
     }
-}
+  };
+  
+  // Function to fetch videos data
+  export const fetchVideos = async () => {
+    try {
+      const res = await axios.get(`${DOMAIN}/api/youtube_playlist`);
+      const videos = res.data.videos;
+      console.log(videos);
+      return { videos };
+    } catch (error) {
+      console.log("Error fetching videos data:", error);
+      return { videos: [] };
+    }
+  };
+
+  export async function getStaticProps() {
+    const { initialBlogs, totalBlogCount } = await fetchBlogsForHome();
+    const { videos } = await fetchVideos();
+  
+    return {
+      props: { initialBlogs, totalBlogCount, videos },
+    };
+  }
 
 export default HomePage

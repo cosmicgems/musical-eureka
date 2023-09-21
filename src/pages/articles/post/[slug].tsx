@@ -174,13 +174,48 @@ const DynamicArticlePage = (props) => {
     );
 };
 
+
+export const getAllPostSlugs = async () => {
+  try {
+    const response = await axios.get(`${DOMAIN}/api/blog/post/get-all-slugs`);
+    return response.data.post.map((post) => post.slug);
+  } catch (error) {
+    console.error('Error fetching post slugs:', error);
+    return [];
+  }
+};
+
+// Function to fetch post details by slug
+export const getPostBySlug = async (slug) => {
+  try {
+    const response = await axios.get(`${DOMAIN}/api/blog/post/${slug}`);
+    return response.data.post;
+  } catch (error) {
+    console.error(`Error fetching post data for slug ${slug}:`, error);
+    return {}; // Return empty data or handle the error as needed
+  }
+};
+
+// Function to fetch related articles by subcategories
+export const getRelatedArticles = async (subcategories) => {
+  try {
+    const relatedArticlesResponse = await axios.post(`${DOMAIN}/api/blog/post/get-related`, { sub_categories: subcategories });
+    return relatedArticlesResponse.data.related_blogs;
+  } catch (error) {
+    console.error('Error fetching related articles:', error);
+    return [];
+  }
+};
+
+
+
 export const getStaticPaths = async () => {
-    const articles = await axios.get(`${DOMAIN}/api/blog/post/get-all-slugs`);
-    const post = articles.data.post
-    const slugs = post.map((a)=> a.slug);
-    const paths = slugs.map((slug) => ({
-        params: { slug },
-    }));
+  const slugs = await getAllPostSlugs();
+
+  const paths = slugs.map((slug) => ({
+    params: { slug },
+  }));
+
   return {
     paths,
     fallback: 'blocking',
@@ -188,21 +223,17 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
-  const article = await axios.get(`${DOMAIN}/api/blog/post/${slug}`)
-  const post = article.data.post;
+  const post = await getPostBySlug(slug);
 
-  const sub_categories = post.sub_categories.map((sc)=> ({ slug: sc.slug}));
+  const sub_categories = post.sub_categories.map((sc) => ({ slug: sc.slug }));
   console.log(sub_categories);
 
-  const related_articles = await axios.post(`${DOMAIN}//api/blog/post/get-related`, {sub_categories} )
-  const related_posts = related_articles.data.related_blogs; 
-
-  
-  
+  const related_posts = await getRelatedArticles(sub_categories);
 
   return {
-    props: {post, related_posts}
+    props: { post, related_posts },
   };
 };
+
 
 export default DynamicArticlePage;

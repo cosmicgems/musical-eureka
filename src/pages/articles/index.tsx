@@ -180,23 +180,24 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
     )
 }
 
-export async function getStaticProps() {
+export const fetchBlogsForHome = async () => {
     try {
-        const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
-        const { blogs, totalBlogCount } = res.data.blogs;
-        console.log(totalBlogCount);
-
-    return {
-        props: { initialBlogs: blogs, totalBlogCount },
-    };
+      const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
+      const { blogs, totalBlogCount } = res.data.blogs;
+      console.log(totalBlogCount);
+      return { initialBlogs: blogs, totalBlogCount };
     } catch (error) {
-        console.log("Error fetching data:", error);
-    return {
-        props: {
-        blogs: [],
-        },
-    };
+      console.log("Error fetching data:", error);
+      return { initialBlogs: [], totalBlogCount: 0 };
     }
-}
+  };
+
+  export async function getStaticProps() {
+    const { initialBlogs, totalBlogCount } = await fetchBlogsForHome();
+  
+    return {
+      props: { initialBlogs, totalBlogCount },
+    };
+  }
 
 export default AllArticlesPage
