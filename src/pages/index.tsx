@@ -338,7 +338,7 @@ export async function fetchBlogs() {
         throw new Error('Failed to fetch blogs');
       }
       const data = await response.json();
-      return data.blogs;
+      return data;
     } catch (error) {
       console.error('Error fetching blogs:', error);
       return [];
@@ -366,7 +366,7 @@ export async function fetchBlogs() {
   
 
   return {
-    props: { initialBlogs: blogs, totalBlogCount, videos },
+    props: { initialBlogs: blogs.blogs, totalBlogCount, videos },
   };
 }
 
