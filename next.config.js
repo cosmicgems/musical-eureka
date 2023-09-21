@@ -3,7 +3,7 @@ module.exports = {
       APP_NAME: 'Pearl Box',
       API_DEVELOPMENT: 'http://localhost:3000',
       API_PRODUCTION: 'https://pearlbox.co',
-      PRODUCTION: false,
+      PRODUCTION: TRUE,
       DOMAIN_DEVELOPMENT: 'http://localhost:3000',
       DOMAIN_PRODUCTION: 'https://pearlbox.co',
   }
