@@ -6,6 +6,7 @@ import CategoryCard from '../../../../../components/category/CategoryCard'
 import { grey } from '@mui/material/colors'
 import Subscribe from '../../../../../components/Subscribe'
 import SubcategoryCard from '../../../../../components/category/SubcategoryCard'
+import { API, DOMAIN, APP_NAME } from "../../../../../../config";
 
 const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, description, photo_landscape: p_wide, photo_portrait: p_long}}, posts) => {
 
@@ -99,7 +100,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 export default SlugCategoryPage
 
 export const getStaticPaths = async () => {
-    const categories = await axios.get("http://localhost:3000/api/blog/category/get-all-slugs");
+    const categories = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
     const category_slugs = categories.data.categories
     const slugs = category_slugs.map((a)=> a.slug);
     const paths = slugs.map((name) => ({
@@ -113,10 +114,10 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { name } }) => {
-const res = await axios.get(`http://localhost:3000/api/blog/category/${name}`)
+const res = await axios.get(`${DOMAIN}/api/blog/category/${name}`)
 const category = res.data.category;
 
-const res_blogs = await axios.get(`http://localhost:3000/api/blog/post/get-all-by-subcategory-slug?slug=${name}`)
+const res_blogs = await axios.get(`${DOMAIN}/api/blog/post/get-all-by-subcategory-slug?slug=${name}`)
 const posts = res_blogs.data.desired_posts;
 
 return {

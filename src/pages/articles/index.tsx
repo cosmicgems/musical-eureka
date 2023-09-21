@@ -9,6 +9,8 @@ import BlogPost from '../../components/blog/BlogPost';
 import { GetStaticProps } from 'next';
 import Subscribe from '../../components/Subscribe';
 import SmallBlogCard from '../../components/blog/SmallBlogCard';
+import { API, DOMAIN, APP_NAME } from "../../../config";
+
 
 const Layout = dynamic(() => import('../../components/Layout'));
 
@@ -50,7 +52,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
             const nextPage = page + 1;
             if (loadedBlogCount < totalBlogCount) {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:3000/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
+                const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
                 const newBlogs = res.data.blogs.blogs;
                 setBlogs((prevBlogs) => [...prevBlogs, ...newBlogs]);
                 setPage(nextPage);
@@ -180,7 +182,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
 export async function getStaticProps() {
     try {
-        const res = await axios.get(`http://localhost:3000/api/blog/post/get-all-home?page=1&limit=5`);
+        const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
         const { blogs, totalBlogCount } = res.data.blogs;
         console.log(totalBlogCount);
 

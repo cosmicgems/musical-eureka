@@ -13,6 +13,7 @@ import searchVideos from './api/youtube';
 import { NextApiRequest, NextApiResponse } from 'next';
 import VideoCard from '../components/VideoCard';
 import SearchResults from '../components/Search Bar/SearchResults';
+import { API, DOMAIN, APP_NAME } from "../../config";
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -51,7 +52,8 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
     console.log({videos});
     
-
+    console.log(APP_NAME, DOMAIN, API);
+    
     const loadMoreBlogs = useCallback(async () => {
         try {
             const nextPage = page + 1;
@@ -222,15 +224,37 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                         </Typography>
                         </div>
 
-                        <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
-                            {videos.map((v, i) => {
-                                return(
-                                    <div key={i} className='p-3'>
-                                        <VideoCard video={v} />
+                            {
+                                videos.length > 0 ?
+                                    <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
+                                        {videos.map((v, i) => {
+                                            if (videos.length > 0) {
+                                                return(
+                                                    <div key={i} className='p-3'>
+                                                        <VideoCard video={v} />
+                                                    </div>
+                                                )                                    
+                                            } else if (videos.length <= 0) {
+                                            return(
+                                                <div key="none" className='p-3'>
+                                                    <Typography variant='h2' className='gradient-text-four' >
+                                                        Google Quota Reached.
+                                                    </Typography>
+                                                </div>
+                                            )
+                                            }
+
+                                        })}
                                     </div>
-                                )
-                            })}
-                        </div>
+                                :
+                                <div className='h-full flex justify-center items-center'>
+                                    <Typography variant='h2' className='gradient-text-three text-center'>
+                                        Request quota limit has been reached.
+                                    </Typography>                                    
+                                </div>
+
+                            }
+
                     </div>
 
                     </div>
@@ -238,7 +262,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                     <div className='w-[100%]'>
 
                     <div className='w-full'>
-                        <Typography variant='h3' className='text-center gradient-text-four' sx={{}}>
+                        <Typography variant='h2' className='text-center gradient-text-four' sx={{}}>
                             Trending
                         </Typography>
                     </div>
@@ -251,7 +275,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                                         <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                         <div className='flex justify-center items-center'>
                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
@@ -282,7 +306,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                                         <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
                                             <div className='flex justify-center items-center'>
                                                 <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                         {b.categories[0].name}
                                                     </Typography>                                            
                                                 </Button>
@@ -308,10 +332,10 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
 export async function getStaticProps() {
     try {
-        const res = await axios.get(`http://localhost:3000/api/blog/post/get-all-home?page=1&limit=5`);
+        const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
         const { blogs, totalBlogCount } = res.data.blogs;
         console.log(totalBlogCount);
-        const res_videos = await axios.get('http://localhost:3000/api/youtube_playlist');
+        const res_videos = await axios.get(`${DOMAIN}/api/youtube_playlist`);
         const videos = res_videos.data.videos
         console.log(videos);
         

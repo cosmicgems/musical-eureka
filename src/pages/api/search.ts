@@ -7,19 +7,16 @@ import SubCategory from "../../../lib/models/sub_category";
 
 export default async function autocomplete(req: NextApiRequest, res: NextApiResponse) {
     
-    // Start building the search aggregation stage
+
 
     if (req.method === "GET") {
-        let { query } = req.query; // Get the user's input query from the request
+        let { query } = req.query; 
         if (Array.isArray(query)) {
-            query = query.join(" "); // Combine array elements into a single string
+            query = query.join(" "); 
         }
 
         try {
-            const db = await connectDB(); // Connect to your MongoDB using the connectDB function
-    
-            // Define a Mongoose model for your collection
-            // const YourModel = db.model("blogs"); // Replace "yourCollection" with your collection name
+            const db = await connectDB(); 
             await Category.find({})
             await SubCategory.find({})
             const results = await Blog.aggregate([

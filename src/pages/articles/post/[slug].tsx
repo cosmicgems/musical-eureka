@@ -10,6 +10,7 @@ import { useStateContext } from '../../../../Context/StateContext';
 import axios from 'axios';
 import parse from "html-react-parser"
 import RecentBlogCard from '../../../components/blog/RecentBlogCard';
+import { API, DOMAIN, APP_NAME } from "../../../../config";
 
 
 
@@ -174,7 +175,7 @@ const DynamicArticlePage = (props) => {
 };
 
 export const getStaticPaths = async () => {
-    const articles = await axios.get("http://localhost:3000/api/blog/post/get-all-slugs");
+    const articles = await axios.get(`${DOMAIN}/api/blog/post/get-all-slugs`);
     const post = articles.data.post
     const slugs = post.map((a)=> a.slug);
     const paths = slugs.map((slug) => ({
@@ -187,13 +188,13 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
-  const article = await axios.get(`http://localhost:3000/api/blog/post/${slug}`)
+  const article = await axios.get(`${DOMAIN}/api/blog/post/${slug}`)
   const post = article.data.post;
 
   const sub_categories = post.sub_categories.map((sc)=> ({ slug: sc.slug}));
   console.log(sub_categories);
 
-  const related_articles = await axios.post('http://localhost:3000/api/blog/post/get-related', {sub_categories} )
+  const related_articles = await axios.post(`${DOMAIN}//api/blog/post/get-related`, {sub_categories} )
   const related_posts = related_articles.data.related_blogs; 
 
   

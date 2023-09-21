@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import Layout from '../../../components/Layout';
 import Subscribe from '../../../components/Subscribe';
 import CategoryCard from '../../../components/category/CategoryCard';
+import { API, DOMAIN, APP_NAME } from "../../../../config";
 
 const CategoriesPage = ({categories}) => {
   const [homeSearch, setHomeSearch] = useState<string>("");
@@ -94,7 +95,7 @@ const CategoriesPage = ({categories}) => {
 export async function getStaticProps() {
     try {
         
-        const res = await axios.get('http://localhost:3000/api/blog/category/get-all');
+        const res = await axios.get(`${DOMAIN}/api/blog/category/get-all`);
         const categories = res.data.categories
 
         return {
