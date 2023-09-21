@@ -10,7 +10,7 @@ const SubcategorySlugPage = ({_id:id, name, slug, description, photo_landscape: 
 
 export default SubcategorySlugPage
 
-
+//New commit needed
 
 export const getStaticPaths = async () => {
   const subcategories = await axios.get(`${DOMAIN}/api/blog/subcategory/get-all-slugs`);
