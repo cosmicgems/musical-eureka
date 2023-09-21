@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react'
+import { API, DOMAIN, APP_NAME } from "../../../../../../../../config";
 
 const SubcategorySlugPage = ({_id:id, name, slug, description, photo_landscape: p_wide, photo_portrait: p_long}) => {
     return (
@@ -12,14 +13,14 @@ export default SubcategorySlugPage
 
 
 export const getStaticPaths = async () => {
-  const subcategories = await axios.get("http://localhost:3000/api/blog/subcategory/get-all-slugs");
+  const subcategories = await axios.get(`${DOMAIN}/api/blog/subcategory/get-all-slugs`);
   const subcategory_slugs = subcategories.data.sub_categories.map((subcategory) => ({
     slug: subcategory.slug,
     name: subcategory.name,
     categorySlug: subcategory.categorySlug,
   }));
 
-  const categories = await axios.get("http://localhost:3000/api/blog/category/get-all-slugs");
+  const categories = await axios.get(`${DOMAIN}/api/blog/category/get-all-slugs`);
   const paths = [];
 
   // Generate paths for category pages
@@ -46,7 +47,7 @@ export const getStaticPaths = async () => {
   };
 };
 export const getStaticProps = async ({ params: { slug } }) => {
-    const res = await axios.get(`http://localhost:3000/api/blog/subcategory/${slug}`)
+    const res = await axios.get(`${DOMAIN}/api/blog/subcategory/${slug}`)
     const sub_category = res.data.sub_category;
     return {
         props: sub_category,
