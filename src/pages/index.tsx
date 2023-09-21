@@ -330,27 +330,45 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
     )
 }
 
-export async function getStaticProps() {
-    try {
-        const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
-        const { blogs, totalBlogCount } = res.data.blogs;
-        console.log(totalBlogCount);
-        const res_videos = await axios.get(`${DOMAIN}/api/youtube_playlist`);
-        const videos = res_videos.data.videos
-        console.log(videos);
-        
 
-    return {
-        props: { initialBlogs: blogs, totalBlogCount, videos:videos },
-    };
+export async function fetchBlogs() {
+    try {
+      const response = await fetch(`${DOMAIN}/api/blog/post/get-all-home?page=1&limit=5`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch blogs');
+      }
+      const data = await response.json();
+      return data.blogs;
     } catch (error) {
-        console.log("Error fetching data:", error);
-    return {
-        props: {
-        blogs: [],
-        },
-    };
+      console.error('Error fetching blogs:', error);
+      return [];
     }
+  }
+  
+  export async function fetchVideos() {
+    try {
+      const response = await fetch(`${DOMAIN}/api/youtube_playlist`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch videos');
+      }
+      const data = await response.json();
+      return data.videos;
+    } catch (error) {
+      console.error('Error fetching videos:', error);
+      return [];
+    }
+  }
+
+  export async function getStaticProps() {
+  const blogs = await fetchBlogs();
+  const videos = await fetchVideos();
+  const totalBlogCount = blogs.totalBlogCount
+  
+
+  return {
+    props: { initialBlogs: blogs, totalBlogCount, videos },
+  };
 }
+
 
 export default HomePage
