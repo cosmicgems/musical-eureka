@@ -76,7 +76,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
   } catch (error) {
     console.error(`Error fetching data for slug ${slug}:`, error);
     return {
-      props: {}, // Return empty props or handle the error as needed
+      props: {sub_category: null}, // Return empty props or handle the error as needed
     };
   }
 };
