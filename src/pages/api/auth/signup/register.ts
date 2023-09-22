@@ -48,7 +48,7 @@ export default async function handler(
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             
             // Create the verification link with the verification token
-            const verificationLink = `http://localhost:3000/auth/verify-request/verify?token=${verificationToken}&username=${username}`;
+            const verificationLink = `https://pearlbox.co/auth/verify-request/verify?token=${verificationToken}&username=${username}`;
             
             // HTML content for the email with background color
             const htmlContent = `
