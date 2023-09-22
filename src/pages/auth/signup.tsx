@@ -359,13 +359,13 @@ const SignupPage = () => {
     }, []);
 
     return (
-        <div className='h-screen'>
+        <div className='sm:min-h-screen'>
 
             <Box sx={{bgcolor: grey[200]}}>
                 <Layout>
-                    <div className=' flex flex-col justify-center items-center  min-h-screen gap-6 sm:pt-24' >
+                    <div className=' flex flex-col justify-center items-center  min-h-screen gap-6 sm:pt-24 px-3 sm:px-0' >
 
-                        <Box sx={{bgcolor: grey[50], borderRadius: '10px'}} className="md:w-2/5 flex flex-col gap-6" >
+                        <Box sx={{bgcolor: grey[50], borderRadius: '10px'}} className="md:w-2/5 flex flex-col gap-6 mt-24 sm:mt-0 " >
                             
                             <Box sx={{bgcolor: grey[900], borderTopLeftRadius: '10px', borderTopRightRadius: '10px'}} className='text-center flex flex-col gap-1 py-3 px-6'>
                                 <div>
