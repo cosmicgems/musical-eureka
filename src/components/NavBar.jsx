@@ -25,7 +25,7 @@ import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red, grey } f
 import { motion } from 'framer-motion'
 import Subscribe from './Subscribe';
 import { navItems } from '../../public/assets/navItems';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 
 const drawerWidth = 240;
 
@@ -76,6 +76,7 @@ function NavBar(props) {
   React.useEffect(() => {
       const checkSession = async () => {
       const session = await getSession();
+      console.log(session);
 
       if (session) {
         setLoggedIn(true)
@@ -144,7 +145,7 @@ function NavBar(props) {
                   </div>
                 :
                   <div className='flex gap-3'>
-                    <Button variant='contained' className='gradient-button' sx={{}}>
+                    <Button onClick={()=> signOut()} variant='contained' className='gradient-button' sx={{}}>
                       Logout
                     </Button>
                   </div>
