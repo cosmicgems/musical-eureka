@@ -15,6 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const currentTimestamp = new Date();
         if (currentTimestamp <= user.verification_token_expiration) {
           user.confirmEmail = true;
+          user.save();
           res.status(200).json({ message: 'Email verified successfully' });
           return
         } else {

@@ -44,7 +44,7 @@ function NavBar(props) {
   };
 
   const pageSegmentColors = {
-    technology: blue[800], // Example color for "tech" segment
+    technology: blue[800], 
     realty: yellow[600],
     health: lightBlue[200],
     intelligence: orange[500],

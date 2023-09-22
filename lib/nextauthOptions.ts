@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import connectDB from "./connectDB";
 import { AuthOptions } from "next-auth";
 import User from "./models/user"
-import { NextApiRequest, NextApiResponse } from "next";
 
 
 
@@ -49,7 +48,7 @@ export const nextauthOptions: AuthOptions = {
     pages: {
         signIn: "/auth/login",      // URL for the login page
         signOut: "/auth/logout",    // URL for the logout page
-        error: "/auth/error",       // URL for error page (e.g., for displaying authentication errors)
+        error: "/auth/login",       // URL for error page (e.g., for displaying authentication errors)
         verifyRequest: "/auth/verify-request/verify", // URL for request to verify email
         newUser: null,              // URL for new user registration (set to null if you don't have this page)
     },

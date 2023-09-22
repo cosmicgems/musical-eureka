@@ -49,7 +49,7 @@ const DynamicArticlePage = (props) => {
               {/* <meta property="og:image" content={ogImageUrl} />
               <meta property='og:title' content="Pearl Box" /> */}
             </Head>
-            <Box className='' sx={{bgcolor: grey[200]}}>
+            <Box className='' sx={{bgcolor: grey[100]}}>
               <Layout  >
                   <div className='flex flex-col gap-3 pt-12'>
                     <div className='w-full mt-6'>
@@ -108,6 +108,12 @@ const DynamicArticlePage = (props) => {
                         </div>
                       </div>
 
+                    </div>
+
+                    <div className='w-full'>
+                      <Typography variant='h3' className='gradient-text-subcategories w-full text-center' sx={{}}>
+                        Related Articles
+                      </Typography>
                     </div>
 
                     <div  className='flex gap-6 sm:justify-center sm:items-center  pb-6 w-[100%] overflow-x-auto '>
@@ -181,17 +187,6 @@ const DynamicArticlePage = (props) => {
 
 
 
-
-// Function to fetch related articles by subcategories
-export const getRelatedArticles = async (subcategories) => {
-  try {
-    const relatedArticlesResponse = await axios.post(`${API}/api/blog/post/get-related`, { sub_categories: subcategories });
-    return relatedArticlesResponse.data.related_blogs;
-  } catch (error) {
-    console.error('Error fetching related articles:', error);
-    return [];
-  }
-};
 
 
 
