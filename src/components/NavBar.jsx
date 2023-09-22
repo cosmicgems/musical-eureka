@@ -129,7 +129,7 @@ function NavBar(props) {
           <Box sx={{display:{sm:"none"}}} className="ml-12" >
             <div className='flex gap-3'>
               {
-                loggedIn ?
+                !loggedIn ?
                   <div className='flex gap-3'>
                     <Button variant='contained' className='gradient-button' sx={{border:"none"}}>
                       Login
