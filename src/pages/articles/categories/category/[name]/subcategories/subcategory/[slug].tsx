@@ -68,10 +68,9 @@ export const getStaticProps = async ({ params: { slug } }) => {
     const sub_category_wrap = await SubCategory.find({slug});
 
     // console.log(sub_category);
-    const sub = JSON.parse(JSON.stringify(sub_category_wrap))
-    const sub_category = sub[0]
+    const sub_category = JSON.parse(JSON.stringify(sub_category_wrap))
     return {
-      props: {sub_category },
+      props: {sub_category},
     };
   } catch (error) {
     console.error(`Error fetching data for slug ${slug}:`, error);
