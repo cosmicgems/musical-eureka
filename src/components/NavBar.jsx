@@ -26,11 +26,13 @@ import { motion } from 'framer-motion'
 import Subscribe from './Subscribe';
 import { navItems } from '../../public/assets/navItems';
 import { getSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const drawerWidth = 240;
 
 
 function NavBar(props) {
+    const router = useRouter();
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -141,7 +143,7 @@ const handleSignup = (e) => {
               {
                 !loggedIn ?
                   <div className='flex gap-3'>
-                    <Button onClick={(e) => handleSignin(e)} variant='contained' className='gradient-button' sx={{border:"none"}}>
+                    <Button onClick={(e) => handleSignin(e)}  variant='contained' className='gradient-button' sx={{border:"none"}}>
                       Login
                     </Button>
                     <Button onClick={(e) => handleSignup(e)} variant='outlined' className='gradient-button-signup' sx={{p:"3px", border: "none"}}>
