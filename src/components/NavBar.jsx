@@ -88,6 +88,16 @@ function NavBar(props) {
 })
 
   const container = window !== undefined ? () => window().document.body : undefined;
+  
+  const handleSignin = (e) => {
+    e.preventDefault();
+    router.push("/auth/login");
+};
+
+const handleSignup = (e) => {
+    e.preventDefault();
+    router.push("/auth/signup");
+}
 
 
   return (
@@ -131,10 +141,10 @@ function NavBar(props) {
               {
                 !loggedIn ?
                   <div className='flex gap-3'>
-                    <Button variant='contained' className='gradient-button' sx={{border:"none"}}>
+                    <Button onClick={(e) => handleSignin(e)} variant='contained' className='gradient-button' sx={{border:"none"}}>
                       Login
                     </Button>
-                    <Button variant='outlined' className='gradient-button-signup' sx={{p:"3px", border: "none"}}>
+                    <Button onClick={(e) => handleSignup(e)} variant='outlined' className='gradient-button-signup' sx={{p:"3px", border: "none"}}>
                       <Box sx={{bgcolor:grey[900], p:1, borderRadius: "2px"}}>
                         <Typography  className='gradient-text-button font-bold'>
                           Signup
