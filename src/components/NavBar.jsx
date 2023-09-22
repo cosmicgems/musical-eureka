@@ -73,20 +73,20 @@ function NavBar(props) {
     </Box>
   );
 
+  const checkSession = async () => {
+    const session = await getSession();
+    console.log(session);
+
+    if (session) {
+      setLoggedIn(true);
+    }
+  };
+
   React.useEffect(() => {
-      const checkSession = async () => {
-      const session = await getSession();
-      console.log(session);
-
-      if (session) {
-        setLoggedIn(true)
-      }
-      };
-      if(!loggedIn){
-        checkSession();        
-      }
-
-  }, [loggedIn, setLoggedIn]);
+    if (!loggedIn) {
+      checkSession();
+    }
+  }, [loggedIn]);
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
