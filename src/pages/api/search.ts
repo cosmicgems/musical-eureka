@@ -42,6 +42,7 @@ export default async function autocomplete(req: NextApiRequest, res: NextApiResp
                         categories: 1,
                         sub_categories: 1,
                         photo: 1,
+                        slug:1,
                     },
                 },
                 {
@@ -71,6 +72,8 @@ export default async function autocomplete(req: NextApiRequest, res: NextApiResp
                         body: 1,
                         categories: 1,
                         sub_categories: 1,
+                        photo: 1,
+                        slug:1,
                     },
                 },
                 {

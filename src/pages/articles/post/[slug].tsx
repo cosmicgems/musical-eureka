@@ -11,6 +11,10 @@ import axios from 'axios';
 import parse from "html-react-parser"
 import RecentBlogCard from '../../../components/blog/RecentBlogCard';
 import { API, DOMAIN, APP_NAME } from "../../../../config";
+import connectDB from '../../../../lib/connectDB';
+import Blog from '../../../../lib/models/blog';
+import Category from '../../../../lib/models/category';
+import SubCategory from '../../../../lib/models/sub_category';
 
 
 
@@ -175,26 +179,8 @@ const DynamicArticlePage = (props) => {
 };
 
 
-export const getAllPostSlugs = async () => {
-  try {
-    const response = await axios.get(`${API}/api/blog/post/get-all-slugs`);
-    return response.data.post.map((post) => post.slug);
-  } catch (error) {
-    console.error('Error fetching post slugs:', error);
-    return [];
-  }
-};
 
-// Function to fetch post details by slug
-export const getPostBySlug = async (slug) => {
-  try {
-    const response = await axios.get(`${API}/api/blog/post/${slug}`);
-    return response.data.post;
-  } catch (error) {
-    console.error(`Error fetching post data for slug ${slug}:`, error);
-    return {}; // Return empty data or handle the error as needed
-  }
-};
+
 
 // Function to fetch related articles by subcategories
 export const getRelatedArticles = async (subcategories) => {
@@ -210,7 +196,10 @@ export const getRelatedArticles = async (subcategories) => {
 
 
 export const getStaticPaths = async () => {
-  const slugs = await getAllPostSlugs();
+  
+  await connectDB();
+  const response = await Blog.find({}, 'slug');
+  const slugs = response.map((r) => r.slug )
 
   const paths = slugs.map((slug) => ({
     params: { slug },
@@ -223,15 +212,37 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
-  const post = await getPostBySlug(slug);
+
+  await connectDB();
+  await Category.find({});
+  await SubCategory.find({});
+
+  const post = await Blog.findOne({slug})
+                          .populate("categories")
+                          .populate("sub_categories");
+
+  
+
 
   const sub_categories = post.sub_categories.map((sc) => ({ slug: sc.slug }));
-  console.log(sub_categories);
+  
+  let matches = [];
+  sub_categories.map((m) => {
+    matches.push(m.slug)
+  });
 
-  const related_posts = await getRelatedArticles(sub_categories);
+  const related_blogs_before_filter = await Blog.find({})
+                                                .populate("categories")
+                                                .populate("sub_categories");
+
+  const related_posts =  related_blogs_before_filter.filter((blog) => 
+    blog.sub_categories.some((subcategory) => 
+      matches.includes(subcategory.slug)
+    )
+  );
 
   return {
-    props: { post, related_posts },
+    props: { post: JSON.parse(JSON.stringify(post)), related_posts: JSON.parse(JSON.stringify(related_posts)) },
   };
 };
 

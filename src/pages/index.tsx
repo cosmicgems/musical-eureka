@@ -49,6 +49,8 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
     const [subscriber, setSubscriber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [query, setQuery] = useState<string>("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [debouncedQuery, setDebouncedQuery] = useState('');
     const targetRef = useRef();
     let loadedBlogCount = blogs.length; 
 
@@ -128,6 +130,46 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
         }
     };
 
+    useEffect(() => {
+        // Define a function to perform the actual search when debouncedQuery changes
+        const performSearch = async () => {
+            if (debouncedQuery.trim() === '') {
+                // Clear the search results if the query is empty
+                setSearch({...search ,blogs:[]});
+                return;
+            }
+        
+           
+            try {
+                const response = await axios.get('/api/search', {
+                    params: {
+                        query: debouncedQuery
+                    },
+                })
+                const data = await response.data.suggestions
+                console.log(data, "where's this");
+                
+                setSearch({...search, blogs: data})
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+            };    
+            
+            const debounceTimeout = setTimeout(() => {
+            performSearch();
+            }, 500); 
+        
+        return () => clearTimeout(debounceTimeout); 
+    }, [debouncedQuery]);
+    
+ 
+    
+    const handleInputChange = (e) => {
+        
+        setDebouncedQuery(e.target.value);
+        setQuery(e.target.value)
+
+    };
 
     return (
         <Box className='' sx={{bgcolor: grey[100]}}>
@@ -140,15 +182,15 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                     </div>
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
                         <div>
-                            <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
                             </Typography>
                         </div>
                         <div className='w-full flex gap-0'>
-                            <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={query} onChange={(e)=> {setQuery(e.target.value)}} />
-                            <Button onClick={handleSearch} variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0,}}>
+                            <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={query} onChange={(e) => {handleInputChange(e)}} />
+                            {/* <Button onClick={handleSearch} variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0,}}>
                                 Search
-                            </Button>
+                            </Button> */}
                         </div>
                         <div className='w-full'>
                             <SearchResults results={search} />
@@ -158,7 +200,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                     <div className='flex flex-col sm:flex-row w-[100%] mb-6'>
                     <div className=' sm:w-2/5'>
                         <div className='w-full'>
-                        <Typography variant='h3' sx={{}} className='text-center gradient-text-four'>
+                        <Typography variant='h3' sx={{}} className='text-center gradient-text-subcategories'>
                             Featured
                         </Typography>
                         </div>
@@ -219,7 +261,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                     <div className='sm:w-3/5'>
 
                         <div className='w-full'>
-                        <Typography variant='h3' sx={{}} className='w-full text-center gradient-text-four'>
+                        <Typography variant='h3' sx={{}} className='w-full text-center gradient-text-subcategories'>
                             Media
                         </Typography>
                         </div>
@@ -262,7 +304,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                     <div className='w-[100%]'>
 
                     <div className='w-full'>
-                        <Typography variant='h2' className='text-center gradient-text-four' sx={{}}>
+                        <Typography variant='h2' className='text-center gradient-text-subcategories' sx={{}}>
                             Trending
                         </Typography>
                     </div>

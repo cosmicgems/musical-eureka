@@ -168,7 +168,7 @@ const handleSignup = (e) => {
                 <motion.div
                 whileTap={{ scale: 0.9 }}>
                   <Typography
-                  className='gradient-text'
+                  className='gradient-text-subcategories'
                     variant="h5"
                     component="div"
                     sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, fontSize: '3rem' }}

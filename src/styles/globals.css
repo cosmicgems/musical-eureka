@@ -15,7 +15,6 @@ body, * {
 .gradient-button {
   background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
   background-size: 400% 600%;
-  color: white; /* Set the text color to white */
   font-weight: bold;
   animation: gradientAnimation 5s linear infinite;
 }
@@ -32,7 +31,6 @@ body, * {
   background: -webkit-linear-gradient(to right, #FFAFBD, #C9FFBF);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #FFAFBD, #C9FFBF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-size: 400% 600%;
-  color: white; /* Set the text color to white */
   font-weight: bold;
   animation: gradientAnimation 5s linear infinite;
 }

@@ -1,5 +1,6 @@
-import { Box, CardMedia, Typography } from '@mui/material';
+import { Box, Button, CardMedia, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useRouter } from 'next/router';
 import React from 'react'
 
 
@@ -8,15 +9,22 @@ const SearchResults = ({results}) => {
     console.log(results.blogs);
     const titleResults = results.blogs.results;
     const bodyResults = results.blogs.results_body;
+
+    const router = useRouter();
+
+    const handleClick = (slug) => {
+        router.push(`/articles/post/${slug}`)
+    }
     
     return (
         <>
             {
                 titleResults?.length > 0 &&
                     <Box sx={{ }} className="w-[100%] max-h-[33vh] overflow-y-auto">
-                        {titleResults?.map((r, i) => (
-                            <Box key={r._id} sx={{bgcolor: i % 2 ? grey[900] : grey[700],borderBottomLeftRadius: i === titleResults.length - 1 ?'5px' : "" ,borderBottomRightRadius: i === titleResults.length - 1 ?'5px' : "" }} className="flex items-center p-">
-                                <CardMedia 
+                        {titleResults?.map((r, i) => (<Box key={r._id}  sx={{bgcolor: i % 2 ? grey[900] : grey[700],borderBottomLeftRadius: i === titleResults.length - 1 ?'5px' : "" ,borderBottomRightRadius: i === titleResults.length - 1 ?'5px' : "" }} className="flex items-center p-">
+                                
+                        <Button fullWidth onClick={ () => handleClick(r.slug)}>
+                            <CardMedia 
                                 sx={{}}
                                 className='w-[50px] h-[50px]'
                                 component="img"
@@ -27,8 +35,10 @@ const SearchResults = ({results}) => {
                                     <Typography variant='h3' sx={{fontSize: '1.25rem'}} className={`${i % 2 ?  "gradient-text" : "gradient-text-category" }`}>
                                         {r.title}
                                     </Typography>
-                                </div>
-                            </Box>
+                                </div>                           
+                        </Button>
+                            </Box> 
+
                         ))}
                     </Box>
 

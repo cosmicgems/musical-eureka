@@ -112,7 +112,7 @@ const Subscribe = () => {
                                 !loggedIn ?
                                     <div className='flex sm:w-1/2 '>
                                         <TextField size='small' fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Email" className='' value={subscriber.email} onChange={(e)=> {setSubscriber({...subscriber,email:e.target.value})}} />
-                                        <Button onClick={(e)=>handleSubscribe(e)} variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0,}}>
+                                        <Button className='gradient-button' onClick={(e)=>handleSubscribe(e)} variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0, color:grey[900]}}>
                                             Subscribe
                                         </Button>                
                                     </div>
@@ -139,10 +139,10 @@ const Subscribe = () => {
                                 </div>
                                 :
                                 <div className=' sm:flex gap-3 justify-end hidden '>
-                                    <Button onClick={(e)=>handleSignin(e)} variant='contained' sx={{}} className=''>
+                                    <Button onClick={(e)=>handleSignin(e)} variant='contained' sx={{color:grey[900]}} className='gradient-button'>
                                         Login
                                     </Button>
-                                    <Button onClick={(e)=>handleSignup(e)} variant='outlined' sx={{}} className=''>
+                                    <Button onClick={(e)=>handleSignup(e)} variant='outlined' sx={{border: 'none', color:grey[900]}} className='gradient-button-signup'>
                                         Signup
                                     </Button>
                                 </div>
