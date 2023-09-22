@@ -7,6 +7,10 @@ import { grey } from '@mui/material/colors'
 import Subscribe from '../../../../../components/Subscribe'
 import SubcategoryCard from '../../../../../components/category/SubcategoryCard'
 import { API, DOMAIN, APP_NAME } from "../../../../../../config";
+import connectDB from '../../../../../../lib/connectDB'
+import SubCategory from '../../../../../../lib/models/sub_category'
+import Category from '../../../../../../lib/models/category'
+import Blog from '../../../../../../lib/models/blog'
 
 const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, description, photo_landscape: p_wide, photo_portrait: p_long}}, posts) => {
 
@@ -99,16 +103,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
 export default SlugCategoryPage
 
-export const getAllCategorySlugs = async () => {
-    try {
-      const response = await axios.get(`${API}/api/blog/category/get-all-slugs`);
-      return response.data.categories.map((category) => category.slug);
-    } catch (error) {
-      console.error('Error fetching category slugs:', error);
-      return [];
-    }
-  };
-  
+
 
   export const getCategoryAndPostsBySlug = async (slug) => {
     try {
@@ -126,22 +121,56 @@ export const getAllCategorySlugs = async () => {
 };
 
     export const getStaticPaths = async () => {
-        const slugs = await getAllCategorySlugs();
-    
-        const paths = slugs.map((name) => ({
-            params: { name },
-        }));
-    
-        return {
-            paths,
-            fallback: 'blocking',
-        };
+        try {
+            await connectDB()
+            await SubCategory.find({});
+
+            const categories = await Category.find({})
+                                            .populate("sub_categories");
+
+            const slugs = categories.map((category) => category.slug);
+
+            const paths = slugs.map((name) => ({
+                        params: { name },
+                    }));
+                
+                    return {
+                        paths,
+                        fallback: 'blocking',
+                    };
+        } catch (error) {
+            console.error(error);
+        }
+ 
+        
     };
 
-  export const getStaticProps = async ({ params: { name } }) => {
-    const { category, posts } = await getCategoryAndPostsBySlug(name);
-  
+export const getStaticProps = async ({ params: { name } }) => {
+    
+    try {
+        await connectDB();
+        await SubCategory.find({});
+        await Category.find({});
+
+        const category = await Category.findOne({slug:name})
+                                        .populate("sub_categories");
+
+        const posts = await Blog.find()
+                                .populate("categories")
+                                .populate("sub_categories");
+
+        const desired_posts = posts.filter((blog) =>{
+            blog.categories.some((category) => 
+                name.includes(category.slug)
+            )
+        })
+
+        
+
     return {
-      props: { category, posts },
+        props: { category: JSON.parse(JSON.stringify(category)), posts: JSON.parse(JSON.stringify(desired_posts)) },
     };
-  };
+    } catch (error) {
+        
+    }
+};

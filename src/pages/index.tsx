@@ -332,7 +332,24 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
 
 export async function getStaticProps() {
-    try {
+    try {        
+        
+        const API_KEY = process.env.YOUTUBE_DATA_API_KEY;
+        const BASE_URL = 'https://www.googleapis.com/youtube/v3';
+        const PLAYLIST_ID = process.env.YOUTUBE_PLAYLIST_ID_QUANTUM
+        
+        const playlistResponse = await axios.get(`${BASE_URL}/playlistItems`, {
+            params: {
+                part: 'snippet',
+                maxResults: 10, 
+                playlistId: PLAYLIST_ID,
+                key: API_KEY,
+            },
+        });
+
+        const videos = playlistResponse.data.items;
+
+        
         await connectDB() 
         let page = 1;
         let limit = 5;
@@ -350,9 +367,12 @@ export async function getStaticProps() {
             .skip(skip)
             .limit(limitValue);
 
-        console.log(blogs, totalBlogCount);
+
+            
+
+        console.log(videos);
         return {
-            props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), totalBlogCount, videos: [] },
+            props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), totalBlogCount, videos },
         };       
     } catch (error) {
         console.error('Error fetching data:', error);
