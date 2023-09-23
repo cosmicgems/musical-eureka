@@ -49,7 +49,7 @@ const Subscribe = () => {
         
         if (session) {
             setloggedIn(true);
-            setUser(session.user.user)
+            setUser(session.user)
         }
         };
 
