@@ -3,18 +3,19 @@ import User from '../../../../../lib/models/user';
 import connectDB from '../../../../../lib/connectDB';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if(req.method === "PUT") {
+  if(req.method === "GET") {
     try {
       const { token, username } = req.query;
 
       await connectDB(); 
 
-      const user = await User.findOneAndUpdate({username});
+      let user = await User.findOne({username});
       
       if(user && user.verification_token === token){
         const currentTimestamp = new Date();
         if (currentTimestamp <= user.verification_token_expiration) {
-          user.confirm_account = true;
+          
+          user = await User.findOneAndUpdate({username}, {confirmed_account: true});
           user.save();
           res.status(200).json({ message: 'Email verified successfully' });
           return
