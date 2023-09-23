@@ -35,7 +35,7 @@ const Verify = () => {
     return (
         <Box sx={{bgcolor: grey[200]}}>
             <Layout>
-                <div className='h-[80vh] flex justify-center items-center px-24'>
+                <div className='h-[80vh] flex justify-center items-center px-6 sm:px-24'>
                     <Box sx={{bgcolor: grey[900], borderRadius: '5px'}} className="py-3 px-3 w-full flex flex-col justify-center items-center">
                         {verified ?
                             <Typography sx={{}} className='gradient-four' variant='h3'>
