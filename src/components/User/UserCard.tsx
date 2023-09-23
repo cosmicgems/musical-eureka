@@ -17,7 +17,7 @@ const UserCard = ({user}) => {
                 className='w-2/5'
                 />                
                 :
-                <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[125px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{user.first_name[0]}</Typography> </Avatar>
+                <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[125px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{user.user.first_name[0]}</Typography> </Avatar>
             }
 
 
