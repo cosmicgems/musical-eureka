@@ -3,7 +3,7 @@ import User from '../../../../../lib/models/user';
 import connectDB from '../../../../../lib/connectDB';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if(req.method === "GET") {
+  if(req.method === "PUT") {
     try {
       const { token, username } = req.query;
 
