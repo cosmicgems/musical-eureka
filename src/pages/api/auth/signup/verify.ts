@@ -9,13 +9,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       await connectDB(); 
 
-      let user = await User.findOne({username});
+      let user2 = await User.findOne({username});
       
-      if(user && user.verification_token === token){
+      if(user2 && user2.verification_token === token){
         const currentTimestamp = new Date();
-        if (currentTimestamp <= user.verification_token_expiration) {
+        if (currentTimestamp <= user2.verification_token_expiration) {
           
-          user = await User.findOneAndUpdate({username}, {confirmed_account: true});
+          const user = await User.findOneAndUpdate({username}, {confirmed_account: true});
+          user.save();
           res.status(200).json({ message: 'Email verified successfully' });
           return
         } else {
