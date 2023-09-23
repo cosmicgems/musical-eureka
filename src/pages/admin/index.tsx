@@ -254,7 +254,7 @@ const Test = () => {
         const checkSession = async () => {
             const session = await getSession();
             if (session) {
-                setUser(session.user.user)
+                setUser(session.user)
             }
         };
 
