@@ -15,8 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const currentTimestamp = new Date();
         if (currentTimestamp <= user2.verification_token_expiration) {
           
-          const user = await User.findOneAndUpdate({username}, {confirmed_account: true});
-          res.status(200).json({ message: 'Email verified successfully' });
+          const user = await User.findOneAndUpdate({username}, {confirmed_account: true}, {new: true});
+          res.status(200).json({ message: 'Email verified successfully', user });
           return
         } else {
           await User.deleteOne({username});
