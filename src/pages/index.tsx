@@ -54,8 +54,6 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
     const targetRef = useRef();
     let loadedBlogCount = blogs.length; 
 
-
-    
     const loadMoreBlogs = useCallback(async () => {
         try {
             const nextPage = page + 1;
@@ -76,7 +74,6 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
             setLoading(false);
         }
     }, [page, totalBlogCount, blogsPerPage]);
-
 
     useEffect(() => {
         if(!targetRef?.current) return;
@@ -106,7 +103,6 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
         };
     }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
     
-
     const handleSearch = async () => {
         try {
             const response = await axios.get('/api/youtube', {
@@ -161,8 +157,6 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
         
         return () => clearTimeout(debounceTimeout); 
     }, [debouncedQuery]);
-    
- 
     
     const handleInputChange = (e) => {
         

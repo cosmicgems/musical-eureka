@@ -8,6 +8,7 @@ import createEmotionCache from "../../utility/createEmotionCache"
 import { CacheProvider } from "@emotion/react"
 import Layout from '../components/Layout'
 import { SessionProvider, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 
 
@@ -25,7 +26,14 @@ export default function App({ session, Component,
           <SessionProvider session={session}>
             <StateContext>
                 <Toaster />
-                <Component {...pageProps} />
+                
+                {Component.auth ? (
+                    <Auth>
+                        <Component {...pageProps} />    
+                    </Auth>
+                ) : (
+                    <Component {...pageProps} />
+                )}
               </StateContext>            
           </SessionProvider>
 
@@ -34,6 +42,29 @@ export default function App({ session, Component,
 
 
   )
-  
 
+}
+
+
+function Auth({children}){
+  const{data:session, status } = useSession({required: true})
+  const router = useRouter();
+
+  if (status === 'loading') {
+      return <div>Loading...</div>
+
+      
+  }
+ 
+  if(!session){
+      preventDefault()
+      router.push('/');
+  }
+  if (!session?.user?.confirmed_account) {
+      
+    router.push('/admin/account/setup'); // Redirect to account setup page
+    return null;
+  }
+
+  return children;
 }

@@ -463,4 +463,6 @@ const Test = () => {
     );
 }
 
+Test.auth = true;
+
 export default Test;

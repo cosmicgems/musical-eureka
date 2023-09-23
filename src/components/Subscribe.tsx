@@ -6,6 +6,7 @@ import { grey, red } from '@mui/material/colors'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { getSession, signOut } from 'next-auth/react'
+import UserCard from './User/UserCard'
 
 
 
@@ -28,6 +29,7 @@ const Subscribe = () => {
     })
     const [blank, setBlank] = useState<boolean>(true)
     const [loggedIn, setloggedIn] = useState<boolean>(false);
+    const [user, setUser] = useState({});
 
     useEffect(()=>{
         if(blank){
@@ -44,8 +46,10 @@ const Subscribe = () => {
     useEffect(()=>{
         const checkSession = async () => {
         const session = await getSession();
+        
         if (session) {
             setloggedIn(true);
+            setUser(session.user.user)
         }
         };
 
@@ -105,7 +109,7 @@ const Subscribe = () => {
     return (
         <>
             {
-                !values.sent && !values.sending ?
+                !values.sent && !values.sending  ?
                     <div className='flex mt-6 sm:mt-20 w-full gap-12 justify-space items-center px-3'>
                         <div className='flex flex-col w-full sm:w-3/4 p-0'>
                             {
@@ -133,9 +137,13 @@ const Subscribe = () => {
                         <div   className='sm:w-1/5'>
                             { loggedIn ? 
                                 <div className=' sm:flex gap-3 justify-end hidden '>
-                                    <Button onClick={()=>signOut()} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
-                                        Signout
-                                    </Button>
+                                    <UserCard user={user} />
+                                    <div>
+                                        <Button onClick={()=>signOut()} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
+                                            Signout
+                                        </Button>                                        
+                                    </div>
+
                                 </div>
                                 :
                                 <div className=' sm:flex gap-3 justify-end hidden '>
