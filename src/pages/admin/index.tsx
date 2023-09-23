@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import parse from 'html-react-parser'
 import { Editor } from '@tinymce/tinymce-react';
+import { getSession } from 'next-auth/react';
 
 const Test = () => {
 
@@ -24,6 +25,7 @@ const Test = () => {
     const editorRef = useRef<any>(null);
     const [savedPost, setSavedPost] = useState<boolean>(null)
     const [cleared, setCleared] = useState<boolean>(false);
+    const [user, setUser] = useState<any>({});
 
     const [values, setValues] = useState<any>({
         error: null,
@@ -47,12 +49,6 @@ const Test = () => {
         setBody(receivedProps.body);
     
     };
-
-
-
-    
-    
-    
 
     const { photo, success, successMessage, error, errorMessage, sending} = values;
 
@@ -172,12 +168,11 @@ const Test = () => {
         }
     })
 
-    
     const submitBlog = async (e: any) => {
         setValues({ sending: true });
         e.preventDefault();
         try {
-            const postData = { title, body: editorContent, checked, checkedSubcategory, photo };
+            const postData = { title, body: editorContent, checked, checkedSubcategory, photo, user };
             console.log(postData);
             const post = await axios.post("/api/blog/post/create", postData);
             console.log(post.data);
@@ -220,14 +215,12 @@ const Test = () => {
         }
     }
 
-
     const handleEditorChange = (content: string) => {
         setEditorContent(content);
         localStorage.setItem("Body", content);
         setCleared(false);
     };
     
-
     const handleChange = (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         if (type === 'photo') {
             console.log(e.target.value);
@@ -242,7 +235,6 @@ const Test = () => {
         }
     };
     
-
     const handleLocalStorageClear = () => {
         localStorage.removeItem("Title");
         localStorage.removeItem("Body");
@@ -258,6 +250,16 @@ const Test = () => {
     }
 
 
+    useEffect(()=>{
+        const checkSession = async () => {
+            const session = await getSession();
+            if (session) {
+                setUser(session.user.user)
+            }
+        };
+
+        checkSession();
+    })
 
     return (
         <>

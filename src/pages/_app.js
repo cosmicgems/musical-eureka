@@ -60,6 +60,7 @@ function Auth({children}){
       preventDefault()
       router.push('/');
   }
+  console.log(session.user);
   if (!session?.user?.confirmed_account) {
       
     router.push('/admin/account/setup'); // Redirect to account setup page

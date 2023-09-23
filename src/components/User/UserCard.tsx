@@ -7,7 +7,7 @@ const UserCard = ({user}) => {
     
   return (
     <Box className="" sx={{bgcolor: grey[900], borderRadius: '5px'}}>
-        <div className='flex gap-1 w-[375px] h-[150px]'>
+        <div className='flex gap-1 w-[375px] h-[125px]'>
             {user.photo ? 
                 <CardMedia 
                 component="img"
@@ -17,12 +17,12 @@ const UserCard = ({user}) => {
                 className='w-2/5'
                 />                
                 :
-                <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[150px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{user.first_name[0]}</Typography> </Avatar>
+                <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[125px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{user.first_name[0]}</Typography> </Avatar>
             }
 
 
             <div className='flex flex-col px-2 w-4/6 '>
-                <Typography variant='body1' sx={{fontSize: "2rem"}} className='gradient-text-subcategories py-0'>
+                <Typography variant='body1' sx={{fontSize: "1.5rem"}} className='gradient-text-subcategories py-0'>
                     {user.username}
                 </Typography>
                 <Typography variant='body1' sx={{}} className='gradient-text-category'>

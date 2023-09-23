@@ -9,12 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       await connectDB(); 
 
-      const user = await User.findOne({username});
+      const user = await User.findOneAndUpdate({username});
       
       if(user && user.verification_token === token){
         const currentTimestamp = new Date();
         if (currentTimestamp <= user.verification_token_expiration) {
-          user.confirmEmail = true;
+          user.confirm_account = true;
           user.save();
           res.status(200).json({ message: 'Email verified successfully' });
           return

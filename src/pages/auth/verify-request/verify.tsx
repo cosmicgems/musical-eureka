@@ -14,7 +14,7 @@ const Verify = () => {
     useEffect(() => {
         if (token) {
         // Make an API request to verify the token
-        const res =  axios.get(`/api/auth/signup/verify?token=${token}&username=${username}`)
+        const res =  axios.put(`/api/auth/signup/verify?token=${token}&username=${username}`)
             .then((response) => {
             setVerificationStatus(response.data.message);
             setVerified(true);
