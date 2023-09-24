@@ -56,8 +56,10 @@ export const nextauthOptions: AuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, user }) {
-        // Persist the OAuth access_token to the token right after signin
+        async jwt({ token, user, trigger, session, }) {
+            if( trigger === "update" ){
+                return {...token, ...session.user}
+            }
         if (user) {
             token.accessToken = user;
         }

@@ -63,8 +63,8 @@ function Auth({children}){
   console.log(session.user);
   if (!session?.user?.confirmed_account) {
       
-    router.push('/admin/account/setup'); // Redirect to account setup page
-    return null;
+    // router.push('/admin/account/setup'); // Redirect to account setup page
+    return <><p>{session.user.name}</p></>;
   }
 
   return children;
