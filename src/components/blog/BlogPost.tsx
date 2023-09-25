@@ -5,6 +5,14 @@ import ReactMarkdown from 'react-markdown';
 import parse from "html-react-parser"
 
 
+interface Author {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    photo: string;
+    username: string;
+    email: string;
+}
 
 interface BlogPostProps {
     blog: {
@@ -19,12 +27,15 @@ interface BlogPostProps {
         mdesc: string;
         createdAt: Date;
         updatedAt: Date;
+        postedBy: Author;
     };
 }
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
-    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt} = blog;
+    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
+    console.log(postedBy);
+    
 
 
     const excerpt = body.substring(11, 150);
@@ -45,6 +56,30 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                         {title}
                     </Typography>                    
                 </Button>
+
+                <div>
+
+                    {
+                        postedBy ? 
+                        <div className='flex flex-col'>
+
+                            <div className='flex justify-center'>
+                                < Typography variant="body1" sx={{}} className='gradient-text-category'>
+                                    Posted By:  
+                                </Typography>
+                                <Typography variant='body1' sx={{color: grey[50]}} className=''>
+                                    &nbsp;{postedBy.first_name} {postedBy.last_name}
+                                </Typography>
+                            </div>
+
+                        </div>
+                        :
+
+                        null
+                    }
+
+
+                </div>
                 
                 <div>
                             

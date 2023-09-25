@@ -16,9 +16,19 @@ import connectDB from '../../lib/connectDB';
 import Blog from '../../lib/models/blog';
 import Category from '../../lib/models/category';
 import SubCategory from '../../lib/models/sub_category';
+import User from '../../lib/models/user';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
+
+interface Author {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    photo: string;
+    username: string;
+    email: string;
+}
 
 interface Blog {
     _id: string;
@@ -32,6 +42,7 @@ interface Blog {
     mdesc: string;
     createdAt: Date;
     updatedAt: Date;
+    postedBy: Author;
 }
 
 
@@ -396,17 +407,20 @@ export async function getStaticProps() {
 
         await Category.find({});
         await SubCategory.find({});
+        await User.find({});
         const totalBlogCount = await Blog.countDocuments();
         const blogs = await Blog.find({})
             .populate("categories")
             .populate("sub_categories")
+            .populate("postedBy")
             .skip(skip)
             .limit(limitValue);
 
 
+            console.log(blogs);
             
 
-        console.log(videos);
+        // console.log(videos);
         return {
             props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), totalBlogCount, videos },
         };       

@@ -3,6 +3,7 @@ import Blog from "../../../../../lib/models/blog";
 import { NextApiRequest, NextApiResponse } from "next";
 import Category from "../../../../../lib/models/category";
 import SubCategory from "../../../../../lib/models/sub_category";
+import User from "../../../../../lib/models/user";
 
 export default async function handler(
     req: NextApiRequest,
@@ -23,10 +24,12 @@ export default async function handler(
             const skip = (pageValue - 1) * limitValue;
             await Category.find({})
             await SubCategory.find({})
+            await User.find({})
             const totalBlogCount = await Blog.countDocuments();
             const blogs = await Blog.find({})
                 .populate("categories")
                 .populate("sub_categories")
+                .populate("postedBy")
                 .skip(skip)
                 .limit(limitValue);
 
