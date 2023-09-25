@@ -69,7 +69,7 @@ const UserSettingsForm = ({user, onUserDataUpdate}) => {
         if(photoFileData) {
             
             const form = e.currentTarget;
-            const fileInput = Array.from(form.elements).find(({ name }) => name === 'file');
+            const fileInput = Array.from(form.elements).find(({ name }) => name === 'file') as HTMLInputElement | undefined;
             
             let formData = new FormData();
 
