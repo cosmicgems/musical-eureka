@@ -32,6 +32,8 @@ export default async function handler(
                     matches.includes(subcategory.slug)
                 )
             );
+            console.log(related_blogs);
+            
 
             
 

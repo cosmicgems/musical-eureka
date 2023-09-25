@@ -19,6 +19,7 @@ const Subscribe = () => {
         last_name: "",
         email: ""
     });
+
     const [values, setValues] = useState<any>({
         successMessage:"",
         success: null,
@@ -26,7 +27,8 @@ const Subscribe = () => {
         error: null,
         sending: null,
         sent: null,
-    })
+    });
+    
     const [blank, setBlank] = useState<boolean>(true)
     const [loggedIn, setloggedIn] = useState<boolean>(false);
     const [user, setUser] = useState({});

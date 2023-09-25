@@ -11,10 +11,10 @@ const UserCard = ({user}) => {
             {user.user.photo ? 
                 <CardMedia 
                 component="img"
-                image=''
+                image={user.user.photo}
                 alt=''
-                sx={{borderRadius:'5px'}}
-                className='w-2/5'
+                sx={{borderTopLeftRadius:'5px', borderBottomLeftRadius: "5px"}}
+                className='w-2/6 h-[125px]'
                 />                
                 :
                 <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[125px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{user.user.first_name[0]}</Typography> </Avatar>

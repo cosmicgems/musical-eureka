@@ -37,7 +37,7 @@ const DynamicArticlePage = (props) => {
   const {post:{title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo}, related_posts} = props;
   
     
-    // console.log(post.title);
+    // console.log(related_posts);
     const {pathSegment} = useStateContext();
 
     return (
@@ -235,6 +235,9 @@ export const getStaticProps = async ({ params: { slug } }) => {
       matches.includes(subcategory.slug)
     )
   );
+
+  // console.log(related_posts);
+  
 
   return {
     props: { post: JSON.parse(JSON.stringify(post)), related_posts: JSON.parse(JSON.stringify(related_posts)) },

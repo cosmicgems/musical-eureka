@@ -3,6 +3,7 @@ import Blog from "../../../../../lib/models/blog";
 import slugify from "slugify";
 import { NextApiRequest, NextApiResponse } from 'next';
 import { stripHtml } from "string-strip-html";
+import User from "../../../../../lib/models/user";
 
 
 export default async function handler(
@@ -19,6 +20,8 @@ export default async function handler(
         let arrayOfSubcategories = checkedSubcategory && checkedSubcategory.toString().split(",");
         console.log({checked, checkedSubcategory, arrayOfCategories, arrayOfSubcategories});
 
+        const postedBy = await User.findById(user);
+
         let blog = new Blog();
 
         blog.title = title;
@@ -29,7 +32,7 @@ export default async function handler(
         blog.slug = slugify(title).toLowerCase();
         blog.mtitle = `${title} | Pearl Box`
         blog.mdesc = stripHtml(body.substring(0,160)).result;
-        blog.postedBy = user;
+        blog.postedBy = postedBy;
         blog.save()
 
         

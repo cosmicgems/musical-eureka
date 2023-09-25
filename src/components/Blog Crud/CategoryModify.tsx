@@ -3,6 +3,7 @@ import { amber, grey, red } from '@mui/material/colors';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import subcategory from '../../../sanity/schemas/subcategory';
+import { styled } from '@mui/material/styles';
 
 const CategoryModify = () => {
 
@@ -47,8 +48,6 @@ const CategoryModify = () => {
         initCategories();
         initSubcategories();
     }, []);
-
-
 
     const handleClick = (c:any) => {
             setClicked(c._id);
@@ -118,7 +117,27 @@ const CategoryModify = () => {
         
     };
 
-
+    const CssTextField = styled(TextField)({
+        '& label.Mui-focused': {
+        color: grey[50],
+        },
+        '& .MuiInput-underline:after': {
+        borderBottomColor: '#B2BAC2',
+        },
+        '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: grey[900],
+        },
+        '&:hover fieldset': {
+            borderColor: grey[600],
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: grey[600],
+            borderWidth: "3px"
+        },
+        },
+    });
+    
 
     return (
         <Box className='flex flex-col gap-3' sx={{}}>
@@ -126,12 +145,12 @@ const CategoryModify = () => {
             {categories.map((c:any, i:number)=>{
                 return (
                     <div  key={categories._id} onClick={()=>handleClick(c)}>
-                        <Box sx={{bgcolor: i % 2 === 0 ? grey[500] : grey[700], borderRadius: '10px'}} className="p-3">
+                        <Box sx={{bgcolor: i % 2 === 0 ? grey[700] : grey[900], borderRadius: '10px'}} className="p-3">
 
                             <div className='flex flex-row gap-3 justify-between items-center w-full'>
 
                                 <div className='w-3/5'>
-                                    <Typography variant='h4' sx={{}} className='w-full'>
+                                    <Typography variant='h3' sx={{fontSize: '1.5rem'}} className='w-full gradient-text-two'>
                                         {c.name}
                                     </Typography>
                                 </div>                                    
@@ -237,12 +256,12 @@ const CategoryModify = () => {
 
                                         <div className='flex flex-row gap-6 justify-center mt-3'>
                                           
-                                                <Button onClick={()=>handleUpdate(category)}  variant="contained" sx={{bgcolor: amber[500]}} className="">
+                                                <Button onClick={()=>handleUpdate(category)}  variant="contained" sx={{color:grey[900]}} className="gradient-button-yellow">
                                                     Update
                                                 </Button>  
 
 
-                                            <Button variant="contained" sx={{bgcolor: red[500]}} className="">
+                                            <Button variant="contained" sx={{}} className="gradient-button-red">
                                                 Delete
                                             </Button>
 

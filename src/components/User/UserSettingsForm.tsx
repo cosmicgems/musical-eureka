@@ -26,12 +26,9 @@ const UserSettingsForm = ({user, onUserDataUpdate}) => {
 
 
     const handleChange = (e:any) =>{
+        setPhotoUpdate("");
         setPhotoFile(true)
         const value = e.target.files[0] 
-        console.log(value, "what's the value?");
-        
-
-        console.log(value);
         
         const file = value
         const imgUrl = URL.createObjectURL(file);
@@ -48,7 +45,8 @@ const UserSettingsForm = ({user, onUserDataUpdate}) => {
             about: aboutUpdate,
             photo_string: photoUpdate,
             photo_file: e.target.value,
-          });
+        });
+        
     };
 
     useEffect(() => {
@@ -67,43 +65,60 @@ const UserSettingsForm = ({user, onUserDataUpdate}) => {
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault()
-        
-        const form = e.currentTarget;
-        const fileInput = Array.from(form.elements).find(({ name }) => name === 'file');
-        
-        let formData = new FormData();
 
-        
-        
-        formData.append("file", fileInput.files[0])
-        formData.set('upload_preset', 'user_photo_update');
+        if(photoFileData) {
+            
+            const form = e.currentTarget;
+            const fileInput = Array.from(form.elements).find(({ name }) => name === 'file');
+            
+            let formData = new FormData();
+
+            
+            
+            formData.append("file", fileInput.files[0])
+            formData.set('upload_preset', 'user_photo_update');
 
 
-        
-        const photo = await fetch('https://api.cloudinary.com/v1_1/dyfhsjtwo/image/upload', {
-            method: 'POST',
-            body: formData
-        }).then((r)=> r.json())
+            
+            const photo = await fetch('https://api.cloudinary.com/v1_1/dyfhsjtwo/image/upload', {
+                method: 'POST',
+                body: formData
+            }).then((r)=> r.json())
 
-        const photo_url = photo.secure_url;
-        
-        const modified_user = {
-            first_name: firstNameUpdate,
-            last_name: lastNameUpdate,
-            about: aboutUpdate,
-            photo: photo_url
+            const photo_url = photo.secure_url;
+            
+            const modified_user = {
+                first_name: firstNameUpdate,
+                last_name: lastNameUpdate,
+                about: aboutUpdate,
+                photo: photo_url
+            }
+
+            const res = await axios.put(`/api/auth/user/${user._id}`, {modified_user})
+            console.log(res.data);
+        } else if (photoString) {
+            
+            const modified_user = {
+                first_name: firstNameUpdate,
+                last_name: lastNameUpdate,
+                about: aboutUpdate,
+                photo: photoUpdate
+            }
+
+            const res = await axios.put(`/api/auth/user/${user._id}`, {modified_user})
+            console.log(res.data);
         }
 
-        const res = await axios.put(`/api/auth/user/${user._id}`, {modified_user})
-        console.log(res.data);
+
+
         
     }
 
   return (
     <div className='flex gap-3'>
         <div className='sm:w-1/3 p-3 flex flex-col gap-3'>
-            <Typography variant='h3' sx={{fontSize:'1.5rem'}} className='gradient-text-subcategories'>
-                Profile Photo Preview
+            <Typography variant='h3' sx={{}} className='gradient-text-subcategories'>
+                Profile Preview
             </Typography>
             <Box className="flex flex-col gap-3" sx={{bgcolor: grey[900], borderRadius: '5px', p:3}}>
                 <div className='flex gap-3'>
@@ -201,12 +216,15 @@ const UserSettingsForm = ({user, onUserDataUpdate}) => {
                     {  photoString ?
                         <>
                             <TextField className='w-3/4' onChange={(e) => { setPhotoUpdate(e.target.value); onUserDataUpdate({ first_name: firstNameUpdate, last_name: lastNameUpdate, username: usernameUpdate, email: emailUpdate, about:aboutUpdate, photoString, photoFile}) }} value={photoUpdate} label="Photo" />
+                            <Button onClick={()=>{ setPhotoUpdate("")}} variant='contained' size='small'sx={{bgcolor:red[900]}}>
+                                Clear
+                            </Button>    
                             <Button className='w-1/4' fullWidth variant='contained' size="small" disabled>
                                 <label>
                                     <Typography variant="body1" sx={{fontSize:'.75em'}} component='div'> Upload</Typography>
                                 <input onChange={(e)=> handleChange(e)} type='file' accept="image/*" name='photo-file'  hidden/>
                                 </label>
-                            </Button>                
+                            </Button>             
                         </>
                         : photoFile ?
                         <>

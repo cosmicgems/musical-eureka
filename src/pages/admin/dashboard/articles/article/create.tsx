@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import RichTextEditor from '../../components/Text Editor/RichTextEditor';
+import RichTextEditor from '../../../../../components/Text Editor/RichTextEditor';
 import { Box, Button, CardContent, CardMedia, Checkbox, FormControl, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
 import { amber, green, grey, red } from '@mui/material/colors';
 import { useRouter } from 'next/router';
@@ -254,12 +254,16 @@ const Test = () => {
         const checkSession = async () => {
             const session = await getSession();
             if (session) {
-                setUser(session.user)
+                if(session.user.id !== user){
+                    setUser(session.user.id)
+                }
             }
         };
 
         checkSession();
-    })
+        // console.log(user);
+        
+    }, [user])
 
     return (
         <>
