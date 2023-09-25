@@ -252,11 +252,16 @@ const Test = () => {
 
     useEffect(()=>{
         const checkSession = async () => {
-            const session = await getSession();
-            if (session) {
-                if(session.user.id !== user){
-                    setUser(session.user.id)
+            try {
+                const session = await getSession();
+                if (session) {
+                    const userId = (session.user as { id: string }).id;
+                    if (userId !== user) {
+                        setUser(userId);
+                    }
                 }
+            } catch (error) {
+                console.error("Error fetching session:", error);
             }
         };
 
