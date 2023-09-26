@@ -25,9 +25,9 @@ export const getStaticPaths = async () => {
     await connectDB();
 
     // Fetch categories and their sub-categories in parallel
-    const [categories, subcategories] = await Promise.all([
+    const [categories] = await Promise.all([
+      SubCategory.find({},"slug"),
       Category.find({}).populate("sub_categories"),
-      SubCategory.find({}),
     ]);
 
     const paths = [];
