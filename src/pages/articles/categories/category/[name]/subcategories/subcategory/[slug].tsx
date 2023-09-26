@@ -18,17 +18,7 @@ const SubcategorySlugPage = ({sub_category}) => {
 
 export default SubcategorySlugPage
 
-//New commit needed
 
-// const fetchCategoryDataForPaths = async () => {
-//   try {
-//     const response = await axios.get(`${API}/api/blog/category/get-all-slugs`);
-//     return response.data.categories;
-//   } catch (error) {
-//     console.error('Error fetching category data:', error);
-//     return [];
-//   }
-// };
 
 export const getStaticPaths = async () => {
 
@@ -43,7 +33,7 @@ export const getStaticPaths = async () => {
     cats.forEach((category) => {
         const subcategoriesData = category.sub_categories.map((subcategory) => ({
           name: category.slug,
-          slug: subcategory.name,
+          slug: subcategory.slug,
         }));
         subcategoriesData.map((p) => {
           paths.push({ params: { name: p.name, slug: p.slug } });
@@ -76,9 +66,9 @@ export const getStaticProps = async ({ params: { slug } }) => {
   } catch (error) {
     console.error(`Error fetching data for slug ${slug}:`, error);
     return {
-      props: {sub_category: null}, // Return empty props or handle the error as needed
+      props: {sub_category: null}, 
     };
   }
 };
 
-//checkout somethung
+
