@@ -21,34 +21,35 @@ export default SubcategorySlugPage
 
 
 export const getStaticPaths = async () => {
-
   try {
     await connectDB();
-    await SubCategory.find({});
 
-    const cats = await Category.find({})
-                              .populate("sub_categories");
+    // Fetch categories and their sub-categories in parallel
+    const [categories, subcategories] = await Promise.all([
+      Category.find({}).populate("sub_categories"),
+      SubCategory.find({}),
+    ]);
+
     const paths = [];
 
-    cats.forEach((category) => {
-        const subcategoriesData = category.sub_categories.map((subcategory) => ({
-          name: category.slug,
-          slug: subcategory.slug,
-        }));
-        subcategoriesData.map((p) => {
-          paths.push({ params: { name: p.name, slug: p.slug } });
-        });
+    categories.forEach((category) => {
+      const subcategoriesData = category.sub_categories.map((subcategory) => ({
+        name: category.slug,
+        slug: subcategory.slug,
+      }));
+
+      subcategoriesData.forEach((p) => {
+        paths.push({ params: { name: p.name, slug: p.slug } });
       });
-      
+    });
+
     return {
       paths,
       fallback: 'blocking',
     };
-
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-  
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
