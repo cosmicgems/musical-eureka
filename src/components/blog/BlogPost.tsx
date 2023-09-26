@@ -102,7 +102,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                     {sub_categories.map((sc,i) => {
                         return (
                             <Grid item key={sc._id} xs={6} >
-                                <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
+                                <Button href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
                                     label={sc.name}
