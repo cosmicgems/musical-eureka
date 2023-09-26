@@ -6,12 +6,9 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import BlogPost from '../components/blog/BlogPost';
-import Subscribe from '../components/Subscribe';
 import SmallBlogCard from '../components/blog/SmallBlogCard';
 import VideoCard from '../components/VideoCard';
 import SearchResults from '../components/Search Bar/SearchResults';
-import { API, DOMAIN, APP_NAME } from "../../config";
-import {fetchBlogs, fetchVideos} from "../../helpers/staticPropsHelper"
 import connectDB from '../../lib/connectDB';
 import Blog from '../../lib/models/blog';
 import Category from '../../lib/models/category';
@@ -37,6 +34,7 @@ interface Blog {
     sub_categories: any[];
     photo: string;
     body: string;
+    excerpt: string;
     slug: string;
     mtitle: string;
     mdesc: string;
@@ -182,9 +180,6 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
 
             <Layout >
                 <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-[100%]'>
-                    <div className='w-full'>
-                        <Subscribe/>
-                    </div>
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
@@ -193,9 +188,6 @@ const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog
                         </div>
                         <div className='w-full flex gap-0'>
                             <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={query} onChange={(e) => {handleInputChange(e)}} />
-                            {/* <Button onClick={handleSearch} variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0,}}>
-                                Search
-                            </Button> */}
                         </div>
                         <div className='w-full'>
                             <SearchResults results={search} />

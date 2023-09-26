@@ -5,14 +5,14 @@ import connectDB from '../../../../../../../../lib/connectDB';
 import SubCategory from '../../../../../../../../lib/models/sub_category';
 import Category from '../../../../../../../../lib/models/category';
 
-const SubcategorySlugPage = ({sub_category:{name, slug, description, photo_landscape: p_wide, photo_portrait: p_long,}}) => {
+const SubcategorySlugPage = ({sub_category}) => {
 
   
-  // const {name, slug, description, photo_landscape: p_wide, photo_portrait: p_long,} = sc;
-  console.log(name);
+  
+  console.log(sub_category);
   
     return (
-        <div>{name}</div>
+        <div>{sub_category.name}</div>
     )
 }
 
@@ -65,12 +65,13 @@ export const getStaticProps = async ({ params: { slug } }) => {
   // Fetch data for the given slug during build time
   try {
     await connectDB();
-    const sub_category_wrap = await SubCategory.find({slug});
+    const sub_category = await SubCategory.findOne({slug});
 
-    // console.log(sub_category);
-    const sub_category = JSON.parse(JSON.stringify(sub_category_wrap))
+    
+    console.log(sub_category);
+    
     return {
-      props: {sub_category},
+      props: {sub_category: JSON.parse(JSON.stringify(sub_category))},
     };
   } catch (error) {
     console.error(`Error fetching data for slug ${slug}:`, error);

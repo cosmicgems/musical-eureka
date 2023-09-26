@@ -22,6 +22,14 @@ const subCategorySchema = new Schema({
     photo_portrait: {
         type: String,
     },
+    approved: {
+        type: Boolean,
+        default: false
+    },
+    approvedAt: {
+        type: Date,
+        default: null
+    }
 },
 { timestamps: true });
 

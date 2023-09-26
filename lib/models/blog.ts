@@ -29,6 +29,9 @@ const blogSchema = new Schema({
         type: String,
         
     },
+    excerpt: {
+        type: String,
+    },
     photo: {
         type: String
     },
@@ -38,6 +41,26 @@ const blogSchema = new Schema({
     postedBy: {
         type: ObjectId,
         ref: 'User', required: false
+    },
+    read_count: {
+        type: Number,
+        default: 0
+    },
+    click_count: {
+        type: Number,
+        default: 0
+    },
+    share_count: {
+        type: Number,
+        default: 0
+    },
+    approved: {
+        type: Boolean,
+        default: false
+    },
+    approvedAt: {
+        type: Date,
+        default: null
     }
 }, {timestamps: true});
 

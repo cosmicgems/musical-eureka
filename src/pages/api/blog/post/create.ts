@@ -15,11 +15,11 @@ export default async function handler(
     console.log("Connected to db");
 
     try {
-        const { body, title, photo, checked, checkedSubcategory, user} = req.body;
+        const { body, title, photo, checked, checkedSubcategory, user, excerpt} = req.body;
         let arrayOfCategories = checked && checked.toString().split(",");
         let arrayOfSubcategories = checkedSubcategory && checkedSubcategory.toString().split(",");
         console.log({checked, checkedSubcategory, arrayOfCategories, arrayOfSubcategories});
-
+log
         const postedBy = await User.findById(user);
 
         let blog = new Blog();
@@ -32,6 +32,7 @@ export default async function handler(
         blog.slug = slugify(title).toLowerCase();
         blog.mtitle = `${title} | Pearl Box`
         blog.mdesc = stripHtml(body.substring(0,160)).result;
+        blog.excerpt = excerpt;
         blog.postedBy = postedBy;
         blog.save()
 

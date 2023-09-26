@@ -13,13 +13,22 @@ export default async function handler (
             await connectDB();
             console.log("Db connected");
             
-            const { name, description, photo_landscape, photo_portrait } = req.body;
+            const { name, description, photo_landscape, photo_portrait, checkedSubcategory: sub } = req.body;
+
+            let sub_categories = sub && sub.toString().split(",");
 
             const slug = slugify(name).toLowerCase();
 
             const category = new Category({
-                name, slug, description, photo_landscape, photo_portrait
+                name, 
+                slug, 
+                description, 
+                photo_landscape, 
+                photo_portrait,
+                sub_categories: [],
             });
+
+            category.sub_categories = sub_categories;
 
             category.save();
 

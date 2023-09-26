@@ -24,6 +24,14 @@ const categorySchema = new Schema({
         type: String,
     },
     sub_categories: [{type: ObjectId, ref: 'SubCategory', required: true}],
+    approved: {
+        type: Boolean,
+        default: false
+    },
+    approvedAt: {
+        type: Date,
+        default: null
+    }
 },
 { timestamps: true });
 

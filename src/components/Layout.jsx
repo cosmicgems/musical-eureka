@@ -5,36 +5,13 @@ import Footer from './Footer';
 import { useStateContext } from '../../Context/StateContext';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import Subscribe from './Subscribe';
 
 const Layout = ({ children}) => {
   const { pageName } = useStateContext();
   const [updated, setUpdated] = useState(false);
 
     const { data: session, status, update } = useSession();
-
-
-
-      // const userId = session.user.id;
-      // const updateSession = async () => {
-      //   const res = await axios.put(`/api/auth/update-session?userId=${userId}`)
-      //   const user = res.data.user;
-        
-      //   await update({
-      //     ...session,
-      //     user: {
-      //       user:{
-      //         ...session?.user.user,
-      //         first_name: user.first_name,
-      //         last_name: user.last_name,
-      //         email: user.email,
-      //         photo: user.photo,
-      //         username: user.username,
-      //         role: user.role,                
-      //       }
-
-      //     }
-      //   })
-      // }
 
 
   return (
@@ -48,7 +25,7 @@ const Layout = ({ children}) => {
              <NavBar />
           </header>
         </div>
-
+        <Subscribe />
         <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
         {children}
         </main>

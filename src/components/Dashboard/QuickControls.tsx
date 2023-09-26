@@ -6,9 +6,9 @@ const QuickControls = () => {
 
   return (
     <Box sx={{bgcolor: grey[900], borderRadius: '5px'}} className="py-6 h-full">
-      <div className='flex justify-evenly items-center'>
+      <div className='flex justify-evenly items-stretch '>
         
-        <div className='flex flex-col justify-center items-center gap-6'>
+        <div className='flex flex-col justify-center  gap-6'>
 
           <div>
             <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
@@ -20,20 +20,20 @@ const QuickControls = () => {
           aria-label="vertical contained button group"
           variant="contained"
           >
-          <Button>
+          <Button href={`/admin/dashboard/articles/article/create`}>
             Create
           </Button>
-            <Button>
+            <Button href={`/admin/dashboard/articles/modify`} >
               Update/Delete
             </Button>
           </ButtonGroup>
         </div>
         
-        <div className='flex flex-col justify-center items-center gap-6'>
+        <div className='flex flex-col justify-center  gap-6'>
 
           <div>
             <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
-              Category Actions
+              Identifiers Actions
             </Typography>
           </div>
           <ButtonGroup
@@ -41,34 +41,36 @@ const QuickControls = () => {
           aria-label="vertical contained button group"
           variant="contained"
           >
-          <Button>
-            Create
-          </Button>
-            <Button>
-              Update/Delete
-            </Button>
+              <Button href={`/admin/dashboard/identifiers/create`} >
+                Create
+              </Button>
+              <Button href={`/admin/dashboard/identifiers/modify/`} >
+                Update/Delete
+              </Button>
           </ButtonGroup>
         </div>
         
-        <div className='flex flex-col justify-center items-center gap-6'>
+        <div className='flex flex-col  justify-center  '>
+          
+            <div>
+              <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
+                Featured Post Actions
+              </Typography>
+            </div>
+            <div className='flex flex-col grow justify-center '>
+              <ButtonGroup
+              orientation="vertical"
+              aria-label="vertical contained button group"
+              variant="contained"
+              className=''
+              >
+              <Button href={`/admin/dashboard/articles/featured-posts/manage`} >
+                Manage Post
+              </Button>
+              </ButtonGroup>               
+            </div>
+          
 
-          <div>
-            <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
-              Subcategory Actions
-            </Typography>
-          </div>
-          <ButtonGroup
-          orientation="vertical"
-          aria-label="vertical contained button group"
-          variant="contained"
-          >
-          <Button>
-            Create
-          </Button>
-            <Button>
-              Update/Delete
-            </Button>
-          </ButtonGroup>
         </div>
 
       </div>

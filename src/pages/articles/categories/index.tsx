@@ -1,11 +1,8 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import axios from 'axios';
 import React, { useState } from 'react'
 import Layout from '../../../components/Layout';
-import Subscribe from '../../../components/Subscribe';
 import CategoryCard from '../../../components/category/CategoryCard';
-import { API, DOMAIN, APP_NAME } from "../../../../config";
 import connectDB from '../../../../lib/connectDB';
 import SubCategory from '../../../../lib/models/sub_category';
 import Category from '../../../../lib/models/category';
@@ -18,9 +15,6 @@ const CategoriesPage = ({categories}) => {
 
         <Layout >
             <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0'>
-                <div className='w-full'>
-                    <Subscribe/>
-                </div>
                 <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6'>
                     <div>
                         <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
@@ -34,7 +28,7 @@ const CategoriesPage = ({categories}) => {
                         </Button>
                     </div>
                     <div>
-                        <Typography variant='h3' sx={{fontSize: "2.25em"}} className='font-bold gradient-text-four'>
+                        <Typography variant='h3' sx={{fontSize: "3rem"}} className='font-bold gradient-text-subcategories'>
                             Categories
                         </Typography>
                     </div>

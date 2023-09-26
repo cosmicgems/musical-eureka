@@ -7,6 +7,7 @@ import axios from 'axios';
 import parse from 'html-react-parser'
 import { Editor } from '@tinymce/tinymce-react';
 import { getSession } from 'next-auth/react';
+import Layout from '../../../../../components/Layout';
 
 const Test = () => {
 
@@ -26,6 +27,7 @@ const Test = () => {
     const [savedPost, setSavedPost] = useState<boolean>(null)
     const [cleared, setCleared] = useState<boolean>(false);
     const [user, setUser] = useState<any>({});
+    const [excerpt, setExcerpt] = useState<string>("");
 
     const [values, setValues] = useState<any>({
         error: null,
@@ -172,7 +174,7 @@ const Test = () => {
         setValues({ sending: true });
         e.preventDefault();
         try {
-            const postData = { title, body: editorContent, checked, checkedSubcategory, photo, user };
+            const postData = { title, body: editorContent, checked, checkedSubcategory, photo, user, excerpt };
             console.log(postData);
             const post = await axios.post("/api/blog/post/create", postData);
             console.log(post.data);
@@ -232,6 +234,11 @@ const Test = () => {
             setTitle(e.target.value);
             localStorage.setItem('Title', e.target.value);
             setCleared(false);
+        } else if (type === 'excerpt'){
+            console.log(e.target.value);
+            setExcerpt(e.target.value);
+            localStorage.setItem('Excerpt', e.target.value);
+
         }
     };
     
@@ -273,200 +280,205 @@ const Test = () => {
     return (
         <>
 
-            <Box className='min-h-screen p-6 flex flex-col' sx={{bgcolor: grey[200]}} >
-                { sending ?
-                    <Box className="p-3 mb-3" sx={{bgcolor: amber[600], borderRadius: "10px", fontSize: '2rem'}}>
-                        <Typography variant='h4' sx={{}} className=''>
-                            Sending...
-                        </Typography>
-                    </Box>
-                    :
-                    success ?
-                    <Box sx={{bgcolor:green[400], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
-                        <Typography variant='h4' sx={{color:grey[50]}} className='font-bold'>
-                            {successMessage}
-                        </Typography>
-                    </Box>   
-                    :
-                    error ?
-                    <Box sx={{bgcolor:red[700], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
-                        <Typography variant='h4' sx={{color: grey[200]}} className='font-bold'>
-                            {errorMessage}
-                        </Typography>
-                    </Box> 
-                    :
-                    <div className='w-full p-3 mb-3'>
-                        <Typography variant="h3" className='font-bold w-full text-center' sx={{color: green[500]}}>
-                            Create A Post
-                        </Typography>
-                    </div>
-                }
+            <Box className='min-h-screen p-6 flex flex-col pt-12' sx={{bgcolor: grey[100]}} >
+                <Layout>
+                    <div className='mb-4' />
+                    { sending ?
+                        <Box className="p-3 mb-3" sx={{bgcolor: amber[600], borderRadius: "10px", fontSize: '2rem'}}>
+                            <Typography variant='h4' sx={{}} className=''>
+                                Sending...
+                            </Typography>
+                        </Box>
+                        :
+                        success ?
+                        <Box sx={{bgcolor:green[400], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
+                            <Typography variant='h4' sx={{color:grey[50]}} className='font-bold'>
+                                {successMessage}
+                            </Typography>
+                        </Box>   
+                        :
+                        error ?
+                        <Box sx={{bgcolor:red[700], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
+                            <Typography variant='h4' sx={{color: grey[200]}} className='font-bold'>
+                                {errorMessage}
+                            </Typography>
+                        </Box> 
+                        :
+                        <div className='w-full p-3 mb-3'>
+                            <Typography variant="h3" className='font-bold w-full text-center gradient-text-subcategories' sx={{}}>
+                                Create A Post
+                            </Typography>
+                        </div>
+                    }
 
 
 
-                <div className='flex '>
+                    <div className='flex '>
 
-                    <div className='sm:w-3/5'>
+                        <div className='sm:w-3/5'>
 
-                        <form onSubmit={submitBlog}>
+                            <form onSubmit={submitBlog}>
 
-                            {/* <RichTextEditor onPropsChange={handleReceivedProps}/>         */}
-                                <form className='p-3'>
-                                <div className='mb-3'>
-                                <TextField
-                                    fullWidth
-                                    variant='outlined'
-                                    sx={{}}
-                                    className=''
-                                    value={title}
-                                    label='title'
-                                    onChange={handleChange('title')} // Update title state on change
-                                />
-                                </div>
-                                <div className='py-3'>
-                                <Editor
-                                    onInit={(evt, editor) => {
-                                    editorRef.current = editor;
-                                    }}
-                                    init={{
-                                    height: 500,
-                                    menubar: false,
-                                    plugins: [
-                                        'advlist autolink lists link image charmap print preview anchor',
-                                        'searchreplace visualblocks code fullscreen',
-                                        'insertdatetime media table paste code help wordcount',
-                                    ],
-                                    toolbar:
-                                        'undo redo | formatselect | ' +
-                                        'bold italic backcolor | alignleft aligncenter ' +
-                                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                                        'removeformat | help' + 'image | code |image' ,
-                                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                                    }}
-                                    onEditorChange={handleEditorChange} // Update editor content state on change
-                                    value={editorContent}
-                                />
-                                </div>
+                                {/* <RichTextEditor onPropsChange={handleReceivedProps}/>         */}
+                                    <form className='p-3'>
+                                    <div className='mb-3'>
+                                    <TextField
+                                        fullWidth
+                                        variant='outlined'
+                                        sx={{}}
+                                        className=''
+                                        value={title}
+                                        label='title'
+                                        onChange={handleChange('title')} // Update title state on change
+                                    />
+                                    </div>
+                                    <div className='py-3'>
+                                    <Editor
+                                        onInit={(evt, editor) => {
+                                        editorRef.current = editor;
+                                        }}
+                                        init={{
+                                        height: 500,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist autolink lists link image charmap print preview anchor',
+                                            'searchreplace visualblocks code fullscreen',
+                                            'insertdatetime media table paste code help wordcount',
+                                        ],
+                                        toolbar:
+                                            'undo redo | formatselect | ' +
+                                            'bold italic backcolor | alignleft aligncenter ' +
+                                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                                            'removeformat | help' + 'image | code |image' ,
+                                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                                        }}
+                                        onEditorChange={handleEditorChange} // Update editor content state on change
+                                        value={editorContent}
+                                    />
+                                    </div>
+                                </form>
+
+                                <div className='px-3'>
+                                    <Button type='submit' variant='contained' >
+                                    Submit
+                                    </Button>    
+                                </div>                             
+
                             </form>
 
-                            <div className='px-3'>
-                                <Button type='submit' variant='contained' >
-                                Submit
-                                </Button>    
-                            </div>                             
-
-                        </form>
-
-                        
-                    </div>
-
-                    <div className='flex flex-col sm:w-2/5 p-3'>
-
-                        {!cleared ?
-                            <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
-
-                                <div className='p-3'>
-                                    <Typography variant='h3' className='font-bold' sx={{fontSize: '2rem', color: grey[50]}}>
-                                        {localStorageBlog.title}
-                                    </Typography>                                
-                                </div>
-
-                                <div className='p-3 gap-6 flex'>
-                                    <Button variant='contained' type='button' onClick={()=>handleSavedWork(true)}>
-                                        Continue Work
-                                    </Button>
-                                    <Button variant='outlined' onClick={handleLocalStorageClear}>
-                                        Clear Work
-                                    </Button>
-                                </div>
-
-                            </Box>  
-                            : 
-                            <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
-
-                                <div className='p-3 w-full'>
-                                    <Typography variant='h3' className='font-bold w-full text-center' sx={{fontSize: '3rem', color: grey[50]}}>
-                                        No Saved Work
-                                    </Typography>                                
-                                </div>
-
-
-                            </Box>
-                        }
-
-
-
-                        <div className='p-3'>
-                            <TextField fullWidth value={photo} label='photo' variant='outlined' onChange={handleChange('photo')} />
+                            
                         </div>
 
-                        <div className='flex '>
+                        <div className='flex flex-col sm:w-2/5 p-3'>
 
-                            <div className='p-3 w-1/2'>
+                            {!cleared ?
+                                <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
+
+                                    <div className='p-3'>
+                                        <Typography variant='h3' className='font-bold' sx={{fontSize: '2rem', color: grey[50]}}>
+                                            {localStorageBlog.title}
+                                        </Typography>                                
+                                    </div>
+
+                                    <div className='p-3 gap-6 flex'>
+                                        <Button variant='contained' type='button' onClick={()=>handleSavedWork(true)}>
+                                            Continue Work
+                                        </Button>
+                                        <Button variant='outlined' onClick={handleLocalStorageClear}>
+                                            Clear Work
+                                        </Button>
+                                    </div>
+
+                                </Box>  
+                                : 
+                                <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
+
+                                    <div className='p-3 w-full'>
+                                        <Typography variant='h3' className='font-bold w-full text-center' sx={{fontSize: '3rem', color: grey[50]}}>
+                                            No Saved Work
+                                        </Typography>                                
+                                    </div>
+
+
+                                </Box>
+                            }
+
+
+
+                            <div className='p-3 flex flex-col gap-3'>
+                                <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
+                                <TextField fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
+                            </div>
+
+                            <div className='flex '>
+
+                                <div className='p-3 w-1/2'>
+                                    <div>
+                                        <Typography variant='h6' sx={{}}>
+                                            Categories
+                                        </Typography>                                
+                                    </div>
+                                    <FormGroup>
+                                        {showCategories()}                   
+                                    </FormGroup>
+
+
+                                </div>
+
+                                <div className='p-3 w-1/2'>
+                                    <div>
+                                        <Typography variant='h6' sx={{}}>
+                                            Subcategories
+                                        </Typography>                                
+                                    </div>
+                                    <FormGroup>
+                                        {showSubcategories()}                
+                                    </FormGroup>                 
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>  
+
+                    
+                    <div className='w-3/5 flex flex-col justify-center items-center'>
+                        <div className='py-6'>
+                            <Typography variant='h3' sx={{color: grey[50]}} className='font-bold'>
+                                Post Preview 
+                            </Typography>
+                        </div>
+                        <div className='w-full' style={{backgroundColor: "#FFF"}}>
+                            {photo !== '' &&
+                                <div className='w-full my-3'>
+                                    <CardMedia 
+                                    className='h-[10vh]'
+                                    sx={{objectFit: 'cover'}}
+                                    component='img'
+                                    src={photo}
+                                    alt="Image"
+                                    />
+                                </div>                            
+                            }
+
+                            <div className='p-6'>
                                 <div>
-                                    <Typography variant='h6' sx={{}}>
-                                        Categories
-                                    </Typography>                                
+                                    <Typography variant='h3' sx={{}} className='text-center'>
+                                        {title}
+                                    </Typography>
                                 </div>
-                                <FormGroup>
-                                    {showCategories()}                   
-                                </FormGroup>
-
-
+                                <article>
+                                        {editorContent && parse(editorContent)}
+                                </article>                            
                             </div>
-
-                            <div className='p-3 w-1/2'>
-                                <div>
-                                    <Typography variant='h6' sx={{}}>
-                                        Subcategories
-                                    </Typography>                                
-                                </div>
-                                <FormGroup>
-                                    {showSubcategories()}                
-                                </FormGroup>                 
-                            </div>
-
 
                         </div>
-                    </div>
 
+                    </div>                    
+                </Layout>
 
-                </div>  
-
-                
-                <div className='w-3/5 flex flex-col justify-center items-center'>
-                    <div className='py-6'>
-                        <Typography variant='h3' sx={{color: grey[50]}} className='font-bold'>
-                            Post Preview 
-                        </Typography>
-                    </div>
-                    <div className='w-full' style={{backgroundColor: "#FFF"}}>
-                        {photo !== '' &&
-                            <div className='w-full my-3'>
-                                <CardMedia 
-                                className='h-[10vh]'
-                                sx={{objectFit: 'cover'}}
-                                component='img'
-                                src={photo}
-                                alt="Image"
-                                />
-                            </div>                            
-                        }
-
-                        <div className='p-6'>
-                            <div>
-                                <Typography variant='h3' sx={{}} className='text-center'>
-                                    {title}
-                                </Typography>
-                            </div>
-                            <article>
-                                    {editorContent && parse(editorContent)}
-                            </article>                            
-                        </div>
-
-                    </div>
-
-                </div>
 
             </Box>
 

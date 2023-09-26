@@ -3,6 +3,7 @@ import { grey } from '@mui/material/colors';
 import React, { useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import parse from "html-react-parser"
+import moment from 'moment';
 
 
 interface Author {
@@ -23,6 +24,7 @@ interface BlogPostProps {
         photo: string;
         body: string;
         slug: string;
+        excerpt: string;
         mtitle: string;
         mdesc: string;
         createdAt: Date;
@@ -33,12 +35,12 @@ interface BlogPostProps {
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
-    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
-    console.log(postedBy);
+    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
+    console.log(excerpt);
     
 
 
-    const excerpt = body.substring(11, 150);
+    const excerpt_two = body.substring(11, 150);
 
     return (
         <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
@@ -63,13 +65,26 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                         postedBy ? 
                         <div className='flex flex-col'>
 
-                            <div className='flex justify-center'>
-                                < Typography variant="body1" sx={{}} className='gradient-text-category'>
-                                    Posted By:  
-                                </Typography>
+                        <div className='flex justify-center items-center gap-3'>
+                            <div className='flex flex-col justify-center items-center'>
+                                <Avatar alt={`${postedBy.first_name} ${postedBy.last_name}`} src={postedBy.photo} />
                                 <Typography variant='body1' sx={{color: grey[50]}} className=''>
                                     &nbsp;{postedBy.first_name} {postedBy.last_name}
                                 </Typography>
+                            </div>
+
+                        </div>
+
+                            <div className='flex justify-center items-center gap-3'>
+                                < Typography variant="body1" sx={{}} className='gradient-text-category'>
+                                    Post Date:  
+                                </Typography>
+                                
+                                    <Typography variant='body1' sx={{color: grey[50]}} className=''>
+                                        {moment(createdAt).fromNow()}
+                                    </Typography>
+                              
+
                             </div>
 
                         </div>
@@ -103,8 +118,17 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 </div>
 
                 <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text w-[350px] sm:w-[375px]'   >
-                        {excerpt}      
-
+                    {
+                        excerpt ?
+                        <>
+                        {excerpt}
+                        </>
+                        
+                        :
+                        <>
+                        {excerpt_two} 
+                        </>
+                    }
                 </Typography>        
             </div>
         </Box>

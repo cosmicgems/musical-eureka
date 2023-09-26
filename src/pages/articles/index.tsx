@@ -6,10 +6,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import BlogPost from '../../components/blog/BlogPost';
-import { GetStaticProps } from 'next';
-import Subscribe from '../../components/Subscribe';
-import SmallBlogCard from '../../components/blog/SmallBlogCard';
-import { API, DOMAIN, APP_NAME } from "../../../config";
+import { DOMAIN } from "../../../config";
 import connectDB from '../../../lib/connectDB';
 import Category from '../../../lib/models/category';
 import SubCategory from '../../../lib/models/sub_category';
@@ -19,6 +16,16 @@ import Blog from '../../../lib/models/blog';
 const Layout = dynamic(() => import('../../components/Layout'));
 
 
+
+interface Author {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    photo: string;
+    username: string;
+    email: string;
+}
+
 interface Blog {
     _id: string;
     title: string;
@@ -26,16 +33,13 @@ interface Blog {
     sub_categories: any[];
     photo: string;
     body: string;
+    excerpt: string;
     slug: string;
     mtitle: string;
     mdesc: string;
     createdAt: Date;
     updatedAt: Date;
-}
-
-interface ApiResponse {
-    message: string;
-    blogs: Blog[];
+    postedBy: Author;
 }
 
 
@@ -107,9 +111,6 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
             <Layout >
                 <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-screen'>
-                    <div className='w-full'>
-                        <Subscribe/>
-                    </div>
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>

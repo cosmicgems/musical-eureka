@@ -22,6 +22,7 @@ const ModifyPost = () => {
     const [savedPost, setSavedPost] = useState<boolean>(null)
     const [cleared, setCleared] = useState<boolean>(false);
     const [localStorageBlog, setLocalStorageBlog] = useState<any>({})
+    const [excerpt, setExcerpt] = useState<string>("");
 
     const [values, setValues] = useState<any>({
         error: null,
@@ -48,6 +49,7 @@ const ModifyPost = () => {
             setChecked(post.categories)
             setCheckedSubcategory(post.sub_categories)
             setValues({photo:post.photo})
+            setExcerpt(post.excerpt)
             setPost(post);
         }
         fetchPost();
@@ -137,6 +139,10 @@ const ModifyPost = () => {
             setTitle(e.target.value);
             localStorage.setItem('Title Update', e.target.value);
             setCleared(false);
+        } else if(type === 'excerpt') {
+            console.log(e.target.value);
+            setExcerpt(e.target.value);
+            localStorage.setItem('Excerpt', e.target.value);
         }
     };
 
@@ -381,8 +387,9 @@ const ModifyPost = () => {
 
 
 
-            <div className='p-3'>
-                <TextField fullWidth value={photo} label='photo' variant='outlined' onChange={handleChange('photo')} />
+            <div className='p-3 flex flex-col gap-3'>
+                <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
+                <TextField fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
             </div>
 
             <div className='flex '>
