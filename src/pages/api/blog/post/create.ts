@@ -19,7 +19,7 @@ export default async function handler(
         let arrayOfCategories = checked && checked.toString().split(",");
         let arrayOfSubcategories = checkedSubcategory && checkedSubcategory.toString().split(",");
         console.log({checked, checkedSubcategory, arrayOfCategories, arrayOfSubcategories});
-log
+        
         const postedBy = await User.findById(user);
 
         let blog = new Blog();
