@@ -15,6 +15,7 @@ import connectDB from '../../../../lib/connectDB';
 import Blog from '../../../../lib/models/blog';
 import Category from '../../../../lib/models/category';
 import SubCategory from '../../../../lib/models/sub_category';
+import User from '../../../../lib/models/user';
 
 
 
@@ -211,10 +212,11 @@ export const getStaticProps = async ({ params: { slug } }) => {
   await connectDB();
   await Category.find({});
   await SubCategory.find({});
-
+  await User.find({});
   const post = await Blog.findOne({slug})
                           .populate("categories")
-                          .populate("sub_categories");
+                          .populate("sub_categories")
+                          .populate("postedBy");
 
   
 
