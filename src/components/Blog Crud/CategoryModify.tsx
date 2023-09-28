@@ -1,10 +1,62 @@
-import { Avatar, Box, Button, ButtonBase, CardMedia, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography } from '@mui/material';
-import { amber, grey, red } from '@mui/material/colors';
+import { Avatar, Box, Button, ButtonBase, CardMedia, Checkbox, FormControlLabel, FormGroup, Grid, Modal, TextField, Typography } from '@mui/material';
+import { amber, green, grey, red } from '@mui/material/colors';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import subcategory from '../../../sanity/schemas/subcategory';
 import { styled } from '@mui/material/styles';
 
+
+const CssTextField = styled(TextField)({
+    '& label.Mui-focused': {
+    color: green[200],
+    },
+    '& .MuiInput-underline:after': {
+    borderBottomColor: '#B2BAC2',
+    },
+    '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+        borderColor: grey[50],
+    },
+    '&:hover fieldset': {
+        borderColor: grey[50],
+    },
+    '&.Mui-focused fieldset': {
+        borderColor: grey[50],
+    },
+    '& .MuiInputBase-input': { 
+        color: grey[50], 
+    },
+    },
+    '& label': { // Add this selector for unfocused label
+        color: grey[50], // Change this to the desired label color
+    },
+});
+
+const CustomFormControlLabel = styled(FormControlLabel)({
+    '& .MuiCheckbox-root': {
+      color: grey[50],
+    },
+    '& .Mui-checked': {
+      color: green[500],
+    },
+    '& .MuiTypography-root': {
+      color: grey[50],
+    },
+  });
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  
+  
 const CategoryModify = () => {
 
     const [categories, setCategories] = useState<any>([]);
@@ -22,6 +74,21 @@ const CategoryModify = () => {
         id: '',
         sub_categories: [],
     })
+    const [id, setId] = useState<any>("");
+    const handleClose = () => setOpen(false);
+    const handleDelete = async (postId:any) => {
+      console.log(postId);
+      
+      const deletedPost = await axios.delete(`/api/blog/post/delete/${postId}`, )
+      handleClose()
+      console.log("The post have been successfully deleted.", deletedPost);
+    
+    }
+  
+  
+    const [open, setOpen] = React.useState<boolean>(false);
+
+    const handleOpen = (e,id:any) =>{ setId(id);setOpen(true)};
 
     const initCategories = async () => {
         try {
@@ -50,6 +117,7 @@ const CategoryModify = () => {
     }, []);
 
     const handleClick = (c:any) => {
+        if(clicked === ""){
             setClicked(c._id);
             setCheckedSubcategory(c.sub_categories)
             setCategory({
@@ -61,29 +129,18 @@ const CategoryModify = () => {
                 id: c._id,
                 sub_categories: checkedSubcategory,
             })
-            setUpdate(true)      
+            setUpdate(true)             
+        } else {
+            setClicked("");
+            setUpdate(!update);         
+        }
+     
 
     }
 
-    const handleUpdateCategory = (c:any) => {
-        setUpdate(false);
-        setCheckedSubcategory(c.sub_categories)
-        setCategory({
-            name:c.name,
-            description: c.description,
-            photo_landscape: c.photo_landscape,
-            photo_portrait: c.photo_portrait,
-            slug: c.slug,
-            id: c._id,
-            sub_categories: checkedSubcategory,
-        })
-        setReadyForSubmit(true);
-
-    }
-
-    const handleUpdate = async (category:any) => {
+    const handleUpdate = async (e, id) => {
+        e.preventDefault()
         try {
-            console.log(category);
             const updatedCat = await axios.put(`/api/blog/category/update/${category.slug}`, category)
             console.log(updatedCat.data.cat);
             setClicked("");
@@ -117,37 +174,16 @@ const CategoryModify = () => {
         
     };
 
-    const CssTextField = styled(TextField)({
-        '& label.Mui-focused': {
-        color: grey[50],
-        },
-        '& .MuiInput-underline:after': {
-        borderBottomColor: '#B2BAC2',
-        },
-        '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderColor: grey[900],
-        },
-        '&:hover fieldset': {
-            borderColor: grey[600],
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: grey[600],
-            borderWidth: "3px"
-        },
-        },
-    });
-    
 
     return (
         <Box className='flex flex-col gap-3' sx={{}}>
 
             {categories.map((c:any, i:number)=>{
                 return (
-                    <div  key={categories._id} onClick={()=>handleClick(c)}>
+                    <div  key={categories._id}>
                         <Box sx={{bgcolor: i % 2 === 0 ? grey[700] : grey[900], borderRadius: '10px'}} className="p-3">
 
-                            <div className='flex flex-row gap-3 justify-between items-center w-full'>
+                            <div className='flex flex-row gap-3 justify-between items-center w-full' onClick={()=>handleClick(c)}>
 
                                 <div className='w-3/5'>
                                     <Typography variant='h3' sx={{fontSize: '1.5rem'}} className='w-full gradient-text-two'>
@@ -157,7 +193,7 @@ const CategoryModify = () => {
                           
 
 
-                                <div className='w-2/5 flex justify-end' >
+                                <div className='w-2/5 flex justify-end' onClick={()=>handleClick(c)} >
                                     <Avatar
                                         alt={c.description}
                                         src={c.photo_landscape}
@@ -182,7 +218,7 @@ const CategoryModify = () => {
                                                             {subcategories.map((sc:any, i:number)=> {
                                                                 return (
                                                                     <Grid key={sc._id} item sm={6}>
-                                                                        <FormControlLabel  onChange={handleSubcategoryToggle(sc._id)} control={<Checkbox  checked={checkedSubcategory.includes(sc._id)}  />} label={sc.name} />
+                                                                        <CustomFormControlLabel  onChange={handleSubcategoryToggle(sc._id)} control={<Checkbox  checked={checkedSubcategory.includes(sc._id)}  />} label={sc.name} />
                                                                     </Grid>
                                                                     
                                                                 )
@@ -194,7 +230,7 @@ const CategoryModify = () => {
                                                 </div>
 
                                                 <div>
-                                                    <TextField
+                                                    <CssTextField
                                                         value={category.name}
                                                         sx={{}}
                                                         className=""
@@ -205,7 +241,7 @@ const CategoryModify = () => {
                                                 </div>
 
                                                 <div>
-                                                    <TextField
+                                                    <CssTextField
                                                         onChange={(e) => setCategory({ ...category, description: e.target.value })}
                                                         fullWidth
                                                         multiline
@@ -219,7 +255,7 @@ const CategoryModify = () => {
                                                 </div>
 
                                                 <div>
-                                                    <TextField
+                                                    <CssTextField
                                                         onChange={(e) => setCategory({ ...category, photo_landscape: e.target.value })}
                                                         fullWidth
                                                         variant='outlined'
@@ -231,7 +267,7 @@ const CategoryModify = () => {
                                                 </div>
 
                                                 <div>
-                                                    <TextField
+                                                    <CssTextField
                                                         onChange={(e) => setCategory({ ...category, photo_portrait: e.target.value })}
                                                         fullWidth
                                                         variant='outlined'
@@ -256,7 +292,7 @@ const CategoryModify = () => {
 
                                         <div className='flex flex-row gap-6 justify-center mt-3'>
                                           
-                                                <Button onClick={()=>handleUpdate(category)}  variant="contained" sx={{color:grey[900]}} className="gradient-button-yellow">
+                                                <Button onClick={(e)=>handleOpen(e, category._id)}  variant="contained" sx={{color:grey[900]}} className="gradient-button-yellow">
                                                     Update
                                                 </Button>  
 
@@ -281,7 +317,35 @@ const CategoryModify = () => {
                 )
             })}
 
+<Modal
+                    sx={{}}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box className="flex flex-col gap-2 text-center" sx={style}>
+                      <Typography id="modal-modal-title" variant="h6" >
+                        Text in a modal
+                      </Typography>
+                      <Typography id="modal-modal-description mb-2" >
+                        Are you sure you would like to delete this post? This action is <span className='font-bold'>irreversible</span> .
+                      </Typography>
+                      <Typography variant='body2' sx={{color: grey[500]}} className='font-bold'>
+                        Click outside this alert to cancel.
+                      </Typography>
+                      <div className='flex flex-row gap-3 justify-center items-center'>
+                        <Button variant='contained' id={id} onClick={(e)=>handleUpdate(e,id)} sx={{bgcolor: red[500]}} className=''>
+                          Update
+                        </Button>
+                        <Button onClick={handleClose} variant='contained' sx={{bgcolor: grey[700]}} className=''>
+                          Cancel
+                        </Button>   
 
+                      </div>
+
+                    </Box>
+                  </Modal>   
 
         </Box>
     )

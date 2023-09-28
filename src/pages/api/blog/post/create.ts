@@ -4,6 +4,7 @@ import slugify from "slugify";
 import { NextApiRequest, NextApiResponse } from 'next';
 import { stripHtml } from "string-strip-html";
 import User from "../../../../../lib/models/user";
+import Category from "../../../../../lib/models/category";
 
 
 export default async function handler(
@@ -15,11 +16,10 @@ export default async function handler(
     console.log("Connected to db");
 
     try {
-        const { body, title, photo, checked, checkedSubcategory, user, excerpt} = req.body;
-        let arrayOfCategories = checked && checked.toString().split(",");
+        const { body, title, photo, selected, checkedSubcategory, user, excerpt} = req.body;
         let arrayOfSubcategories = checkedSubcategory && checkedSubcategory.toString().split(",");
-        console.log({checked, checkedSubcategory, arrayOfCategories, arrayOfSubcategories});
-        
+        console.log({selected, checkedSubcategory,  arrayOfSubcategories});
+        const category = await Category.findById(selected);
         const postedBy = await User.findById(user);
 
         let blog = new Blog();
@@ -27,18 +27,20 @@ export default async function handler(
         blog.title = title;
         blog.photo = photo;
         blog.body = body;
-        blog.categories = arrayOfCategories;
+        blog.categories = category;
         blog.sub_categories = arrayOfSubcategories;
         blog.slug = slugify(title).toLowerCase();
         blog.mtitle = `${title} | Pearl Box`
         blog.mdesc = stripHtml(body.substring(0,160)).result;
         blog.excerpt = excerpt;
         blog.postedBy = postedBy;
+        console.log(blog);
+        
         blog.save()
 
         
 
-        res.status(200).json({message: `${title} was successfully submitted!` , blogPost:{title, body, photo, checked, checkedSubcategory}});
+        res.status(200).json({message: `${title} was successfully submitted!` , blogPost:blog});
 
     } catch (error) {
         res.status(500).json({message: 'There was an error when saving the post to the DB.'})

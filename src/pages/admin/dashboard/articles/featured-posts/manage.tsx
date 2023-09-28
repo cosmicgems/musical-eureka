@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../../../../components/Layout'
 import connectDB from '../../../../../../lib/connectDB'
 import Category from '../../../../../../lib/models/category'
@@ -10,6 +10,7 @@ import Blog from '../../../../../../lib/models/blog'
 import PostsContainer from '../../../../../components/Featured Post Manager/PostsContainer'
 import Tag from '../../../../../../lib/models/tag'
 import FeaturedContainer from '../../../../../components/Featured Post Manager/FeaturedContainer'
+import axios from 'axios'
 
 
 
@@ -42,8 +43,37 @@ interface Blog {
 
 
 const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}: { initialBlogs: Blog[]; totalBlogCount: number,  featuredBlogs: Blog[]; }) => {
-  let maxFeatures = false;
-  const data = {blogs:initialBlogs, maxFeatures}
+  const [nonfeatured, setNonfeatured] = useState<any>(initialBlogs);
+  const [featured, setFeatured] = useState<any>(featuredBlogs);
+  const [data, setData] = useState<any>({
+    blogs:nonfeatured, 
+    maxFeatures: false
+  })
+
+  const handleUpdate = async() => {
+    try {
+      const featuredFetch = await axios.get("/api/blog/post/get-featured");
+      const nonFeaturedFetch = await axios.get("/api/blog/post/get-nonfeatured");
+      setNonfeatured(nonFeaturedFetch.data.nonFeatured);
+      console.log(featuredFetch.data.featured, nonFeaturedFetch.data.nonFeatured);
+      
+      setData({...data, blogs:nonfeatured})
+      setFeatured(featuredFetch.data.featured); 
+      return {data, featured}     
+    } catch (error) {
+      console.error(error)
+    }
+
+  }
+  
+  
+
+  useEffect(() => {
+    console.log("Blogs updated",  featured, data)
+    setData(data);
+    setFeatured(featured)
+  }, [featured, data])
+
   return (
     
     <Box sx={{bgcolor: grey[100]}} className="">
@@ -59,11 +89,11 @@ const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}:
           <div className='flex flex-col md:flex-row gap-12'>
 
             <div className='sm:w-3/5'>
-              <PostsContainer data={data} />
+              <PostsContainer data={data} onUpdate={handleUpdate} />
             </div>
 
             <div className='md:w-2/5'>
-              <FeaturedContainer featuredBlogs={featuredBlogs} />
+              <FeaturedContainer featuredBlogs={featured} onUpdate={handleUpdate} handleUpdate={handleUpdate} />
             </div>
 
           </div>

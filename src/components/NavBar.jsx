@@ -80,11 +80,14 @@ function NavBar(props) {
   React.useEffect(()=>{
     const checkSession = async () => {
     const session = await getSession();
-    console.log(session);
+    // console.log(session);
+
+    if(loggedIn) return
     if (session) {
         setLoggedIn(true);
     }
     };
+    
 
     checkSession();
 })

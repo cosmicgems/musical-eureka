@@ -19,15 +19,15 @@ export default async function handler (
             await User.find({});
             await Tag.find({});
 
-            const featured = await Blog.find({featured:true})
+            const nonFeatured = await Blog.find({featured:false})
             .populate("categories")
             .populate("sub_categories")
             .populate("postedBy")
             .populate("tags")
-            console.log(featured, "Backend Message");
+            console.log(nonFeatured, "Backend Message");
             
 
-            res.status(200).json({message: "Featured posts successfully fetched." , featured})
+            res.status(200).json({message: "Featured posts successfully fetched." , nonFeatured})
         } catch (error) {
             console.error(error)
         }

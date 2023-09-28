@@ -1,7 +1,17 @@
-import { Box, Button, CardMedia, Typography } from '@mui/material'
+import { Avatar, Box, Button, CardMedia, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors';
+import moment from 'moment';
 import React from 'react'
 
+
+interface Author {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    photo: string;
+    username: string;
+    email: string;
+}
 
 interface BlogPostProps {
     blog: {
@@ -12,18 +22,19 @@ interface BlogPostProps {
         photo: string;
         body: string;
         slug: string;
+        excerpt: string;
         mtitle: string;
         mdesc: string;
         createdAt: Date;
         updatedAt: Date;
+        postedBy: Author;
     };
 }
 
 
-
 const SmallBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
 
-    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt} = blog;
+    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
 
     console.log(photo);
     
@@ -42,25 +53,33 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
             className='w-[100px] sm:w-1/4'
             />
 
-            <div className='flex flex-col gap-3 w-[250px] sm:w-[3/4] p-2'>
+            <div className='flex flex-col gap-3 w-[250px] w-full p-2'>
 
-                <div className=''>
+                <div className='w-[100%]'>
                     
-                    <Button href={`/articles/post/${slug}`}>
-                        <Typography variant='h3' sx={{fontSize: '1.5rem'}} className='gradient-text'>
+                    <Button fullWidth href={`/articles/post/${slug}`}>
+                        <Typography  variant='h3' sx={{fontSize: '1.5rem'}} className='gradient-text '>
                             {title}
                         </Typography>
                     </Button>
                 </div>
 
-                <div className=''>
-                    <Typography variant='body1' sx={{}} className=''>
-                        Author
-                    </Typography>
+                <div className='flex flex-row justify-center items-center w-[100%]'>
+                    <Avatar  alt={`${postedBy?.first_name} ${postedBy?.last_name}`} src={postedBy?.photo} />
+                    <div className='flex flex-col items-center '>
+                        <Typography variant='body1' sx={{color: grey[50]}} className=''>
+                            &nbsp;{postedBy?.first_name} {postedBy?.last_name}
+                        </Typography>
+                        <Typography variant='body1' sx={{color:grey[50]}} className=''>
+                            {moment(createdAt).fromNow()}
+                        </Typography>
+                    </div>
+
+
                 </div>
 
                 <div className=''>
-                    <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text w-[200px] sm:w-3/4 sm:w-[375px]'>
+                    <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text w-[95%]'>
                         {excerpt}
                     </Typography>
                 </div>

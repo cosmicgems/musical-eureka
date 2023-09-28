@@ -14,6 +14,9 @@ import Blog from '../../lib/models/blog';
 import Category from '../../lib/models/category';
 import SubCategory from '../../lib/models/sub_category';
 import User from '../../lib/models/user';
+import FeaturedPosts from '../components/Home Page/FeaturedPosts';
+import TrendingPosts from '../components/Home Page/TrendingPosts';
+import YoutubeVideos from '../components/Home Page/YoutubeVideos';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -46,319 +49,40 @@ interface Blog {
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount, videos }: { initialBlogs: Blog[]; totalBlogCount: number, videos: any }) => {
+const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { initialBlogs: Blog[]; totalBlogCount: number, featuredPosts: Blog[], videos: any }) => {
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
-    const [page, setPage] = useState<number>(1); // Keep track of the page number
-    const blogsPerPage = 5;
-    const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const [search, setSearch] = useState<any>({
-        videos: [],
-        blogs: [],
-    });
-    const [subscriber, setSubscriber] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false);
-    const [query, setQuery] = useState<string>("");
-    const [searchResults, setSearchResults] = useState([]);
-    const [debouncedQuery, setDebouncedQuery] = useState('');
-    const targetRef = useRef();
-    let loadedBlogCount = blogs.length; 
-
-    const loadMoreBlogs = useCallback(async () => {
-        try {
-            const nextPage = page + 1;
-            if (loadedBlogCount < totalBlogCount) {
-                setLoading(true);
-                const res = await axios.get(`http://localhost:3000/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
-                const newBlogs = res.data.blogs.blogs;
-                setBlogs((prevBlogs) => [...prevBlogs, ...newBlogs]);
-                setPage(nextPage);
-                loadedBlogCount ++
-        } else {
-            // All blogs are loaded
-            console.log('All blogs are loaded.');
-        }
-        } catch (error) {
-            console.error('Error fetching more blogs:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, [page, totalBlogCount, blogsPerPage]);
-
-    useEffect(() => {
-        if(!targetRef?.current) return;
-        // console.log(loadedBlogCount);
-        
-        if(loadedBlogCount >= totalBlogCount) return;
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    
-                    // Load more blogs when the target div becomes visible
-                    loadMoreBlogs();
-                }
-            },
-            { threshold: 0.1 } // Adjust the threshold as needed
-        );
-
-        if (targetRef.current) {
-            observer.observe(targetRef.current);
-                    console.log("It triggered");
-        }
-
-        return () => {
-            if (targetRef.current) {
-                observer.unobserve(targetRef.current);
-            }
-        };
-    }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
-    
-    const handleSearch = async () => {
-        try {
-            const response = await axios.get('/api/youtube', {
-                params: {
-                query: query,
-            },
-        });
-
-        setSearch({...search, videos: response.data.videos})
-
-            const blogs = await axios.get('/api/search', {
-                params: {
-                    query: query
-                },
-            })
-    
-            setSearch({...search, blogs: blogs.data.suggestions})
-        
-        } catch (error) {
-            console.error('Error searching videos:', error);
-        }
-    };
-
-    useEffect(() => {
-        // Define a function to perform the actual search when debouncedQuery changes
-        const performSearch = async () => {
-            if (debouncedQuery.trim() === '') {
-                // Clear the search results if the query is empty
-                setSearch({...search ,blogs:[]});
-                return;
-            }
-        
-           
-            try {
-                const response = await axios.get('/api/search', {
-                    params: {
-                        query: debouncedQuery
-                    },
-                })
-                const data = await response.data.suggestions
-                console.log(data, "where's this");
-                
-                setSearch({...search, blogs: data})
-            } catch (error) {
-                console.error('Error fetching search results:', error);
-            }
-            };    
-            
-            const debounceTimeout = setTimeout(() => {
-            performSearch();
-            }, 500); 
-        
-        return () => clearTimeout(debounceTimeout); 
-    }, [debouncedQuery]);
-    
-    const handleInputChange = (e) => {
-        
-        setDebouncedQuery(e.target.value);
-        setQuery(e.target.value)
-
-    };
 
     return (
         <Box className='' sx={{bgcolor: grey[100]}}>
 
 
             <Layout >
-                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-[100%]'>
+                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-12 pt-12 sm:pt-0 max-w-[100%]'>
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
                             </Typography>
                         </div>
-                        <div className='w-full flex gap-0'>
-                            <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={query} onChange={(e) => {handleInputChange(e)}} />
-                        </div>
-                        <div className='w-full'>
-                            <SearchResults results={search} />
-                        </div>
+                        <SearchResults />
 
-                    </div>
-                    <div className='flex flex-col sm:flex-row w-[100%] mb-6'>
-                    <div className=' sm:w-2/5'>
-                        <div className='w-full'>
-                        <Typography variant='h3' sx={{}} className='text-center gradient-text-subcategories'>
-                            Featured
-                        </Typography>
-                        </div>
-                        <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
-                            
-                            {blogs.map((b, i)=> {
-                                if(i === 0) {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                        <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '2rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-
-                                        </div>
-                                        <BlogPost blog={b} />
-                                    </Box>
-                                    )
-                                } else if (i === blogs.length -1){
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                        <div  ref={targetRef} className='flex justify-center items-center py-3'>
-                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-
-                                        </div>
-                                        <BlogPost blog={b} />
-                                        <div className=''  >
-                                            {loading && <div>Loading more blogs...</div>}
-                                        </div> 
-                                    </Box>
-                                    )
-                                } else {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
-                                            <div className='flex justify-center items-center py-3'>
-                                                <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                        {b.categories[0].name}
-                                                    </Typography>                                            
-                                                </Button>
-
-                                            </div>
-                                            <BlogPost blog={b} />
-                                        </Box>
-                                    )                                
-                                }
-
-                            })}
-                        </div>                        
                     </div>
                     
-                    <div className='sm:w-3/5'>
-
-                        <div className='w-full'>
-                        <Typography variant='h3' sx={{}} className='w-full text-center gradient-text-subcategories'>
-                            Media
-                        </Typography>
+                    <div className='flex flex-col sm:flex-row w-[100%] mb-6 gap-6'>
+                        <div className=' sm:w-2/5'>
+                            <FeaturedPosts featuredPosts={featuredPosts} />                        
                         </div>
-
-                            {
-                                videos?.length > 0 ?
-                                    <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
-                                        {videos.map((v, i) => {
-                                            if (videos.length > 0) {
-                                                return(
-                                                    <div key={i} className='p-3'>
-                                                        <VideoCard video={v} />
-                                                    </div>
-                                                )                                    
-                                            } else if (videos.length <= 0) {
-                                            return(
-                                                <div key="none" className='p-3'>
-                                                    <Typography variant='h2' className='gradient-text-four' >
-                                                        Google Quota Reached.
-                                                    </Typography>
-                                                </div>
-                                            )
-                                            }
-
-                                        })}
-                                    </div>
-                                :
-                                <div className='h-full flex justify-center items-center'>
-                                    <Typography variant='h2' className='gradient-text-three text-center'>
-                                        Request quota limit has been reached.
-                                    </Typography>                                    
-                                </div>
-
-                            }
-
-                    </div>
+                    
+                        <div className='sm:w-3/5'>
+                            <YoutubeVideos videos={videos} />
+                        </div>
 
                     </div>
 
                     <div className='w-[100%]'>
 
-                    <div className='w-full'>
-                        <Typography variant='h2' className='text-center gradient-text-subcategories' sx={{}}>
-                            Trending
-                        </Typography>
-                    </div>
+                        <TrendingPosts blogs={blogs} totalBlogCount={totalBlogCount} />
 
-                        <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
-                            
-                            {blogs.map((b, i)=> {
-                                if(i === 0) {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-
-                                        </div>
-                                        <SmallBlogCard blog={b} />
-                                    </Box>
-                                    )
-                                } else if (i === blogs.length -1){
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                        <div  ref={targetRef} className='flex justify-center items-center'>
-                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-
-                                        </div>
-                                        <SmallBlogCard blog={b} />
-                                        <div className=''  >
-                                            {loading && <div>Loading more blogs...</div>}
-                                        </div> 
-                                    </Box>
-                                    )
-                                } else {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
-                                            <div className='flex justify-center items-center'>
-                                                <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                        {b.categories[0].name}
-                                                    </Typography>                                            
-                                                </Button>
-
-                                            </div>
-                                            <SmallBlogCard blog={b} />
-                                        </Box>
-                                    )                                
-                                }
-
-                            })}
-                        </div> 
-                          
                     </div>
             
                 </div>
@@ -401,20 +125,25 @@ export async function getStaticProps() {
         await SubCategory.find({});
         await User.find({});
         const totalBlogCount = await Blog.countDocuments();
-        const blogs = await Blog.find({})
-            .populate("categories")
-            .populate("sub_categories")
-            .populate("postedBy")
-            .skip(skip)
-            .limit(limitValue);
+        const blogs = await Blog.find({featured: false})
+                                .populate("categories")
+                                .populate("sub_categories")
+                                .populate("postedBy")
+                                .skip(skip)
+                                .limit(limitValue);
+
+        const featuredPosts = await Blog.find({featured: true})
+                                        .populate("categories")
+                                        .populate("sub_categories")
+                                        .populate("postedBy")
 
 
-            console.log(blogs);
+
             
 
         // console.log(videos);
         return {
-            props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), totalBlogCount, videos },
+            props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), featuredPosts: JSON.parse(JSON.stringify(featuredPosts)) , totalBlogCount, videos },
         };       
     } catch (error) {
         console.error('Error fetching data:', error);

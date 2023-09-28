@@ -63,7 +63,7 @@ const handleFeatureToggle = async (id:any) => {
         console.error(error)
     }
 }
-    console.log(blog);
+    
     
   return (
     <Box sx={{bgcolor: blog.i % 2 === 0 ? grey[600] : grey[800], borderRadius: "5px" }} className="flex flex-col">

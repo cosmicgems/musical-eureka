@@ -1,34 +1,31 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
-import RichTextEditor from '../../../../../components/Text Editor/RichTextEditor';
-import { Box, Button, CardContent, CardMedia, Checkbox, FormControl, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
-import { amber, green, grey, red } from '@mui/material/colors';
+import React, { useRef, useState, useEffect } from 'react';
+import { Box, Button, TextField, CardMedia, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import parse from 'html-react-parser'
-import { Editor } from '@tinymce/tinymce-react';
 import { getSession } from 'next-auth/react';
 import Layout from '../../../../../components/Layout';
+import TextEditor from '../../../../../components/Blog Crud/TextEditor';
+import BlogCreateCategorySubcategory from '../../../../../components/Blog Crud/BlogCreateCategorySubcategory';
+import SendingStatus from '../../../../../components/Blog Crud/SendingStatus';
 
 const Test = () => {
 
-    const router = useRouter();
-    
-    const [file, setFile] = useState(null);
-    const [fileDataURL, setFileDataURL] = useState(null);
     const [title, setTitle] = useState<string>('');
     const [body, setBody] = useState<string>('');
     const [categories, setCategories] = useState<any>([]);
     const [subcategories, setSubcategories] = useState<any>([]);
     const [checked, setChecked] = useState<any>([]);
+    const [selected, setSelected] = useState<string>("");
     const [checkedSubcategory, setCheckedSubcategory] = useState<any>([]);
     const [savedWork, setSavedWork] = useState<boolean>(null);
     const [editorContent, setEditorContent] = useState<string>('');
-    const editorRef = useRef<any>(null);
     const [savedPost, setSavedPost] = useState<boolean>(null)
     const [cleared, setCleared] = useState<boolean>(false);
     const [user, setUser] = useState<any>({});
     const [excerpt, setExcerpt] = useState<string>("");
-
+    const [localStorageBlog, setLocalStorageBlog] = useState<any>({});
     const [values, setValues] = useState<any>({
         error: null,
         errorMessage: '',
@@ -39,20 +36,8 @@ const Test = () => {
         hidePublishButton: false,
         sending: false,
     });
-    const [receivedProps, setReceivedProps] = useState<any>({
-        title: '',
-        body: ''
-    });
-    const [localStorageBlog, setLocalStorageBlog] = useState<any>({})
-    
-    const handleReceivedProps = (props: any) => {
-        setReceivedProps({title: props.title, body: props.body});
-        setTitle(receivedProps.title);
-        setBody(receivedProps.body);
-    
-    };
 
-    const { photo, success, successMessage, error, errorMessage, sending} = values;
+    const { photo } = values;
 
     const initCategories = async () => {
         try {
@@ -61,35 +46,10 @@ const Test = () => {
         
         setCategories(response.data.categories);
 
+
         } catch (error) {
         console.error(error);
         }
-    };
-    
-    const initSubcategories = async () => {
-        try {
-        const responsesubcategories = await axios.get('/api/blog/subcategory/get-all');
-        setSubcategories(responsesubcategories.data.subcategories);
-        } catch (error) {
-        console.error(error);
-        }
-    }
-
-
-    const handleToggle = (c:any) => () => {
-        setValues({...values, error: ''});
-        const clickedCategory = checked.indexOf(c)
-        const all = [...checked]
-
-        if(clickedCategory === -1) {
-            all.push(c)
-        } else {
-            all.splice(clickedCategory, 1)
-        }
-        console.log(all);
-        setChecked(all);
-        const allLocal = JSON.stringify(all)
-        localStorage.setItem("Categories", allLocal)
     };
 
     const handleSubcategoryToggle = (t:any) => () => {
@@ -108,35 +68,26 @@ const Test = () => {
         localStorage.setItem("Subcategories", allLocal)
     };
 
-    const showCategories = () => {
-        return (
-            categories &&
-                        
-            <>
-            {categories.map((c:any, i:number) => (
-                <FormControlLabel onChange={handleToggle(c._id)} key={c._id} control={<Checkbox  checked={checked.includes(c._id)} />} label={c.name} />
-            ))}
-            </>
-        );
-    };
-    
-    const showSubcategories = () => {
-        return (
-            subcategories &&
-            
-            <>
-            {subcategories.map((t:any, i:number) => (
-                <FormControlLabel onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
-            ))}
-            </>
+    const initSubcategories = (id) => {
+        console.log(id);
+        
+        setSelected(id)
+        const cat = categories.filter((c) => 
+            c._id == id
+        )
 
-        );
-    };
+        const sub = cat[0].sub_categories
+        console.log(cat[0].sub_categories);
+        
+        setSubcategories(sub);
+        
+    }
 
     useEffect(()=>{
         initCategories();
-        initSubcategories();
     }, [])
+
+
 
     useEffect(()=>{
         setLocalStorageBlog({
@@ -174,7 +125,7 @@ const Test = () => {
         setValues({ sending: true });
         e.preventDefault();
         try {
-            const postData = { title, body: editorContent, checked, checkedSubcategory, photo, user, excerpt };
+            const postData = { title, body: editorContent, selected, checkedSubcategory, photo, user, excerpt };
             console.log(postData);
             const post = await axios.post("/api/blog/post/create", postData);
             console.log(post.data);
@@ -190,19 +141,30 @@ const Test = () => {
                 error: true,
                 errorMessage: `There was an error submitting ${title}, please try again.`,
             });
+            setTimeout(() => {
+                setValues((prevValues:any) => ({
+                    ...prevValues,
+                    success: null,
+                    error: null,
+                    successMessage: '',
+                    errorMessage: '',
+                }));           
+            }, 3500);
+
+            return
         }
     
         // Clear success and error messages after a delay
-        setTimeout(() => {
-            setValues((prevValues:any) => ({
-                ...prevValues,
-                success: null,
-                error: null,
-                successMessage: '',
-                errorMessage: '',
-            }));
-        handleLocalStorageClear();            
-        }, 3500);
+        // setTimeout(() => {
+        //     setValues((prevValues:any) => ({
+        //         ...prevValues,
+        //         success: null,
+        //         error: null,
+        //         successMessage: '',
+        //         errorMessage: '',
+        //     }));
+        // handleLocalStorageClear();            
+        // }, 3500);
 
     };
 
@@ -217,12 +179,6 @@ const Test = () => {
         }
     }
 
-    const handleEditorChange = (content: string) => {
-        setEditorContent(content);
-        localStorage.setItem("Body", content);
-        setCleared(false);
-    };
-    
     const handleChange = (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         if (type === 'photo') {
             console.log(e.target.value);
@@ -241,6 +197,13 @@ const Test = () => {
 
         }
     };
+
+    const handleEditorChange = (content: string) => {
+        setEditorContent(content);
+        localStorage.setItem("Body", content);
+        setCleared(false);
+    };
+    
     
     const handleLocalStorageClear = () => {
         localStorage.removeItem("Title");
@@ -271,11 +234,10 @@ const Test = () => {
                 console.error("Error fetching session:", error);
             }
         };
+        checkSession();        
+    }, [user]);
 
-        checkSession();
-        // console.log(user);
-        
-    }, [user])
+    
 
     return (
         <>
@@ -283,165 +245,81 @@ const Test = () => {
             <Box className='min-h-screen p-6 flex flex-col pt-12' sx={{bgcolor: grey[100]}} >
                 <Layout>
                     <div className='mb-4' />
-                    { sending ?
-                        <Box className="p-3 mb-3" sx={{bgcolor: amber[600], borderRadius: "10px", fontSize: '2rem'}}>
-                            <Typography variant='h4' sx={{}} className=''>
-                                Sending...
-                            </Typography>
-                        </Box>
-                        :
-                        success ?
-                        <Box sx={{bgcolor:green[400], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
-                            <Typography variant='h4' sx={{color:grey[50]}} className='font-bold'>
-                                {successMessage}
-                            </Typography>
-                        </Box>   
-                        :
-                        error ?
-                        <Box sx={{bgcolor:red[700], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
-                            <Typography variant='h4' sx={{color: grey[200]}} className='font-bold'>
-                                {errorMessage}
-                            </Typography>
-                        </Box> 
-                        :
-                        <div className='w-full p-3 mb-3'>
-                            <Typography variant="h3" className='font-bold w-full text-center gradient-text-subcategories' sx={{}}>
-                                Create A Post
-                            </Typography>
-                        </div>
-                    }
 
+                        <SendingStatus values={values}/>
 
+                        <div className='flex '>
 
-                    <div className='flex '>
+                            <div className='sm:w-3/5'>
 
-                        <div className='sm:w-3/5'>
+                                <TextEditor handleSubmit={submitBlog} handleChange={handleChange} title={title} handleEditorChange={handleEditorChange} editorContent={editorContent} />
 
-                            <form onSubmit={submitBlog}>
-
-                                {/* <RichTextEditor onPropsChange={handleReceivedProps}/>         */}
-                                    <form className='p-3'>
-                                    <div className='mb-3'>
-                                    <TextField
-                                        fullWidth
-                                        variant='outlined'
-                                        sx={{}}
-                                        className=''
-                                        value={title}
-                                        label='title'
-                                        onChange={handleChange('title')} // Update title state on change
-                                    />
-                                    </div>
-                                    <div className='py-3'>
-                                    <Editor
-                                        onInit={(evt, editor) => {
-                                        editorRef.current = editor;
-                                        }}
-                                        init={{
-                                        height: 500,
-                                        menubar: false,
-                                        plugins: [
-                                            'advlist autolink lists link image charmap print preview anchor',
-                                            'searchreplace visualblocks code fullscreen',
-                                            'insertdatetime media table paste code help wordcount',
-                                        ],
-                                        toolbar:
-                                            'undo redo | formatselect | ' +
-                                            'bold italic backcolor | alignleft aligncenter ' +
-                                            'alignright alignjustify | bullist numlist outdent indent | ' +
-                                            'removeformat | help' + 'image | code |image' ,
-                                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                                        }}
-                                        onEditorChange={handleEditorChange} // Update editor content state on change
-                                        value={editorContent}
-                                    />
-                                    </div>
-                                </form>
-
-                                <div className='px-3'>
-                                    <Button type='submit' variant='contained' >
-                                    Submit
-                                    </Button>    
-                                </div>                             
-
-                            </form>
-
-                            
-                        </div>
-
-                        <div className='flex flex-col sm:w-2/5 p-3'>
-
-                            {!cleared ?
-                                <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
-
-                                    <div className='p-3'>
-                                        <Typography variant='h3' className='font-bold' sx={{fontSize: '2rem', color: grey[50]}}>
-                                            {localStorageBlog.title}
-                                        </Typography>                                
-                                    </div>
-
-                                    <div className='p-3 gap-6 flex'>
-                                        <Button variant='contained' type='button' onClick={()=>handleSavedWork(true)}>
-                                            Continue Work
-                                        </Button>
-                                        <Button variant='outlined' onClick={handleLocalStorageClear}>
-                                            Clear Work
-                                        </Button>
-                                    </div>
-
-                                </Box>  
-                                : 
-                                <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
-
-                                    <div className='p-3 w-full'>
-                                        <Typography variant='h3' className='font-bold w-full text-center' sx={{fontSize: '3rem', color: grey[50]}}>
-                                            No Saved Work
-                                        </Typography>                                
-                                    </div>
-
-
-                                </Box>
-                            }
-
-
-
-                            <div className='p-3 flex flex-col gap-3'>
-                                <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
-                                <TextField fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
+                                
                             </div>
 
-                            <div className='flex '>
+                            <div className='flex flex-col sm:w-2/5 p-3'>
 
-                                <div className='p-3 w-1/2'>
-                                    <div>
-                                        <Typography variant='h6' sx={{}}>
-                                            Categories
-                                        </Typography>                                
-                                    </div>
-                                    <FormGroup>
-                                        {showCategories()}                   
-                                    </FormGroup>
+                                {!cleared ?
+                                    <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
+
+                                        <div className='p-3'>
+                                            <Typography variant='h3' className='font-bold' sx={{fontSize: '2rem', color: grey[50]}}>
+                                                {localStorageBlog.title}
+                                            </Typography>                                
+                                        </div>
+
+                                        <div className='p-3 gap-6 flex'>
+                                            <Button variant='contained' type='button' onClick={()=>handleSavedWork(true)}>
+                                                Continue Work
+                                            </Button>
+                                            <Button variant='outlined' onClick={handleLocalStorageClear}>
+                                                Clear Work
+                                            </Button>
+                                        </div>
+
+                                    </Box>  
+                                    : 
+                                    <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
+
+                                        <div className='p-3 w-full'>
+                                            <Typography variant='h3' className='font-bold w-full text-center' sx={{fontSize: '3rem', color: grey[50]}}>
+                                                No Saved Work
+                                            </Typography>                                
+                                        </div>
 
 
+                                    </Box>
+                                }
+
+
+
+                                <div className='p-3 flex flex-col gap-3'>
+                                    <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
+                                    <TextField multiline rows={3} fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
                                 </div>
 
-                                <div className='p-3 w-1/2'>
-                                    <div>
-                                        <Typography variant='h6' sx={{}}>
-                                            Subcategories
-                                        </Typography>                                
+                                <div className='flex '>
+                                    <div className='p-3 w-1/2'>
+                                        <BlogCreateCategorySubcategory initSubcategories={initSubcategories} selected={selected} categories={categories} setSelected={setSelected} />
                                     </div>
-                                    <FormGroup>
-                                        {showSubcategories()}                
-                                    </FormGroup>                 
-                                </div>
 
+                                    <div className='p-3 w-1/2'>
+                                            <Typography variant='h6' sx={{}}>
+                                                Subcategories
+                                            </Typography> 
+                                        {
+                                            subcategories.length > 0 &&
+                                            <>
+                                                {subcategories.map((t:any, i:number) => (
+                                                    <FormControlLabel  onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
+                                                ))}                                        
+                                            </>
+                                        }
+                                    </div>
+                                </div>
 
                             </div>
-                        </div>
-
-
-                    </div>  
+                        </div>  
 
                     
                     <div className='w-3/5 flex flex-col justify-center items-center'>
@@ -476,7 +354,9 @@ const Test = () => {
 
                         </div>
 
-                    </div>                    
+                    </div>
+
+
                 </Layout>
 
 

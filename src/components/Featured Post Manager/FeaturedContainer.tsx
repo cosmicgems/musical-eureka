@@ -1,19 +1,22 @@
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FeaturedCard from './FeaturedCard'
 import axios from 'axios'
 
-const FeaturedContainer = ({featuredBlogs}) => {
+const FeaturedContainer = ({featuredBlogs, onUpdate, handleUpdate}) => {
     const [blogs, setBlogs] = useState<any>(featuredBlogs);
 
     const handleFeatureToggle = async() => {
-        const featured = await axios.get("/api/blog/post/get-featured");
-        console.log(featured.data.featured, "frontend Message");
-        setBlogs(featured.data.featured)
-        return featured.data.featured
-      };
-    
+        onUpdate();
+    };
+
+
+    useEffect(() => {
+        // This function will run whenever the 'blogs' state changes
+        console.log('Blogs have been updated:', featuredBlogs);
+        setBlogs(featuredBlogs);
+    }, [ featuredBlogs ]);   
 
     return (
         <Box sx={{bgcolor: grey[900], borderRadius: '5px'}} className="p-3">
@@ -26,15 +29,25 @@ const FeaturedContainer = ({featuredBlogs}) => {
                 </Typography>
 
                 {
-                    blogs.map((b,i) => {
-                        const data = {b, i}
-                        return(
-                            <div key={i} >
-                                <FeaturedCard blog={data} onFeatureToggle={handleFeatureToggle}/>
-                            </div>
-                    )})
+                    blogs?.length === 0 ? 
+                        <div >
+                            <Typography variant="h3" className='gradient-text-category' sx={{}}>
+                                No Posts are Featured
+                            </Typography>
+                        </div>
+                    :
+                    <>
+                        {
+                            blogs.map((b,i) => {
+                                const data = {b, i}
+                                return(
+                                    <div key={i} >
+                                        <FeaturedCard blog={data} onFeatureToggle={handleFeatureToggle}/>
+                                    </div>
+                            )})
+                        }                    
+                    </>
                 }
-
             </div>
 
         </Box>
