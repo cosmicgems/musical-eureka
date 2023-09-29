@@ -24,9 +24,6 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
             <Layout >
                 <div className='min-h-screen sm:min-h-[80vh]  w-full flex flex-col  items-center gap-6 pt-12 sm:pt-0'>
-                    <div className='w-full'>
-                        <Subscribe/>
-                    </div>
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem", sm:"5rem"}}}>
@@ -51,7 +48,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                                 return (
                                     <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                     <div className='flex justify-center items-center py-3'>
-                                        <Button href={`/articles/categories/category/${sc.slug}`}>
+                                        <Button href={`/articles/categories/category/subcategories/subcategory/${sc.slug}`}>
                                             <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                 {sc.name}
                                             </Typography>                                            
@@ -66,7 +63,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                                 return (
                                     <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
                                     <div className='flex justify-center items-center py-3'>
-                                        <Button href={`/articles/categories/category/${sc.slug}`}>
+                                        <Button href={`/articles/categories/category/subcategories/subcategory/${sc.slug}`}>
                                             <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                 {sc.name}
                                             </Typography>                                            
@@ -81,7 +78,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                                     return (
                                         <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' >
                                         <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/articles/categories/category/${sc.slug}`}>
+                                            <Button href={`/articles/categories/category/subcategories/subcategory/${sc.slug}`}>
                                                 <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                     {sc.name}
                                                 </Typography>                                            
