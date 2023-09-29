@@ -36,7 +36,7 @@ const SubcategoryCard: React.FC<SubcategoryProps> = ( {subcategory, category} ) 
             />
 
             <div className='flex flex-col px-3  gap-3 py-3'>
-                <Button href={`/articles/categories/category/${name}/subcategories/subcategory/${name}`}>
+                <Button href={`/articles/categories/category/${category}/subcategories/subcategory/${name}`}>
                     <Typography variant='h3' className='gradient-text' sx={{fontSize: "1.5rem"}}>
                         {c_name}
                     </Typography>                    

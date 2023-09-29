@@ -83,7 +83,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                                     <Typography variant='body1' sx={{color: grey[50]}} className=''>
                                         {moment(createdAt).fromNow()}
                                     </Typography>
-                              
+                            
 
                             </div>
 
