@@ -36,7 +36,7 @@ interface BlogPostProps {
 const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
-    console.log(excerpt);
+    console.log(postedBy);
     
 
 
