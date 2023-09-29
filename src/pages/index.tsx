@@ -2,12 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic';
 import { useStateContext } from '../../Context/StateContext';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box,  Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
-import BlogPost from '../components/blog/BlogPost';
-import SmallBlogCard from '../components/blog/SmallBlogCard';
-import VideoCard from '../components/VideoCard';
 import SearchResults from '../components/Search Bar/SearchResults';
 import connectDB from '../../lib/connectDB';
 import Blog from '../../lib/models/blog';

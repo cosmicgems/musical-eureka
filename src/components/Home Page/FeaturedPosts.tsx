@@ -45,7 +45,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                         return (
                             <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                             <div className='flex justify-center items-center py-3'>
-                                <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                     <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '2rem'}}>
                                         {b.categories[0].name}
                                     </Typography>                                            
@@ -59,7 +59,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                         return (
                             <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                             <div  ref={featuredTargetRef} className='flex justify-center items-center py-3'>
-                                <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                     <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                         {b.categories[0].name}
                                     </Typography>                                            
@@ -76,7 +76,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                         return (
                             <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
                                 <div className='flex justify-center items-center py-3'>
-                                    <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                    <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                         <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                             {b.categories[0].name}
                                         </Typography>                                            
