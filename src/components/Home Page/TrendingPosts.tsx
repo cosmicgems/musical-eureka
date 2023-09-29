@@ -46,7 +46,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
             const nextPage = page + 1;
             if (loadedBlogCount < totalBlogCount) {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:3000/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
+                const res = await axios.get(`/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
                 const newBlogs = res.data.blogs.blogs;
                 setBlogs((prevBlogs) => [...prevBlogs, ...newBlogs]);
                 setPage(nextPage);
