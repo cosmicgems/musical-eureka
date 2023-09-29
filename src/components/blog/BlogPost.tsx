@@ -54,7 +54,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
                 <Button href={`/articles/post/${slug}`}>
-                    <Typography variant='h3' className='gradient-text-category' sx={{fontSize: "1.5rem"}}>
+                    <Typography variant='h3' className='gradient-text-category w-full text-center' sx={{fontSize: "1.5rem"}}>
                         {title}
                     </Typography>                    
                 </Button>
@@ -101,7 +101,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                     <Grid container className='w-full' spacing={1} >
                     {sub_categories.map((sc,i) => {
                         return (
-                            <Grid item key={sc._id} xs={6} >
+                            <Grid item key={sc._id} xs={6}  >
                                 <Button href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
