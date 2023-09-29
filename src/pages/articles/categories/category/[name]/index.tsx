@@ -56,7 +56,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
                                     </div>
 
-                                        <SubcategoryCard subcategory={sc} category={name} />
+                                        <SubcategoryCard subcategory={sc} category={slug} />
                                 </Box>
                                 )
                                 } else if ( i === sub_categories.length - 1) {
@@ -71,7 +71,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
                                     </div>
 
-                                        <SubcategoryCard subcategory={sc} category={name} />
+                                        <SubcategoryCard subcategory={sc} category={slug} />
                                 </Box>
                                 )
                                 }
@@ -86,7 +86,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
                                         </div>
 
-                                            <SubcategoryCard subcategory={sc} category={name} />
+                                            <SubcategoryCard subcategory={sc} category={slug} />
                                     </Box>
                                     )
                             })}
