@@ -48,7 +48,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                                 return (
                                     <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                     <div className='flex justify-center items-center py-3'>
-                                        <Button href={`/articles/categories/category/subcategories/subcategory/${sc.slug}`}>
+                                        <Button href={`/articles/categories/category/${name}/subcategories/subcategory/${sc.slug}`}>
                                             <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                 {sc.name}
                                             </Typography>                                            
@@ -56,14 +56,14 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
                                     </div>
 
-                                        <SubcategoryCard subcategory={sc} />
+                                        <SubcategoryCard subcategory={sc} category={name} />
                                 </Box>
                                 )
                                 } else if ( i === sub_categories.length - 1) {
                                 return (
                                     <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
                                     <div className='flex justify-center items-center py-3'>
-                                        <Button href={`/articles/categories/category/subcategories/subcategory/${sc.slug}`}>
+                                        <Button href={`/articles/categories/category/${name}/subcategories/subcategory/${sc.slug}`}>
                                             <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                 {sc.name}
                                             </Typography>                                            
@@ -71,14 +71,14 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
                                     </div>
 
-                                        <SubcategoryCard subcategory={sc} />
+                                        <SubcategoryCard subcategory={sc} category={name} />
                                 </Box>
                                 )
                                 }
                                     return (
                                         <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' >
                                         <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/articles/categories/category/subcategories/subcategory/${sc.slug}`}>
+                                            <Button href={`/articles/categories/category/${name}/subcategories/subcategory/${sc.slug}`}>
                                                 <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                     {sc.name}
                                                 </Typography>                                            
@@ -86,7 +86,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
                                         </div>
 
-                                            <SubcategoryCard subcategory={sc} />
+                                            <SubcategoryCard subcategory={sc} category={name} />
                                     </Box>
                                     )
                             })}
