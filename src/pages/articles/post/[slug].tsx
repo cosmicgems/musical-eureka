@@ -230,7 +230,8 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
   const related_blogs_before_filter = await Blog.find({})
                                                 .populate("categories")
-                                                .populate("sub_categories");
+                                                .populate("sub_categories")
+                                                .populate("postedBy");
 
   const related_posts =  related_blogs_before_filter.filter((blog) => 
     blog.sub_categories.some((subcategory) => 
