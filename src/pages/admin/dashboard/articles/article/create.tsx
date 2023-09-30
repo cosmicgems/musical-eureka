@@ -138,6 +138,7 @@ const Test = () => {
                 successMessage: post.data.message,
             });
         } catch (error) {
+            console.error(error)
             setValues({
                 sending: false,
                 success: false,

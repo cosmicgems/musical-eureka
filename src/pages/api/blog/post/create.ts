@@ -32,7 +32,7 @@ export default async function handler(
         blog.sub_categories = arrayOfSubcategories;
         blog.slug = slugify(title).toLowerCase();
         blog.mtitle = `${title} | Pearl Box`
-        blog.mdesc = stripHtml(body.substring(0,160)).result;
+        blog.mdesc = stripHtml(excerpt.substring(0,160)).result;
         blog.excerpt = excerpt;
         blog.postedBy = postedBy;
         blog.tags = arrayOfTags;
