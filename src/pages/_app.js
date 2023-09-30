@@ -69,7 +69,6 @@ function Auth({children}){
 
   }
 
-  console.log(session.user);
   if (!session?.user?.user.confirmed_account) {
 
 

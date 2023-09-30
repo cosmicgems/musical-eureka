@@ -39,6 +39,7 @@ const Test = () => {
         hidePublishButton: false,
         sending: false,
     });
+    const [verified, setVerified] = useState<boolean>(false);
 
     const { photo } = values;
 
@@ -131,7 +132,7 @@ const Test = () => {
             const postData = { title, body: editorContent, selected, checkedSubcategory, photo, user, excerpt,tags };
             console.log(postData);
             const post = await axios.post("/api/blog/post/create", postData);
-            console.log(post.data);
+            console.log(post.data.blogPost);
             setValues({
                 sending: false,
                 success: true,
@@ -240,18 +241,22 @@ const Test = () => {
         const checkSession = async () => {
             try {
                 const session = await getSession();
-                if (session) {
-                    const userId = (session.user as { id: string }).id;
-                    if (userId !== user) {
-                        setUser(userId);
-                    }
+                if(!verified){
+                    if (session) {
+                        const userId = (session.user as { id: string }).id;
+                        if (userId !== user) {
+                            setUser(userId);
+                        }
+                    }  
+                    setVerified(true)   ;               
                 }
+
             } catch (error) {
                 console.error("Error fetching session:", error);
             }
         };
         checkSession();        
-    }, [user]);
+    }, [user, verified]);
 
     
 
