@@ -9,11 +9,14 @@ import Layout from '../../../../../components/Layout';
 import TextEditor from '../../../../../components/Blog Crud/TextEditor';
 import BlogCreateCategorySubcategory from '../../../../../components/Blog Crud/BlogCreateCategorySubcategory';
 import SendingStatus from '../../../../../components/Blog Crud/SendingStatus';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 
 const Test = () => {
 
     const [title, setTitle] = useState<string>('');
     const [body, setBody] = useState<string>('');
+    const [tags, setTags] = useState<any>([]);
+    const [tag, setTag] = useState<string>("");
     const [categories, setCategories] = useState<any>([]);
     const [subcategories, setSubcategories] = useState<any>([]);
     const [checked, setChecked] = useState<any>([]);
@@ -125,7 +128,7 @@ const Test = () => {
         setValues({ sending: true });
         e.preventDefault();
         try {
-            const postData = { title, body: editorContent, selected, checkedSubcategory, photo, user, excerpt };
+            const postData = { title, body: editorContent, selected, checkedSubcategory, photo, user, excerpt,tags };
             console.log(postData);
             const post = await axios.post("/api/blog/post/create", postData);
             console.log(post.data);
@@ -154,17 +157,16 @@ const Test = () => {
             return
         }
     
-        // Clear success and error messages after a delay
-        // setTimeout(() => {
-        //     setValues((prevValues:any) => ({
-        //         ...prevValues,
-        //         success: null,
-        //         error: null,
-        //         successMessage: '',
-        //         errorMessage: '',
-        //     }));
-        // handleLocalStorageClear();            
-        // }, 3500);
+        setTimeout(() => {
+            setValues((prevValues:any) => ({
+                ...prevValues,
+                success: null,
+                error: null,
+                successMessage: '',
+                errorMessage: '',
+            }));
+        handleLocalStorageClear();            
+        }, 3500);
 
     };
 
@@ -179,23 +181,35 @@ const Test = () => {
         }
     }
 
+    const handleAddTag = (tag) => {
+        let t = tag ;
+        const arrayTags = tags;
+        arrayTags.push(t);
+        setTags(arrayTags)
+        console.log(tags);
+        setTag("");
+        
+
+    }
+
     const handleChange = (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         if (type === 'photo') {
-            console.log(e.target.value);
             setValues({photo:e.target.value});
             localStorage.setItem('Photo', e.target.value)
             setCleared(false);
         } else if(type === 'title') {
-            console.log(e.target.value);
             setTitle(e.target.value);
             localStorage.setItem('Title', e.target.value);
             setCleared(false);
         } else if (type === 'excerpt'){
-            console.log(e.target.value);
             setExcerpt(e.target.value);
             localStorage.setItem('Excerpt', e.target.value);
-
-        }
+        } 
+        // else if (type === "tag"){
+        //     console.log(tags);
+        //     handleAddTag(e.target.value);
+        //     localStorage.setItem('Excerpt', e.target.value);
+        // }
     };
 
     const handleEditorChange = (content: string) => {
@@ -215,6 +229,7 @@ const Test = () => {
         setEditorContent('');
         setValues({photo: ''});
         setChecked([]);
+        setExcerpt("");
         setCheckedSubcategory([]);
         setCleared(true);
     }
@@ -248,16 +263,16 @@ const Test = () => {
 
                         <SendingStatus values={values}/>
 
-                        <div className='flex '>
+                        <div className='flex flex-col md:flex-row'>
 
-                            <div className='sm:w-3/5'>
+                            <div className='md:w-3/5'>
 
                                 <TextEditor handleSubmit={submitBlog} handleChange={handleChange} title={title} handleEditorChange={handleEditorChange} editorContent={editorContent} />
 
                                 
                             </div>
 
-                            <div className='flex flex-col sm:w-2/5 p-3'>
+                            <div className='flex flex-col md:w-2/5 p-3'>
 
                                 {!cleared ?
                                     <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
@@ -293,36 +308,72 @@ const Test = () => {
 
 
 
-                                <div className='p-3 flex flex-col gap-3'>
+                                <div className=' flex flex-col gap-3 py-3'>
                                     <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
                                     <TextField multiline rows={3} fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
                                 </div>
 
-                                <div className='flex '>
-                                    <div className='p-3 w-1/2'>
+                                <div className='flex gap-3'>
+                                    <div className=' w-1/2'>
                                         <BlogCreateCategorySubcategory initSubcategories={initSubcategories} selected={selected} categories={categories} setSelected={setSelected} />
                                     </div>
 
-                                    <div className='p-3 w-1/2'>
-                                            <Typography variant='h6' sx={{}}>
+                                    <div className=' w-1/2'>
+                                            <Typography className='w-full text-center' variant='h6' sx={{fontSize: '1rem'}}>
                                                 Subcategories
                                             </Typography> 
                                         {
                                             subcategories.length > 0 &&
                                             <>
                                                 {subcategories.map((t:any, i:number) => (
-                                                    <FormControlLabel  onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
+                                                    <FormControlLabel  onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox size='small'  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
                                                 ))}                                        
                                             </>
                                         }
                                     </div>
+                                    
+                                    
+
+                                </div>
+
+                                <div>
+                                    <Typography className='w-full text-center mt-3' variant='h6' sx={{fontSize: '1rem'}}>
+                                        Tags
+                                    </Typography> 
+                                    <div className='flex  gap-1 items-center justify-center mb-3'>
+                                        <TextField size="small" fullWidth value={tag} className='w-3/4' label="Tag" variant='outlined' onChange={(e)=> setTag(e.target.value)} />
+                                        <div className='w-1/4'>
+                                            <Button className='w-full'  variant='outlined' onClick={()=>handleAddTag(tag)} >
+                                                <AddCircleOutlineRoundedIcon />
+                                            </Button>                                                
+                                        </div>
+
+                                    </div>
+                                    {
+                                        tags.length > 0 &&
+                                        <div className='flex gap-3'>
+                                        {tags.map((t, i) => {
+                                            if(i % 2 === 0) {
+                                                return <Button  sx={{}} key={i}>
+                                                {t}
+                                            </Button>
+                                            } else {
+                                                return <Button  sx={{borderColor: grey[900], color: grey[900]}} key={i}>
+                                                {t}
+                                            </Button>
+                                            }
+                                            
+                                        })}
+                                        </div>
+                                    }
+
                                 </div>
 
                             </div>
                         </div>  
 
                     
-                    <div className='w-3/5 flex flex-col justify-center items-center'>
+                    <div className='md:w-3/5 flex flex-col justify-center items-center'>
                         <div className='py-6'>
                             <Typography variant='h3' sx={{color: grey[50]}} className='font-bold'>
                                 Post Preview 

@@ -35,9 +35,9 @@ const blogSchema = new Schema({
     photo: {
         type: String
     },
-    categories: [{type: ObjectId, ref: 'Category', required: true}],
+    categories: {type: ObjectId, ref: 'Category', required: true},
     sub_categories: [{type: ObjectId, ref: 'SubCategory', required: true}],
-    tags: [{type: ObjectId, ref: 'Tag', required: true}],
+    tags: [{type: String}],
     postedBy: {
         type: ObjectId,
         ref: 'User', required: false

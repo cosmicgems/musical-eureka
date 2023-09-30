@@ -16,8 +16,9 @@ export default async function handler(
     console.log("Connected to db");
 
     try {
-        const { body, title, photo, selected, checkedSubcategory, user, excerpt} = req.body;
+        const { body, title, photo, selected, checkedSubcategory, user, excerpt, tags} = req.body;
         let arrayOfSubcategories = checkedSubcategory && checkedSubcategory.toString().split(",");
+        let arrayOfTags = tags && tags.toString().split(",");
         console.log({selected, checkedSubcategory,  arrayOfSubcategories});
         const category = await Category.findById(selected);
         const postedBy = await User.findById(user);
@@ -34,6 +35,7 @@ export default async function handler(
         blog.mdesc = stripHtml(body.substring(0,160)).result;
         blog.excerpt = excerpt;
         blog.postedBy = postedBy;
+        blog.tags = arrayOfTags;
         console.log(blog);
         
         blog.save()

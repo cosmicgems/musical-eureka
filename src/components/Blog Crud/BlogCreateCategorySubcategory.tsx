@@ -15,7 +15,7 @@ const BlogCreateCategorySubcategory = ({ selected, categories, setSelected, init
         <div>
             
             <div>
-                <Typography variant='h6' sx={{}}>
+                <Typography variant='h6' sx={{fontSize: '1rem'}} className='w-full text-center'>
                     Categories
                 </Typography>                                
             </div>
@@ -30,7 +30,7 @@ const BlogCreateCategorySubcategory = ({ selected, categories, setSelected, init
                 
                 {categories.map((c,i) => {
                     return (
-                <FormControlLabel  key={c._id}   value={c._id} control={<Radio />} label={c.name} />
+                <FormControlLabel  key={c._id}   value={c._id} control={<Radio size='small' />} label={c.name} />
 )
                 })}
             </RadioGroup>

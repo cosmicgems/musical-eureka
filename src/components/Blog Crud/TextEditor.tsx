@@ -40,7 +40,7 @@ const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, edit
                 height: 500,
                 menubar: false,
                 plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
+                    'advlist autolink lists link image charmap print preview anchor emoticons',
                     'searchreplace visualblocks code fullscreen',
                     'insertdatetime media table paste code help wordcount',
                 ],
