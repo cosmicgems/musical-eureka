@@ -106,7 +106,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
                                     label={sc.name}
-                                    sx={{color: grey[50]}}
+                                    sx={{overflow: 'hidden', whiteSpace: 'nowrap', color:grey[50], textOverflow: 'ellipsis', maxWidth: '80%'}}
                                     variant="outlined"
                                     />  
                                 </Button>

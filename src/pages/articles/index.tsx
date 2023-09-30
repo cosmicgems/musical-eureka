@@ -11,6 +11,7 @@ import connectDB from '../../../lib/connectDB';
 import Category from '../../../lib/models/category';
 import SubCategory from '../../../lib/models/sub_category';
 import Blog from '../../../lib/models/blog';
+import User from '../../../lib/models/user';
 
 
 const Layout = dynamic(() => import('../../components/Layout'));
@@ -60,7 +61,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
             const nextPage = page + 1;
             if (loadedBlogCount < totalBlogCount) {
                 setLoading(true);
-                const res = await axios.get(`${DOMAIN}/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
+                const res = await axios.get(`/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
                 const newBlogs = res.data.blogs.blogs;
                 setBlogs((prevBlogs) => [...prevBlogs, ...newBlogs]);
                 setPage(nextPage);
@@ -116,6 +117,9 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                             <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
                             </Typography>
+                            <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6 text-center' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
+                                Curate a lifestyle worth living.
+                            </Typography>
                         </div>
                         <div className='w-full flex gap-0'>
                             <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={homeSearch} onChange={(e)=> {setHomeSearch(e.target.value)}} />
@@ -124,6 +128,11 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                             </Button>
                         </div>
                     </div>
+                        <div>
+                            <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem"}}}>
+                                All Posts
+                            </Typography>
+                        </div>
                         <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%]'>
                             
                             {blogs.map((b, i)=> {
@@ -195,13 +204,14 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
         const limitValue = parseInt(Array.isArray(limit) ? limit[0] : limit, 10) || 5;
 
         const skip = (pageValue - 1) * limitValue;
-
+        await User.find({});
         await Category.find({});
         await SubCategory.find({});
         const totalBlogCount = await Blog.countDocuments();
         const blogs = await Blog.find({})
             .populate("categories")
             .populate("sub_categories")
+            .populate("postedBy")
             .skip(skip)
             .limit(limitValue);
 

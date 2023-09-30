@@ -17,6 +17,7 @@ export default class MyDocument extends Document {
           <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
           <link rel="stylesheet" href="https://use.typekit.net/bve3xre.css"></link>
           <script src="https://cdn.tiny.cloud/1/spykjr9inft77vo8vdvtjutbm9v8uq9wrpzmzsv27j8b4mil/tinymce/5/tinymce.min.js" referrerPolicy="origin" async></script>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1320320283391616" crossOrigin="anonymous"></script>
 
         </Head>
         <body>

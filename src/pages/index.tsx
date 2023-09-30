@@ -61,6 +61,11 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { ini
                                 Pearl Box
                             </Typography>
                         </div>
+                        <div>
+                            <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
+                                Curate a lifestyle worth living.
+                            </Typography>
+                        </div>
                         <SearchResults />
 
                     </div>
