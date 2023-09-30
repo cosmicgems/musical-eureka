@@ -45,6 +45,6 @@ export default async function handler(
         res.status(200).json({message: `${title} was successfully submitted!` , blogPost:blog});
 
     } catch (error) {
-        res.status(500).json({message: 'There was an error when saving the post to the DB.'})
+        res.status(500).json({message: 'There was an error when saving the post to the DB.', error: error})
     }
 }
