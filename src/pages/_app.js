@@ -11,6 +11,7 @@ import { SessionProvider, getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 
+
 const clientSideEmotionCache = createEmotionCache();
 
 export default function App({ session, Component,
@@ -50,7 +51,7 @@ export default function App({ session, Component,
 }
 
 
-async function Auth({children}){
+function Auth({children}){
   const{data:session, status } = useSession({required: true})
   const router = useRouter();
 
