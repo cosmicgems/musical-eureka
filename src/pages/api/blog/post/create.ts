@@ -13,7 +13,7 @@ export default async function handler(
 ) {
     if(req.method === "POST"){
         console.log("Connecting to db");
-        connectDB();
+        await connectDB();
         console.log("Connected to db");
 
         try {
