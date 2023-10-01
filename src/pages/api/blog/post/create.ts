@@ -38,12 +38,14 @@ export default async function handler(
         blog.tags = arrayOfTags;
         console.log(blog);
         
-        blog.save();
+        blog.save()
 
         
 
         res.status(200).json({message: `${title} was successfully submitted!` , blogPost:blog});
 
     } catch (error) {
+        console.error(error.response.data)
+        res.status(500).json({message: 'There was an error when saving the post to the DB.', error: error})
     }
 }
