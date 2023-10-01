@@ -3,9 +3,10 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../../utility/createEmotionCache';
 
+
 export default class MyDocument extends Document {
   render() {
-  
+  const TINY_API_KEY = process.env.TINY_API_KEY
     return (
       <Html lang="en">
         <Head>
@@ -16,7 +17,7 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css' />
           <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
           <link rel="stylesheet" href="https://use.typekit.net/bve3xre.css"></link>
-          <script src="https://cdn.tiny.cloud/1/5he131ssg3uxrqu794xv7i3tyjxo0fzgq6eufkuexcbgvh6k/tinymce/5/tinymce.min.js" referrerPolicy="origin" async></script>
+          <script src={`https://cdn.tiny.cloud/1/${TINY_API_KEY}/tinymce/5/tinymce.min.js`} referrerPolicy="origin" async/>
 
         </Head>
         <body>

@@ -1,6 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef, useState } from 'react'
+import dynamic from 'next/dynamic';
 
 const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, editorContent}) => {
     const editorRef = useRef<any>(null);
