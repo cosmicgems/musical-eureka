@@ -23,7 +23,7 @@ export default async function handler(
         const category = await Category.findById(selected);
         const postedBy = await User.findById(user);
 
-        let blog = new Blog();
+        let blog = await new Blog();
 
         blog.title = title;
         blog.photo = photo;
