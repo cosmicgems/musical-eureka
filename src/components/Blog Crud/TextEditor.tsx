@@ -1,7 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef, useState } from 'react'
-import dynamic from 'next/dynamic';
 
 const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, editorContent}) => {
     const editorRef = useRef<any>(null);
@@ -9,7 +8,7 @@ const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, edit
 
 
 
-
+    const TINY_API_KEY = process.env.TINY_API_KEY
     const submitBlog = async(e) => {
         handleSubmit(e);
     }
@@ -34,10 +33,24 @@ const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, edit
             </div>
             <div className='py-3'>
             <Editor
-            apiKey={process.env.TINY_API_KEY}
+            apiKey={TINY_API_KEY}
                 onInit={(evt, editor) => {
                 editorRef.current = editor;
                 }}
+                // init={{
+                //   height: 500,
+                //   menubar: false,
+                //   plugins: [
+                //     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                //     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                //     'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                //   ],
+                //   toolbar: 'undo redo | blocks | ' +
+                //     'bold italic forecolor | alignleft aligncenter ' +
+                //     'alignright alignjustify | bullist numlist outdent indent | ' +
+                //     'removeformat | help',
+                //   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                // }}
                 init={{
                 height: 500,
                 menubar: false,
