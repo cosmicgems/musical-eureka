@@ -34,6 +34,7 @@ const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, edit
             </div>
             <div className='py-3'>
             <Editor
+            apiKey={process.env.TINY_API_KEY}
                 onInit={(evt, editor) => {
                 editorRef.current = editor;
                 }}
