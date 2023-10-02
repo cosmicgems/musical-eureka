@@ -1,5 +1,4 @@
 import '../styles/globals.css'
-// import { Layout } from '../components'
 import { StateContext } from '../../Context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from "@mui/material"
@@ -52,7 +51,7 @@ export default function App({ session, Component,
 
 
 function Auth({children}){
-  const{data:session, status } = useSession({required: true})
+  const{data:session, status } = getSession({required: true})
   const router = useRouter();
 
   if (status === 'loading') {

@@ -79,6 +79,10 @@ function NavBar(props) {
         ))}
       </List>
 
+          {
+            loggedIn && 
+            <UserCardMobile />
+          }
       <Divider />
 
       <UserCardMobile/>
