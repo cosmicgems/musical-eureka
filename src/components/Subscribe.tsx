@@ -30,7 +30,7 @@ const Subscribe = () => {
     });
     
     const [blank, setBlank] = useState<boolean>(true)
-    const [loggedIn, setloggedIn] = useState<boolean>(false);
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [user, setUser] = useState({});
 
     useEffect(()=>{
@@ -45,21 +45,7 @@ const Subscribe = () => {
         }
     }, [blank, subscriber.email]);
 
-    useEffect(()=>{
-        const checkSession = async () => {
-        const session = await getSession();
-        
-        if (session) {
-            setloggedIn(true);
-            setUser(session.user)
-        }
-        };
 
-        if(!loggedIn){
-        checkSession();
-        }
-        
-    })
 
     const handleSubscribe = async(e) => {
         e.preventDefault();
@@ -110,6 +96,22 @@ const Subscribe = () => {
         e.preventDefault();
         router.push("/auth/signup");
     }
+    useEffect(() => {
+        const fetchSession = async () => {
+          const session = await getSession();
+          if (session) {
+            // User is logged in
+            setLoggedIn(true);
+            setUser(session.user); // Store user data if needed
+          } else {
+            // User is not logged in
+            setLoggedIn(false);
+            setUser({}); // Reset user data
+          }
+        };
+    
+        fetchSession();
+      }, []);
 
     return (
         <>
