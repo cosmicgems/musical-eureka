@@ -109,7 +109,7 @@ const Subscribe = () => {
         }
     }, [loggedIn, session])
 
-    if(loading){return}
+    if(loading === "loading"){return}
 
 
     return (
