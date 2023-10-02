@@ -27,6 +27,8 @@ import Subscribe from './Subscribe';
 import { navItems } from '../../public/assets/navItems';
 import { getSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import UserCard from './User/UserCard';
+import UserCardMobile from './User/UserCardMobile';
 
 const drawerWidth = 240;
 
@@ -55,9 +57,9 @@ function NavBar(props) {
 
   const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleDrawerToggle} className="h-full" sx={{ textAlign: 'center' , bgcolor:grey[900]}}>
     <Link href='/'>
-      <Typography variant="h6" sx={{ my: 2 }}>
+      <Typography className='gradient-text font-bold' variant="h6" sx={{ my: 2, fontSize: '2rem' }}>
         Pearl Box 
       </Typography>      
     </Link>
@@ -67,11 +69,19 @@ function NavBar(props) {
         {navItems.map((item, i) => (
           <ListItem key={item.name + i.toString()} disablePadding>
             <ListItemButton href={item.path} sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item.name.toLocaleUpperCase()} />
+              <ListItemText  variant="h3" className='gradient-text' >
+                <Typography className='font-bold' variant='h3' sx={{fontSize: '1.5rem'}}>
+                  {item.name.toLocaleUpperCase()}
+                </Typography>
+              </ListItemText>
             </ListItemButton>
           </ListItem>
         ))}
       </List>
+
+      <Divider />
+
+      <UserCardMobile/>
     </Box>
   );
 
@@ -260,12 +270,6 @@ const handleSignup = (e) => {
   );
 }
 
-NavBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
+
 
 export default NavBar

@@ -95,7 +95,7 @@ const DynamicArticlePage = (props) => {
 
                         </div>
 
-                        <div>
+                        <div className='px-3'>
                           {parse(body)}
                         </div>
                       </div>
