@@ -9,6 +9,8 @@ import Subscribe from './Subscribe';
 
 const Layout = ({ children}) => {
 
+  const {data: session, status : loading} = useSession()
+
 
   return (
     <>

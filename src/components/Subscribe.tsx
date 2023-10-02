@@ -109,6 +109,8 @@ const Subscribe = () => {
         }
     }, [loggedIn, session])
 
+    if(loading){return}
+
 
     return (
         <>
