@@ -49,31 +49,20 @@ export default function App({ session, Component,
 
 }
 
-
-function Auth({children}){
-  const{data:session, status } = getSession({required: true})
+function Auth({ children }) {
   const router = useRouter();
+  const [session, loading] = useSession()
+  const isUser = !!session?.user
+  React.useEffect(() => {
+    if (loading) return // Do nothing while loading
+    if (!isUser) router.push("/") // If not authenticated, force log in
+  }, [isUser, loading])
 
-  if (status === 'loading') {
-
-      return <div>Loading...</div>
-
-
+  if (isUser) {
+    return children
   }
 
-  if(!session){
-
-      preventDefault()
-      router.push('/');
-
-  }
-
-  if (!session?.user?.user.confirmed_account) {
-
-
-    return <><p>{session.user.name}</p></>;
-
-  }
-
-  return children;
+  // Session is being fetched, or no user.
+  // If no user, useEffect() will redirect.
+  return <div>Loading...</div>
 }
