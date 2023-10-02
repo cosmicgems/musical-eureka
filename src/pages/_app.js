@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 
 const clientSideEmotionCache = createEmotionCache();
 
-export default function App({ session, Component,
+export default function App({ Component,
   emotionCache = clientSideEmotionCache, pageProps, }) {
 
 

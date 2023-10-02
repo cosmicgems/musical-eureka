@@ -47,7 +47,6 @@ const Subscribe = () => {
         }
     }, [blank, subscriber.email]);
 
-    console.log(session);
     
 
     const handleSubscribe = async(e) => {
@@ -109,6 +108,7 @@ const Subscribe = () => {
             setloggedIn(true)
         }
     }, [loggedIn, session])
+
 
     return (
         <>
