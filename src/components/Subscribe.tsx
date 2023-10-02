@@ -99,18 +99,11 @@ const Subscribe = () => {
         router.push("/auth/signup");
     }
 
-    useEffect(()=>{
-        if(loggedIn){
-            return
-        }
-        if(session){
-            setUser(session?.user)
-            setloggedIn(true)
-        }
-    }, [loggedIn, session])
+ 
 
     if(loading === "loading"){return}
 
+    setUser(session.user)
 
     return (
         <>
