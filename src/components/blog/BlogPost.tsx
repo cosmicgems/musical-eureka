@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import parse from "html-react-parser"
 import moment from 'moment';
+import { useRouter } from 'next/router';
 
 
 interface Author {
@@ -38,7 +39,13 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     console.log(postedBy);
     
+    const router = useRouter()
 
+    const handleClick = (e, href) => {
+        e.preventDefault();
+
+        router.push(href)
+    }
 
     const excerpt_two = body.substring(11, 150);
 
@@ -53,7 +60,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
             />
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
-                <Button href={`/articles/post/${slug}`}>
+                <Button onClick={(e)=> {handleClick(e,`/articles/post/${slug}`)}} >
                     <Typography variant='h3' className='gradient-text-category w-full text-center' sx={{fontSize: "1.5rem"}}>
                         {title}
                     </Typography>                    
@@ -102,7 +109,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                     {sub_categories.map((sc,i) => {
                         return (
                             <Grid item key={sc._id} xs={6}  >
-                                <Button href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
+                                <Button  href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
                                     label={sc.name}

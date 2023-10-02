@@ -244,6 +244,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
   return {
     props: { post: JSON.parse(JSON.stringify(post)), related_posts: JSON.parse(JSON.stringify(related_posts)) },
+  revalidate: 600,
   };
 };
 
