@@ -27,7 +27,7 @@ export default function App({ session, Component,
         
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={lightTheme}>
-            <SessionProvider session={session}>
+            <SessionProvider session={pageProps.session}>
                 <StateContext>
                     <Toaster />
                     
