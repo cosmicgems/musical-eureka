@@ -19,7 +19,7 @@ const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, edit
     <form onSubmit={submitBlog}>
 
         
-            <form className='p-3'>
+ 
             <div className='mb-3'>
             <TextField
                 fullWidth
@@ -70,7 +70,7 @@ const TextEditor = ({handleSubmit, handleChange, title, handleEditorChange, edit
                 value={editorContent}
             />
             </div>
-        </form>
+
 
         <div className='px-3'>
             <Button type='submit' variant='contained' >

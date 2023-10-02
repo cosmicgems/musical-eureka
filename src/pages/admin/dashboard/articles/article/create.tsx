@@ -4,7 +4,7 @@ import { grey } from '@mui/material/colors';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import parse from 'html-react-parser'
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import Layout from '../../../../../components/Layout';
 import TextEditor from '../../../../../components/Blog Crud/TextEditor';
 import BlogCreateCategorySubcategory from '../../../../../components/Blog Crud/BlogCreateCategorySubcategory';
@@ -12,6 +12,17 @@ import SendingStatus from '../../../../../components/Blog Crud/SendingStatus';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 
 const Test = () => {
+
+    const {data: session, status: loading} = useSession();
+
+
+
+    
+
+    
+    
+    
+    
 
     const [title, setTitle] = useState<string>('');
     const [body, setBody] = useState<string>('');
@@ -46,7 +57,7 @@ const Test = () => {
     const initCategories = async () => {
         try {
         const response = await axios.get('/api/blog/category/get-all');
-        console.log(response);
+        // console.log(response);
         
         setCategories(response.data.categories);
 
@@ -88,42 +99,14 @@ const Test = () => {
     }
 
     useEffect(()=>{
-        initCategories();
-    }, [])
-
-
-
-    useEffect(()=>{
-        setLocalStorageBlog({
-            photo: localStorage.getItem('Photo'),
-            title: localStorage.getItem('Title'),
-            body: localStorage.getItem('Title'),
-            categories: localStorage.getItem('Categories'),
-            subcategories: localStorage.getItem('Subcategories'),
-        })
-        if(savedWork){
-            if(localStorage.getItem("Photo") !== ''){
-                setValues({photo: localStorage.getItem("Photo")});
-            }
-            if(localStorage.getItem("Body") !== ""){
-                setBody(localStorage.getItem("Body"));
-                setEditorContent(localStorage.getItem("Body"));
-                setSavedPost(true);
-            }
-            if(localStorage.getItem("Title") !== "") {
-                setTitle(localStorage.getItem("Title"));
-            }
-            if(localStorage.getItem("Category") !== "") {
-                const parsedCategories = JSON.parse(localStorage.getItem("Categories"));
-                setChecked(parsedCategories);
-            }
-            if(localStorage.getItem("Subcategory") !== "") {
-                const parsedSubcategories = JSON.parse(localStorage.getItem("Subcategories"));
-                setCheckedSubcategory(parsedSubcategories);
-            }
-            setSavedWork(false)
+        if (categories.length === 0){
+            initCategories();
         }
-    })
+  
+    }, [categories])
+
+
+
 
     const submitBlog = async (e: any) => {
         setValues({ sending: true });
@@ -236,29 +219,32 @@ const Test = () => {
         setCleared(true);
     }
 
-
-    useEffect(()=>{
-        const checkSession = async () => {
-            try {
-                const session = await getSession();
-                if(!verified){
-                    if (session) {
-                        const userId = (session.user as { id: string }).id;
-                        if (userId !== user) {
-                            setUser(userId);
-                        }
-                    }  
-                    setVerified(true)   ;               
-                }
-
-            } catch (error) {
-                console.error("Error fetching session:", error);
-            }
-        };
-        checkSession();        
-    }, [user, verified]);
-
+    useEffect(()=> {
+        if(verified){
+            return
+        } else if(!verified){
+            setUser(session?.user.user)
+        }
+    }, [setUser, session?.user, verified])
     
+    if(loading === "loading"){
+        return (
+            <Box sx={{bgcolor: grey[500]}}>
+                <Layout>
+                    <div className='h-full flex justify-center items-center'>
+                        <Typography variant='h1' className='gradient-text'>
+                            Loading...
+                        </Typography>
+                    </div>
+                </Layout>
+            </Box>
+        )
+    }
+    
+
+console.log(user.about);
+
+
 
     return (
         <>
