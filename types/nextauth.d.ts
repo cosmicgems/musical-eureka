@@ -6,8 +6,6 @@ declare module "next-auth" {
    */
   interface Session {
     data:{
-        user: {
-            id: string;
         user:{
             about: string;
             confirmed_account: boolean;
@@ -24,8 +22,7 @@ declare module "next-auth" {
             verification_token_expiration: string;
             _id: string;
             
-        }
-        }        
+        }      
     },
     status: string;
 

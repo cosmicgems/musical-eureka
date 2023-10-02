@@ -15,8 +15,6 @@ const Test = () => {
 
     const {data: session, status: loading} = useSession();
 
-
-
     
 
     
@@ -104,7 +102,6 @@ const Test = () => {
         }
   
     }, [categories])
-
 
 
 
@@ -219,32 +216,32 @@ const Test = () => {
         setCleared(true);
     }
 
-    useEffect(()=> {
-        if(verified){
-            return
-        } else if(!verified){
-            setUser(session?.user.user)
-        }
-    }, [setUser, session?.user, verified])
-    
+
+
+
+
+
     if(loading === "loading"){
         return (
-            <Box sx={{bgcolor: grey[500]}}>
+            <Box sx={{bgcolor: grey[100]}}>
                 <Layout>
-                    <div className='h-full flex justify-center items-center'>
-                        <Typography variant='h1' className='gradient-text'>
+                    <div className='min-h[85vh] flex flex-col justify-center items-center'>
+                        <Typography variant='h3' className='gradient-text'>
                             Loading...
-                        </Typography>
+                        </Typography>                        
                     </div>
+                    
                 </Layout>
             </Box>
         )
     }
+
+
+    if(!verified && session) {
+        setUser(session.user);
+        setVerified(true);
+    }
     
-
-console.log(user.about);
-
-
 
     return (
         <>
