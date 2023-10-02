@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { use, useEffect } from 'react'
 import { Box, TextField, Fab, Grid, Button, Alert, AlertTitle, Stack  } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { useState } from 'react'
@@ -101,9 +101,15 @@ const Subscribe = () => {
 
  
 
-    if(loading === "loading"){return}
-
-    setUser(session.user)
+    useEffect(()=>{
+        if(!loggedIn){
+            if(loading !== "loading"){
+                setUser(session.user)
+            }   
+            setloggedIn(true);         
+        }
+    }, [loading, loggedIn, session.user])
+    
 
     return (
         <>
