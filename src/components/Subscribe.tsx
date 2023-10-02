@@ -1,11 +1,11 @@
-import React, { use, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Box, TextField, Fab, Grid, Button, Alert, AlertTitle, Stack  } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { useState } from 'react'
 import { grey, red } from '@mui/material/colors'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { getSession, signOut, useSession } from 'next-auth/react'
+import { getSession, signOut } from 'next-auth/react'
 import UserCard from './User/UserCard'
 
 
@@ -28,8 +28,6 @@ const Subscribe = () => {
         sending: null,
         sent: null,
     });
-
-    const {data:session, status: loading} = useSession()
     
     const [blank, setBlank] = useState<boolean>(true)
     const [loggedIn, setloggedIn] = useState<boolean>(false);
@@ -47,7 +45,21 @@ const Subscribe = () => {
         }
     }, [blank, subscriber.email]);
 
-    
+    useEffect(()=>{
+        const checkSession = async () => {
+        const session = await getSession();
+        
+        if (session) {
+            setloggedIn(true);
+            setUser(session.user)
+        }
+        };
+
+        if(!loggedIn){
+        checkSession();
+        }
+        
+    })
 
     const handleSubscribe = async(e) => {
         e.preventDefault();
@@ -98,18 +110,6 @@ const Subscribe = () => {
         e.preventDefault();
         router.push("/auth/signup");
     }
-
- 
-
-    useEffect(()=>{
-        if(!loggedIn){
-            if(loading === "authenticated"){
-                setUser(session?.user)
-                setloggedIn(true);
-            }            
-        }
-    }, [loading, loggedIn, session?.user])
-    
 
     return (
         <>
