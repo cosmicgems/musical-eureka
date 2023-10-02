@@ -36,7 +36,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
 
-    console.log(photo);
+    // console.log(photo);
     
 
     const excerpt = body.substring(11, 150);

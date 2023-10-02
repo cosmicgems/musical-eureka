@@ -71,7 +71,7 @@ export const StateContext = ({ children }) => {
     setPageName(router.pathname);
     const p_slug = pageName.slice(1)
     setPageSlug(p_slug);
-    console.log(pageName);
+    // console.log(pageName);
   }, [setPageName, router, pageName, setPageSlug])
 
 

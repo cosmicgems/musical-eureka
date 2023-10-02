@@ -8,10 +8,6 @@ import axios from 'axios';
 import Subscribe from './Subscribe';
 
 const Layout = ({ children}) => {
-  const { pageName } = useStateContext();
-  const [updated, setUpdated] = useState(false);
-
-    const { data: session, status, update } = useSession();
 
 
   return (

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { grey, red } from '@mui/material/colors'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { getSession, signOut } from 'next-auth/react'
+import { getSession, signOut, useSession } from 'next-auth/react'
 import UserCard from './User/UserCard'
 
 
@@ -28,6 +28,8 @@ const Subscribe = () => {
         sending: null,
         sent: null,
     });
+
+    const {data:session, status: loading} = useSession()
     
     const [blank, setBlank] = useState<boolean>(true)
     const [loggedIn, setloggedIn] = useState<boolean>(false);
@@ -45,18 +47,8 @@ const Subscribe = () => {
         }
     }, [blank, subscriber.email]);
 
-    useEffect(()=>{
-        const checkSession = async () => {
-        const session = await getSession();
-        
-        if (session) {
-            setloggedIn(true);
-            setUser(session.user)
-        }
-        };
-
-        checkSession();
-    })
+    console.log(session);
+    
 
     const handleSubscribe = async(e) => {
         e.preventDefault();
@@ -108,6 +100,16 @@ const Subscribe = () => {
         router.push("/auth/signup");
     }
 
+    useEffect(()=>{
+        if(loggedIn){
+            return
+        }
+        if(session){
+            setUser(session?.user)
+            setloggedIn(true)
+        }
+    }, [loggedIn, session])
+
     return (
         <>
             {
@@ -139,7 +141,7 @@ const Subscribe = () => {
                         <div   className='sm:w-1/5'>
                             { loggedIn ? 
                                 <div className=' sm:flex gap-3 justify-end hidden '>
-                                    <UserCard user={user} />
+                                    <UserCard user={session.user} />
                                     <div>
                                         <Button onClick={()=>signOut()} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
                                             Signout
