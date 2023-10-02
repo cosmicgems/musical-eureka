@@ -103,12 +103,12 @@ const Subscribe = () => {
 
     useEffect(()=>{
         if(!loggedIn){
-            if(loading !== "loading"){
-                setUser(session.user)
-            }   
-            setloggedIn(true);         
+            if(loading === "authenticated"){
+                setUser(session?.user)
+                setloggedIn(true);
+            }            
         }
-    }, [loading, loggedIn, session.user])
+    }, [loading, loggedIn, session?.user])
     
 
     return (
