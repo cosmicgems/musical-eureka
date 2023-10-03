@@ -71,7 +71,7 @@ const SettingsPage = ({user}) => {
       }
   }
 
-  if(verified && session.user.role === 24){
+  if(verified && session.user.role === 24  ){
     return (
       <Box sx={{bgcolor: grey[100]}}>
         <Layout>
@@ -88,7 +88,25 @@ const SettingsPage = ({user}) => {
     )    
   }
 
-  if(verified && session.user.role !== 24) {
+  if(verified && session.user._id === user._id){
+    return (
+      <Box sx={{bgcolor: grey[100]}}>
+        <Layout>
+          <div className='mt-12 pt-6 ' >
+          
+              <UserSettingsForm user={user} onUserDataUpdate={handleUserDataUpdate} />
+        
+            
+          </div>
+        </Layout>      
+      </Box>
+
+
+    )  
+  }
+
+
+  if(verified && session.user.role !== 24 && user._id !== session.user._id) {
     router.push(`/admin/dashboard/${session.user.username}`)
   } 
 

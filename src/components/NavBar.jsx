@@ -30,7 +30,7 @@ import { useRouter } from 'next/router';
 import UserCard from './User/UserCard';
 import UserCardMobile from './User/UserCardMobile';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 
 function NavBar(props) {
@@ -39,6 +39,7 @@ function NavBar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [loggedIn, setLoggedIn] = React.useState(false);
+    const [user, setUser] = React.useState({});
     
 
   const handleDrawerToggle = () => {
@@ -55,16 +56,32 @@ function NavBar(props) {
     art: cyan[500],
   };
 
+
   const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
   const drawer = (
     <Box onClick={handleDrawerToggle} className="h-full" sx={{ textAlign: 'center' , bgcolor:grey[900]}}>
     <Link href='/'>
       <Typography className='gradient-text font-bold' variant="h6" sx={{ my: 2, fontSize: '2rem' }}>
         Pearl Box 
-      </Typography>      
+      </Typography>
+      <div className='px-20'>
+        <Divider className='mb-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
+      </div>
+                      
     </Link>
+          {
+            loggedIn && 
+            <div className='px-6 '>
+            <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.5rem'}}>
+              Hello {user.first_name},
+            </Typography>
+              <UserCardMobile />
+                <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
+            </div>
+          }
 
-      <Divider />
+  
+
       <List>
         {navItems.map((item, i) => (
           <ListItem key={item.name + i.toString()} disablePadding>
@@ -79,13 +96,7 @@ function NavBar(props) {
         ))}
       </List>
 
-          {
-            loggedIn && 
-            <UserCardMobile />
-          }
-      <Divider />
 
-      <UserCardMobile/>
     </Box>
   );
 
@@ -94,6 +105,7 @@ function NavBar(props) {
   React.useEffect(()=>{
     const checkSession = async () => {
     const session = await getSession();
+    setUser(session.user)
     // console.log(session);
 
     if(loggedIn) return

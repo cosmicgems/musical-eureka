@@ -115,7 +115,7 @@ const UserSettingsForm = ({user, onUserDataUpdate}) => {
     }
 
   return (
-    <div className='flex gap-3'>
+    <div className='flex gap-3 sm:flex-row flex-col'>
         <div className='sm:w-1/3 p-3 flex flex-col gap-3'>
             <Typography variant='h3' sx={{}} className='gradient-text-subcategories'>
                 Profile Preview
