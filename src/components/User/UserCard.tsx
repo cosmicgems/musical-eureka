@@ -44,7 +44,7 @@ const UserCard = () => {
                 }
 
 
-                {/* <div className='flex flex-col px-2 w-4/6 '>
+                <div className='flex flex-col px-2 w-4/6 '>
                     <Typography variant='body1' sx={{fontSize: "1.5rem"}} className='gradient-text-subcategories py-0'>
                         {user.username}
                     </Typography>
@@ -56,7 +56,7 @@ const UserCard = () => {
                         <Button href={`/admin/dashboard/${user.username}`}>Dashboard</Button>
                         <Button href={`/admin/settings/${user.username}`}>Settings</Button>
                     </ButtonGroup>
-                </div> */}
+                </div>
 
             </div>
         </Box>
