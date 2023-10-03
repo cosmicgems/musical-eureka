@@ -103,11 +103,7 @@ const Subscribe = () => {
             // User is logged in
             setLoggedIn(true);
             setUser(session.user); // Store user data if needed
-          } else {
-            // User is not logged in
-            setLoggedIn(false);
-            setUser({}); // Reset user data
-          }
+          } 
         };
     
         fetchSession();
