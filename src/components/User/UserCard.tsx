@@ -1,9 +1,22 @@
 import { Avatar, Box, Button, ButtonGroup, CardMedia, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import { useSession } from 'next-auth/react'
-import React from 'react'
+import { getSession, useSession } from 'next-auth/react'
+import React, { useEffect, useState } from 'react'
 
 const UserCard = () => {
+    // const [user, setUser] = useState();
+    // useEffect(()=>{
+    //     const checkSession = async() => {
+    //         const session = await getSession();
+    //     if (session) {
+    //         const u = session.user;
+
+    //     }
+    //     };
+
+    //     checkSession();
+        
+    // })
     const { data: session, status} = useSession();
     
 
