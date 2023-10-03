@@ -1,8 +1,54 @@
 import { Typography } from '@mui/material'
-import React from 'react'
+import React, { useRef, useEffect} from 'react'
 import VideoCard from '../VideoCard'
 
 const YoutubeVideos = ({videos}) => {
+    const scrollContainerRef = useRef(null);
+
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+    
+        // Add an event listener to handle scroll snap on scroll end
+        const handleScroll = () => {
+        const scrollLeft = scrollContainer.scrollLeft;
+        const containerWidth = scrollContainer.clientWidth;
+        const youtubeCards = scrollContainer.querySelectorAll('.scrollable-item');
+    
+        let nearestCard = null;
+        let minDistance = Infinity;
+    
+        // Find the nearest project card based on scroll position
+        youtubeCards.forEach((card) => {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left - scrollLeft);
+    
+            if (distance < minDistance) {
+            minDistance = distance;
+            nearestCard = card;
+            }
+        });
+    
+        // Snap to the nearest project card
+        if (nearestCard) {
+            scrollContainer.scrollTo({
+            left: nearestCard.offsetLeft,
+            behavior: 'smooth',
+            });
+        }
+        };
+    
+        if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', handleScroll);
+        }
+    
+        return () => {
+        if (scrollContainer) {
+            scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+        };
+    
+    }, []);
+
   return (
     <div>
         <div className='w-full'>
@@ -10,20 +56,20 @@ const YoutubeVideos = ({videos}) => {
             Media
         </Typography>
         </div>
-
+        <div ref={scrollContainerRef}>
             {
                 videos?.length > 0 ?
-                    <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
+                    <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
                         {videos.map((v, i) => {
                             if (videos.length > 0) {
                                 return(
-                                    <div key={i} className='p-3'>
+                                    <div key={i} className='p-3 scrollable-item'>
                                         <VideoCard video={v} />
                                     </div>
                                 )                                    
                             } else if (videos.length <= 0) {
                             return(
-                                <div key="none" className='p-3'>
+                                <div key="none" className='p-3 scrollable-item'>
                                     <Typography variant='h2' className='gradient-text-four' >
                                         Google Quota Reached.
                                     </Typography>
@@ -40,7 +86,9 @@ const YoutubeVideos = ({videos}) => {
                     </Typography>                                    
                 </div>
 
-            }
+            }            
+        </div>
+
 
     </div>
   )

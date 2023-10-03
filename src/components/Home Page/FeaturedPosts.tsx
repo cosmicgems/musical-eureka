@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import BlogPost from '../blog/BlogPost';
 
@@ -29,8 +29,56 @@ interface Blog {
 }
 
 const FeaturedPosts = ({featuredPosts}) => {
+    
     const featuredTargetRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
+    const scrollContainerRef = useRef(null);
+
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+    
+        // Add an event listener to handle scroll snap on scroll end
+        const handleScroll = () => {
+        const scrollLeft = scrollContainer.scrollLeft;
+        const containerWidth = scrollContainer.clientWidth;
+        const featuredCards = scrollContainer.querySelectorAll('.scrollable-item');
+    
+        let nearestCard = null;
+        let minDistance = Infinity;
+    
+        // Find the nearest project card based on scroll position
+        featuredCards.forEach((card) => {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left - scrollLeft);
+    
+            if (distance < minDistance) {
+            minDistance = distance;
+            nearestCard = card;
+            }
+        });
+    
+        // Snap to the nearest project card
+        if (nearestCard) {
+            scrollContainer.scrollTo({
+            left: nearestCard.offsetLeft,
+            behavior: 'smooth',
+            });
+        }
+        };
+    
+        if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', handleScroll);
+        }
+    
+        return () => {
+        if (scrollContainer) {
+            scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+        };
+    
+    }, []);
+
+    
     return (
     <div>
             <div className='w-full'>
@@ -38,12 +86,12 @@ const FeaturedPosts = ({featuredPosts}) => {
                 Featured
             </Typography>
             </div>
-            <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
+            <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
                 
                 {featuredPosts.map((b, i)=> {
                     if(i === 0) {
                         return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
+                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                             <div className='flex justify-center items-center py-3'>
                                 <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                     <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '2rem'}}>
@@ -57,7 +105,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                         )
                     } else if (i === featuredPosts.length -1){
                         return (
-                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                             <div  ref={featuredTargetRef} className='flex justify-center items-center py-3'>
                                 <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                     <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
@@ -74,7 +122,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                         )
                     } else {
                         return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
+                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
                                 <div className='flex justify-center items-center py-3'>
                                     <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                         <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>

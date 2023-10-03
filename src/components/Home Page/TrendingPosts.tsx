@@ -39,6 +39,52 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
     let loadedBlogCount = blogs.length; 
+    const scrollTrendContainerRef = useRef(null);
+
+    useEffect(() => {
+        const scrollContainer = scrollTrendContainerRef.current;
+    
+        // Add an event listener to handle scroll snap on scroll end
+        const handleScroll = () => {
+        const scrollLeft = scrollContainer.scrollLeft;
+        const containerWidth = scrollContainer.clientWidth;
+        const trendingCards = scrollContainer.querySelectorAll('.scrollable-item');
+    
+        let nearestCard = null;
+        let minDistance = Infinity;
+    
+        // Find the nearest project card based on scroll position
+        trendingCards.forEach((card) => {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left - scrollLeft);
+    
+            if (distance < minDistance) {
+            minDistance = distance;
+            nearestCard = card;
+            }
+        });
+    
+        // Snap to the nearest project card
+        if (nearestCard) {
+            scrollContainer.scrollTo({
+            left: nearestCard.offsetLeft,
+            behavior: 'smooth',
+            });
+        }
+        };
+    
+        if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', handleScroll);
+        }
+    
+        return () => {
+        if (scrollContainer) {
+            scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+        };
+    
+    }, []);
+
 
     
     const loadMoreBlogs = useCallback(async () => {
@@ -99,12 +145,12 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
             </Typography>
         </div>
 
-            <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] '>
+            <div className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container '>
                 
                 {blogs.map((b, i)=> {
                     if(i === 0) {
                         return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
+                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                             <div className='flex justify-center items-center'>
                                 <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                     <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
@@ -118,7 +164,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
                         )
                     } else if (i === blogs.length -1){
                         return (
-                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                             <div  ref={targetRef} className='flex justify-center items-center'>
                                 <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                     <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
@@ -135,7 +181,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
                         )
                     } else {
                         return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3'>
+                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
                                 <div className='flex justify-center items-center'>
                                     <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                         <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>

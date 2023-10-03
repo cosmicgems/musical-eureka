@@ -1,8 +1,17 @@
-import { Box, Button, CardMedia, Typography } from '@mui/material';
+import { Avatar, Box, Button, CardMedia, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React from 'react'
+import moment from 'moment';
 
 
+interface Author {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    photo: string;
+    username: string;
+    email: string;
+}
 interface BlogPostProps {
     blog: {
         _id: string;
@@ -16,12 +25,13 @@ interface BlogPostProps {
         mdesc: string;
         createdAt: Date;
         updatedAt: Date;
+        postedBy: Author;
     };
 }
 
 const RecentBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
 
-    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt} = blog;
+    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
 
 
     const excerpt = body.substring(11, 150);
@@ -49,12 +59,39 @@ const RecentBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
 
             </div>
 
-            <div>
-                <Typography variant='body1' sx={{color: grey[50]}} className=''>
-                    User/Author Placeholder
-                </Typography>
-                
-            </div>
+
+            {
+                        postedBy ? 
+                        <div className='flex flex-col'>
+
+                        <div className='flex justify-center items-center gap-3'>
+                            <div className='flex flex-col justify-center items-center'>
+                                <Avatar alt={`${postedBy.first_name} ${postedBy.last_name}`} src={postedBy.photo} />
+                                <Typography variant='body1' sx={{color: grey[50]}} className=''>
+                                    &nbsp;{postedBy.first_name} {postedBy.last_name}
+                                </Typography>
+                            </div>
+
+                        </div>
+
+                            <div className='flex justify-center items-center gap-3'>
+                                < Typography variant="body1" sx={{}} className='gradient-text-category'>
+                                    Post Date:  
+                                </Typography>
+                                
+                                    <Typography variant='body1' sx={{color: grey[50]}} className=''>
+                                        {moment(createdAt).fromNow()}
+                                    </Typography>
+                            
+
+                            </div>
+
+                        </div>
+                        :
+
+                        null
+                    }
+
 
             <div>
                 <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text  w-[325px] sm:w-[375px]'>

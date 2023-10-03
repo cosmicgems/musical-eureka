@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { Avatar, Box, Button, Card, CardContent, CardMedia, Chip, Grid, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import moment from 'moment/moment';;
@@ -19,6 +19,15 @@ import User from '../../../../lib/models/user';
 
 
 
+interface Author {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  photo: string;
+  username: string;
+  email: string;
+}
+
 interface Blog {
   _id: string;
   title: string;
@@ -26,17 +35,65 @@ interface Blog {
   sub_categories: any[];
   photo: string;
   body: string;
+  excerpt: string;
   slug: string;
   mtitle: string;
   mdesc: string;
   createdAt: Date;
   updatedAt: Date;
+  postedBy: Author;
 }
 
 const DynamicArticlePage = (props) => {
   
   const {post:{title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo}, related_posts} = props;
   
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+      const scrollContainer = scrollContainerRef.current;
+  
+      // Add an event listener to handle scroll snap on scroll end
+      const handleScroll = () => {
+      const scrollLeft = scrollContainer.scrollLeft;
+      const containerWidth = scrollContainer.clientWidth;
+      const relatedCards = scrollContainer.querySelectorAll('.scrollable-item');
+  
+      let nearestCard = null;
+      let minDistance = Infinity;
+  
+      // Find the nearest project card based on scroll position
+      relatedCards.forEach((card) => {
+          const cardRect = card.getBoundingClientRect();
+          const distance = Math.abs(cardRect.left - scrollLeft);
+  
+          if (distance < minDistance) {
+          minDistance = distance;
+          nearestCard = card;
+          }
+      });
+  
+      // Snap to the nearest project card
+      if (nearestCard) {
+          scrollContainer.scrollTo({
+          left: nearestCard.offsetLeft,
+          behavior: 'smooth',
+          });
+      }
+      };
+  
+      if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+      }
+  
+      return () => {
+      if (scrollContainer) {
+          scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+      };
+  
+  }, []);
+
     
     // console.log(related_posts);
     const {pathSegment} = useStateContext();
@@ -117,14 +174,14 @@ const DynamicArticlePage = (props) => {
                       </Typography>
                     </div>
 
-                    <div  className='flex gap-6 sm:justify-center sm:items-center  pb-6 w-[100%] overflow-x-auto '>
+                    <div  className='scrollable-container flex gap-6   pb-6 w-[100%] overflow-x-auto pr-6'>
                                   
                                   {related_posts.map((b, i)=> {
-                                      if(i >= 3) {
+                                      if(i >= 5) {
                                           return
-                                      } else if (i === 2){
+                                      } else if (i === b.length - 1){
                                           return (
-                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-6 pr-6 flex flex-col gap-3 sm:w-[25vw]' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                                               <div   className='flex justify-center items-center'>
                                                   <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                       <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -138,7 +195,7 @@ const DynamicArticlePage = (props) => {
                                           )
                                       } else if(i === 0){
                                           return (
-                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3 pr-6  sm:w-[25vw]' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
+                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
                                               <div className='flex justify-center items-center'>
                                                   <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                       <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -152,7 +209,7 @@ const DynamicArticlePage = (props) => {
                                           )
                                       } else {
                                           return (
-                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw]'>
+                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw] scrollable-item'>
                                                   <div className='flex justify-center items-center'>
                                                       <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                           <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>

@@ -158,6 +158,16 @@ body, * {
   }
 }
 
+.scrollable-container {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 20px; /* Adjust as needed */
+}
+
+.scrollable-item {
+  scroll-snap-align: center;
+}
+
 p{
   font-family: "Rajdhani";
 }

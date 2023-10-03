@@ -50,13 +50,13 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     const excerpt_two = body.substring(11, 150);
 
     return (
-        <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
+        <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
             <CardMedia 
             component="img"
             image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
             alt=''
             sx={{objectFit: "cover", borderTopRightRadius: "5px", borderTopLeftRadius: "5px"}}
-            className='h-[33vh]'
+            className='sm:h-[20vh] h-[25vh]'
             />
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
@@ -124,7 +124,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 </Grid>
                 </div>
 
-                <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text w-[350px] sm:w-[375px]'   >
+                <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text w-[99%] sm:w-[375px]'   >
                     {
                         excerpt ?
                         <>
