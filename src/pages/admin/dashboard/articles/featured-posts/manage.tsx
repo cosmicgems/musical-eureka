@@ -11,6 +11,33 @@ import PostsContainer from '../../../../../components/Featured Post Manager/Post
 import Tag from '../../../../../../lib/models/tag'
 import FeaturedContainer from '../../../../../components/Featured Post Manager/FeaturedContainer'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import Loading from '../../../../../components/Loading'
+import { useRouter } from 'next/router'
+
+interface Session {
+  data:{
+      user:{
+          about: string;
+          confirmed_account: boolean;
+          createdAt: Date;
+          email: string;
+          first_name: string;
+          last_name: string;
+          password: string;
+          photo: string;
+          role: number;
+          updatedAt: Date;
+          username: string;
+          verification_token: string;
+          verification_token_expiration: string;
+          _id: string;
+          
+      }      
+  },
+  status: string;
+
+}
 
 
 
@@ -43,8 +70,10 @@ interface Blog {
 
 
 const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}: { initialBlogs: Blog[]; totalBlogCount: number,  featuredBlogs: Blog[]; }) => {
+  const router = useRouter();
   const [nonfeatured, setNonfeatured] = useState<any>(initialBlogs);
   const [featured, setFeatured] = useState<any>(featuredBlogs);
+  const [verified, setVerified] = useState<boolean>(null);
   const [data, setData] = useState<any>({
     blogs:nonfeatured, 
     maxFeatures: false
@@ -67,45 +96,74 @@ const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}:
   }
   
   
-
   useEffect(() => {
     console.log("Blogs updated",  featured, data)
     setData(data);
     setFeatured(featured)
   }, [featured, data])
 
-  return (
-    
-    <Box sx={{bgcolor: grey[100]}} className="">
+  
+  const {data:session, status} = useSession() as Session;
+  const sessionCheck = async() => {
+    if(session.user._id ) {
+        setVerified(true);
+        return true
+    } else if (!session.user._id){
+        setVerified(false)
+        return false
+    }
+  }
 
-      <Layout>
+  if(status === "loading" ) {
+      return <Loading />
+  }
 
-        <div className='px-6 py-3'>
+  if(verified === null) {
+      const authenticated = sessionCheck();
+      if(!authenticated){
+          router.push("auth/login")
+      }
+  }
 
-          <Typography variant='h2' sx={{}} className='gradient-text-subcategories text-center w-full'>
-            Featured Post Manager
-          </Typography>
+  if(verified && session.user.role === 24){
+    return (
+      
+      <Box sx={{bgcolor: grey[100]}} className="">
 
-          <div className='flex flex-col md:flex-row gap-12'>
+        <Layout>
 
-            <div className='sm:w-3/5'>
-              <PostsContainer data={data} onUpdate={handleUpdate} />
+          <div className='px-6 py-3'>
+
+            <Typography variant='h2' sx={{}} className='gradient-text-subcategories text-center w-full'>
+              Featured Post Manager
+            </Typography>
+
+            <div className='flex flex-col md:flex-row gap-12'>
+
+              <div className='sm:w-3/5'>
+                <PostsContainer data={data} onUpdate={handleUpdate} />
+              </div>
+
+              <div className='md:w-2/5'>
+                <FeaturedContainer featuredBlogs={featured} onUpdate={handleUpdate} handleUpdate={handleUpdate} />
+              </div>
+
             </div>
 
-            <div className='md:w-2/5'>
-              <FeaturedContainer featuredBlogs={featured} onUpdate={handleUpdate} handleUpdate={handleUpdate} />
-            </div>
+            
 
           </div>
 
-          
+        </Layout>
 
-        </div>
+      </Box>
+    )    
+  }
 
-      </Layout>
+  if(verified && session.user.role !== 24) {
+    router.push(`/admin/dashboard/${session.user.username}`)
+  }
 
-    </Box>
-  )
 }
 
 export async function getStaticProps() {
@@ -163,3 +221,5 @@ export async function getStaticProps() {
 }
 
 export default FeaturedPostManagerPage
+
+FeaturedPostManagerPage.auth = true;

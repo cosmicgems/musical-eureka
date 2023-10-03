@@ -6,6 +6,8 @@ import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/router';
 import CategoryModify from '../../../../../components/Blog Crud/CategoryModify';
 import Layout from '../../../../../components/Layout';
+import { useSession } from 'next-auth/react';
+import Loading from '../../../../../components/Loading';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,12 +22,39 @@ const style = {
 };
 
 
+interface Session {
+  data:{
+      user:{
+          about: string;
+          confirmed_account: boolean;
+          createdAt: Date;
+          email: string;
+          first_name: string;
+          last_name: string;
+          password: string;
+          photo: string;
+          role: number;
+          updatedAt: Date;
+          username: string;
+          verification_token: string;
+          verification_token_expiration: string;
+          _id: string;
+          
+      }      
+  },
+  status: string;
+
+}
+
+
 const ModifyPage = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [posts, setPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1); 
   const [id, setId] = useState<any>("");
+  const [verified, setVerified] = useState<boolean>(null);
+
   const perPage = 10; 
   const handleOpen = (id:any) =>{ setId(id);setOpen(true)};
   const handleClose = () => setOpen(false);
@@ -69,116 +98,145 @@ const ModifyPage = () => {
     e.preventDefault()
     router.push(`/admin/dashboard/articles/modify/${slug}`)
   }
+  const {data:session, status} = useSession() as Session;
+  const sessionCheck = async() => {
+    if(session.user._id ) {
+        setVerified(true);
+        return true
+    } else if (!session.user._id){
+        setVerified(false)
+        return false
+    }
+  }
 
-  console.log(posts);
-  
+  if(status === "loading" ) {
+      return <Loading />
+  }
 
-  return (
-    <Box sx={{bgcolor: grey[100]}} className="min-h-screen">
+  if(verified === null) {
+      const authenticated = sessionCheck();
+      if(!authenticated){
+          router.push("auth/login")
+      }
+  }
+
+  if (verified && session.user.role === 24) {
+    return (
+      <Box sx={{bgcolor: grey[100]}} className="min-h-screen">
 
 
-      <Layout>
+        <Layout>
 
-        <div className='flex lg:flex-row flex-col justify-center  gap-3 mt-20'>
+          <div className='flex lg:flex-row flex-col justify-center  gap-3 mt-20'>
 
 
-            <div className='flex flex-col gap-3  p-3 sm:w-3/5'>
+              <div className='flex flex-col gap-3  p-3 sm:w-3/5'>
 
-              <div className='w-full text-center p-3'>
-                  <Typography variant='h3' sx={{}} className='gradient-text-subcategories'>
-                      Modify Post
-                  </Typography>
-              </div>   
+                <div className='w-full text-center p-3'>
+                    <Typography variant='h3' sx={{}} className='gradient-text-subcategories'>
+                        Modify Post
+                    </Typography>
+                </div>   
 
-              {posts.map((p:any, i:number)=>{
-                return (
-              <Box key={p._id} sx={{bgcolor: i % 2 === 0 ? grey[900] : grey[700], borderRadius: '10px'}} className='flex flex-row gap-3 justify-between p-3'>
+                {posts.map((p:any, i:number)=>{
+                  return (
+                <Box key={p._id} sx={{bgcolor: i % 2 === 0 ? grey[900] : grey[700], borderRadius: '10px'}} className='flex flex-row gap-3 justify-between p-3'>
 
-                <div>
-                  <Typography variant='h3' className='gradient-text-two' sx={{}}>
-                    {p.title}
-                  </Typography>                  
-                </div>
-
-                <div className='flex items-center'>
-                  <div className='flex flex-row gap-6 justify-center items-center'>
-                    <Button onClick={(e)=>handleUpdate(e, p.slug)} variant='contained' size='large' sx={{color:grey[900] }} className='gradient-button-yellow'>
-                      Update
-                    </Button>
-
-                    <Button onClick={()=>handleOpen(p._id)} size='large' variant='contained' className='gradient-button-red' sx={{border: "none"}}>Delete</Button>               
+                  <div>
+                    <Typography variant='h3' className='gradient-text-two' sx={{}}>
+                      {p.title}
+                    </Typography>                  
                   </div>
 
+                  <div className='flex items-center'>
+                    <div className='flex flex-row gap-6 justify-center items-center'>
+                      <Button onClick={(e)=>handleUpdate(e, p.slug)} variant='contained' size='large' sx={{color:grey[900] }} className='gradient-button-yellow'>
+                        Update
+                      </Button>
+
+                      <Button onClick={()=>handleOpen(p._id)} size='large' variant='contained' className='gradient-button-red' sx={{border: "none"}}>Delete</Button>               
+                    </div>
 
 
+
+                  </div>
+
+                </Box>
+                  )
+                })}
+              <div className='mb-6'>
+                {loading ? (
+                  <p>Loading...</p>
+                ) : (
+                  <Button variant='outlined' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
+                )}
+              </div>
+              </div>
+
+              <div className='flex flex-col gap-3 p-3 md:w-2/5'>
+
+                <div className='w-full text-center p-3'>
+                  <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
+                    Categories
+                  </Typography>                
                 </div>
 
-              </Box>
-                )
-              })}
-            <div className='mb-6'>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <Button variant='outlined' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
-              )}
-            </div>
-            </div>
+                <div>
+                  <CategoryModify/>
+                </div>
 
-            <div className='flex flex-col gap-3 p-3 md:w-2/5'>
+              </div>  
+                      <Modal
+                      sx={{}}
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box className="flex flex-col gap-2 text-center" sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" >
+                          Text in a modal
+                        </Typography>
+                        <Typography id="modal-modal-description mb-2" >
+                          Are you sure you would like to delete this post? This action is <span className='font-bold'>irreversible</span> .
+                        </Typography>
+                        <Typography variant='body2' sx={{color: grey[500]}} className='font-bold'>
+                          Click outside this alert to cancel.
+                        </Typography>
+                        <div className='flex flex-row gap-3 justify-center items-center'>
+                          <Button variant='contained' id={id} onClick={()=>handleDelete(id)} sx={{bgcolor: red[500]}} className=''>
+                            Delete
+                          </Button>
+                          <Button onClick={handleClose} variant='contained' sx={{bgcolor: grey[700]}} className=''>
+                            Cancel
+                          </Button>   
 
-              <div className='w-full text-center p-3'>
-                <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
-                  Categories
-                </Typography>                
-              </div>
+                        </div>
 
-              <div>
-                <CategoryModify/>
-              </div>
+                      </Box>
+                    </Modal>     
 
-            </div>  
-                    <Modal
-                    sx={{}}
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box className="flex flex-col gap-2 text-center" sx={style}>
-                      <Typography id="modal-modal-title" variant="h6" >
-                        Text in a modal
-                      </Typography>
-                      <Typography id="modal-modal-description mb-2" >
-                        Are you sure you would like to delete this post? This action is <span className='font-bold'>irreversible</span> .
-                      </Typography>
-                      <Typography variant='body2' sx={{color: grey[500]}} className='font-bold'>
-                        Click outside this alert to cancel.
-                      </Typography>
-                      <div className='flex flex-row gap-3 justify-center items-center'>
-                        <Button variant='contained' id={id} onClick={()=>handleDelete(id)} sx={{bgcolor: red[500]}} className=''>
-                          Delete
-                        </Button>
-                        <Button onClick={handleClose} variant='contained' sx={{bgcolor: grey[700]}} className=''>
-                          Cancel
-                        </Button>   
+              
 
-                      </div>
+          </div>
 
-                    </Box>
-                  </Modal>     
-
-            
-
-        </div>
-
-      </Layout>
+        </Layout>
 
 
 
 
-    </Box>
-  )
+      </Box>
+    )    
+  }
+
+  if(verified && session.user.role !== 24) {
+    router.push(`/admin/dashboard/${session.user.username}`)
+  }
+  
+
+
 }
 
 export default ModifyPage
+
+ModifyPage.auth = true;

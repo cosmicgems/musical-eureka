@@ -5,6 +5,34 @@ import { Box, Button, CardMedia, Checkbox, FormControlLabel, FormGroup, TextFiel
 import { amber, green, grey, red } from '@mui/material/colors';
 import { Editor } from '@tinymce/tinymce-react';
 import parse from 'html-react-parser'
+import { useSession } from 'next-auth/react';
+import Loading from '../../../../../components/Loading';
+
+
+interface Session {
+    data:{
+        user:{
+            about: string;
+            confirmed_account: boolean;
+            createdAt: Date;
+            email: string;
+            first_name: string;
+            last_name: string;
+            password: string;
+            photo: string;
+            role: number;
+            updatedAt: Date;
+            username: string;
+            verification_token: string;
+            verification_token_expiration: string;
+            _id: string;
+            
+        }      
+    },
+    status: string;
+
+}  
+
 
 const ModifyPost = () => {
 
@@ -23,6 +51,7 @@ const ModifyPost = () => {
     const [cleared, setCleared] = useState<boolean>(false);
     const [localStorageBlog, setLocalStorageBlog] = useState<any>({})
     const [excerpt, setExcerpt] = useState<string>("");
+    const [verified, setVerified] = useState<boolean>(null);
 
     const [values, setValues] = useState<any>({
         error: null,
@@ -274,194 +303,192 @@ const ModifyPost = () => {
         }
     }
     
-  // useEffect(()=>{
-  //   setLocalStorageBlog({
-  //       photo: localStorage.getItem('Photo Update'),
-  //       title: localStorage.getItem('Title Update'),
-  //       body: localStorage.getItem('Body Update'),
-  //       categories: localStorage.getItem('Categories Update'),
-  //       subcategories: localStorage.getItem('Subcategories Update'),
-  //   })
-  //   if(savedWork){
-  //       if(localStorage.getItem("Photo Update") !== ''){
-  //           setValues({photo: localStorage.getItem("Photo Update")});
-  //       }
-  //       if(localStorage.getItem("Body Update") !== ""){
-  //           setBody(localStorage.getItem("Body Update"));
-  //           setEditorContent(localStorage.getItem("Body Update"));
-  //           setSavedPost(true);
-  //       }
-  //       if(localStorage.getItem("Title Update") !== "") {
-  //           setTitle(localStorage.getItem("Title Update"));
-  //       }
-  //       if(localStorage.getItem("Category Update") !== "") {
-  //           const parsedCategories = JSON.parse(localStorage.getItem("Categories Update"));
-  //           setChecked(parsedCategories);
-  //       }
-  //       if(localStorage.getItem("Subcategory Update") !== "") {
-  //           const parsedSubcategories = JSON.parse(localStorage.getItem("Subcategories Update"));
-  //           setCheckedSubcategory(parsedSubcategories);
-  //       }
-  //       setSavedWork(false)
-  //   }
-  // })
-
-
-
-    return (
-        <Box sx={{bgcolor: grey[200]}} className='flex flex-col min-h-screen p-6'>
-        { sending ?
-            <Box className="p-3 mb-3" sx={{bgcolor: amber[600], borderRadius: "10px", fontSize: '2rem'}}>
-                <Typography variant='h4' sx={{}} className=''>
-                    Sending...
-                </Typography>
-            </Box>
-            :
-            success ?
-            <Box sx={{bgcolor:green[400], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
-                <Typography variant='h4' sx={{color:grey[50]}} className='font-bold'>
-                    {successMessage}
-                </Typography>
-            </Box>   
-            :
-            error ?
-            <Box sx={{bgcolor:red[700], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
-                <Typography variant='h4' sx={{color: grey[200]}} className='font-bold'>
-                    {errorMessage}
-                </Typography>
-            </Box> 
-            :
-            <div className='w-full p-3 mb-3'>
-                <Typography variant="h3" className=' w-full text-center' sx={{color: green[500]}}>
-                    {title} <Typography variant='h3' className='inline-block font-bold' sx={{color: amber[500]}}> Update</Typography> 
-                </Typography>
-            </div>
+    const {data:session, status} = useSession() as Session;
+    const sessionCheck = async() => {
+        if(session.user._id ) {
+            setVerified(true);
+            return true
+        } else if (!session.user._id){
+            setVerified(false)
+            return false
         }
+    }
 
+    if(status === "loading" ) {
+        return <Loading />
+    }
 
+    if(verified === null) {
+        const authenticated = sessionCheck();
+        if(!authenticated){
+            router.push("auth/login")
+        }
+    }
 
-        <div className='flex gap-12'>
-
-            <div className='sm:w-3/5'>
-
-                    <div>
-                    {showEditor()} 
-                    </div>
-            </div>
-
-            
-            <div className='flex flex-col sm:w-2/5 '>
-    {/*           
-            {!cleared ?
-                <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
-
-                    <div className='p-3'>
-                        <Typography variant='h3' className='font-bold' sx={{fontSize: '2rem', color: grey[50]}}>
-                            {localStorageBlog.title}
-                        </Typography>                                
-                    </div>
-
-                    <div className='p-3 gap-6 flex'>
-                        <Button variant='contained' type='button' onClick={()=>handleSavedWork(true)}>
-                            Continue Work
-                        </Button>
-                        <Button variant='outlined' onClick={handleLocalStorageClear}>
-                            Clear Work
-                        </Button>
-                    </div>
-
-                </Box>  
-                : 
-                <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
-
-                    <div className='p-3 w-full'>
-                        <Typography variant='h3' className='font-bold w-full text-center' sx={{fontSize: '3rem', color: grey[50]}}>
-                            No Saved Work
-                        </Typography>                                
-                    </div>
-
-
+    if(verified && session.user.role === 24){
+        return (
+            <Box sx={{bgcolor: grey[200]}} className='flex flex-col min-h-screen p-6'>
+            { sending ?
+                <Box className="p-3 mb-3" sx={{bgcolor: amber[600], borderRadius: "10px", fontSize: '2rem'}}>
+                    <Typography variant='h4' sx={{}} className=''>
+                        Sending...
+                    </Typography>
                 </Box>
+                :
+                success ?
+                <Box sx={{bgcolor:green[400], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
+                    <Typography variant='h4' sx={{color:grey[50]}} className='font-bold'>
+                        {successMessage}
+                    </Typography>
+                </Box>   
+                :
+                error ?
+                <Box sx={{bgcolor:red[700], borderRadius: "10px", fontSize: '2rem'}} className="p-3 mb-3">
+                    <Typography variant='h4' sx={{color: grey[200]}} className='font-bold'>
+                        {errorMessage}
+                    </Typography>
+                </Box> 
+                :
+                <div className='w-full p-3 mb-3'>
+                    <Typography variant="h3" className=' w-full text-center' sx={{color: green[500]}}>
+                        {title} <Typography variant='h3' className='inline-block font-bold' sx={{color: amber[500]}}> Update</Typography> 
+                    </Typography>
+                </div>
             }
-    */}
 
 
 
-            <div className='p-3 flex flex-col gap-3'>
-                <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
-                <TextField fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
-            </div>
+            <div className='flex gap-12'>
 
-            <div className='flex '>
+                <div className='sm:w-3/5'>
 
-                <div className='p-3 w-1/2'>
-                    <div>
-                        <Typography variant='h6' sx={{}}>
-                            Categories
-                        </Typography>                                
-                    </div>
-                    <FormGroup>
-                        {showCategories()}                   
-                    </FormGroup>
-
-
-                </div>
-
-                <div className='p-3 w-1/2'>
-                    <div>
-                        <Typography variant='h6' sx={{}}>
-                            Subcategories
-                        </Typography>                                
-                    </div>
-                    <FormGroup>
-                        {showSubcategories()}                
-                    </FormGroup>                 
-                </div>
-
-
-            </div>
-            </div>
-
-            
-                
-        </div>
-
-                        
-        <div className='w-3/5 flex flex-col justify-center items-center'>
-                        <div className='py-6'>
-                            <Typography variant='h3' sx={{color: grey[50]}} className='font-bold'>
-                                Post Preview 
-                            </Typography>
+                        <div>
+                        {showEditor()} 
                         </div>
-                        <div className='w-full' style={{backgroundColor: "#FFF"}}>
-                            {photo !== '' &&
-                                <div className='w-full my-3'>
-                                    <CardMedia 
-                                    className='h-[10vh]'
-                                    sx={{objectFit: 'cover'}}
-                                    component='img'
-                                    src={photo}
-                                    alt="Image"
-                                    />
-                                </div>                            
-                            }
+                </div>
 
-                            <div className='p-6'>
-                                <div>
-                                    <Typography variant='h3' sx={{}} className='text-center'>
-                                        {title}
-                                    </Typography>
+                
+                <div className='flex flex-col sm:w-2/5 '>
+        {/*           
+                {!cleared ?
+                    <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
+
+                        <div className='p-3'>
+                            <Typography variant='h3' className='font-bold' sx={{fontSize: '2rem', color: grey[50]}}>
+                                {localStorageBlog.title}
+                            </Typography>                                
+                        </div>
+
+                        <div className='p-3 gap-6 flex'>
+                            <Button variant='contained' type='button' onClick={()=>handleSavedWork(true)}>
+                                Continue Work
+                            </Button>
+                            <Button variant='outlined' onClick={handleLocalStorageClear}>
+                                Clear Work
+                            </Button>
+                        </div>
+
+                    </Box>  
+                    : 
+                    <Box className='p-3 flex justify-between' style={{backgroundColor: grey[700], borderRadius: '10px'}}>
+
+                        <div className='p-3 w-full'>
+                            <Typography variant='h3' className='font-bold w-full text-center' sx={{fontSize: '3rem', color: grey[50]}}>
+                                No Saved Work
+                            </Typography>                                
+                        </div>
+
+
+                    </Box>
+                }
+        */}
+
+
+
+                <div className='p-3 flex flex-col gap-3'>
+                    <TextField fullWidth value={photo} label='Photo' variant='outlined' onChange={handleChange('photo')} />
+                    <TextField fullWidth value={excerpt} label='Excerpt' variant='outlined' onChange={handleChange('excerpt')} />
+                </div>
+
+                <div className='flex '>
+
+                    <div className='p-3 w-1/2'>
+                        <div>
+                            <Typography variant='h6' sx={{}}>
+                                Categories
+                            </Typography>                                
+                        </div>
+                        <FormGroup>
+                            {showCategories()}                   
+                        </FormGroup>
+
+
+                    </div>
+
+                    <div className='p-3 w-1/2'>
+                        <div>
+                            <Typography variant='h6' sx={{}}>
+                                Subcategories
+                            </Typography>                                
+                        </div>
+                        <FormGroup>
+                            {showSubcategories()}                
+                        </FormGroup>                 
+                    </div>
+
+
+                </div>
+                </div>
+
+                
+                    
+            </div>
+
+                            
+            <div className='w-3/5 flex flex-col justify-center items-center'>
+                            <div className='py-6'>
+                                <Typography variant='h3' sx={{color: grey[50]}} className='font-bold'>
+                                    Post Preview 
+                                </Typography>
+                            </div>
+                            <div className='w-full' style={{backgroundColor: "#FFF"}}>
+                                {photo !== '' &&
+                                    <div className='w-full my-3'>
+                                        <CardMedia 
+                                        className='h-[10vh]'
+                                        sx={{objectFit: 'cover'}}
+                                        component='img'
+                                        src={photo}
+                                        alt="Image"
+                                        />
+                                    </div>                            
+                                }
+
+                                <div className='p-6'>
+                                    <div>
+                                        <Typography variant='h3' sx={{}} className='text-center'>
+                                            {title}
+                                        </Typography>
+                                    </div>
+                                    <article>
+                                            {editorContent && parse(editorContent)}
+                                    </article>                            
                                 </div>
-                                <article>
-                                        {editorContent && parse(editorContent)}
-                                </article>                            
+
                             </div>
 
                         </div>
+            </Box>
+        )
+    }
 
-                    </div>
-        </Box>
-    )
+    if(verified && session.user.role !== 24) {
+        router.push(`/admin/dashboard/${session.user.username}`)
+    }    
+
+
 }
 
 export default ModifyPost
+
+ModifyPost.auth = true;

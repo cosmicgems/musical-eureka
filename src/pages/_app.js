@@ -1,14 +1,15 @@
 import '../styles/globals.css'
 import { StateContext } from '../../Context/StateContext'
 import { Toaster } from 'react-hot-toast'
-import { ThemeProvider } from "@mui/material"
+import { Box, ThemeProvider, Typography } from "@mui/material"
 import lightTheme from '../../utility/lightTheme'
 import createEmotionCache from "../../utility/createEmotionCache"
 import { CacheProvider } from "@emotion/react"
 import Layout from '../components/Layout'
 import { SessionProvider, getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-
+import { grey } from '@mui/material/colors'
+import React from 'react'
 
 
 const clientSideEmotionCache = createEmotionCache();
@@ -51,18 +52,22 @@ export default function App({ session, Component,
 
 function Auth({ children }) {
   const router = useRouter();
-  const [session, loading] = useSession()
-  const isUser = !!session?.user
-  React.useEffect(() => {
-    if (loading) return // Do nothing while loading
-    if (!isUser) router.push("/") // If not authenticated, force log in
-  }, [isUser, loading])
+  const { status } = useSession({ required: true })
 
-  if (isUser) {
-    return children
-  }
+  if(status === "loading"){
+  return (
+    <Box sx={{bgcolor: grey[500]}}>
+      <Layout>
 
-  // Session is being fetched, or no user.
-  // If no user, useEffect() will redirect.
-  return <div>Loading...</div>
+        <div className='min-h-[85vh] flex flex-col justify-center items-center'>
+          <Typography variant='h2' className='gradient-text w-full'>
+            Loading...
+          </Typography>
+        </div>
+
+      </Layout>
+    </Box>
+  )}
+
+  return children
 }

@@ -5,6 +5,9 @@ import Layout from '../../../../../components/Layout'
 import CategoryModify from '../../../../../components/Blog Crud/CategoryModify'
 import axios from 'axios'
 import SubcategoryModify from '../../../../../components/Blog Crud/SubcategoryModify'
+import { useRouter } from 'next/router'
+import Loading from '../../../../../components/Loading'
+import { useSession } from 'next-auth/react'
 
 
 
@@ -20,14 +23,39 @@ const style = {
   p: 4,
 };
 
+interface Session {
+  data:{
+      user:{
+          about: string;
+          confirmed_account: boolean;
+          createdAt: Date;
+          email: string;
+          first_name: string;
+          last_name: string;
+          password: string;
+          photo: string;
+          role: number;
+          updatedAt: Date;
+          username: string;
+          verification_token: string;
+          verification_token_expiration: string;
+          _id: string;
+          
+      }      
+  },
+  status: string;
 
+}
 
 const IdentifiersModifyPage = () => {
-  
+  const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
   const handleOpen = (id:any) =>{ setId(id);setOpen(true)};
   const [id, setId] = useState<any>("");
+  const [verified, setVerified] = useState<boolean>(null);
+
   const handleClose = () => setOpen(false);
+
   const handleDelete = async (postId:any) => {
     console.log(postId);
     
@@ -37,43 +65,75 @@ const IdentifiersModifyPage = () => {
   
   }
 
-  return (
-    <Box sx={{bgcolor: grey[100]}} className="">
-      
-      <Layout>
-            <div className='flex flex-col sm:flex-row gap-12 py-3 px-12 '>
+  const {data:session, status} = useSession() as Session;
+  const sessionCheck = async() => {
+    if(session.user._id ) {
+        setVerified(true);
+        return true
+    } else if (!session.user._id){
+        setVerified(false)
+        return false
+    }
+  }
 
-              <div className='md:w-3/5'>
-                <div className='w-full text-center p-3'>
-                  <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
-                    Categories
-                  </Typography>                
+  if(status === "loading" ) {
+      return <Loading />
+  }
+
+  if(verified === null) {
+      const authenticated = sessionCheck();
+      if(!authenticated){
+          router.push("auth/login")
+      }
+  }
+
+  if (verified && session.user.role === 24) {
+    return (
+      <Box sx={{bgcolor: grey[100]}} className="">
+        
+        <Layout>
+              <div className='flex flex-col sm:flex-row gap-12 py-3 px-12 '>
+
+                <div className='md:w-3/5'>
+                  <div className='w-full text-center p-3'>
+                    <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
+                      Categories
+                    </Typography>                
+                  </div>
+
+                  <div>
+                    <CategoryModify/>
+                  </div>
                 </div>
 
-                <div>
-                  <CategoryModify/>
+                <div className='md:w-2/5 '>
+                  <div className='w-full text-center p-3'>
+                    <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
+                      Subcategories
+                    </Typography>                
+                  </div>
+
+                  <div className='overflow-y-auto h-[70vh] pr-3'>
+                    <SubcategoryModify />
+                  </div>
                 </div>
-              </div>
-
-              <div className='md:w-2/5 '>
-                <div className='w-full text-center p-3'>
-                  <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
-                    Subcategories
-                  </Typography>                
-                </div>
-
-                <div className='overflow-y-auto h-[70vh] pr-3'>
-                  <SubcategoryModify />
-                </div>
-              </div>
 
 
-            </div>  
+              </div>  
 
-</Layout>
+  </Layout>
 
-    </Box>
-  )
+      </Box>
+    )    
+  }
+
+  if(verified && session.user.role !== 24) {
+    router.push(`/admin/dashboard/${session.user.username}`)
+  }
+
+
 }
 
 export default IdentifiersModifyPage
+
+IdentifiersModifyPage.auth = true;
