@@ -2,8 +2,8 @@ import { Avatar, Box, Button, ButtonGroup, CardMedia, Typography } from '@mui/ma
 import { grey } from '@mui/material/colors'
 import React from 'react'
 
-const UserCard = ({user: photo, _id, username, first_name , last_name}) => {
-    console.log(photo);
+const UserCard = (user) => {
+    console.log(user);
    
     
     
