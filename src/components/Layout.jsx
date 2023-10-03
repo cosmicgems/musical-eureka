@@ -8,7 +8,7 @@ import { useStateContext } from '../../Context/StateContext';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Subscribe from './Subscribe';
-import {NextAuthProvider} from "../../lib/NextAuthProvider"
+import NextAuthProvider from "../../lib/NextAuthProvider"
 
 const Layout = ({ children}) => {
 
@@ -17,7 +17,7 @@ const Layout = ({ children}) => {
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
 
       
-      <NextAuthProvider>
+      {/* <NextAuthProvider> */}
           <div className='header-div' style={{ paddingInline: 0 }}>
             <header style={{ paddingInline: 0 }}>
               <NavBar />
@@ -30,7 +30,7 @@ const Layout = ({ children}) => {
           <footer className='footer'>
             <Footer />
           </footer>        
-      </NextAuthProvider>
+      {/* </NextAuthProvider> */}
 
 
       </div>

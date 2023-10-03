@@ -140,7 +140,7 @@ const Subscribe = () => {
                         <div   className='sm:w-1/5'>
                             { loggedIn ? 
                                 <div className=' sm:flex gap-3 justify-end hidden '>
-                                    <UserCard user={user} />
+                                    <UserCard  />
                                     <div>
                                         <Button onClick={()=>signOut()} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
                                             Signout
