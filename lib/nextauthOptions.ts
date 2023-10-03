@@ -58,7 +58,7 @@ export const nextauthOptions: AuthOptions = {
                 return {...token, ...session.user}
             }
         if (user) {
-            token.accessToken = token.user;
+            token.accessToken = user;
             
         }
         return token;
