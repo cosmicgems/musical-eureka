@@ -36,10 +36,7 @@ export const nextauthOptions: AuthOptions = {
                     throw new Error("Invalid credentials");
                 }
 
-                return {
-                    user,
-                    id: user._id.toString(),
-                };
+                return user;
             },
         
         }), 
@@ -62,12 +59,13 @@ export const nextauthOptions: AuthOptions = {
             }
         if (user) {
             token.accessToken = user;
+            
         }
         return token;
         },
         async session({ session, token, user }) {
         // Send properties to the client, like an access_token from a provider.
-        session.user = token.accessToken;
+        session.user = token.accessToken
         return session;
         },
     },

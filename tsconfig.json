@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/pages/studio/[[...index]].jsx"  ],
+, "src/pages/studio/[[...index]].jsx", "lib/nextauthOptions.js"  ],
   "exclude": [
     "node_modules"
   ]
