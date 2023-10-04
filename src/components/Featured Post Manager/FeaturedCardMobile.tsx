@@ -51,7 +51,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 
 
 
-const FeaturedCard = ({blog, onFeatureToggle} ) => {
+const FeaturedCardMobile = ({blog, onFeatureToggle} ) => {
 
 const handleFeatureToggle = async (id:any) => {
     try {
@@ -82,15 +82,11 @@ const handleFeatureToggle = async (id:any) => {
                 <Typography variant="h3" sx={{fontSize: {xs:"1rem" ,md:"1.25rem"}}} className="gradient-text-category">
                     {blog.b.title}
                 </Typography>
-                <Typography variant="body1" sx={{color:grey[50]}} className="truncate-text w-[99%]">
+                <Typography variant="body1" sx={{color: grey[50]}} className="truncate-text w-[99%]">
                     {blog.b.excerpt}
                 </Typography>
 
-            </div>
-
-            <div>
-
-                <Stack direction="row" spacing={1} alignItems="center" className='justify-center items-center h-full p-3'>
+                <Stack direction="row" spacing={1} alignItems="center" className='justify-center items-center  p-3'>
                     <Typography className='gradient-text-three'>Off</Typography>
                     {
                         blog.b.featured ? 
@@ -103,6 +99,7 @@ const handleFeatureToggle = async (id:any) => {
                 </Stack>
 
             </div>
+
         </div>
 
 
@@ -110,4 +107,4 @@ const handleFeatureToggle = async (id:any) => {
   )
 }
 
-export default FeaturedCard
+export default FeaturedCardMobile

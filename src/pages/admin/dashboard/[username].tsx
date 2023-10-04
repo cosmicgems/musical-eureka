@@ -95,8 +95,8 @@ const Dashboard = (props) => {
 
                         <div className='p-3'>
                             
-                            <Box sx={{bgcolor: grey[500], borderRadius: "5px"}} className="sm:w-4/5 py-3 px-2 ">
-                                <div className='overflow-y-auto sm:h-[35vh]'>
+                            <Box sx={{bgcolor: grey[900], borderRadius: "5px"}} className="sm:w-4/5 py-3 px-2 ">
+                                <div className='overflow-y-auto overflow-x-hidden flex flex-col gap-2 h-[65vh] sm:h-[35vh] pr-3'>
                                     {posts.map((b, i) => {
                                         const post = {b,i}
                                         return (

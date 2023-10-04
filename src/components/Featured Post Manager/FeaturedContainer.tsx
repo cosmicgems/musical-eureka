@@ -3,6 +3,7 @@ import { grey } from '@mui/material/colors'
 import React, { useEffect, useState } from 'react'
 import FeaturedCard from './FeaturedCard'
 import axios from 'axios'
+import FeaturedCardMobile from './FeaturedCardMobile'
 
 const FeaturedContainer = ({featuredBlogs, onUpdate, handleUpdate}) => {
     const [blogs, setBlogs] = useState<any>(featuredBlogs);
@@ -27,7 +28,7 @@ const FeaturedContainer = ({featuredBlogs, onUpdate, handleUpdate}) => {
                 <Typography variant='h3' sx={{}} className='gradient-text-four w-full text-center'>
                     Featured Post
                 </Typography>
-
+                <div className='max-h-[33vh] overflow-y-auto pr-3 gap-3 flex flex-col '>
                 {
                     blogs?.length === 0 ? 
                         <div >
@@ -40,14 +41,24 @@ const FeaturedContainer = ({featuredBlogs, onUpdate, handleUpdate}) => {
                         {
                             blogs.map((b,i) => {
                                 const data = {b, i}
+
                                 return(
+
                                     <div key={i} >
-                                        <FeaturedCard blog={data} onFeatureToggle={handleFeatureToggle}/>
+                                        <div className='hidden sm:block'>
+                                            <FeaturedCard blog={data} onFeatureToggle={handleFeatureToggle}/>
+                                        </div>
+                                        <div className='sm:hidden'>
+                                            <FeaturedCardMobile blog={data} onFeatureToggle={handleFeatureToggle} />
+                                        </div>
                                     </div>
                             )})
                         }                    
                     </>
                 }
+                </div>
+
+
             </div>
 
         </Box>

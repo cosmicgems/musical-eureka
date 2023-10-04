@@ -6,12 +6,12 @@ const QuickControls = () => {
 
   return (
     <Box sx={{bgcolor: grey[900], borderRadius: '5px'}} className="py-6 h-full">
-      <div className='flex justify-evenly items-stretch '>
+      <div className='flex flex-col sm:flex-row gap-12 justify-evenly items-stretch p-3'>
         
-        <div className='flex flex-col justify-center  gap-6'>
+        <div className='flex flex-col justify-center  gap-6 '>
 
           <div>
-            <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
+            <Typography variant='h3' sx={{fontSize: {xs: "1.75rem",md:'2rem'}}} className='gradient-text-two text-center'>
               Blog Actions
             </Typography>
           </div>
@@ -29,10 +29,10 @@ const QuickControls = () => {
           </ButtonGroup>
         </div>
         
-        <div className='flex flex-col justify-center  gap-6'>
+        <div className='flex flex-col justify-center  gap-6 '>
 
           <div>
-            <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
+            <Typography variant='h3' sx={{fontSize: {xs: "1.75rem",md:'2rem'}}} className='gradient-text-two text-center'>
               Identifiers Actions
             </Typography>
           </div>
@@ -50,10 +50,10 @@ const QuickControls = () => {
           </ButtonGroup>
         </div>
         
-        <div className='flex flex-col  justify-center  '>
+        <div className='flex flex-col  justify-center gap-6  '>
           
             <div>
-              <Typography variant='h3' sx={{fontSize: '2rem'}} className='gradient-text-two'>
+              <Typography variant='h3' sx={{fontSize: {xs: "1.75rem",md:'2rem'}}} className='gradient-text-two text-center'>
                 Featured Post Actions
               </Typography>
             </div>

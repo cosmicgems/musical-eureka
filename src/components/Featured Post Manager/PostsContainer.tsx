@@ -3,6 +3,7 @@ import { Box, Typography} from '@mui/material'
 import { grey } from '@mui/material/colors'
 import PostCard from "./PostCard"
 import axios from 'axios'
+import PostCardMobile from './PostCardMobile'
 
 
 
@@ -23,6 +24,10 @@ const PostsContainer = ({data, onUpdate}) => {
     return (
         <Box className="p-3" sx={{bgcolor: grey[900], borderRadius: "5px"}}>
 
+
+                <Typography variant='h3' sx={{}} className='gradient-text-two w-full text-center p-3'>
+                    All Posts
+                </Typography>
             <div className='max-h-[50vh] overflow-y-auto pr-3'>
 
                 {
@@ -40,7 +45,13 @@ const PostsContainer = ({data, onUpdate}) => {
                                 
                                 return (
                                     <div key={i} className='mb-2'>
-                                        <PostCard blogData={b} onFeatureToggle={handleFeatureToggle}/>
+                                        <div className='hidden sm:block'>
+                                            <PostCard blogData={b} onFeatureToggle={handleFeatureToggle}/>
+                                        </div>
+                                        <div className='sm:hidden'>
+                                            <PostCardMobile blogData={b} onFeatureToggle={handleFeatureToggle}/>
+                                        </div>
+                                        
                                     </div>
                                 )
                             })

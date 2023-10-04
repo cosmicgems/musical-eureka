@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import Layout from '../../../../../components/Layout'
 import { Box, Button, TextField, Typography } from '@mui/material'
@@ -17,6 +17,51 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
     console.log(posts);
     
     const [homeSearch, setHomeSearch] = useState<string>("");
+    const scrollContainerRef = useRef(null);
+
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+    
+        // Add an event listener to handle scroll snap on scroll end
+        const handleScroll = () => {
+        const scrollLeft = scrollContainer.scrollLeft;
+        const containerWidth = scrollContainer.clientWidth;
+        const subcategoryCards = scrollContainer.querySelectorAll('.scrollable-item');
+    
+        let nearestCard = null;
+        let minDistance = Infinity;
+    
+        // Find the nearest project card based on scroll position
+        subcategoryCards.forEach((card) => {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left - scrollLeft);
+    
+            if (distance < minDistance) {
+            minDistance = distance;
+            nearestCard = card;
+            }
+        });
+    
+        // Snap to the nearest project card
+        if (nearestCard) {
+            scrollContainer.scrollTo({
+            left: nearestCard.offsetLeft,
+            behavior: 'smooth',
+            });
+        }
+        };
+    
+        if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', handleScroll);
+        }
+    
+        return () => {
+        if (scrollContainer) {
+            scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+        };
+    
+    }, []);
 
     return (    
         <Box className='' sx={{bgcolor: grey[100]}}>
@@ -42,11 +87,11 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                             </Typography>
                         </div>
                     </div>
-                        <div className='flex gap-6 overflow-x-auto w-screen pb-6 sm:justify-between'>
+                        <div className='flex gap-6 overflow-x-auto w-screen pb-6 sm:justify-between scrollable-div'>
                             {sub_categories.map((sc, i)=> {
                                 if(i === 0 ) {
                                 return (
-                                    <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
+                                    <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                     <div className='flex justify-center items-center py-3'>
                                         <Button href={`/articles/categories/category/${slug}/subcategories/subcategory/${sc.slug}`}>
                                             <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
@@ -61,7 +106,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                                 )
                                 } else if ( i === sub_categories.length - 1) {
                                 return (
-                                    <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
+                                    <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-div' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
                                     <div className='flex justify-center items-center py-3'>
                                         <Button href={`/articles/categories/category/${slug}/subcategories/subcategory/${sc.slug}`}>
                                             <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>
@@ -76,7 +121,7 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
                                 )
                                 }
                                     return (
-                                        <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 ' >
+                                        <Box key={`${i}: ${sc._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-div' >
                                         <div className='flex justify-center items-center py-3'>
                                             <Button href={`/articles/categories/category/${slug}/subcategories/subcategory/${sc.slug}`}>
                                                 <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '1.75rem'}}>

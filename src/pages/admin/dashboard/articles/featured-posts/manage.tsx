@@ -132,9 +132,9 @@ const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}:
 
         <Layout>
 
-          <div className='px-6 py-3'>
+          <div className='px-6 mt-12 sm:py-3'>
 
-            <Typography variant='h2' sx={{}} className='gradient-text-subcategories text-center w-full'>
+            <Typography variant='h2' sx={{}} className='gradient-text-subcategories text-center w-full mb-12'>
               Featured Post Manager
             </Typography>
 

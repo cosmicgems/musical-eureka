@@ -79,7 +79,15 @@ function NavBar(props) {
                 <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
             </div>
           }
-
+          {
+            !loggedIn &&
+            <div className='sm:hidden mt-6 mb-3 flex flex-col gap-1'>
+            <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.15rem'}}>
+              Cultivate a lifestyle worth living.
+            </Typography>
+              <Subscribe />
+            </div>
+          }
   
 
       <List>
@@ -105,8 +113,11 @@ function NavBar(props) {
   React.useEffect(()=>{
     const checkSession = async () => {
     const session = await getSession();
+    if(session){
     setUser(session.user)
-    // console.log(session);
+    // console.log(session);      
+    }
+
 
     if(loggedIn) return
     if (session) {

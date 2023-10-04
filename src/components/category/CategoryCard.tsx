@@ -23,7 +23,7 @@ const CategoryCard: React.FC<CategoryProps> = ( {category} ) => {
 console.log(sub_categories);
 
     return (
-        <Box className="flex flex-col w-content" sx={{bgcolor:grey[900], borderRadius: '5px'}}>
+        <Box className="flex flex-col w-content w-[355px]" sx={{bgcolor:grey[900], borderRadius: '5px'}}>
             <CardMedia
             component="img"
             image={p_wide}
@@ -61,7 +61,7 @@ console.log(sub_categories);
                 </Grid>
                 </div>
 
-                <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text w-[350px] sm:w-[375px]'   >
+                <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text w-[90%] sm:w-[375px]'   >
                         {description}      
 
                 </Typography>        

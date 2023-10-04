@@ -113,11 +113,11 @@ const Subscribe = () => {
         <>
             {
                 !values.sent && !values.sending  ?
-                    <div className='flex mt-6 sm:mt-20 w-full gap-12 justify-space items-center px-3'>
-                        <div className='flex flex-col w-full sm:w-3/4 p-0'>
+                    <div className='flex  sm:mt-20 w-full gap-12 justify-space items-center px-3'>
+                        <div className='flex flex-col w-full sm:w-3/4 p-0 justify-center items-center'>
                             {
                                 !loggedIn ?
-                                    <div className='flex sm:w-1/2 '>
+                                    <div className='flex sm:w-1/2 justify-center'>
                                         <TextField size='small' fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Email" className='' value={subscriber.email} onChange={(e)=> {setSubscriber({...subscriber,email:e.target.value})}} />
                                         <Button className='gradient-button' onClick={(e)=>handleSubscribe(e)} variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0, color:grey[900]}}>
                                             Subscribe
@@ -137,9 +137,9 @@ const Subscribe = () => {
                             }
 
                         </div>
-                        <div   className='sm:w-1/5'>
+                        <div   className='sm:w-1/5 hidden sm:block'>
                             { loggedIn ? 
-                                <div className=' sm:flex gap-3 justify-end hidden '>
+                                <div className=' sm:flex gap-3 justify-end hidden sm:block '>
                                     <UserCard  />
                                     <div>
                                         <Button onClick={()=>signOut()} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>

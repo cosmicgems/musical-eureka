@@ -86,7 +86,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 
 
 
-const PostCard: React.FC<BlogPostProps> = ({blogData, onFeatureToggle}) => {
+const PostCardMobile: React.FC<BlogPostProps> = ({blogData, onFeatureToggle}) => {
 
     const {blog, i, maxFeatures} = blogData;
     
@@ -119,33 +119,30 @@ const handleFeatureToggle = async (id:any) => {
 
             <div className='flex flex-col gap-1 grow justify-center p-3'>
 
-                <Typography variant='h3' sx={{fontSize: '2rem'}} className="gradient-text-category">
+                <Typography variant='h3' sx={{fontSize: '1.5rem'}} className="gradient-text-category">
                     {title}
                 </Typography>
                 <Typography variant="body1" sx={{color:grey[50],}} className='truncate-text w-[99%]'>
                     {excerpt}
                 </Typography>
 
-            </div>
+                <Stack direction="row" spacing={1} alignItems="center" className='justify-center items-center  p-1'>
+                    <Typography className='gradient-text-three'>Off</Typography>
+                        {
+                            featured ? 
+                            <AntSwitch checked onChange={() => handleFeatureToggle(id)}   inputProps={{ 'aria-label': 'ant design' }} />  
+                            :
+                            <AntSwitch onChange={() => handleFeatureToggle(id)}   inputProps={{ 'aria-label': 'ant design' }} />                        
+                        }
 
-            <div>
-
-            <Stack direction="row" spacing={1} alignItems="center" className='justify-center items-center h-full p-3'>
-                <Typography className='gradient-text-three'>Off</Typography>
-                    {
-                        featured ? 
-                        <AntSwitch checked onChange={() => handleFeatureToggle(id)}   inputProps={{ 'aria-label': 'ant design' }} />  
-                        :
-                        <AntSwitch onChange={() => handleFeatureToggle(id)}   inputProps={{ 'aria-label': 'ant design' }} />                        
-                    }
-
-                <Typography className={`gradient-text-four`}>On</Typography>
-            </Stack>
+                    <Typography className={`gradient-text-four`}>On</Typography>
+                </Stack>
 
             </div>
+
 
         </Box>
     )
 }
 
-export default PostCard
+export default PostCardMobile
