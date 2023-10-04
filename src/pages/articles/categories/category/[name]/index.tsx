@@ -11,6 +11,7 @@ import connectDB from '../../../../../../lib/connectDB'
 import SubCategory from '../../../../../../lib/models/sub_category'
 import Category from '../../../../../../lib/models/category'
 import Blog from '../../../../../../lib/models/blog'
+import SearchResults from '../../../../../components/Search Bar/SearchResults'
 
 const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, description, photo_landscape: p_wide, photo_portrait: p_long}}, posts) => {
 
@@ -69,24 +70,25 @@ const SlugCategoryPage = ({category:{_id:id, name, slug, sub_categories, descrip
 
             <Layout >
                 <div className='min-h-screen sm:min-h-[80vh]  w-full flex flex-col  items-center gap-6 pt-12 sm:pt-0'>
-                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6'>
+                <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:mt-6  mb-6'>
                         <div>
-                            <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem", sm:"5rem"}}}>
+                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
                             </Typography>
                         </div>
-                        <div className='w-full flex gap-0 mb-6'>
-                            <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={homeSearch} onChange={(e)=> {setHomeSearch(e.target.value)}} />
-                            <Button variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0,}}>
-                                Search
-                            </Button>
+                        <div>
+                            <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
+                                Curate a lifestyle worth living.
+                            </Typography>
                         </div>
+                        <SearchResults />
+
+                    </div>
                         <div>
                             <Typography variant='h3' sx={{fontSize: "2.25em"}} className='font-bold gradient-text-home'>
                                 {name} Categories
                             </Typography>
                         </div>
-                    </div>
                         <div className='flex gap-6 overflow-x-auto w-screen pb-6 sm:justify-between scrollable-div'>
                             {sub_categories.map((sc, i)=> {
                                 if(i === 0 ) {

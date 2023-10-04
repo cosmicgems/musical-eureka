@@ -74,7 +74,7 @@ const CreatePage = () => {
                             Create New Identifiers
                         </Typography>
 
-                        <div className='flex gap-24 w-full'>
+                        <div className='flex flex-col md:flex-row gap-24 w-full'>
                             <div className='md:w-1/2'>
                                 <CreateCategory />
                             </div>

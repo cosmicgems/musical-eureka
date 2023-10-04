@@ -12,6 +12,7 @@ import Category from '../../../lib/models/category';
 import SubCategory from '../../../lib/models/sub_category';
 import Blog from '../../../lib/models/blog';
 import User from '../../../lib/models/user';
+import SearchResults from '../../components/Search Bar/SearchResults';
 
 
 const Layout = dynamic(() => import('../../components/Layout'));
@@ -157,21 +158,19 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
             <Layout >
                 <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-screen'>
-                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:gap-6'>
+                <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:mt-6  mb-6'>
                         <div>
-                            <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
                             </Typography>
-                            <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6 text-center' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
+                        </div>
+                        <div>
+                            <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
                                 Curate a lifestyle worth living.
                             </Typography>
                         </div>
-                        <div className='w-full flex gap-0'>
-                            <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={homeSearch} onChange={(e)=> {setHomeSearch(e.target.value)}} />
-                            <Button variant='contained' sx={{borderTopLeftRadius:0, borderBottomLeftRadius:0,}}>
-                                Search
-                            </Button>
-                        </div>
+                        <SearchResults />
+
                     </div>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem"}}}>
@@ -185,7 +184,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                     return (
                                         <Box key={`${i}: ${b._id}`} className='scrollable-item pl-3  flex flex-col gap-3 pb-6 pr-6 w-[full] ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                         <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                                 <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
@@ -202,7 +201,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                     return (
                                         <Box  ref={targetRef} key={`${i}: ${b._id}`} className='scrollable-item pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                                         <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                                 <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
@@ -222,7 +221,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                     return (
                                         <Box key={`${i}: ${b._id}`} className='scrollable-item pl-3  flex flex-col gap-3'>
                                             <div className='flex justify-center items-center py-3'>
-                                                <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
                                                     <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem', textShadow: "3px 1px "}}>
                                                         {b.categories[0].name}
                                                     </Typography>                                            

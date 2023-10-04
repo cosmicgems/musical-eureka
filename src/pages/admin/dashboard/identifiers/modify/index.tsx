@@ -92,7 +92,7 @@ const IdentifiersModifyPage = () => {
       <Box sx={{bgcolor: grey[100]}} className="">
         
         <Layout>
-              <div className='flex flex-col sm:flex-row gap-12 py-3 px-12 '>
+              <Box sx={{mt:{xs: "12vh", sm:"6vh"}}} className='flex flex-col sm:flex-row gap-12 py-3 px-12 '>
 
                 <div className='md:w-3/5'>
                   <div className='w-full text-center p-3'>
@@ -119,7 +119,7 @@ const IdentifiersModifyPage = () => {
                 </div>
 
 
-              </div>  
+              </Box>  
 
   </Layout>
 

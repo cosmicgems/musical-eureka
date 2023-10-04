@@ -87,11 +87,11 @@ const SearchResults = () => {
     
     return (
         <>
-            <div className='w-full flex gap-0'>
+            <div className='w-full flex flex-col gap-0'>
                 <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={query} onChange={(e) => {handleInputChange(e)}} />
                 {
                     titleResults?.length > 0 &&
-                        <Box sx={{ }} className="w-[100%] max-h-[33vh] overflow-y-auto">
+                        <Box sx={{ }} className="w-[100%] max-h-[33vh] overflow-y-auto overflow-x-hidden">
                             {titleResults?.map((r, i) => (<Box key={r._id}  sx={{bgcolor: i % 2 ? grey[900] : grey[700],borderBottomLeftRadius: i === titleResults.length - 1 ?'5px' : "" ,borderBottomRightRadius: i === titleResults.length - 1 ?'5px' : "" }} className="flex items-center p-">
                                     
                             <Button fullWidth onClick={ () => handleClick(r.slug)}>

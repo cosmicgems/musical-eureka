@@ -128,7 +128,7 @@ const CreateCategory = () => {
             
             <>
             {subcategories.map((t:any, i:number) => (
-                <CustomFormControlLabel onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
+                <CustomFormControlLabel  onChange={handleSubcategoryToggle(t._id)} key={t._id} control={<Checkbox  checked={checkedSubcategory.includes(t._id)} />} label={t.name} />
             ))}
             </>
 
@@ -162,7 +162,7 @@ const CreateCategory = () => {
 
             <div className='flex gap-6'>
 
-                <div className='flex flex-col gap-6 sm:w-3/5'>
+                <div className='flex flex-col gap-6 w-1/2 sm:w-3/5'>
 
                     <div className='w-full'>
                         <form className="flex flex-col justify-center items-center gap-3 w-full" onSubmit={(e)=>handleCreate(e)}>
@@ -204,11 +204,11 @@ const CreateCategory = () => {
 
                 </div>
 
-                <div className='sm:w-2/5  flex flex-col gap-1' >
+                <div className='w-1/2 sm:w-2/5  flex flex-col gap-1' >
                     <Typography variant='body1' className='gradient-text-category w-full text-center' sx={{fontSize:"1.5rem"}}>
                         Subcategories
                     </Typography>
-                    <div className='h-[45vh] overflow-y-auto py-1'>
+                    <div className='h-[45vh] overflow-y-auto py-1 '>
                         {showSubcategories()}
                     </div>
 
