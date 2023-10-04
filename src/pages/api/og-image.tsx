@@ -32,12 +32,12 @@ return new ImageResponse(
     <div tw=" flex w-1/2 h-full">    
         
     <div
-          tw="w-full h-full"
-          style={{
-            backgroundImage: `url(${ogImageUrl})`,
-            backgroundPosition: 'center',
-            backgroundSize:'100% 100%'
-          }}
+            tw="w-full h-full"
+            style={{
+                backgroundImage: `url(${ogImageUrl})`,
+                backgroundPosition: 'center',
+                backgroundSize:'100% 100%'
+            }}
         />
         <div tw="absolute left-[-80px] top-[-40px] w-[150px]  h-[120%] bg-neutral-800 " style={{transform: "rotate(12deg"}} />
     

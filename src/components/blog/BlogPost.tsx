@@ -1,11 +1,39 @@
-import { Avatar, Box, Button, CardMedia, Chip, Grid, Stack, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
-import React, { useRef, useEffect } from 'react'
+import { Avatar, Box, Button, CardContent, CardMedia, Chip, Collapse, Grid, Stack, Typography } from '@mui/material';
+import { green, grey, red } from '@mui/material/colors';
+import React, { useRef, useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown';
 import parse from "html-react-parser"
 import moment from 'moment';
 import { useRouter } from 'next/router';
-
+import { styled } from '@mui/material/styles';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+        EmailShareButton,
+        FacebookShareButton, FacebookIcon,
+        HatenaShareButton,
+        InstapaperShareButton,
+        LineShareButton,
+        LinkedinShareButton,
+        LinkedinIcon,
+        LivejournalShareButton,
+        MailruShareButton,
+        OKShareButton,
+        PinterestShareButton,
+        PinterestIcon,
+        PocketShareButton,
+        RedditShareButton,
+        TelegramShareButton,
+        TelegramIcon,
+        TumblrShareButton,
+        TwitterShareButton,
+        TwitterIcon,
+        ViberShareButton,
+        VKShareButton,
+        WhatsappShareButton,
+        WhatsappIcon,
+        WorkplaceShareButton
+    } from "react-share";
 
 interface Author {
     _id: string;
@@ -34,11 +62,32 @@ interface BlogPostProps {
     };
 }
 
+
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+  }
+
+  const ExpandMore = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+
+
+
 const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
-    console.log(postedBy);
+    const [expanded, setExpanded] = useState<boolean>(false);
     
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
     const router = useRouter()
 
     const handleClick = (e, href) => {
@@ -138,6 +187,50 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                     }
                 </Typography>        
             </div>
+            
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon sx={{color: green[500]}}  />
+        </ExpandMore>
+            <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
+           
+           <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
+                <IconButton
+                aria-label="add to favorites">
+                    <FacebookShareButton
+                    url={`https://pearlbox.co/articles/post/${slug}`}
+                    quote={'Dummy text!'}
+                    hashtag="#muo"
+                    >
+                        <FacebookIcon size={32} round />
+                    </FacebookShareButton>
+                </IconButton>
+                
+                <IconButton aria-label="add to favorites">
+                    <TwitterShareButton
+                    url={`https://pearlbox.co/articles/post/${slug}`}
+                    // quote={'Dummy text!'}
+                    // hashtag="#muo"
+                    >
+                        <TwitterIcon size={32} round />
+                    </TwitterShareButton>
+                </IconButton>
+                <IconButton aria-label="add to favorites">
+                    <WhatsappShareButton
+                    url={`https://pearlbox.co/articles/post/${slug}`}
+                    // quote={`Dummy Text`}
+                    // hashtag="#muo"
+                    >
+                        <WhatsappIcon size={32} round />
+                    </WhatsappShareButton>
+                </IconButton>    
+           </CardContent>
+
+            </Collapse>
         </Box>
     )
 }

@@ -16,7 +16,8 @@ import Blog from '../../../../lib/models/blog';
 import Category from '../../../../lib/models/category';
 import SubCategory from '../../../../lib/models/sub_category';
 import User from '../../../../lib/models/user';
-
+import { styled } from '@mui/material/styles';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 
 interface Author {
@@ -44,9 +45,31 @@ interface Blog {
   postedBy: Author;
 }
 
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
+
+
 const DynamicArticlePage = (props) => {
   
-  const {post:{title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo}, related_posts} = props;
+  const {post:{title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo}, related_posts, ogImageUrl} = props;
+
+  const [expanded, setExpanded] = useState<boolean>(false)
+  
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   
   const scrollContainerRef = useRef(null);
 
@@ -102,10 +125,10 @@ const DynamicArticlePage = (props) => {
         <>
             <Head>
               <title>Pearl Box</title>
-              <meta property="og:url" content={`https://pearlbox.co/${pathSegment}/articles/${slug}`} />
+              <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
               <meta property="og:type" content="article" />
-              {/* <meta property="og:image" content={ogImageUrl} />
-              <meta property='og:title' content="Pearl Box" /> */}
+              <meta property="og:image" content={ogImageUrl} />
+              <meta property='og:title' content={`Pearl Box | ${title}`} />
             </Head>
             <Box className='' sx={{bgcolor: grey[100]}}>
               <Layout  >
@@ -277,7 +300,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
   
 
-
+  const ogImageUrl = await getOgImageUrl(post.title, post.excerpt, post.photo)
   const sub_categories = post.sub_categories.map((sc) => ({ slug: sc.slug }));
   
   let matches = [];
@@ -285,6 +308,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
     matches.push(m.slug)
   });
 
+  
   const related_blogs_before_filter = await Blog.find({})
                                                 .populate("categories")
                                                 .populate("sub_categories")
@@ -300,7 +324,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
   
 
   return {
-    props: { post: JSON.parse(JSON.stringify(post)), related_posts: JSON.parse(JSON.stringify(related_posts)) },
+    props: { post: JSON.parse(JSON.stringify(post)), related_posts: JSON.parse(JSON.stringify(related_posts)), ogImageUrl },
   revalidate: 60,
   };
 };
