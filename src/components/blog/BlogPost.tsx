@@ -1,5 +1,5 @@
-import { Avatar, Box, Button, CardContent, CardMedia, Chip, Collapse, Grid, Stack, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { Avatar, Box, Button, CardActions, CardContent, CardMedia, Chip, Collapse, Grid, Stack, Typography } from '@mui/material';
+import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useRef, useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown';
 import parse from "html-react-parser"
@@ -34,6 +34,9 @@ import {
         WhatsappIcon,
         WorkplaceShareButton
     } from "react-share";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+    
 
 interface Author {
     _id: string;
@@ -187,15 +190,24 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                     }
                 </Typography>        
             </div>
-            
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon sx={{color: green[500]}}  />
-        </ExpandMore>
+            <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                <FavoriteIcon sx={{color: red[500]}} />
+                </IconButton>
+                <IconButton aria-label="share">
+                <ShareIcon sx={{color: blue[500]}} />
+                </IconButton>
+                <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+                >
+                <ExpandMoreIcon sx={{color: grey[50]}}  />
+                </ExpandMore>                
+            </CardActions>
+
+
             <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
            
            <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
