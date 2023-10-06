@@ -2,6 +2,7 @@ import mongoose, { Schema, model, models, Document } from 'mongoose';
 
 const {ObjectId} = mongoose.Schema;
 
+
 const userSchema = new Schema(
     {
         first_name: {
@@ -55,27 +56,29 @@ const userSchema = new Schema(
         type: Boolean,
         default: false
         },
-        friends: [{type: ObjectId, ref: 'User',}],
+        favorite_posts: [{type: ObjectId, ref: "Blog",}]
     },
     { timestamps: true }
 );
 
-export interface IUser extends Document {
-    first_name: string;
-    last_name: string;
-    username: string;
-    email: string;
-    about?: string;
-    verification_token: string;
-    role: number;
-    photo?: string;
-    password?: string;
-    googleId?: string;
-    confirmed_account: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
+// export interface IUser extends Document {
+//     first_name: string;
+//     last_name: string;
+//     username: string;
+//     email: string;
+//     about?: string;
+//     verification_token: string;
+//     role: number;
+//     photo?: string;
+//     password?: string;
+//     googleId?: string;
+//     confirmed_account: boolean;
+//     createdAt: Date;
+//     updatedAt: Date;
+//     friends: any;
+//     favorite_posts: any;
+// }
 
-const User = models.User || model<IUser>('User', userSchema);
+const User = models.User || model('User', userSchema);
 
 export default User;

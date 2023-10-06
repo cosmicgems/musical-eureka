@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic';
 import { useStateContext } from '../../Context/StateContext';
-import { Box,  Typography } from '@mui/material';
+import { Box,  Button,  Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import SearchResults from '../components/Search Bar/SearchResults';
@@ -41,6 +41,7 @@ interface Blog {
     createdAt: Date;
     updatedAt: Date;
     postedBy: Author;
+    favorite_post: any[];
 }
 
 
@@ -48,6 +49,14 @@ interface Blog {
 
 const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { initialBlogs: Blog[]; totalBlogCount: number, featuredPosts: Blog[], videos: any }) => {
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
+
+    
+
+    const handleMigrate = async() => {
+        const res = await axios.put('/api/migrate')
+        return res.data.message
+    }
+
 
     return (
         <Box className='' sx={{bgcolor: grey[100]}}>
@@ -60,6 +69,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { ini
                             <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box
                             </Typography>
+                            {/* <Button onClick={handleMigrate}>Migrate</Button> */}
                         </div>
                         <div>
                             <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
