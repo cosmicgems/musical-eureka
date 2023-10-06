@@ -38,6 +38,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { FacebookButton, FacebookCount } from "react-social";
 import axios from 'axios';
+import { getOgImageUrl } from '../../../helpers/ogImageHelper';
     
 
 interface Author {
@@ -104,6 +105,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
             
         }
 
+    const ogImage = async() => await getOgImageUrl(title, excerpt, photo)
 
     const excerpt_two = body.substring(11, 150);
     const url = `https://pearlbox.co/articles/post/${slug}`
@@ -219,7 +221,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
            
            <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
                 <IconButton>
-                    <FacebookShareButton url={url}>
+                    <FacebookShareButton url={url} >
                         <FacebookIcon size={32} round />
                     </FacebookShareButton>
                 </IconButton>
