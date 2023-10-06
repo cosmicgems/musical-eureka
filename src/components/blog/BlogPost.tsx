@@ -100,7 +100,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     }
 
     const excerpt_two = body.substring(11, 150);
-    const url = `https://pearlbox.co/articles/post/${slug}`
+    const url = `/articles/post/${slug}`
 
     return (
         <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
