@@ -36,6 +36,7 @@ import {
     } from "react-share";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import { FacebookButton, FacebookCount } from "react-social";
     
 
 interface Author {
@@ -212,16 +213,10 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
             <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
            
            <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
-                <IconButton
-                aria-label="add to favorites">
-                    <FacebookShareButton
-                    url={url}
-                    quote={'Dummy text!'}
-                    hashtag="#muo"
-                    >
-                        <FacebookIcon size={32} round />
-                    </FacebookShareButton>
-                </IconButton>
+                <FacebookButton url={url} appId={1341431786447134}>
+                    <FacebookCount url={url} />
+                    {" Share " + url}
+                </FacebookButton> 
                 
                 <IconButton aria-label="add to favorites">
                     <TwitterShareButton
