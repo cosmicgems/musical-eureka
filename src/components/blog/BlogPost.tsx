@@ -233,50 +233,6 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                         }
                     </Typography>        
                 </div>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                    <FavoriteIcon sx={{color: red[500]}} />
-                    </IconButton>
-    
-                    <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                    >
-                    <IconButton aria-label="share">
-                    <ShareIcon sx={{color: blue[500]}} />
-                    </IconButton>
-                    </ExpandMore>                
-                </CardActions>
-    
-    
-                <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
-               
-               <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
-                    <IconButton>
-                        <FacebookShareButton url={url} >
-                            <FacebookIcon size={32} round />
-                        </FacebookShareButton>
-                    </IconButton>
-                    
-                    <IconButton aria-label="add to favorites">
-                        <TwitterShareButton
-                        url={url}
-                        >
-                            <TwitterIcon size={32} round />
-                        </TwitterShareButton>
-                    </IconButton>
-                    <IconButton aria-label="add to favorites">
-                        <WhatsappShareButton
-                        url={url}
-                        >
-                            <WhatsappIcon size={32} round />
-                        </WhatsappShareButton>
-                    </IconButton>    
-               </CardContent>
-    
-                </Collapse>
             </Box>
         )
     }
