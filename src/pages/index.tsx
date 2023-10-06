@@ -134,7 +134,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { ini
 
                     <div className='w-[100%]'>
 
-                        <TrendingPosts blogs={blogs} totalBlogCount={totalBlogCount} />
+                        <TrendingPosts blogs={blogs} totalBlogCount={totalBlogCount} user={user} />
 
                     </div>
             

@@ -32,7 +32,7 @@ interface Blog {
 }
 
 
-const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
+const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     const targetRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
@@ -159,7 +159,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
                                 </Button>
 
                             </div>
-                            <SmallBlogCard blog={b} />
+                            <SmallBlogCard blog={b} user={user} />
                         </Box>
                         )
                     } else if (i === blogs.length -1){
@@ -173,7 +173,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
                                 </Button>
 
                             </div>
-                            <SmallBlogCard blog={b} />
+                            <SmallBlogCard blog={b}user={user}/>
                             <div className=''  >
                                 {loading && <div>Loading more blogs...</div>}
                             </div> 
@@ -190,7 +190,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount}) => {
                                     </Button>
 
                                 </div>
-                                <SmallBlogCard blog={b} />
+                                <SmallBlogCard blog={b} user={user} />
                             </Box>
                         )                                
                     }

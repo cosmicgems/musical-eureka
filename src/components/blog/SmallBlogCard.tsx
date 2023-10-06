@@ -61,6 +61,7 @@ interface BlogPostProps {
         updatedAt: Date;
         postedBy: Author;
     };
+    user:any;
 }
 
 interface Session {
@@ -104,12 +105,11 @@ interface ExpandMoreProps extends IconButtonProps {
 
 
 
-const SmallBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
+const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const router = useRouter();
     const {data: session, status} = useSession() as Session;
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
     const [liked, setLiked] = useState<boolean>(null);
-    const [user, setUser] = useState<any>({});
     const [expanded, setExpanded] = useState<boolean>(false);
     
     const handleExpandClick = () => {
@@ -187,13 +187,8 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const fetchUser = async () => {
         try {
-            const response = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
-            const user_res = response.data.user; // Access the user data from the response
-            console.log(user_res);
-            setUser(user_res)
-            console.log(id);
             
-            const userLiked = user_res.favorite_posts?.some((post) =>  id.includes(post._id));
+            const userLiked = user.favorite_posts?.some((post) =>  id.includes(post._id));
             console.log(userLiked);
             
             if(userLiked){
@@ -210,7 +205,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const handleFavorite = async(e:any) => {
         e.preventDefault();
-        const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${session.user._id}&post_id=${id}`);
+        const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
         await fetchUser()
         return fav.data.liked_posts;
     }
