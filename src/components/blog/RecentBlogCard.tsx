@@ -2,6 +2,8 @@ import { Avatar, Box, Button, CardMedia, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React from 'react'
 import moment from 'moment';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 
 interface Author {
@@ -30,13 +32,20 @@ interface BlogPostProps {
 }
 
 const RecentBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
-
+    const router = useRouter();
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
 
 
     const excerpt = body.substring(11, 150);
 
-    
+
+    const handleNavigate = async(e:any) => {
+        e.preventDefault();
+        const pageVisit = await axios.put(`/api/blog/post/update/page-visits?id=${id}`);
+        router.push(`/articles/post/${slug}`)
+        console.log(pageVisit.data.blog);
+        
+    }
 
   return (
     <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
@@ -51,7 +60,7 @@ const RecentBlogCard: React.FC<BlogPostProps> = ( {blog} ) => {
         <div className='flex flex-col gap-3 p-3 text-center'>
 
             <div>
-                <Button href={`/articles/post/${slug}`}>
+                <Button onClick={(e)=> {handleNavigate(e)}}>
                     <Typography sx={{fontSize: '2rem'}} variant='h3' className='gradient-text-category'>
                         {title}
                     </Typography>                

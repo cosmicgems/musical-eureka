@@ -1,4 +1,6 @@
-import { Schema, model, models, Document } from 'mongoose';
+import mongoose, { Schema, model, models, Document } from 'mongoose';
+
+const {ObjectId} = mongoose.Schema;
 
 const userSchema = new Schema(
     {
@@ -52,7 +54,8 @@ const userSchema = new Schema(
         confirmed_account: {
         type: Boolean,
         default: false
-        }
+        },
+        friends: [{type: ObjectId, ref: 'User',}],
     },
     { timestamps: true }
 );

@@ -46,6 +46,10 @@ const blogSchema = new Schema({
         type: Number,
         default: 0
     },
+    favorite_count: {
+        type: Number,
+        default: 0
+    },
     click_count: {
         type: Number,
         default: 0

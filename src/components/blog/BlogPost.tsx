@@ -37,6 +37,7 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { FacebookButton, FacebookCount } from "react-social";
+import axios from 'axios';
     
 
 interface Author {
@@ -94,11 +95,15 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
   };
     const router = useRouter()
 
-    const handleClick = (e, href) => {
-        e.preventDefault();
 
-        router.push(href)
-    }
+        const handleNavigate = async(e:any) => {
+            e.preventDefault();
+            const pageVisit = await axios.put(`/api/blog/post/update/page-visits?id=${id}`);
+            router.push(`/articles/post/${slug}`)
+            console.log(pageVisit.data.blog);
+            
+        }
+
 
     const excerpt_two = body.substring(11, 150);
     const url = `https://pearlbox.co/articles/post/${slug}`
@@ -114,7 +119,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
             />
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
-                <Button onClick={(e)=> {handleClick(e,`/articles/post/${slug}`)}} >
+                <Button onClick={(e)=> {handleNavigate(e)}} >
                     <Typography variant='h3' className='gradient-text-category w-full text-center' sx={{fontSize: "1.5rem"}}>
                         {title}
                     </Typography>                    
@@ -196,16 +201,16 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 <IconButton aria-label="add to favorites">
                 <FavoriteIcon sx={{color: red[500]}} />
                 </IconButton>
-                <IconButton aria-label="share">
-                <ShareIcon sx={{color: blue[500]}} />
-                </IconButton>
+
                 <ExpandMore
                 expand={expanded}
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
-                <ExpandMoreIcon sx={{color: grey[50]}}  />
+                <IconButton aria-label="share">
+                <ShareIcon sx={{color: blue[500]}} />
+                </IconButton>
                 </ExpandMore>                
             </CardActions>
 
@@ -213,10 +218,11 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
             <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
            
            <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
-                <FacebookButton url={url} appId={1341431786447134}>
-                    <FacebookCount url={url} />
-                    {" Share "} <FacebookIcon />
-                </FacebookButton> 
+                <IconButton>
+                    <FacebookShareButton url={url}>
+                        <FacebookIcon size={32} round />
+                    </FacebookShareButton>
+                </IconButton>
                 
                 <IconButton aria-label="add to favorites">
                     <TwitterShareButton
