@@ -101,7 +101,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     }
 
     const excerpt_two = body.substring(11, 150);
-    const url = `/articles/post/${slug}`
+    const url = `https://pearlbox.co/articles/post/${slug}`
 
     return (
         <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
@@ -215,7 +215,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
            <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
                 <FacebookButton url={url} appId={1341431786447134}>
                     <FacebookCount url={url} />
-                    {" Share " + url}
+                    {" Share "} <FacebookIcon />
                 </FacebookButton> 
                 
                 <IconButton aria-label="add to favorites">
