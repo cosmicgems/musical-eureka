@@ -115,7 +115,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
-    // const {data:session, status} = useSession() as Session;
+    const {data:session, status} = useSession() as Session;
     // console.log(user)
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
@@ -260,15 +260,14 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const handleFavorite = async(e:any) => {
         e.preventDefault();
         const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
-        await fetchUser()
-        return fav.data.liked_posts;
+        console.log(fav.data.liked_posts);
+        await fetchUser();
     }
 
     if(liked === null) {
-        fetchUser()
+        fetchUser();
     }
     
-    // console.log(liked)
 
 
     return (
