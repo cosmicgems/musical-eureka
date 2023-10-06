@@ -228,7 +228,7 @@ const DynamicArticlePage = (props) => {
                                                   </Button>
 
                                               </div>
-                                              <RecentBlogCard blog={b} />
+                                              <RecentBlogCard blog={b}  />
                                           </Box>
                                           )
                                       } else {
@@ -242,7 +242,7 @@ const DynamicArticlePage = (props) => {
                                                       </Button>
 
                                                   </div>
-                                                  <RecentBlogCard blog={b} />
+                                                  <RecentBlogCard blog={b}  />
                                               </Box>
                                           )                                
                                       }
