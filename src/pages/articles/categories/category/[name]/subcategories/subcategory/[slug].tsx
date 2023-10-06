@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef} from 'react'
+import React, { useEffect, useRef, useState} from 'react'
 import { API, DOMAIN, APP_NAME } from "../../../../../../../../config";
 import connectDB from '../../../../../../../../lib/connectDB';
 import SubCategory from '../../../../../../../../lib/models/sub_category';
@@ -12,8 +12,39 @@ import Layout from '../../../../../../../components/Layout';
 import SearchResults from '../../../../../../../components/Search Bar/SearchResults';
 import SmallBlogCard from '../../../../../../../components/blog/SmallBlogCard';
 import BlogPost from '../../../../../../../components/blog/BlogPost';
+import { useSession } from 'next-auth/react';
+import Loading from '../../../../../../../components/Loading';
+
+
+
+interface Session {
+  data:{
+      user:{
+          about: string;
+          confirmed_account: boolean;
+          createdAt: Date;
+          email: string;
+          first_name: string;
+          last_name: string;
+          password: string;
+          photo: string;
+          role: number;
+          updatedAt: Date;
+          username: string;
+          verification_token: string;
+          verification_token_expiration: string;
+          _id: string;
+          
+      }      
+  },
+  status: string;
+
+}
 
 const SubcategorySlugPage = ({sub_category, posts}) => {
+  const {data:session, status} = useSession() as Session;
+  const [user, setUser] = useState<any>(null);
+
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
@@ -60,6 +91,21 @@ const SubcategorySlugPage = ({sub_category, posts}) => {
   
   }, []);
 
+  if(status === "loading"){
+      return <Loading/>
+  }
+
+  if(status === "authenticated"){
+      if(user === null){
+      const findUser = async() => {
+          const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
+          setUser(res.data.user);
+      }
+      findUser();            
+      }
+
+  }
+
   
   
     return (
@@ -105,7 +151,7 @@ const SubcategorySlugPage = ({sub_category, posts}) => {
                                 </Button>
 
                             </div>
-                            <BlogPost blog={b} />
+                            <BlogPost blog={b} user={user} />
                         </Box>
                         )
                     } else if (i === posts.length -1){
@@ -119,7 +165,7 @@ const SubcategorySlugPage = ({sub_category, posts}) => {
                                 </Button>
 
                             </div>
-                            <BlogPost blog={b} />
+                            <BlogPost blog={b} user={user} />
                         </Box>
                         )
                     } else {
@@ -133,7 +179,7 @@ const SubcategorySlugPage = ({sub_category, posts}) => {
                                     </Button>
 
                                 </div>
-                                <BlogPost blog={b} />
+                                <BlogPost blog={b} user={user} />
                             </Box>
                         )                                
                     }

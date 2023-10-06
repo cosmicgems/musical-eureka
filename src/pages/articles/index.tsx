@@ -13,6 +13,8 @@ import SubCategory from '../../../lib/models/sub_category';
 import Blog from '../../../lib/models/blog';
 import User from '../../../lib/models/user';
 import SearchResults from '../../components/Search Bar/SearchResults';
+import { useSession } from 'next-auth/react';
+import Loading from '../../components/Loading';
 
 
 const Layout = dynamic(() => import('../../components/Layout'));
@@ -44,8 +46,34 @@ interface Blog {
     postedBy: Author;
 }
 
+interface Session {
+    data:{
+        user:{
+            about: string;
+            confirmed_account: boolean;
+            createdAt: Date;
+            email: string;
+            first_name: string;
+            last_name: string;
+            password: string;
+            photo: string;
+            role: number;
+            updatedAt: Date;
+            username: string;
+            verification_token: string;
+            verification_token_expiration: string;
+            _id: string;
+            
+        }      
+    },
+    status: string;
+  
+  }
+  
 
 const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; totalBlogCount: number }) => {
+    const {data:session, status} = useSession() as Session;
+    const [user, setUser] = useState<any>({});
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
@@ -152,6 +180,21 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
     }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
 
 
+    if(status === "loading"){
+        return <Loading/>
+    }
+  
+    if(status === "authenticated"){
+        if(user === null){
+        const findUser = async() => {
+            const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
+            setUser(res.data.user);
+        }
+        findUser();            
+        }
+  
+    }
+
     return (
         <Box className='' sx={{bgcolor: grey[100]}}>
 
@@ -192,7 +235,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
                                         </div>
                                         <div className=''>
-                                            <BlogPost blog={b} />
+                                            <BlogPost blog={b} user={user} />
                                         </div>
                                         
                                     </Box>
@@ -209,7 +252,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
                                         </div>
                                         <div>
-                                            <BlogPost blog={b} />
+                                            <BlogPost blog={b} user={user} />
                                         </div>
                                         
                                         <div className=''  >
@@ -228,7 +271,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                                 </Button>
 
                                             </div>
-                                            <BlogPost blog={b} />
+                                            <BlogPost blog={b} user={user} />
                                         </Box>
                                     )                                
                                 }
