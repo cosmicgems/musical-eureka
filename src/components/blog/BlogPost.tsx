@@ -263,12 +263,13 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     const handleFavorite = async(e:any) => {
         e.preventDefault();
         const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${session.user._id}&post_id=${id}`);
-        fetchUser()
+        await fetchUser()
         return fav.data.liked_posts;
     }
 
     if(liked === null) {
-        fetchUser()
+        const updateUser = async() =>  await fetchUser();
+        console.log(updateUser())
     }
     
     // console.log(liked)
