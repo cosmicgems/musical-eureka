@@ -225,8 +225,6 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 <IconButton aria-label="add to favorites">
                     <TwitterShareButton
                     url={`https://pearlbox.co/articles/post/${slug}`}
-                    // quote={'Dummy text!'}
-                    // hashtag="#muo"
                     >
                         <TwitterIcon size={32} round />
                     </TwitterShareButton>
@@ -234,8 +232,6 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 <IconButton aria-label="add to favorites">
                     <WhatsappShareButton
                     url={`https://pearlbox.co/articles/post/${slug}`}
-                    // quote={`Dummy Text`}
-                    // hashtag="#muo"
                     >
                         <WhatsappIcon size={32} round />
                     </WhatsappShareButton>

@@ -18,7 +18,7 @@ const getOgImageUrl = async (title, description, image) => {
 };
 
 const getClientOgImageUrl = async (title, description, image) => {
-  const apiUrl = `api/og-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(image)}`;
+  const apiUrl = `http://localhost:3000/api/og-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(image)}`;
 
   try {
     const response = await fetch(apiUrl);

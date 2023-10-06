@@ -5,7 +5,7 @@ import moment from 'moment/moment';;
 import { grey, lightBlue } from '@mui/material/colors';
 import Layout from '../../../components/Layout'
 import Head from 'next/head';
-import { getOgImageUrl } from '../../../../helpers/ogImageHelper';
+import { getClientOgImageUrl, getOgImageUrl } from '../../../../helpers/ogImageHelper';
 import { useStateContext } from '../../../../Context/StateContext';
 import axios from 'axios';
 import parse from "html-react-parser"
@@ -65,6 +65,7 @@ const DynamicArticlePage = (props) => {
   
   const {post:{title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo}, related_posts, ogImageUrl} = props;
 
+  console.log(ogImageUrl)
   const [expanded, setExpanded] = useState<boolean>(false)
   
   const handleExpandClick = () => {
@@ -118,7 +119,7 @@ const DynamicArticlePage = (props) => {
   }, []);
 
     
-    // console.log(related_posts);
+
     const {pathSegment} = useStateContext();
 
     return (
@@ -298,9 +299,10 @@ export const getStaticProps = async ({ params: { slug } }) => {
                           .populate("sub_categories")
                           .populate("postedBy");
 
-  
+  const title = post.title
+  const description = post.excerpt
 
-  const ogImageUrl = await getOgImageUrl(post.title, post.excerpt, post.photo)
+  const ogImageUrl = await getOgImageUrl(title, description, post.photo)
   const sub_categories = post.sub_categories.map((sc) => ({ slug: sc.slug }));
   
   let matches = [];

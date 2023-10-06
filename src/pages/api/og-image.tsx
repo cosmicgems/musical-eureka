@@ -34,7 +34,7 @@ return new ImageResponse(
     <div
             tw="w-full h-full"
             style={{
-                backgroundImage: `url(${ogImageUrl})`,
+                backgroundImage: `url(${image})`,
                 backgroundPosition: 'center',
                 backgroundSize:'100% 100%'
             }}
