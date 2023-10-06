@@ -14,6 +14,8 @@ import User from '../../lib/models/user';
 import FeaturedPosts from '../components/Home Page/FeaturedPosts';
 import TrendingPosts from '../components/Home Page/TrendingPosts';
 import YoutubeVideos from '../components/Home Page/YoutubeVideos';
+import { useSession } from 'next-auth/react';
+import Loading from '../components/Loading';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -45,17 +47,56 @@ interface Blog {
 }
 
 
+interface Session {
+    data:{
+        user:{
+            about: string;
+            confirmed_account: boolean;
+            createdAt: Date;
+            email: string;
+            first_name: string;
+            last_name: string;
+            password: string;
+            photo: string;
+            role: number;
+            updatedAt: Date;
+            username: string;
+            verification_token: string;
+            verification_token_expiration: string;
+            _id: string;
+            
+        }      
+    },
+    status: string;
+
+}
+
 
 
 const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { initialBlogs: Blog[]; totalBlogCount: number, featuredPosts: Blog[], videos: any }) => {
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
+    const [user, setUser] = useState<any>(null);
 
-    
+    const {data: session, status} = useSession() as Session;
 
-    const handleMigrate = async() => {
-        const res = await axios.put('/api/migrate')
-        return res.data.message
+    if(status === "loading"){
+        return <Loading />
     }
+
+    if(status === "authenticated"){
+        if(user === null){
+        const findUser = async() => {
+            const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
+            setUser(res.data.user);
+        }
+        findUser();            
+        }
+
+    }
+    // const handleMigrate = async() => {
+    //     const res = await axios.put('/api/migrate')
+    //     return res.data.message
+    // }
 
 
     return (
@@ -67,7 +108,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { ini
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
-                                Pearl Box
+                                Pearl Box 
                             </Typography>
                             {/* <Button onClick={handleMigrate}>Migrate</Button> */}
                         </div>
@@ -82,7 +123,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos }: { ini
                     
                     <div className='flex flex-col sm:flex-row w-[100%] mb-6 gap-6'>
                         <div className=' sm:w-2/5'>
-                            <FeaturedPosts featuredPosts={featuredPosts} />                        
+                            <FeaturedPosts featuredPosts={featuredPosts} user={user}/>                        
                         </div>
                     
                         <div className='sm:w-3/5'>

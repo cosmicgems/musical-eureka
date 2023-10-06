@@ -28,7 +28,8 @@ interface Blog {
     postedBy: Author;
 }
 
-const FeaturedPosts = ({featuredPosts}) => {
+const FeaturedPosts = ({featuredPosts, user}) => {
+    // console.log(user);
     
     const featuredTargetRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
@@ -100,7 +101,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                                 </Button>
 
                             </div>
-                            <BlogPost  blog={b} />
+                            <BlogPost  blog={b} user={user}/>
                             </Box>
                         )
                     } else if (i === featuredPosts.length -1){
@@ -114,7 +115,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                                 </Button>
 
                             </div>
-                            <BlogPost blog={b} />
+                            <BlogPost blog={b} user={user} />
                             <div className=''  >
                                 {loading && <div>Loading more blogs...</div>}
                             </div> 
@@ -131,7 +132,7 @@ const FeaturedPosts = ({featuredPosts}) => {
                                     </Button>
 
                                 </div>
-                                <BlogPost blog={b} />
+                                <BlogPost blog={b} user={user} />
                             </Box>
                         )                                
                     }

@@ -70,6 +70,7 @@ interface BlogPostProps {
         updatedAt: Date;
         postedBy: Author;
     };
+    user: any;
 }
 
 interface Session {
@@ -113,8 +114,9 @@ interface ExpandMoreProps extends IconButtonProps {
 
 
 
-const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
-    const {data:session, status} = useSession() as Session;
+const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
+    // const {data:session, status} = useSession() as Session;
+    // console.log(user)
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
@@ -122,7 +124,6 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const [expanded, setExpanded] = useState<boolean>(false);
     const [liked, setLiked] = useState<boolean>(null);
-    const [user, setUser] = useState<any>({});
     
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -239,13 +240,9 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const fetchUser = async () => {
         try {
-            const response = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
-            const user_res = response.data.user; // Access the user data from the response
-            console.log(user_res);
-            setUser(user_res)
-            console.log(id);
+            console.log(user.favorite_posts);
             
-            const userLiked = user_res.favorite_posts?.some((post) =>  id.includes(post._id));
+            const userLiked = user.favorite_posts?.some((post) =>  id.includes(post._id));
             console.log(userLiked);
             
             if(userLiked){
@@ -262,7 +259,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
 
     const handleFavorite = async(e:any) => {
         e.preventDefault();
-        const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${session.user._id}&post_id=${id}`);
+        const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
         await fetchUser()
         return fav.data.liked_posts;
     }
