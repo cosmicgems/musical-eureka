@@ -268,8 +268,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     }
 
     if(liked === null) {
-        const updateUser = async() =>  await fetchUser();
-        console.log(updateUser())
+        fetchUser()
     }
     
     // console.log(liked)
