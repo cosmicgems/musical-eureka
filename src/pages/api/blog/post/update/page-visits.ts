@@ -10,6 +10,8 @@ export default async function handler (
     if(req.method === "PUT"){
         try {
 
+            await connectDB()
+
             const {id} =req.query
 
             const blog = await Blog.findByIdAndUpdate({_id:id}, { $inc: { click_count: 1 } }, { new: true });
