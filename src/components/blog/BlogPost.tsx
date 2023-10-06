@@ -116,13 +116,13 @@ interface ExpandMoreProps extends IconButtonProps {
 const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     const {data:session, status} = useSession() as Session;
 
-
-
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
+    const excerpt_two = body.substring(11, 150);
+    const url = `https://pearlbox.co/articles/post/${slug}`
+
     const [expanded, setExpanded] = useState<boolean>(false);
     const [liked, setLiked] = useState<boolean>(null);
     const [user, setUser] = useState<any>({});
-    // const [userId, setUserId] =useState<string>("");
     
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -141,13 +141,6 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
         console.log(liked);
         
     }, [liked])
-
-    const ogImage = async() => await getOgImageUrl(title, excerpt, photo)
-
-    const excerpt_two = body.substring(11, 150);
-    const url = `https://pearlbox.co/articles/post/${slug}`
-
-
 
 
     if(status === "loading") {
@@ -287,7 +280,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
             </Box>
         )
     }
-   
+
     const fetchUser = async () => {
         try {
             const response = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
