@@ -100,6 +100,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
     }
 
     const excerpt_two = body.substring(11, 150);
+    const url = `https://pearlbox.co/articles/post/${slug}`
 
     return (
         <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
@@ -214,7 +215,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 <IconButton
                 aria-label="add to favorites">
                     <FacebookShareButton
-                    url={`https://pearlbox.co/articles/post/${slug}`}
+                    url={url}
                     quote={'Dummy text!'}
                     hashtag="#muo"
                     >
@@ -224,14 +225,14 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog} ) => {
                 
                 <IconButton aria-label="add to favorites">
                     <TwitterShareButton
-                    url={`https://pearlbox.co/articles/post/${slug}`}
+                    url={url}
                     >
                         <TwitterIcon size={32} round />
                     </TwitterShareButton>
                 </IconButton>
                 <IconButton aria-label="add to favorites">
                     <WhatsappShareButton
-                    url={`https://pearlbox.co/articles/post/${slug}`}
+                    url={url}
                     >
                         <WhatsappIcon size={32} round />
                     </WhatsappShareButton>
