@@ -97,7 +97,7 @@ const DynamicArticlePage = (props) => {
     slug, 
     id
   }
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>(null);
   const [liked, setLiked] = useState<boolean>(null);
   console.log(ogImageUrl)
   const [expanded, setExpanded] = useState<boolean>(false)
@@ -191,19 +191,24 @@ const DynamicArticlePage = (props) => {
     console.log(fav.data.liked_posts);
     await fetchUser();
 }
-    const {pathSegment} = useStateContext();
 
-  if(status === "loading"  || user === null) {
+  if(status === "loading"  ) {
     return <Loading />
-  } else if (status === "authenticated") {
+  } 
+  
+  if (status === "authenticated") {
       if(user === null){
       const findUser = async() => {
           const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
           setUser(res.data.user);
+          console.log(res.data.user);
+          
       }
       findUser();            
       }
-  } else {
+  } 
+  
+  
 
         return (
             <>
@@ -433,7 +438,7 @@ const DynamicArticlePage = (props) => {
 
 
         );
-  }
+  
     
 
 
