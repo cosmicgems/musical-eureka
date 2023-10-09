@@ -1,8 +1,8 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import { Avatar, Box, Button, Card, CardContent, CardMedia, Chip, Grid, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
-import moment from 'moment/moment';;
-import { grey, lightBlue } from '@mui/material/colors';
+import moment from 'moment';
+import { grey, lightBlue, red } from '@mui/material/colors';
 import Layout from '../../../components/Layout'
 import Head from 'next/head';
 import { getClientOgImageUrl, getOgImageUrl } from '../../../../helpers/ogImageHelper';
@@ -18,7 +18,10 @@ import SubCategory from '../../../../lib/models/sub_category';
 import User from '../../../../lib/models/user';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-
+import { useSession } from 'next-auth/react';
+import Loading from '../../../components/Loading';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 
 interface Author {
   _id: string;
@@ -60,13 +63,39 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+interface Session {
+  data:{
+      user:{
+          about: string;
+          confirmed_account: boolean;
+          createdAt: Date;
+          email: string;
+          first_name: string;
+          last_name: string;
+          password: string;
+          photo: string;
+          role: number;
+          updatedAt: Date;
+          username: string;
+          verification_token: string;
+          verification_token_expiration: string;
+          _id: string;
+          
+      }      
+  },
+  status: string;
+
+}
 
 const DynamicArticlePage = (props) => {
+  const {data: session, status} = useSession() as Session;
   
-  const {post:{title, body, _id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo}, related_posts, ogImageUrl} = props;
-
+  const {post:{title, body, _id:id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy}, related_posts, ogImageUrl} = props;
+  const [user, setUser] = useState<any>();
+  const [liked, setLiked] = useState<boolean>(null);
   console.log(ogImageUrl)
   const [expanded, setExpanded] = useState<boolean>(false)
+  const url = `https://pearlbox.co/articles/post/${slug}`
   
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -118,122 +147,199 @@ const DynamicArticlePage = (props) => {
   
   }, []);
 
-    
+  useEffect(() => {
+    if(status === "loading"){
+      return
+    } else {
+      setUser(session?.user);
+    }
+  }, [setUser, status, session?.user]);
 
+
+  const fetchUser = useCallback(async () => {
+    try {
+      console.log(user?.favorite_posts);
+
+      const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
+      console.log(userLiked);
+
+      if (userLiked) {
+        setLiked(true);
+      } else {
+        setLiked(false);
+      }
+      console.log(liked);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  }, [user, id, liked]);
+
+  useEffect(() => {
+    if (user !== null ) {
+      if(liked === null){
+        fetchUser();
+      }
+    }
+  })
+
+  const handleFavorite = async(e:any) => {
+    e.preventDefault();
+    const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
+    console.log(fav.data.liked_posts);
+    await fetchUser();
+}
     const {pathSegment} = useStateContext();
 
-    return (
-        <>
-            <Head>
-              <title>Pearl Box</title>
-              <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
-              <meta property="og:type" content="article" />
-              <meta property="og:image" content={ogImageUrl} />
-              <meta property='og:title' content={`Pearl Box | ${title}`} />
-            </Head>
-            <Box className='' sx={{bgcolor: grey[100]}}>
-              <Layout  >
-                  <div className='flex flex-col gap-3 pt-12'>
-                    <div className='w-full mt-6'>
-                      <Typography variant='h2' className='gradient-text w-full text-center' sx={{fontSize: {xs: "1.5rem", sm:"3rem"}}}>
-                        Pearl Box {categories[0].name}
-                      </Typography>
-                    </div>
+  if(status === "loading") {
+    return <Loading />
+  } else {
 
-                    <div className='flex flex-col sm:flex-row '>
-
-                      <div className='sm:w-4/5 sm:pl-3 flex flex-col gap-6'>
-                        <CardMedia 
-                        component='img'
-                        image={photo}
-                        alt=''
-                        sx={{objectFit: 'cover'}}
-                        className='h-[33vh] sm:h-[25vh] '
-                        />
-
-                        <div className=''>
-                          <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text' variant="h1" component="div">
-                              {title}
+        return (
+            <>
+                <Head>
+                  <title>Pearl Box</title>
+                  <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
+                  <meta property="og:type" content="article" />
+                  <meta property="og:image" content={ogImageUrl} />
+                  <meta property='og:title' content={`Pearl Box | ${title}`} />
+                </Head>
+                <Box className='' sx={{bgcolor: grey[100]}}>
+                  <Layout  >
+                      <div className='flex flex-col gap-3 pt-12'>
+                        <div className='w-full mt-6'>
+                          <Typography variant='h2' className='gradient-text w-full text-center' sx={{fontSize: {xs: "1.5rem", sm:"3rem"}}}>
+                            Pearl Box {categories[0].name}
                           </Typography>
                         </div>
 
-                        <div className=''>
-                          <Grid container className='justify-center items-center gap-6' >
-                            {sub_categories.map((sc, i)=>{
-                              return (
-                                <Grid item key={sc._id}  >
-                                    <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
-                                        <Chip
-                                        avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
-                                        label={sc.name}
-                                        variant="outlined"
-                                        />  
-                                    </Button>
-                                </Grid>
-                              )
-                            })}                  
-                          </Grid>
+                        <div className='flex flex-col sm:flex-row '>
+
+                          <div className='sm:w-4/5 sm:pl-3 flex flex-col gap-6'>
+                            <CardMedia 
+                            component='img'
+                            image={photo}
+                            alt=''
+                            sx={{objectFit: 'cover'}}
+                            className='h-[33vh] sm:h-[25vh] '
+                            />
+
+                            <div className=''>
+                              <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text' variant="h1" component="div">
+                                  {title}
+                              </Typography>
+                            </div>
+                            <div className='flex gap-1 justify-center items-center'>
+
+                            <Avatar alt={`${postedBy.first_name} ${postedBy.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy.photo} />
+                              <div className='flex flex-col'>
+                                <Typography variant='body1' sx={{}} className=''>
+                                  {postedBy.first_name} {postedBy.last_name}
+                                </Typography>
+                                <Typography variant='body1' sx={{}} className=''>
+                                  {moment(postedBy.createdAt).fromNow()}
+                                </Typography>
+                              </div>
+                            </div>
+
+                            <div className=''>
+                              <Grid container className='justify-center items-center gap-6' >
+                                {sub_categories.map((sc, i)=>{
+                                  return (
+                                    <Grid item key={sc._id}  >
+                                        <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
+                                            <Chip
+                                            avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
+                                            label={sc.name}
+                                            variant="outlined"
+                                            />  
+                                        </Button>
+                                    </Grid>
+                                  )
+                                })}                  
+                              </Grid>
+
+                            </div>
+                            <div className='flex justify-center items-center'>
+                              
+           
+                                <CardContent sx={{bgcolor: grey[100], borderRadius: "5px"}} className='p-1 flex justify-evenly items-center'>
+                                      
+                                      {
+                                          user ?
+                                          <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
+                                          <FavoriteIcon sx={{color: liked ? red[500] : grey[500]}} />
+                                          </IconButton>   
+                                          : user === null || user === undefined ?
+                                          null : null
+                                      }
+
+                                        <IconButton>
+                                            <FacebookShareButton url={url} >
+                                                <FacebookIcon size={32} round />
+                                            </FacebookShareButton>
+                                        </IconButton>
+                                        
+                                        <IconButton aria-label="add to favorites">
+                                            <TwitterShareButton
+                                            url={url}
+                                            >
+                                                <TwitterIcon size={32} round />
+                                            </TwitterShareButton>
+                                        </IconButton>
+                                        <IconButton aria-label="add to favorites">
+                                            <WhatsappShareButton
+                                            url={url}
+                                            >
+                                                <WhatsappIcon size={32} round />
+                                            </WhatsappShareButton>
+                                        </IconButton>    
+                                </CardContent>
+                            </div>
+
+                            <div className='px-3'>
+                              {parse(body)}
+                            </div>
+                          </div>
+
+                          <div className='sm:w-1/5'>
+                            
+                            <div>
+                              <Typography variant='h3' className='gradient-text' sx={{}}>
+                                Ad Space
+                              </Typography>
+                            </div>
+                          </div>
 
                         </div>
 
-                        <div className='px-3'>
-                          {parse(body)}
-                        </div>
-                      </div>
-
-                      <div className='sm:w-1/5'>
-                        
-                        <div>
-                          <Typography variant='h3' className='gradient-text' sx={{}}>
-                            Ad Space
+                        <div className='w-full'>
+                          <Typography variant='h3' className='gradient-text-subcategories w-full text-center' sx={{}}>
+                            Related Articles
                           </Typography>
                         </div>
-                      </div>
 
-                    </div>
+                        <div  className='scrollable-container flex gap-6   pb-6 w-[100%] overflow-x-auto pr-6'>
+                                      
+                                      {related_posts.map((b, i)=> {
+                                          if(i >= 5) {
+                                              return
+                                          } else if (i === b.length - 1){
+                                              return (
+                                                  <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                                  <div   className='flex justify-center items-center'>
+                                                      <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                          <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                              {b.categories[0].name}
+                                                          </Typography>                                            
+                                                      </Button>
 
-                    <div className='w-full'>
-                      <Typography variant='h3' className='gradient-text-subcategories w-full text-center' sx={{}}>
-                        Related Articles
-                      </Typography>
-                    </div>
-
-                    <div  className='scrollable-container flex gap-6   pb-6 w-[100%] overflow-x-auto pr-6'>
-                                  
-                                  {related_posts.map((b, i)=> {
-                                      if(i >= 5) {
-                                          return
-                                      } else if (i === b.length - 1){
-                                          return (
-                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                              <div   className='flex justify-center items-center'>
-                                                  <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                      <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                          {b.categories[0].name}
-                                                      </Typography>                                            
-                                                  </Button>
-
-                                              </div>
-                                              <RecentBlogCard blog={b} />
-                                          </Box>
-                                          )
-                                      } else if(i === 0){
-                                          return (
-                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
-                                              <div className='flex justify-center items-center'>
-                                                  <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                      <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                          {b.categories[0].name}
-                                                      </Typography>                                            
-                                                  </Button>
-
-                                              </div>
-                                              <RecentBlogCard blog={b}  />
-                                          </Box>
-                                          )
-                                      } else {
-                                          return (
-                                              <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw] scrollable-item'>
+                                                  </div>
+                                                  <RecentBlogCard blog={b} />
+                                              </Box>
+                                              )
+                                          } else if(i === 0){
+                                              return (
+                                                  <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
                                                   <div className='flex justify-center items-center'>
                                                       <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                           <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -244,26 +350,44 @@ const DynamicArticlePage = (props) => {
                                                   </div>
                                                   <RecentBlogCard blog={b}  />
                                               </Box>
-                                          )                                
-                                      }
+                                              )
+                                          } else {
+                                              return (
+                                                  <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw] scrollable-item'>
+                                                      <div className='flex justify-center items-center'>
+                                                          <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                              <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                                  {b.categories[0].name}
+                                                              </Typography>                                            
+                                                          </Button>
 
-                                  })}
-                              </div> 
+                                                      </div>
+                                                      <RecentBlogCard blog={b}  />
+                                                  </Box>
+                                              )                                
+                                          }
+
+                                      })}
+                                  </div> 
 
 
 
 
-                  </div>
-              
-              </Layout>              
-            </Box>
+                      </div>
+                  
+                  </Layout>              
+                </Box>
 
-        </>
-
-
+            </>
 
 
-    );
+
+
+        );
+  }
+    
+
+
 };
 
 

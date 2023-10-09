@@ -116,7 +116,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const {data:session, status} = useSession() as Session;
-    console.log(user.favorite_posts)
+    console.log(user?.favorite_posts)
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
@@ -168,11 +168,12 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     useEffect(() => {
         
         if(liked === null) {
+            if(user !== null )
             fetchUser();
         }        
         console.log(liked);
         
-    }, [liked, fetchUser])
+    }, [liked, fetchUser, user])
     
 
 
@@ -266,9 +267,15 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 </Typography>        
             </div>
             <CardActions disableSpacing>
-                <IconButton onClick={(e) => {console.log(handleFavorite(e)); }} aria-label="add to favorites">
-                <FavoriteIcon sx={{color: liked ? red[500] : grey[50]}} />
-                </IconButton>
+                {
+                    user ?
+                    <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
+                    <FavoriteIcon sx={{color: liked ? red[500] : grey[50]}} />
+                    </IconButton>   
+                    : user === null || user === undefined ?
+                    null : null
+                }
+
 
                 <ExpandMore
                 expand={expanded}
@@ -285,28 +292,28 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
             <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
            
-           <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
-                <IconButton>
-                    <FacebookShareButton url={url} >
-                        <FacebookIcon size={32} round />
-                    </FacebookShareButton>
-                </IconButton>
-                
-                <IconButton aria-label="add to favorites">
-                    <TwitterShareButton
-                    url={url}
-                    >
-                        <TwitterIcon size={32} round />
-                    </TwitterShareButton>
-                </IconButton>
-                <IconButton aria-label="add to favorites">
-                    <WhatsappShareButton
-                    url={url}
-                    >
-                        <WhatsappIcon size={32} round />
-                    </WhatsappShareButton>
-                </IconButton>    
-           </CardContent>
+                <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
+                        <IconButton>
+                            <FacebookShareButton url={url} >
+                                <FacebookIcon size={32} round />
+                            </FacebookShareButton>
+                        </IconButton>
+                        
+                        <IconButton aria-label="add to favorites">
+                            <TwitterShareButton
+                            url={url}
+                            >
+                                <TwitterIcon size={32} round />
+                            </TwitterShareButton>
+                        </IconButton>
+                        <IconButton aria-label="add to favorites">
+                            <WhatsappShareButton
+                            url={url}
+                            >
+                                <WhatsappIcon size={32} round />
+                            </WhatsappShareButton>
+                        </IconButton>    
+                </CardContent>
 
             </Collapse>
         </Box>

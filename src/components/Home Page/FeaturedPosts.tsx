@@ -109,13 +109,8 @@ const FeaturedPosts = ({featuredPosts, user}) => {
 
     if (status === "loading"){
         return <h3 >Loading...</h3>
-    }
-
-    if(status === "authenticated") {
-        if(user ===  null){
-            return
-        } else if (user)
-            
+    } else {
+                    
         return (
         <div>
                 <div className='w-full'>

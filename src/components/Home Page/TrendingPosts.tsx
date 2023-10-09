@@ -167,6 +167,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     if (status === "loading"){
         return <h3 className='gradient-text' >Loading...</h3>
     } else {
+        
         return (
             <div>
                 <div className='w-full'>

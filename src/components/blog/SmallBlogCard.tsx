@@ -158,11 +158,12 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     useEffect(() => {
         
         if(liked === null) {
+            if(user !== null )
             fetchUser();
         }        
         console.log(liked);
         
-    }, [liked, fetchUser])
+    }, [liked, fetchUser, user])
     
 
   return (
@@ -212,9 +213,14 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
         </div>
             <CardActions disableSpacing>
-                <IconButton onClick={(e) => {console.log(handleFavorite(e)); }} aria-label="add to favorites">
-                <FavoriteIcon sx={{color: liked ? red[500] : grey[50]}} />
-                </IconButton>
+                {
+                    user ?
+                    <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
+                    <FavoriteIcon sx={{color: liked ? red[500] : grey[50]}} />
+                    </IconButton>   
+                    : user === null || user === undefined ?
+                    null : null
+                }
 
                 <ExpandMore
                 expand={expanded}
