@@ -153,13 +153,7 @@ const DynamicArticlePage = (props) => {
   
   }, []);
 
-  useEffect(() => {
-    if(status === "loading"){
-      return
-    } else {
-      setUser(session?.user);
-    }
-  }, [setUser, status, session?.user]);
+
 
 
   const fetchUser = useCallback(async () => {
@@ -167,7 +161,7 @@ const DynamicArticlePage = (props) => {
       console.log(user?.favorite_posts);
       console.log(id)
 
-      const userLiked = user?.favorite_posts?.includes(id);
+      const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
       console.log(userLiked);
 
       if (userLiked) {
@@ -186,8 +180,8 @@ const DynamicArticlePage = (props) => {
       if(liked === null && user !== undefined  && user !== null){
         fetchUser();
       }
-    console.log(liked, user);
     }
+    console.log(liked, user);
     
 }, [liked, fetchUser, user])
 
@@ -201,6 +195,14 @@ const DynamicArticlePage = (props) => {
 
   if(status === "loading"  || user === null) {
     return <Loading />
+  } else if (status === "authenticated") {
+      if(user === null){
+      const findUser = async() => {
+          const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
+          setUser(res.data.user);
+      }
+      findUser();            
+      }
   } else {
 
         return (
