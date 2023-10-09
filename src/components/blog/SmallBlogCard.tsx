@@ -161,7 +161,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
             if(user !== null )
             fetchUser();
         }        
-        console.log(liked);
+        console.log(liked, user);
         
     }, [liked, fetchUser, user])
     
