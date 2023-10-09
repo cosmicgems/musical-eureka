@@ -165,8 +165,9 @@ const DynamicArticlePage = (props) => {
   const fetchUser = useCallback(async () => {
     try {
       console.log(user?.favorite_posts);
+      console.log(id)
 
-      const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
+      const userLiked = user?.favorite_posts?.includes(id);
       console.log(userLiked);
 
       if (userLiked) {
@@ -182,11 +183,13 @@ const DynamicArticlePage = (props) => {
 
   useEffect(() => {
     if (user !== null ) {
-      if(liked === null){
+      if(liked === null && user !== undefined  && user !== null){
         fetchUser();
       }
+    console.log(liked, user);
     }
-  })
+    
+}, [liked, fetchUser, user])
 
   const handleFavorite = async(e:any) => {
     e.preventDefault();

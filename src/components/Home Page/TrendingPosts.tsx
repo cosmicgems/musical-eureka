@@ -201,7 +201,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                     
                                         <div className='flex justify-center items-center'>
                                             <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className={loadedBlogs.length === 0 ? `font-bold gradient-text-three` :  `font-bold gradient-text-category`} sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
