@@ -158,7 +158,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     useEffect(() => {
         
         if(liked === null) {
-            if(user !== null )
+            if(user !== null || user !== undefined )
             fetchUser();
         }        
         console.log(liked, user);

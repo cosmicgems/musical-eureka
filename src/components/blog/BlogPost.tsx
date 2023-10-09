@@ -116,7 +116,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const {data:session, status} = useSession() as Session;
-    console.log(user?.favorite_posts)
+    // console.log(user?.favorite_posts)
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
@@ -168,7 +168,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     useEffect(() => {
         
         if(liked === null) {
-            if(user !== null )
+            if(user !== null || user !== undefined )
             fetchUser();
         }        
         console.log(liked, user);

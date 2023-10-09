@@ -190,7 +190,7 @@ const DynamicArticlePage = (props) => {
 }
     const {pathSegment} = useStateContext();
 
-  if(status === "loading") {
+  if(status === "loading"  || user === null) {
     return <Loading />
   } else {
 

@@ -1,6 +1,7 @@
 import connectDB from "../../../../lib/connectDB";
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "../../../../lib/models/user";
+import Blog from "../../../../lib/models/blog";
 
 export default async function handler (
     req: NextApiRequest,
@@ -11,8 +12,9 @@ export default async function handler (
             await connectDB();
 
             const {id} = req.query;
+            await Blog.find({})
 
-            const user = await User.findById(id).populate("favorite_posts").exec();
+            const user = await User.findById(id).populate("favorite_posts");
 
             res.status(200).json({message: "User successfully fetched.", user})
 
