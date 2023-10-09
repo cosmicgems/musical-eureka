@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, CardActions, CardContent, CardMedia, Chip, Collapse, Grid, Stack, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown';
 import parse from "html-react-parser"
 import moment from 'moment';
@@ -116,7 +116,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const {data:session, status} = useSession() as Session;
-    // console.log(user)
+    console.log(user.favorite_posts)
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
@@ -138,124 +138,24 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
         console.log(pageVisit.data.blog);
     };
 
-    useEffect(() => {
-        console.log(liked);
-        
-    }, [liked])
 
-
-    if(status === "loading") {
-        return (
-            <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
-                <CardMedia 
-                component="img"
-                image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
-                alt=''
-                sx={{objectFit: "cover", borderTopRightRadius: "5px", borderTopLeftRadius: "5px"}}
-                className='sm:h-[20vh] h-[25vh]'
-                />
-    
-                <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
-                    <Button onClick={(e)=> {handleNavigate(e)}} >
-                        <Typography variant='h3' className='gradient-text-category w-full text-center' sx={{fontSize: "1.5rem"}}>
-                            {title}
-                        </Typography>                    
-                    </Button>
-    
-                    <div>
-    
-                        {
-                            postedBy ? 
-                            <div className='flex flex-col'>
-    
-                            <div className='flex justify-center items-center gap-3'>
-                                <div className='flex flex-col justify-center items-center'>
-                                    <Avatar alt={`${postedBy.first_name} ${postedBy.last_name}`} src={postedBy.photo} />
-                                    <Typography variant='body1' sx={{color: grey[50]}} className=''>
-                                        &nbsp;{postedBy.first_name} {postedBy.last_name}
-                                    </Typography>
-                                </div>
-    
-                            </div>
-    
-                                <div className='flex justify-center items-center gap-3'>
-                                    < Typography variant="body1" sx={{}} className='gradient-text-category'>
-                                        Post Date:  
-                                    </Typography>
-                                    
-                                        <Typography variant='body1' sx={{color: grey[50]}} className=''>
-                                            {moment(createdAt).fromNow()}
-                                        </Typography>
-                                
-    
-                                </div>
-    
-                            </div>
-                            :
-    
-                            null
-                        }
-    
-    
-                    </div>
-                    
-                    <div>
-                                
-                        <Grid container className='w-full' spacing={1} >
-                        {sub_categories.map((sc,i) => {
-                            return (
-                                <Grid item key={sc._id} xs={6}  >
-                                    <Button  href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
-                                        <Chip
-                                        avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
-                                        label={sc.name}
-                                        sx={{overflow: 'hidden', whiteSpace: 'nowrap', color:grey[50], textOverflow: 'ellipsis', maxWidth: '80%'}}
-                                        variant="outlined"
-                                        />  
-                                    </Button>
-                                </Grid>
-    
-                            )
-                        })}
-                    </Grid>
-                    </div>
-    
-                    <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text w-[99%] sm:w-[375px]'   >
-                        {
-                            excerpt ?
-                            <>
-                            {excerpt}
-                            </>
-                            
-                            :
-                            <>
-                            {excerpt_two} 
-                            </>
-                        }
-                    </Typography>        
-                </div>
-            </Box>
-        )
-    }
-
-    const fetchUser = async () => {
+    const fetchUser = useCallback(async () => {
         try {
-            console.log(user.favorite_posts);
-            
-            const userLiked = user.favorite_posts?.some((post) =>  id.includes(post._id));
-            console.log(userLiked);
-            
-            if(userLiked){
-                setLiked(true)
-            } else{
-                setLiked(false)
-            }
-            console.log(liked);
-            
+          console.log(user?.favorite_posts);
+    
+          const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
+          console.log(userLiked);
+    
+          if (userLiked) {
+            setLiked(true);
+          } else {
+            setLiked(false);
+          }
+          console.log(liked);
         } catch (error) {
-            console.error("Error fetching user:", error);
+          console.error("Error fetching user:", error);
         }
-    };   
+      }, [user, id, liked]);
 
     const handleFavorite = async(e:any) => {
         e.preventDefault();
@@ -264,9 +164,15 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
         await fetchUser();
     }
 
-    if(liked === null) {
-        fetchUser();
-    }
+
+    useEffect(() => {
+        
+        if(liked === null) {
+            fetchUser();
+        }        
+        console.log(liked);
+        
+    }, [liked, fetchUser])
     
 
 

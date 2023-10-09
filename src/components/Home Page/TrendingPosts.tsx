@@ -2,6 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import SmallBlogCard from '../blog/SmallBlogCard'
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -31,8 +32,33 @@ interface Blog {
     totalBlogCount: any;
 }
 
+interface Session {
+    data:{
+        user:{
+            about: string;
+            confirmed_account: boolean;
+            createdAt: Date;
+            email: string;
+            first_name: string;
+            last_name: string;
+            password: string;
+            photo: string;
+            role: number;
+            updatedAt: Date;
+            username: string;
+            verification_token: string;
+            verification_token_expiration: string;
+            _id: string;
+            
+        }      
+    },
+    status: string;
+
+}
+
 
 const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
+    const {data: session, status} =  useSession() as Session;
     const targetRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
@@ -108,6 +134,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
         }
     }, [page, totalBlogCount, blogsPerPage]);
 
+
     useEffect(() => {
         if(!targetRef?.current) return;
         // console.log(loadedBlogCount);
@@ -135,70 +162,76 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
             }
         };
     }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
-    
 
-  return (
-    <div>
-        <div className='w-full'>
-            <Typography variant='h2' className='text-center gradient-text-subcategories' sx={{}}>
-                Trending
-            </Typography>
-        </div>
 
-            <div className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container '>
-                
-                {blogs.map((b, i)=> {
-                    if(i === 0) {
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                            <div className='flex justify-center items-center'>
-                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                        {b.categories[0].name}
-                                    </Typography>                                            
-                                </Button>
+    if (status === "loading"){
+        return <h3 className='gradient-text' >Loading...</h3>
+    } else {
+        return (
+            <div>
+                <div className='w-full'>
+                    <Typography variant='h2' className='text-center gradient-text-subcategories' sx={{}}>
+                        Trending
+                    </Typography>
+                </div>
 
-                            </div>
-                            <SmallBlogCard blog={b} user={user} />
-                        </Box>
-                        )
-                    } else if (i === blogs.length -1){
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                            <div  ref={targetRef} className='flex justify-center items-center'>
-                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                    <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                        {b.categories[0].name}
-                                    </Typography>                                            
-                                </Button>
+                    <div className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container '>
+                        
+                        {blogs.map((b, i)=> {
+                            if(i === 0) {
+                                return (
+                                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
+                                    <div className='flex justify-center items-center'>
+                                        <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                            <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                {b.categories[0].name}
+                                            </Typography>                                            
+                                        </Button>
 
-                            </div>
-                            <SmallBlogCard blog={b}user={user}/>
-                            <div className=''  >
-                                {loading && <div>Loading more blogs...</div>}
-                            </div> 
-                        </Box>
-                        )
-                    } else {
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
-                                <div className='flex justify-center items-center'>
-                                    <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                        <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                            {b.categories[0].name}
-                                        </Typography>                                            
-                                    </Button>
+                                    </div>
+                                    <SmallBlogCard blog={b} user={user} />
+                                </Box>
+                                )
+                            } else if (i === blogs.length -1){
+                                return (
+                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                    <div  ref={targetRef} className='flex justify-center items-center'>
+                                        <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                            <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
+                                                {b.categories[0].name}
+                                            </Typography>                                            
+                                        </Button>
 
-                                </div>
-                                <SmallBlogCard blog={b} user={user} />
-                            </Box>
-                        )                                
-                    }
+                                    </div>
+                                    <SmallBlogCard blog={b}user={user}/>
+                                    <div className=''  >
+                                        {loading && <div>Loading more blogs...</div>}
+                                    </div> 
+                                </Box>
+                                )
+                            } else {
+                                return (
+                                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
+                                        <div className='flex justify-center items-center'>
+                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                    {b.categories[0].name}
+                                                </Typography>                                            
+                                            </Button>
 
-                })}
-            </div> 
-    </div>
-  )
+                                        </div>
+                                        <SmallBlogCard blog={b} user={user} />
+                                    </Box>
+                                )                                
+                            }
+
+                        })}
+                    </div> 
+            </div>
+        )        
+    }
+
+
 }
 
 export default TrendingPosts

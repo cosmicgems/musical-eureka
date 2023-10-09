@@ -2,7 +2,7 @@ import { Avatar, Box, Button, CardActions, CardContent, CardMedia, Collapse, Typ
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, grey, red } from '@mui/material/colors';
 import moment from 'moment';
-import React, { useState , useEffect } from 'react'
+import React, { useState , useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -107,7 +107,6 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const router = useRouter();
-    const {data: session, status} = useSession() as Session;
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
     const [liked, setLiked] = useState<boolean>(null);
     const [expanded, setExpanded] = useState<boolean>(false);
@@ -128,91 +127,44 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
         
     }
 
-    useEffect(() => {
-        console.log(liked);
-        
-    }, [liked])
 
 
-    if(status === "loading") {
-        return (
-            <Box className="w-[350px]  sm:w-[30vw]" sx={{bgcolor:grey[900], borderRadius:"5px",}}>
-                <div className='flex flex-row gap-3'>
-        
-                    <CardMedia 
-                    component='img'
-                    image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
-                    alt=''
-                    sx={{borderTopLeftRadius:"5px", borderBottomLeftRadius: '5px'}}
-                    className='w-[100px] sm:w-1/4'
-                    />
-        
-                    <div className='flex flex-col gap-3 w-[250px] w-full p-2'>
-        
-                        <div className='w-[100%]'>
-                            
-                            <Button fullWidth onClick={(e)=> {handleNavigate(e)}} >
-                                <Typography  variant='h3' sx={{fontSize: '1.5rem'}} className='gradient-text '>
-                                    {title}
-                                </Typography>
-                            </Button>
-                        </div>
-        
-                        <div className='flex flex-row justify-center items-center w-[100%]'>
-                            <Avatar  alt={`${postedBy?.first_name} ${postedBy?.last_name}`} src={postedBy?.photo} />
-                            <div className='flex flex-col items-center '>
-                                <Typography variant='body1' sx={{color: grey[50]}} className=''>
-                                    &nbsp;{postedBy?.first_name} {postedBy?.last_name}
-                                </Typography>
-                                <Typography variant='body1' sx={{color:grey[50]}} className=''>
-                                    {moment(createdAt).fromNow()}
-                                </Typography>
-                            </div>
-        
-        
-                        </div>
-        
-                        <div className=''>
-                            <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text w-[95%]'>
-                                {excerpt}
-                            </Typography>
-                        </div>
-        
-                    </div>
-        
-                </div>
-            </Box>
-          )
-    }
-
-    const fetchUser = async () => {
+    const fetchUser = useCallback(async () => {
         try {
-            
-            const userLiked = user.favorite_posts?.some((post) =>  id.includes(post._id));
-            console.log(userLiked);
-            
-            if(userLiked){
-                setLiked(true)
-            } else{
-                setLiked(false)
-            }
-            console.log(liked);
-            
+          console.log(user?.favorite_posts);
+    
+          const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
+          console.log(userLiked);
+    
+          if (userLiked) {
+            setLiked(true);
+          } else {
+            setLiked(false);
+          }
+          console.log(liked);
         } catch (error) {
-            console.error("Error fetching user:", error);
+          console.error("Error fetching user:", error);
         }
-    };   
+      }, [user, id, liked]);
 
     const handleFavorite = async(e:any) => {
         e.preventDefault();
         const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
-        await fetchUser()
-        return fav.data.liked_posts;
+        console.log(fav.data.liked_posts);
+        await fetchUser();
     }
 
-    if(liked === null) {
-        fetchUser()
-    }
+
+    useEffect(() => {
+        
+        if(liked === null) {
+            fetchUser();
+        }        
+        console.log(liked);
+        
+    }, [liked, fetchUser])
+    
+
   return (
     <Box className="w-[350px]  sm:w-[30vw]" sx={{bgcolor:grey[900], borderRadius:"5px",}}>
         <div className='flex flex-row gap-3'>

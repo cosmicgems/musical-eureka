@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import BlogPost from '../blog/BlogPost';
+import { useSession } from 'next-auth/react';
 
 
 interface Author {
@@ -28,8 +29,35 @@ interface Blog {
     postedBy: Author;
 }
 
+interface Session {
+    data:{
+        user:{
+            about: string;
+            confirmed_account: boolean;
+            createdAt: Date;
+            email: string;
+            first_name: string;
+            last_name: string;
+            password: string;
+            photo: string;
+            role: number;
+            updatedAt: Date;
+            username: string;
+            verification_token: string;
+            verification_token_expiration: string;
+            _id: string;
+            
+        }      
+    },
+    status: string;
+
+}
+
 const FeaturedPosts = ({featuredPosts, user}) => {
-    // console.log(user);
+
+    const {data:session, status} = useSession() as Session;
+
+    
     
     const featuredTargetRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
@@ -79,69 +107,79 @@ const FeaturedPosts = ({featuredPosts, user}) => {
     
     }, []);
 
-    
-    return (
-    <div>
-            <div className='w-full'>
-            <Typography variant='h3' sx={{}} className='text-center gradient-text-subcategories'>
-                Featured
-            </Typography>
-            </div>
-            <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
-                
-                {featuredPosts.map((b, i)=> {
-                    if(i === 0) {
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                            <div className='flex justify-center items-center py-3'>
-                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                    <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '2rem'}}>
-                                        {b.categories[0].name}
-                                    </Typography>                                            
-                                </Button>
+    if (status === "loading"){
+        return <h3 >Loading...</h3>
+    }
 
-                            </div>
-                            <BlogPost  blog={b} user={user}/>
-                            </Box>
-                        )
-                    } else if (i === featuredPosts.length -1){
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                            <div  ref={featuredTargetRef} className='flex justify-center items-center py-3'>
-                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                    <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                        {b.categories[0].name}
-                                    </Typography>                                            
-                                </Button>
-
-                            </div>
-                            <BlogPost blog={b} user={user} />
-                            <div className=''  >
-                                {loading && <div>Loading more blogs...</div>}
-                            </div> 
-                        </Box>
-                        )
-                    } else {
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
+    if(status === "authenticated") {
+        if(user ===  null){
+            return
+        } else if (user)
+            
+        return (
+        <div>
+                <div className='w-full'>
+                <Typography variant='h3' sx={{}} className='text-center gradient-text-subcategories'>
+                    Featured
+                </Typography>
+                </div>
+                <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
+                    
+                    {featuredPosts.map((b, i)=> {
+                        if(i === 0) {
+                            return (
+                                <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                 <div className='flex justify-center items-center py-3'>
                                     <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                        <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                        <Typography variant='h2' className='gradient-text-category' sx={{fontSize: '2rem'}}>
+                                            {b.categories[0].name}
+                                        </Typography>                                            
+                                    </Button>
+
+                                </div>
+                                <BlogPost  blog={b} user={user}/>
+                                </Box>
+                            )
+                        } else if (i === featuredPosts.length -1){
+                            return (
+                                <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                <div  ref={featuredTargetRef} className='flex justify-center items-center py-3'>
+                                    <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                        <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
                                             {b.categories[0].name}
                                         </Typography>                                            
                                     </Button>
 
                                 </div>
                                 <BlogPost blog={b} user={user} />
+                                <div className=''  >
+                                    {loading && <div>Loading more blogs...</div>}
+                                </div> 
                             </Box>
-                        )                                
-                    }
+                            )
+                        } else {
+                            return (
+                                <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
+                                    <div className='flex justify-center items-center py-3'>
+                                        <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                            <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                {b.categories[0].name}
+                                            </Typography>                                            
+                                        </Button>
 
-                })}
-            </div>
-            
-    </div>
-  )
+                                    </div>
+                                    <BlogPost blog={b} user={user} />
+                                </Box>
+                            )                                
+                        }
+
+                    })}
+                </div>
+                
+        </div>
+    )        
+    }
+
 }
 
 export default FeaturedPosts
