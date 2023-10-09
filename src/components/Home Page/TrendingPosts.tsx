@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 
 
-
 interface Author {
     _id: string;
     first_name: string;
@@ -64,7 +63,8 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
-    let loadedBlogCount = blogs.length; 
+    const [loadedBlogs, setLoadedBlogs] = useState<Blog[]>([])
+    const [loadedBlogCount, setLoadedBlogCount] = useState<number>(blogs.length)
     const scrollTrendContainerRef = useRef(null);
 
     useEffect(() => {
@@ -120,9 +120,10 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                 setLoading(true);
                 const res = await axios.get(`/api/blog/post/get-all-home?page=${nextPage}&limit=${blogsPerPage}`);
                 const newBlogs = res.data.blogs.blogs;
-                setBlogs((prevBlogs) => [...prevBlogs, ...newBlogs]);
+                // setBlogs((prevBlogs) => [...prevBlogs, ...newBlogs]);
+                setLoadedBlogs(newBlogs)
                 setPage(nextPage);
-                loadedBlogCount ++
+                setLoadedBlogCount(loadedBlogCount + newBlogs.length)
         } else {
             // All blogs are loaded
             console.log('All blogs are loaded.');
@@ -148,7 +149,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                     loadMoreBlogs();
                 }
             },
-            { threshold: 0.1 } // Adjust the threshold as needed
+            { threshold: .1 } // Adjust the threshold as needed
         );
 
         if (targetRef.current) {
@@ -193,21 +194,21 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                     <SmallBlogCard blog={b} user={user} />
                                 </Box>
                                 )
-                            } else if (i === blogs.length -1){
+                            } else if (i === blogs.length -1 ){
                                 return (
-                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                    <div  ref={targetRef} className='flex justify-center items-center'>
-                                        <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                            <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                                {b.categories[0].name}
-                                            </Typography>                                            
-                                        </Button>
+                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: loadedBlogs.length === 0 && 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
 
-                                    </div>
+                                    
+                                        <div className='flex justify-center items-center'>
+                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
+                                                    {b.categories[0].name}
+                                                </Typography>                                            
+                                            </Button>
+
+                                        </div>      
+
                                     <SmallBlogCard blog={b}user={user}/>
-                                    <div className=''  >
-                                        {loading && <div>Loading more blogs...</div>}
-                                    </div> 
                                 </Box>
                                 )
                             } else {
@@ -227,6 +228,61 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                             }
 
                         })}
+                        {
+                            loadedBlogs.length > 0 &&
+                            loadedBlogs.map((b, i)=> {
+                                if(i === 0) {
+                                    return (
+                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{}}>
+                                        <div className='flex justify-center items-center'>
+                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                    {b.categories[0].name}
+                                                </Typography>                                            
+                                            </Button>
+    
+                                        </div>
+                                        <SmallBlogCard blog={b} user={user} />
+                                    </Box>
+                                    )
+                                } else if (i === loadedBlogs.length -1 ){
+                                    return (
+                                        <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+    
+                                        
+                                            <div className='flex justify-center items-center'>
+                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                                    <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
+                                                        {b.categories[0].name}
+                                                    </Typography>                                            
+                                                </Button>
+    
+                                            </div>      
+    
+                                        <SmallBlogCard blog={b}user={user}/>
+                                    </Box>
+                                    )
+                                } else {
+                                    return (
+                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
+                                            <div className='flex justify-center items-center'>
+                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                        {b.categories[0].name}
+                                                    </Typography>                                            
+                                                </Button>
+    
+                                            </div>
+                                            <SmallBlogCard blog={b} user={user} />
+                                        </Box>
+                                    )                                
+                                }
+    
+                            })
+                        }
+                                    <div  ref={targetRef} className=''  >
+                                        {loading && <div>Loading more blogs...</div>}
+                                    </div> 
                     </div> 
             </div>
         )        

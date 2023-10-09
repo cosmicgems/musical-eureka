@@ -178,12 +178,12 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
             className='w-[100px] sm:w-1/4'
             />
 
-            <div className='flex flex-col gap-3 w-[250px] w-full p-2'>
+            <div className='flex flex-col gap-3  w-[230px] sm:w-3/5 p-2'>
 
-                <div className='w-[100%]'>
+                <div className='w-content'>
                     
-                    <Button fullWidth onClick={(e)=> {handleNavigate(e)}} >
-                        <Typography  variant='h3' sx={{fontSize: '1.5rem'}} className='gradient-text '>
+                    <Button className='w-full'  onClick={(e)=> {handleNavigate(e)}} >
+                        <Typography  variant='h3' sx={{fontSize: '1.5rem'}} className='gradient-text truncate-text w-[100%]  '>
                             {title}
                         </Typography>
                     </Button>
@@ -204,7 +204,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 </div>
 
                 <div className=''>
-                    <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text w-[95%]'>
+                    <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text  w-[100%]'>
                         {excerpt}
                     </Typography>
                 </div>
