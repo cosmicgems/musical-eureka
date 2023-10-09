@@ -168,7 +168,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     useEffect(() => {
         
         if(liked === null) {
-            if(user !== null || user !== undefined )
+            if(user !== null )
             fetchUser();
         }        
         console.log(liked, user);
