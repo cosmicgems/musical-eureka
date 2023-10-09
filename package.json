@@ -30,6 +30,7 @@
     "canvas-confetti": "^1.5.1",
     "cloudinary": "^1.40.0",
     "copy-webpack-plugin": "^11.0.0",
+    "disqus-react": "^1.1.5",
     "dotenv": "^16.3.1",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",

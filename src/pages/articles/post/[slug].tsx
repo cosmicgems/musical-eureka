@@ -22,6 +22,7 @@ import { useSession } from 'next-auth/react';
 import Loading from '../../../components/Loading';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
+import DisqusComments from '../../../components/DisqusComments';
 
 interface Author {
   _id: string;
@@ -90,7 +91,12 @@ interface Session {
 const DynamicArticlePage = (props) => {
   const {data: session, status} = useSession() as Session;
   
-  const {post:{title, body, _id:id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy}, related_posts, ogImageUrl} = props;
+  const {post:{title, body, _id:id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
+  const disqusData = {
+    title,
+    slug, 
+    id
+  }
   const [user, setUser] = useState<any>();
   const [liked, setLiked] = useState<boolean>(null);
   console.log(ogImageUrl)
@@ -206,11 +212,11 @@ const DynamicArticlePage = (props) => {
                 <Box className='' sx={{bgcolor: grey[100]}}>
                   <Layout  >
                       <div className='flex flex-col gap-3 pt-12'>
-                        <div className='w-full mt-6'>
+                        {/* <div className='w-full mt-6'>
                           <Typography variant='h2' className='gradient-text w-full text-center' sx={{fontSize: {xs: "1.5rem", sm:"3rem"}}}>
                             Pearl Box {categories[0].name}
                           </Typography>
-                        </div>
+                        </div> */}
 
                         <div className='flex flex-col sm:flex-row '>
 
@@ -241,6 +247,25 @@ const DynamicArticlePage = (props) => {
                               </div>
                             </div>
 
+                            <div className=''>
+                              <Grid container className='justify-center items-center gap-6' >
+                                {categories.map((c, i)=>{
+                                  return (
+                                    <Grid item key={c._id}  >
+                                        <Button href={`/articles/categories/category/${categories[0].name}`}>
+                                            <Chip
+                                            sx={{bgcolor: grey[900], color: grey[50]}}
+                                            avatar={<Avatar alt={`Photo of ${c.name}, ${c.desrciption}`} src={c.photo_portrait} />}
+                                            label={c.name}
+                                            variant="outlined"
+                                            />  
+                                        </Button>
+                                    </Grid>
+                                  )
+                                })}                  
+                              </Grid>
+
+                            </div>
                             <div className=''>
                               <Grid container className='justify-center items-center gap-6' >
                                 {sub_categories.map((sc, i)=>{
@@ -298,6 +323,25 @@ const DynamicArticlePage = (props) => {
 
                             <div className='px-3'>
                               {parse(body)}
+                            </div>
+                            
+                            <div className=''>
+                              <Grid container className='justify-center items-center gap-6' >
+                                {tags?.map((t, i)=>{
+                                  return (
+                                    <Grid item key={t._id}  >
+                                            <Chip
+                                            label={t}
+                                            variant="outlined"
+                                            />  
+                                    </Grid>
+                                  )
+                                })}                  
+                              </Grid>
+
+                            </div>
+                            <div className='mb-6'>
+                                <DisqusComments post={disqusData} />
                             </div>
                           </div>
 
@@ -421,7 +465,8 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const post = await Blog.findOne({slug})
                           .populate("categories")
                           .populate("sub_categories")
-                          .populate("postedBy");
+                          .populate("postedBy")
+                          .populate("tags");
 
   const title = post.title
   const description = post.excerpt

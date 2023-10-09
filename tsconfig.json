@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/pages/studio/[[...index]].jsx", "lib/nextauthOptions.js"  ],
+, "src/pages/studio/[[...index]].jsx", "lib/nextauthOptions.js", "src/components/DisqusComments.jsx"  ],
   "exclude": [
     "node_modules"
   ]
