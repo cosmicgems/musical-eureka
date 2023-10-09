@@ -11,7 +11,7 @@ const DisqusComments = ({ post }) => {
         title: post.title // Single post title
     }
     return (
-        <div>
+        <div className="p-3">
         <DiscussionEmbed
             shortname={disqusShortname}
             config={disqusConfig}
