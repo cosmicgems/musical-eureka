@@ -111,6 +111,14 @@ const CategoryModify = () => {
         }
     };
 
+    const setSubcategoriesArray = (cat) => {
+        let sca = [];
+        cat.sub_categories.map((sc, i) => {
+            sca.push(sc._id);
+        })
+        setCheckedSubcategory(sca);
+    }
+
     useEffect(() => {
         initCategories();
         initSubcategories();
@@ -119,7 +127,7 @@ const CategoryModify = () => {
     const handleClick = (c:any) => {
         if(clicked === ""){
             setClicked(c._id);
-            setCheckedSubcategory(c.sub_categories)
+            setSubcategoriesArray(c);
             setCategory({
                 name:c.name,
                 description: c.description,
@@ -132,6 +140,8 @@ const CategoryModify = () => {
             setUpdate(true)             
         } else {
             setClicked("");
+            setCheckedSubcategory([]);
+            setCategory({});
             setUpdate(!update);         
         }
      
@@ -218,7 +228,7 @@ const CategoryModify = () => {
                                                             {subcategories.map((sc:any, i:number)=> {
                                                                 return (
                                                                     <Grid key={sc._id} item sm={6}>
-                                                                        <CustomFormControlLabel  onChange={handleSubcategoryToggle(sc._id)} control={<Checkbox  checked={checkedSubcategory.includes(sc._id)}  />} label={sc.name} />
+                                                                        <CustomFormControlLabel  onChange={handleSubcategoryToggle(sc._id)} control={<Checkbox  checked={checkedSubcategory.some(sub => sub === sc._id)}  />} label={sc.name} />
                                                                     </Grid>
                                                                     
                                                                 )

@@ -271,6 +271,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
     console.error(`Error fetching data for slug ${slug}:`, error);
     return {
       props: {sub_category: null}, 
+      revalidate: 60,
     };
   }
 };

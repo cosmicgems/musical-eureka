@@ -213,6 +213,7 @@ export const getStaticProps = async ({ params: { name } }) => {
 
     return {
         props: { category: JSON.parse(JSON.stringify(category)), posts: JSON.parse(JSON.stringify(desired_posts)) },
+        revalidate: 60,
     };
     } catch (error) {
         
