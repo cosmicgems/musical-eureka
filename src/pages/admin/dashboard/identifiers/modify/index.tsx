@@ -66,24 +66,14 @@ const IdentifiersModifyPage = () => {
   }
 
   const {data:session, status} = useSession() as Session;
-  const sessionCheck = async() => {
-    if(session.user._id ) {
-        setVerified(true);
-        return true
-    } else if (!session.user._id){
-        setVerified(false)
-        return false
-    }
-  }
 
   if(status === "loading" ) {
       return <Loading />
   }
 
   if(verified === null) {
-      const authenticated = async() => await sessionCheck();
-      if(!authenticated){
-          router.push("auth/login")
+      if (status === "authenticated"){
+        setVerified(true)
       }
   }
 
