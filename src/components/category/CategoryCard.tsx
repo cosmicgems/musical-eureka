@@ -34,24 +34,24 @@ console.log(sub_categories);
 
             <div className='flex flex-col px-3  gap-3 py-3'>
                 <Button href={`/articles/categories/category/${name}`}>
-                    <Typography variant='h3' className='gradient-text' sx={{fontSize: '2rem'}}>
+                    <Typography variant='h3' className='gradient-text text-center' sx={{fontSize: '2rem'}}>
                         {c_name}
                     </Typography>                    
                 </Button>
                 
                 <div className='p-0'>
                             
-                    <Grid container className=' p-0  ' gap={3} >
+                    <Grid container className='justify-center align-center p-0  ' gap={1} >
                     {sub_categories.map((sc,i) => {
                         return (
-                            <Grid item key={sc._id} xs={4} className='' >
-                                <Button href={`/articles/categories/category/${name}/subcategories/subcategory/${sc.slug}`} >
+                            <Grid item key={sc._id} xs={5} className='' >
+                                <Button className='w-full' href={`/articles/categories/category/${name}/subcategories/subcategory/${sc.slug}`} >
                                     <Chip
                                     avatar={<Avatar 
                                     alt={`Photo of ${sc.name}, ${sc.description}`} src={sc.photo_portrait} />}
                                     label={sc.name}
                                     variant="outlined"
-                                    sx={{overflow: 'hidden', whiteSpace: 'nowrap', color:grey[50], textOverflow: 'ellipsis', maxWidth: '60%'}}
+                                    sx={{overflow: 'hidden', whiteSpace: 'nowrap', color:grey[50], textOverflow: 'ellipsis', maxWidth: '100%'}}
                                     />  
                                 </Button>
                             </Grid>

@@ -81,7 +81,7 @@ const CategoriesPage = ({categories}) => {
                                 Categories
                             </Typography>
                         </div>
-                        <div className='flex gap-6 overflow-x-auto w-[100%] pb-6 scrollable-container justify-evenly'>
+                        <div className='flex gap-6 overflow-x-auto w-[100%] pb-6 scrollable-container '>
                             {categories.map((c, i)=> {
                                 if (i === 0 ) {
                                     return (
@@ -103,7 +103,7 @@ const CategoriesPage = ({categories}) => {
                                         <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
                                         <div className='flex justify-center items-center'>
                                             <Button href={`/articles/categories/category/${c.slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-three text-center' sx={{fontSize: '1.75rem'}}>
                                                     {c.name}
                                                 </Typography>                                            
                                             </Button>
