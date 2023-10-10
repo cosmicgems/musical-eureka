@@ -233,15 +233,15 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 
                 <div>
                             
-                    <Grid container className='w-full' spacing={1} >
+                    <Grid container className='w-full justify-center items-center' spacing={1} >
                     {sub_categories.map((sc,i) => {
                         return (
                             <Grid item key={sc._id} xs={6}  >
-                                <Button  href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
+                                <Button className='w-full'  href={`/articles/categories/category/${categories[0].slug}/subcategories/subcategory/${sc.slug}`}>
                                     <Chip
                                     avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
                                     label={sc.name}
-                                    sx={{overflow: 'hidden', whiteSpace: 'nowrap', color:grey[50], textOverflow: 'ellipsis', maxWidth: '80%'}}
+                                    sx={{overflow: 'hidden', whiteSpace: 'nowrap', color:grey[50], textOverflow: 'ellipsis', maxWidth: '100%'}}
                                     variant="outlined"
                                     />  
                                 </Button>
