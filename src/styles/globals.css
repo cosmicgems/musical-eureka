@@ -159,7 +159,7 @@ body, * {
 }
 
 .scrollable-container {
-  overflow-x: scroll;
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-padding: 0 20px; /* Adjust as needed */
 }

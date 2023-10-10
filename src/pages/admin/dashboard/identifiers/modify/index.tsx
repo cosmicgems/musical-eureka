@@ -81,7 +81,7 @@ const IdentifiersModifyPage = () => {
   }
 
   if(verified === null) {
-      const authenticated = sessionCheck();
+      const authenticated = async() => await sessionCheck();
       if(!authenticated){
           router.push("auth/login")
       }
