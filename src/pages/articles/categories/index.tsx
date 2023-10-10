@@ -81,7 +81,7 @@ const CategoriesPage = ({categories}) => {
                                 Categories
                             </Typography>
                         </div>
-                        <div className='flex gap-6 overflow-x-auto w-screen pb-6 scrollable-container'>
+                        <div className='flex gap-6 overflow-x-auto w-[100%] pb-6 scrollable-container'>
                             {categories.map((c, i)=> {
                                 if (i === 0 ) {
                                     return (

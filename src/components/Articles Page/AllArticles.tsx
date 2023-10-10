@@ -1,9 +1,9 @@
-import { Box, Button, Typography } from '@mui/material'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import SmallBlogCard from '../blog/SmallBlogCard'
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-
+import { Box, Button, Typography } from '@mui/material'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { grey } from '@mui/material/colors';
+import BlogPost from '../blog/BlogPost';
 
 interface Author {
     _id: string;
@@ -56,9 +56,9 @@ interface Session {
 }
 
 
-const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
+const AllArticles = ({blogs:initialBlogs, totalBlogCount, user}) => {
     const {data: session, status} =  useSession() as Session;
-    const targetRef = useRef();
+    const articlesRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
@@ -137,7 +137,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
 
 
     useEffect(() => {
-        if(!targetRef?.current) return;
+        if(!articlesRef?.current) return;
         // console.log(loadedBlogCount);
         
         if(loadedBlogCount >= totalBlogCount) return;
@@ -149,17 +149,17 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                     loadMoreBlogs();
                 }
             },
-            { threshold: .1 } // Adjust the threshold as needed
+            { threshold: .9 } // Adjust the threshold as needed
         );
 
-        if (targetRef.current) {
-            observer.observe(targetRef.current);
+        if (articlesRef.current) {
+            observer.observe(articlesRef.current);
                     console.log("It triggered");
         }
 
         return () => {
-            if (targetRef.current) {
-                observer.unobserve(targetRef.current);
+            if (articlesRef.current) {
+                observer.unobserve(articlesRef.current);
             }
         };
     }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
@@ -168,18 +168,16 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     if (status === "loading"){
         return <h3 className='gradient-text' >Loading...</h3>
     } else {
-        
         return (
-            <div>
-                <div className='w-full'>
-                    <Typography variant='h2' className='text-center gradient-text-subcategories' sx={{}}>
-                        Trending
-                    </Typography>
-                </div>
-
-                    <div className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container '>
+    <div>
+    <div>
+        <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem"}}}>
+            All Posts
+        </Typography>
+    </div>
+    <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container '>
                         
-                        {blogs.map((b, i)=> {
+    {blogs.map((b, i)=> {
                             if(i === 0) {
                                 return (
                                     <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
@@ -191,7 +189,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                         </Button>
 
                                     </div>
-                                    <SmallBlogCard blog={b} user={user} />
+                                    <BlogPost blog={b} user={user} />
                                 </Box>
                                 )
                             } else if (i === blogs.length -1 ){
@@ -208,7 +206,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
 
                                         </div>      
 
-                                    <SmallBlogCard blog={b}user={user}/>
+                                    <BlogPost blog={b}user={user}/>
                                 </Box>
                                 )
                             } else {
@@ -222,7 +220,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                             </Button>
 
                                         </div>
-                                        <SmallBlogCard blog={b} user={user} />
+                                        <BlogPost blog={b} user={user} />
                                     </Box>
                                 )                                
                             }
@@ -242,7 +240,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                             </Button>
     
                                         </div>
-                                        <SmallBlogCard blog={b} user={user} />
+                                        <BlogPost blog={b} user={user} />
                                     </Box>
                                     )
                                 } else if (i === loadedBlogs.length -1 ){
@@ -259,7 +257,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     
                                             </div>      
     
-                                        <SmallBlogCard blog={b}user={user}/>
+                                        <BlogPost blog={b}user={user}/>
                                     </Box>
                                     )
                                 } else {
@@ -273,22 +271,25 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                                 </Button>
     
                                             </div>
-                                            <SmallBlogCard blog={b} user={user} />
+                                            <BlogPost blog={b} user={user} />
                                         </Box>
                                     )                                
                                 }
     
                             })
                         }
-                                    <div  ref={targetRef} className=''  >
-                                        {loading && <div>Loading more blogs...</div>}
-                                    </div> 
-                    </div> 
-            </div>
-        )        
+                        {
+                            totalBlogCount === loadedBlogCount ?
+                            null :
+                                <div  ref={articlesRef} className=''  >
+                                    {loading && <div>Loading more blogs...</div>}
+                                </div>                             
+                        }
+                                    
+    </div>    
+    </div>
+  )
     }
-
-
 }
 
-export default TrendingPosts
+export default AllArticles

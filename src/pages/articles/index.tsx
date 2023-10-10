@@ -15,6 +15,7 @@ import User from '../../../lib/models/user';
 import SearchResults from '../../components/Search Bar/SearchResults';
 import { useSession } from 'next-auth/react';
 import Loading from '../../components/Loading';
+import AllArticles from '../../components/Articles Page/AllArticles';
 
 
 const Layout = dynamic(() => import('../../components/Layout'));
@@ -73,7 +74,7 @@ interface Session {
 
 const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; totalBlogCount: number }) => {
     const {data:session, status} = useSession() as Session;
-    const [user, setUser] = useState<any>({});
+    const [user, setUser] = useState<any>(null);
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
@@ -81,7 +82,9 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
     const [homeSearch, setHomeSearch] = useState<string>("");
     const [subscriber, setSubscriber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const targetRef = useRef();
+    const articlesRef = useRef();
+    console.log(articlesRef);
+    
     let loadedBlogCount = blogs.length; 
     const scrollContainerRef = useRef(null);
 
@@ -149,10 +152,10 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
         } finally {
             setLoading(false);
         }
-    }, [page, totalBlogCount, blogsPerPage]);
+    }, [page, totalBlogCount, blogsPerPage, loadedBlogCount]);
 
     useEffect(() => {
-        if(!targetRef?.current) return;
+        if(!articlesRef?.current) return;
         console.log(loadedBlogCount);
         
         if(loadedBlogCount >= totalBlogCount) return;
@@ -167,17 +170,17 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
             { threshold: 0.1 } // Adjust the threshold as needed
         );
 
-        if (targetRef.current) {
-            observer.observe(targetRef.current);
+        if (articlesRef.current) {
+            observer.observe(articlesRef.current);
                     console.log("It triggered");
         }
 
         return () => {
-            if (targetRef.current) {
-                observer.unobserve(targetRef.current);
+            if (articlesRef.current) {
+                observer.unobserve(articlesRef.current);
             }
         };
-    }, [page, loadMoreBlogs,totalBlogCount, loadedBlogCount]);
+    }, [page, loadMoreBlogs, totalBlogCount, loadedBlogCount]);
 
 
     if(status === "loading"){
@@ -189,7 +192,9 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
         const findUser = async() => {
             const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
             setUser(res.data.user);
+            
         }
+        
         findUser();            
         }
   
@@ -215,69 +220,10 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                         <SearchResults />
 
                     </div>
-                        <div>
-                            <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem"}}}>
-                                All Posts
-                            </Typography>
-                        </div>
-                        <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
-                            
-                            {blogs.map((b, i)=> {
-                                if(i === 0) {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='scrollable-item pl-3  flex flex-col gap-3 pb-6 pr-6 w-[full] ' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                        <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-
-                                        </div>
-                                        <div className=''>
-                                            <BlogPost blog={b} user={user} />
-                                        </div>
-                                        
-                                    </Box>
-                                    )
-                                } else if (i === blogs.length -1){
-                                    return (
-                                        <Box  ref={targetRef} key={`${i}: ${b._id}`} className='scrollable-item pl-6 pr-6 flex flex-col gap-3' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                        <div className='flex justify-center items-center py-3'>
-                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-
-                                        </div>
-                                        <div>
-                                            <BlogPost blog={b} user={user} />
-                                        </div>
-                                        
-                                        <div className=''  >
-                                            {loading && <div>Loading more blogs...</div>}
-                                        </div> 
-                                    </Box>
-                                    )
-                                } else {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='scrollable-item pl-3  flex flex-col gap-3'>
-                                            <div className='flex justify-center items-center py-3'>
-                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem', textShadow: "3px 1px "}}>
-                                                        {b.categories[0].name}
-                                                    </Typography>                                            
-                                                </Button>
-
-                                            </div>
-                                            <BlogPost blog={b} user={user} />
-                                        </Box>
-                                    )                                
-                                }
-
-                            })}
-                        </div>                
+                    <div className='w-[100%]'>
+                        <AllArticles blogs={blogs} totalBlogCount={totalBlogCount} user={user} />
+                    </div>
+                                
                 </div>
 
             </Layout>        
