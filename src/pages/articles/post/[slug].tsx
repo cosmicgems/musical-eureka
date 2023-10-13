@@ -199,7 +199,6 @@ const DynamicArticlePage = (props) => {
           <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
           <meta property="og:type" content="article" />
           <meta property="og:image:url" content={ogImageUrl} />
-          <meta property="og:image" content={ogImageUrl} />
           <meta property='og:title' content={`Pearl Box | ${title}`} />
           <meta property='og:description' content={excerpt} />
           <meta property="fb:app_id" content="1341431786447134" />
