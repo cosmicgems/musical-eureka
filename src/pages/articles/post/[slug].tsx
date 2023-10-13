@@ -220,242 +220,238 @@ const DynamicArticlePage = (props) => {
       }
       findUser();            
       }
-  } 
-  
+          return (
+              <>
+                  <Head>
+                    <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
+                    <meta property="og:type" content="article" />
+                    <meta property="og:image:url" content={ogImageUrl} />
+                    <meta property='og:title' content={`Pearl Box | ${title}`} />
+                    <meta property='og:description' content={excerpt} />
+                    <meta property="fb:app_id" content="1341431786447134" />
+                    <title>Pearl Box</title>
+                  </Head>
+                  <Box className='' sx={{bgcolor: grey[100]}}>
+                    <Layout  >
+                        <div className='flex flex-col gap-3 pt-12'>
+                          {/* <div className='w-full mt-6'>
+                            <Typography variant='h2' className='gradient-text w-full text-center' sx={{fontSize: {xs: "1.5rem", sm:"3rem"}}}>
+                              Pearl Box {categories[0].name}
+                            </Typography>
+                          </div> */}
 
-        return (
-            <>
-                <Head>
-                  <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
-                  <meta property="og:type" content="article" />
-                  <meta property="og:image:url" content={ogImageUrl} />
-                  <meta property='og:title' content={`Pearl Box | ${title}`} />
-                  <meta property='og:description' content={excerpt} />
-                  <meta property="fb:app_id" content="1341431786447134" />
-                  <title>Pearl Box</title>
-                </Head>
-                <Box className='' sx={{bgcolor: grey[100]}}>
-                  <Layout  >
-                      <div className='flex flex-col gap-3 pt-12'>
-                        {/* <div className='w-full mt-6'>
-                          <Typography variant='h2' className='gradient-text w-full text-center' sx={{fontSize: {xs: "1.5rem", sm:"3rem"}}}>
-                            Pearl Box {categories[0].name}
-                          </Typography>
-                        </div> */}
+                          <div className='flex flex-col sm:flex-row '>
 
-                        <div className='flex flex-col sm:flex-row '>
+                            <div className='sm:w-4/5 sm:pl-3 flex flex-col gap-6'>
+                              <CardMedia 
+                              component='img'
+                              image={photo}
+                              alt=''
+                              sx={{objectFit: 'cover'}}
+                              className='h-[33vh] sm:h-[25vh] '
+                              />
 
-                          <div className='sm:w-4/5 sm:pl-3 flex flex-col gap-6'>
-                            <CardMedia 
-                            component='img'
-                            image={photo}
-                            alt=''
-                            sx={{objectFit: 'cover'}}
-                            className='h-[33vh] sm:h-[25vh] '
-                            />
-
-                            <div className=''>
-                              <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text' variant="h1" component="div">
-                                  {title}
-                              </Typography>
-                            </div>
-                            <div className='flex gap-1 justify-center items-center'>
-
-                            <Avatar alt={`${postedBy?.first_name} ${postedBy?.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy?.photo} />
-                              <div className='flex flex-col'>
-                                <Typography variant='body1' sx={{}} className=''>
-                                  {postedBy?.first_name} {postedBy?.last_name}
+                              <div className=''>
+                                <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text' variant="h1" component="div">
+                                    {title}
                                 </Typography>
-                                <Typography variant='body1' sx={{}} className=''>
-                                  {moment(postedBy?.createdAt).fromNow()}
+                              </div>
+                              <div className='flex gap-1 justify-center items-center'>
+
+                              <Avatar alt={`${postedBy?.first_name} ${postedBy?.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy?.photo} />
+                                <div className='flex flex-col'>
+                                  <Typography variant='body1' sx={{}} className=''>
+                                    {postedBy?.first_name} {postedBy?.last_name}
+                                  </Typography>
+                                  <Typography variant='body1' sx={{}} className=''>
+                                    {moment(postedBy?.createdAt).fromNow()}
+                                  </Typography>
+                                </div>
+                              </div>
+
+                              <div className=''>
+                                <Grid container className='justify-center items-center gap-6' >
+                                  {categories.map((c, i)=>{
+                                    return (
+                                      <Grid item key={c._id}  >
+                                          <Button href={`/articles/categories/category/${categories[0].name}`}>
+                                              <Chip
+                                              sx={{bgcolor: grey[900], color: grey[50]}}
+                                              avatar={<Avatar alt={`Photo of ${c.name}, ${c.desrciption}`} src={c.photo_portrait} />}
+                                              label={c.name}
+                                              variant="outlined"
+                                              />  
+                                          </Button>
+                                      </Grid>
+                                    )
+                                  })}                  
+                                </Grid>
+
+                              </div>
+                              <div className=''>
+                                <Grid container className='justify-center items-center gap-6' >
+                                  {sub_categories.map((sc, i)=>{
+                                    return (
+                                      <Grid item key={sc._id}  >
+                                          <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
+                                              <Chip
+                                              avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
+                                              label={sc.name}
+                                              variant="outlined"
+                                              />  
+                                          </Button>
+                                      </Grid>
+                                    )
+                                  })}                  
+                                </Grid>
+
+                              </div>
+                              <div className='flex justify-center items-center'>
+                                
+            
+                                  <CardContent sx={{bgcolor: grey[100], borderRadius: "5px"}} className='p-1 flex justify-evenly items-center'>
+                                        
+                                        {
+                                            user ?
+                                            <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
+                                            <FavoriteIcon sx={{color: liked ? red[500] : grey[500]}} />
+                                            </IconButton>   
+                                            : user === null || user === undefined ?
+                                            null : null
+                                        }
+
+                                          <IconButton>
+                                              <FacebookShareButton url={url} >
+                                                  <FacebookIcon size={32} round />
+                                              </FacebookShareButton>
+                                          </IconButton>
+                                          
+                                          <IconButton aria-label="add to favorites">
+                                              <TwitterShareButton
+                                              url={url}
+                                              >
+                                                  <TwitterIcon size={32} round />
+                                              </TwitterShareButton>
+                                          </IconButton>
+                                          <IconButton aria-label="add to favorites">
+                                              <WhatsappShareButton
+                                              url={url}
+                                              >
+                                                  <WhatsappIcon size={32} round />
+                                              </WhatsappShareButton>
+                                          </IconButton>    
+                                  </CardContent>
+                              </div>
+
+                              <div className='px-3'>
+                                {parse(body)}
+                              </div>
+                              
+                              <div className=''>
+                                <Grid container className='justify-center items-center gap-6' >
+                                  {tags?.map((t, i)=>{
+                                    return (
+                                      <Grid item key={t._id}  >
+                                              <Chip
+                                              label={t}
+                                              variant="outlined"
+                                              />  
+                                      </Grid>
+                                    )
+                                  })}                  
+                                </Grid>
+
+                              </div>
+                              <div className='mb-6'>
+                                  <DisqusComments post={disqusData} />
+                              </div>
+                            </div>
+
+                            <div className='sm:w-1/5'>
+                              
+                              <div>
+                                <Typography variant='h3' className='gradient-text' sx={{}}>
+                                  Ad Space
                                 </Typography>
                               </div>
                             </div>
 
-                            <div className=''>
-                              <Grid container className='justify-center items-center gap-6' >
-                                {categories.map((c, i)=>{
-                                  return (
-                                    <Grid item key={c._id}  >
-                                        <Button href={`/articles/categories/category/${categories[0].name}`}>
-                                            <Chip
-                                            sx={{bgcolor: grey[900], color: grey[50]}}
-                                            avatar={<Avatar alt={`Photo of ${c.name}, ${c.desrciption}`} src={c.photo_portrait} />}
-                                            label={c.name}
-                                            variant="outlined"
-                                            />  
-                                        </Button>
-                                    </Grid>
-                                  )
-                                })}                  
-                              </Grid>
+                          </div>
 
-                            </div>
-                            <div className=''>
-                              <Grid container className='justify-center items-center gap-6' >
-                                {sub_categories.map((sc, i)=>{
-                                  return (
-                                    <Grid item key={sc._id}  >
-                                        <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
-                                            <Chip
-                                            avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
-                                            label={sc.name}
-                                            variant="outlined"
-                                            />  
-                                        </Button>
-                                    </Grid>
-                                  )
-                                })}                  
-                              </Grid>
+                          <div className='w-full'>
+                            <Typography variant='h3' className='gradient-text-subcategories w-full text-center' sx={{}}>
+                              Related Articles
+                            </Typography>
+                          </div>
 
-                            </div>
-                            <div className='flex justify-center items-center'>
-                              
-           
-                                <CardContent sx={{bgcolor: grey[100], borderRadius: "5px"}} className='p-1 flex justify-evenly items-center'>
-                                      
-                                      {
-                                          user ?
-                                          <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
-                                          <FavoriteIcon sx={{color: liked ? red[500] : grey[500]}} />
-                                          </IconButton>   
-                                          : user === null || user === undefined ?
-                                          null : null
-                                      }
-
-                                        <IconButton>
-                                            <FacebookShareButton url={url} >
-                                                <FacebookIcon size={32} round />
-                                            </FacebookShareButton>
-                                        </IconButton>
+                          <div  className='scrollable-container flex gap-6   pb-6 w-[100%] overflow-x-auto pr-6'>
                                         
-                                        <IconButton aria-label="add to favorites">
-                                            <TwitterShareButton
-                                            url={url}
-                                            >
-                                                <TwitterIcon size={32} round />
-                                            </TwitterShareButton>
-                                        </IconButton>
-                                        <IconButton aria-label="add to favorites">
-                                            <WhatsappShareButton
-                                            url={url}
-                                            >
-                                                <WhatsappIcon size={32} round />
-                                            </WhatsappShareButton>
-                                        </IconButton>    
-                                </CardContent>
-                            </div>
+                                        {related_posts.map((b, i)=> {
+                                            if(i >= 5) {
+                                                return
+                                            } else if (i === b.length - 1){
+                                                return (
+                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                                    <div   className='flex justify-center items-center'>
+                                                        <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                            <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                                {b.categories[0].name}
+                                                            </Typography>                                            
+                                                        </Button>
 
-                            <div className='px-3'>
-                              {parse(body)}
-                            </div>
-                            
-                            <div className=''>
-                              <Grid container className='justify-center items-center gap-6' >
-                                {tags?.map((t, i)=>{
-                                  return (
-                                    <Grid item key={t._id}  >
-                                            <Chip
-                                            label={t}
-                                            variant="outlined"
-                                            />  
-                                    </Grid>
-                                  )
-                                })}                  
-                              </Grid>
+                                                    </div>
+                                                    <RecentBlogCard blog={b} />
+                                                </Box>
+                                                )
+                                            } else if(i === 0){
+                                                return (
+                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
+                                                    <div className='flex justify-center items-center'>
+                                                        <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                            <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                                {b.categories[0].name}
+                                                            </Typography>                                            
+                                                        </Button>
 
-                            </div>
-                            <div className='mb-6'>
-                                <DisqusComments post={disqusData} />
-                            </div>
-                          </div>
+                                                    </div>
+                                                    <RecentBlogCard blog={b}  />
+                                                </Box>
+                                                )
+                                            } else {
+                                                return (
+                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw] scrollable-item'>
+                                                        <div className='flex justify-center items-center'>
+                                                            <Button href={`/categories/category/${b.categories[0].slug}`}>
+                                                                <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
+                                                                    {b.categories[0].name}
+                                                                </Typography>                                            
+                                                            </Button>
 
-                          <div className='sm:w-1/5'>
-                            
-                            <div>
-                              <Typography variant='h3' className='gradient-text' sx={{}}>
-                                Ad Space
-                              </Typography>
-                            </div>
-                          </div>
+                                                        </div>
+                                                        <RecentBlogCard blog={b}  />
+                                                    </Box>
+                                                )                                
+                                            }
+
+                                        })}
+                                    </div> 
+
+
+
 
                         </div>
+                    
+                    </Layout>              
+                  </Box>
 
-                        <div className='w-full'>
-                          <Typography variant='h3' className='gradient-text-subcategories w-full text-center' sx={{}}>
-                            Related Articles
-                          </Typography>
-                        </div>
-
-                        <div  className='scrollable-container flex gap-6   pb-6 w-[100%] overflow-x-auto pr-6'>
-                                      
-                                      {related_posts.map((b, i)=> {
-                                          if(i >= 5) {
-                                              return
-                                          } else if (i === b.length - 1){
-                                              return (
-                                                  <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                                                  <div   className='flex justify-center items-center'>
-                                                      <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                          <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                              {b.categories[0].name}
-                                                          </Typography>                                            
-                                                      </Button>
-
-                                                  </div>
-                                                  <RecentBlogCard blog={b} />
-                                              </Box>
-                                              )
-                                          } else if(i === 0){
-                                              return (
-                                                  <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
-                                                  <div className='flex justify-center items-center'>
-                                                      <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                          <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                              {b.categories[0].name}
-                                                          </Typography>                                            
-                                                      </Button>
-
-                                                  </div>
-                                                  <RecentBlogCard blog={b}  />
-                                              </Box>
-                                              )
-                                          } else {
-                                              return (
-                                                  <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw] scrollable-item'>
-                                                      <div className='flex justify-center items-center'>
-                                                          <Button href={`/categories/category/${b.categories[0].slug}`}>
-                                                              <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
-                                                                  {b.categories[0].name}
-                                                              </Typography>                                            
-                                                          </Button>
-
-                                                      </div>
-                                                      <RecentBlogCard blog={b}  />
-                                                  </Box>
-                                              )                                
-                                          }
-
-                                      })}
-                                  </div> 
+              </>
 
 
 
 
-                      </div>
-                  
-                  </Layout>              
-                </Box>
+          );
 
-            </>
-
-
-
-
-        );
-  
-    
-
+  } 
 
 };
 
