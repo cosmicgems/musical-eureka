@@ -5,15 +5,17 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue } from "@mui/material/colors";
 
 const SocialShare = ({data}) => {
+
+  const {text, url, title } = data;
     
 
   return (
     <div>
       <RWebShare
         data={{
-          text: data.excerpt,
-          url: data.url,
-          title: data.title,
+          text: text,
+          url: url,
+          title: title,
         }}
         onClick={() => console.log("shared successfully!")}
       >

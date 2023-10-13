@@ -122,10 +122,11 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
+    const pagePath = `https://pearlbox.co/articles/post/${slug}`;
     const data = {
         title,
-        url: `https://pearlbox.co/articles/post/${slug}`,
-        excerpt: excerpt ? excerpt : excerpt_two
+        url: pagePath,
+        text: excerpt ? excerpt : excerpt_two
     }
     const url = `https://pearlbox.co/articles/post/${slug}`
 
