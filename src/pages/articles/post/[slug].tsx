@@ -154,6 +154,7 @@ const DynamicArticlePage = (props) => {
   
   }, []);
 
+  const ogPhoto = photo;
 
   const fetchUser = useCallback(async () => {
     try {
@@ -192,7 +193,20 @@ const DynamicArticlePage = (props) => {
 }
 
   if(status === "loading"  ) {
-    return <Loading />
+    return (
+      <>
+        <Head>
+          <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
+          <meta property="og:type" content="article" />
+          <meta property="og:image:url" content={ogImageUrl} />
+          <meta property='og:title' content={`Pearl Box | ${title}`} />
+          <meta property='og:description' content={excerpt} />
+          <title>Pearl Box</title>
+        </Head>
+        <Loading />      
+      </>
+
+    )
   } 
   
   if (status === "authenticated") {
@@ -207,7 +221,6 @@ const DynamicArticlePage = (props) => {
       }
   } 
   
-  const ogPhoto = photo;
 
         return (
             <>
