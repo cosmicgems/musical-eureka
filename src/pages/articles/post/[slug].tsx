@@ -91,7 +91,7 @@ interface Session {
 const DynamicArticlePage = (props) => {
   const {data: session, status} = useSession() as Session;
   
-  const {post:{title, body, _id:id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
+  const {post:{title, body, _id:id, categories, excerpt, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
   console.log(photo);
   
   const disqusData = {
@@ -218,8 +218,9 @@ const DynamicArticlePage = (props) => {
                   <title>Pearl Box</title>
                   <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
                   <meta property="og:type" content="article" />
-                  <meta property="og:image" content={ogImageUrl} />
+                  <meta property="og:image" content={photo} />
                   <meta property='og:title' content={`Pearl Box | ${title}`} />
+                  <meta property='og:description' content={excerpt} />
                 </Head>
                 <Box className='' sx={{bgcolor: grey[100]}}>
                   <Layout  >
