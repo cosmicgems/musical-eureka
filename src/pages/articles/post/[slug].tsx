@@ -214,12 +214,12 @@ const DynamicArticlePage = (props) => {
         return (
             <>
                 <Head>
-                  <title>Pearl Box</title>
                   <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
                   <meta property="og:type" content="article" />
                   <meta property="og:image" content={`${ogPhoto}`} />
                   <meta property='og:title' content={`Pearl Box | ${title}`} />
                   <meta property='og:description' content={excerpt} />
+                  <title>Pearl Box</title>
                 </Head>
                 <Box className='' sx={{bgcolor: grey[100]}}>
                   <Layout  >
