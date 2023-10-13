@@ -92,6 +92,8 @@ const DynamicArticlePage = (props) => {
   const {data: session, status} = useSession() as Session;
   
   const {post:{title, body, _id:id, categories, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
+  console.log(photo);
+  
   const disqusData = {
     title,
     slug, 
@@ -246,13 +248,13 @@ const DynamicArticlePage = (props) => {
                             </div>
                             <div className='flex gap-1 justify-center items-center'>
 
-                            <Avatar alt={`${postedBy.first_name} ${postedBy.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy.photo} />
+                            <Avatar alt={`${postedBy?.first_name} ${postedBy?.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy?.photo} />
                               <div className='flex flex-col'>
                                 <Typography variant='body1' sx={{}} className=''>
-                                  {postedBy.first_name} {postedBy.last_name}
+                                  {postedBy?.first_name} {postedBy?.last_name}
                                 </Typography>
                                 <Typography variant='body1' sx={{}} className=''>
-                                  {moment(postedBy.createdAt).fromNow()}
+                                  {moment(postedBy?.createdAt).fromNow()}
                                 </Typography>
                               </div>
                             </div>
