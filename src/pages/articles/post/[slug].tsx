@@ -155,8 +155,6 @@ const DynamicArticlePage = (props) => {
   }, []);
 
 
-
-
   const fetchUser = useCallback(async () => {
     try {
       console.log(user?.favorite_posts);
@@ -214,9 +212,9 @@ const DynamicArticlePage = (props) => {
         return (
             <>
                 <Head>
-                  <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
+                  <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
                   <meta property="og:type" content="article" />
-                  <meta property="og:image" content={`${ogPhoto}`} />
+                  <meta property="og:image:url" content={`${ogPhoto}`} />
                   <meta property='og:title' content={`Pearl Box | ${title}`} />
                   <meta property='og:description' content={excerpt} />
                   <title>Pearl Box</title>
