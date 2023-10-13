@@ -232,7 +232,6 @@ const DynamicArticlePage = (props) => {
                   <meta property='og:title' content={`Pearl Box | ${title}`} />
                   <meta property='og:description' content={excerpt} />
                   <meta property="fb:app_id" content="1341431786447134" />
-                  <meta property="og:image" content={ogImageUrl} />
                   <title>Pearl Box</title>
                 </Head>
                 <Box className='' sx={{bgcolor: grey[100]}}>
