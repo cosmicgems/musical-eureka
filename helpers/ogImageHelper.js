@@ -5,7 +5,7 @@ const getOgImageUrl = async (title, description, image) => {
     const response = await fetch(apiUrl);
 
     if (response.ok) {
-      const data =  response; // Parse the response JSON
+      const data =  await response.json(); // Parse the response JSON
       return data.url; // Return the actual URL from the response data
     } else {
       console.error('Failed to fetch OG image:', response.statusText);
