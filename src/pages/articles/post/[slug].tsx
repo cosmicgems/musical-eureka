@@ -107,7 +107,7 @@ const DynamicArticlePage = (props) => {
     setExpanded(!expanded);
   };
 
-  const appId = process.env.FB_APP_ID;
+  const appId = "1341431786447134";
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
@@ -231,6 +231,7 @@ const DynamicArticlePage = (props) => {
                   <meta property="og:image:url" content={`${ogPhoto}`} />
                   <meta property='og:title' content={`Pearl Box | ${title}`} />
                   <meta property='og:description' content={excerpt} />
+                  <meta property="fb:app_id" content={appId} />
                   <title>Pearl Box</title>
                 </Head>
                 <Box className='' sx={{bgcolor: grey[100]}}>
