@@ -92,7 +92,6 @@ const DynamicArticlePage = (props) => {
   const {data: session, status} = useSession() as Session;
   
   const {post:{title, body, _id:id, categories, excerpt, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
-  console.log(photo);
   
   const disqusData = {
     title,
@@ -101,13 +100,13 @@ const DynamicArticlePage = (props) => {
   }
   const [user, setUser] = useState<any>(null);
   const [liked, setLiked] = useState<boolean>(null);
-  console.log(ogImageUrl)
   const [expanded, setExpanded] = useState<boolean>(false)
   const url = `https://pearlbox.co/articles/post/${slug}`
   
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   
   const scrollContainerRef = useRef(null);
 
@@ -210,7 +209,7 @@ const DynamicArticlePage = (props) => {
       }
   } 
   
-  
+  const ogPhoto = photo;
 
         return (
             <>
@@ -218,7 +217,7 @@ const DynamicArticlePage = (props) => {
                   <title>Pearl Box</title>
                   <meta property="og:url" content={`https://pearlbox.co/articles/post/${slug}`} />
                   <meta property="og:type" content="article" />
-                  <meta property="og:image" content={photo} />
+                  <meta property="og:image" content={`${ogPhoto}`} />
                   <meta property='og:title' content={`Pearl Box | ${title}`} />
                   <meta property='og:description' content={excerpt} />
                 </Head>
