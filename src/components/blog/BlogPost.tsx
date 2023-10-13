@@ -124,7 +124,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const excerpt_two = body.substring(11, 150);
     const data = {
         title,
-        url: `/articles/post/${slug}`,
+        url: `https://pearlbox.co/articles/post/${slug}`,
         excerpt: excerpt ? excerpt : excerpt_two
     }
     const url = `https://pearlbox.co/articles/post/${slug}`
