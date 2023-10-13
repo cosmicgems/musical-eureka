@@ -229,6 +229,11 @@ const DynamicArticlePage = (props) => {
                     <meta property='og:title' content={`Pearl Box | ${title}`} />
                     <meta property='og:description' content={excerpt} />
                     <meta property="fb:app_id" content="1341431786447134" />
+                    <meta name="twitter:card" content="summary_large_image"/>
+                    <meta name="twitter:site" content="@maliek_codes"/>
+                    <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
+                    <meta name="twitter:description" content={excerpt}/>
+                    <meta name="twitter:image" content={ogImageUrl}/>
                     <title>Pearl Box</title>
                   </Head>
                   <Box className='' sx={{bgcolor: grey[100]}}>
@@ -242,7 +247,7 @@ const DynamicArticlePage = (props) => {
 
                           <div className='flex flex-col sm:flex-row '>
 
-                            <div className='sm:w-4/5 sm:pl-3 flex flex-col gap-6'>
+                            <div className='sm:w-2/3 sm:pl-3 flex flex-col gap-6'>
                               <CardMedia 
                               component='img'
                               image={photo}
@@ -367,12 +372,16 @@ const DynamicArticlePage = (props) => {
                               </div>
                             </div>
 
-                            <div className='sm:w-1/5'>
+                            <div className='sm:w-1/3 flex flex-col items-center'>
                               
                               <div>
                                 <Typography variant='h3' className='gradient-text' sx={{}}>
                                   Ad Space
                                 </Typography>
+                              </div>
+
+                              <div>
+
                               </div>
                             </div>
 
