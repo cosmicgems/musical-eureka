@@ -43,6 +43,8 @@ import { getSession, useSession } from 'next-auth/react';
 import User from '../../../lib/models/user';
 import connectDB from '../../../lib/connectDB';
 import mongoose from 'mongoose';
+import SocialShare from '../SocialShare';
+
     
 
 interface Author {
@@ -120,6 +122,11 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
+    const data = {
+        title,
+        url: `/articles/post/${slug}`,
+        excerpt: excerpt ? excerpt : excerpt_two
+    }
     const url = `https://pearlbox.co/articles/post/${slug}`
 
     const [expanded, setExpanded] = useState<boolean>(false);
@@ -284,13 +291,13 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 aria-label="show more"
                 >
                 <IconButton aria-label="share">
-                <ShareIcon sx={{color: blue[500]}} />
+                <SocialShare data={data} />
                 </IconButton>
                 </ExpandMore>                
             </CardActions>
 
 
-            <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
+            {/* <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
            
                 <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
                         <IconButton>
@@ -315,7 +322,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
                         </IconButton>    
                 </CardContent>
 
-            </Collapse>
+            </Collapse> */}
         </Box>
     )
 }
