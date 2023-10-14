@@ -91,7 +91,9 @@ const Subscribe = () => {
         e.preventDefault();
         router.push("/auth/login");
     };
-
+    const handleSignOut = async (e) => {
+        await signOut()
+    }
     const handleSignup = (e) => {
         e.preventDefault();
         router.push("/auth/signup");
@@ -142,7 +144,7 @@ const Subscribe = () => {
                                 <div className=' sm:flex gap-3 justify-end hidden sm:block '>
                                     <UserCard  />
                                     <div>
-                                        <Button onClick={()=>signOut()} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
+                                        <Button onClick={(e)=> handleSignOut(e)} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
                                             Signout
                                         </Button>                                        
                                     </div>
