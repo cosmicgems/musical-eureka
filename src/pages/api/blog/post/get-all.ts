@@ -7,7 +7,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     console.log("Connecting to database.");
-    connectDB();
+    await connectDB();
     console.log("Connected to database.");
 
     if(req.method === "GET"){
