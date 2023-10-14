@@ -221,10 +221,6 @@ const Test = () => {
         setVerified(true)
     }
 
-
-    if(user.role !== 24 || user.role !== 12) {
-        router.push(`/admin/dashboard/${session.user.username}`)
-    }
     
     if(user.role === 24 || user.role == 12 ){
         return (
@@ -389,6 +385,10 @@ const Test = () => {
             </>
         )
     }
+    // if(user.role !== 24 || user.role !== 12) {
+    //     router.push(`/admin/dashboard/${session.user.username}`)
+    // }
+
 
 
 

@@ -42,7 +42,6 @@ const Dashboard = (props) => {
     const [verified, setVerified] = useState<boolean>(null);
     const router = useRouter();
     const {data: user, posts} = props;
-    console.log(user);
     
     const {data:session, status} = useSession() as Session;
 
