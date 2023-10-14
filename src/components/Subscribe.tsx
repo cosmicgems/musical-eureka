@@ -9,6 +9,29 @@ import { getSession, signOut } from 'next-auth/react'
 import UserCard from './User/UserCard'
 
 
+interface Session {
+    data:{
+        user:{
+            about: string;
+            confirmed_account: boolean;
+            createdAt: Date;
+            email: string;
+            first_name: string;
+            last_name: string;
+            password: string;
+            photo: string;
+            role: number;
+            updatedAt: Date;
+            username: string;
+            verification_token: string;
+            verification_token_expiration: string;
+            _id: string;
+            
+        }      
+    },
+    status: string;
+
+}
 
 const Subscribe = () => {
 
@@ -99,6 +122,9 @@ const Subscribe = () => {
         router.push("/auth/signup");
     }
     useEffect(() => {
+        if(loggedIn){return}
+
+        if(!loggedIn){
         const fetchSession = async () => {
           const session = await getSession();
           if (session) {
@@ -108,7 +134,9 @@ const Subscribe = () => {
           } 
         };
     
-        fetchSession();
+        fetchSession();            
+        }
+
       }, []);
 
     return (
