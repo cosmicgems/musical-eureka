@@ -73,7 +73,7 @@ interface Session {
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, data}: { initialBlogs: Blog[]; totalBlogCount: number, featuredPosts: Blog[], videos: any, }) => {
+const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { initialBlogs: Blog[]; totalBlogCount: number, featuredPosts: Blog[], videos: any, }) => {
     
     
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);

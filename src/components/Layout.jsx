@@ -28,7 +28,6 @@ const Layout = ({ children}) => {
   }
 
   if(status === "authenticated"){
-    console.log(session.user);
     if(user === null){
       setUser(session.user)
     }
