@@ -87,7 +87,6 @@ const LoginPage = () => {
 
 
     const handleSubmit:FormEventHandler<HTMLFormElement> = async(e:any) => {
-        e.preventDefault();
         
         await signIn('credentials', {
             emailLogin, passwordLogin
