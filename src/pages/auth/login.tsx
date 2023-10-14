@@ -80,17 +80,28 @@ const LoginPage = () => {
         password: false,
         confirmPassword: false,
     })
+    const [user, setUser] = useState<any>(null);
 
 
 
     const router = useRouter();
 
+    useEffect(() => {
+        if(status === "authenticated"){
+            router.push("/")
+        }
+    })
 
     const handleSubmit:FormEventHandler<HTMLFormElement> = async(e:any) => {
-        
-        await signIn('credentials', {
-            emailLogin, passwordLogin
-        });
+        e.preventDefault()
+        try {
+            await signIn('credentials', {
+                emailLogin, passwordLogin
+            });   
+        } catch (error) {
+            console.error(error)
+        }
+
     }
 
     const button = "Login";
@@ -100,10 +111,6 @@ const LoginPage = () => {
         return <Loading />
     }
 
-
-    if(status === "authenticated"){
-        router.push("/")
-    }
     
     if(status === "unauthenticated") {
         return (
