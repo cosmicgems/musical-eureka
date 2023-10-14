@@ -127,7 +127,7 @@ const ModifyPage = () => {
 
         <Layout>
 
-          <div className='flex lg:flex-row flex-col justify-center  gap-3 mt-20'>
+          <div className='flex lg:flex-row flex-col justify-center  gap-3 mt-20 sm:mt-0'>
 
 
               <div className='flex flex-col gap-3  p-3 sm:w-3/5'>
@@ -140,15 +140,15 @@ const ModifyPage = () => {
 
                 {posts.map((p:any, i:number)=>{
                   return (
-                <Box key={p._id} sx={{bgcolor: i % 2 === 0 ? grey[900] : grey[700], borderRadius: '10px'}} className='flex flex-row gap-3 justify-between p-3'>
+                <Box key={`${p._id} page`} sx={{bgcolor: i % 2 === 0 ? grey[900] : grey[700], borderRadius: '10px'}} className='flex flex-row gap-3 justify-between p-3'>
 
-                  <div>
-                    <Typography variant='h3' className='gradient-text-two' sx={{}}>
+                  <div className='w-3/5'>
+                    <Typography variant='h3' className='gradient-text-two truncate-title-modify ' sx={{}}>
                       {p.title}
                     </Typography>                  
                   </div>
 
-                  <div className='flex items-center'>
+                  <div className='flex items-center '>
                     <div className='flex flex-row gap-6 justify-center items-center'>
                       <Button onClick={(e)=>handleUpdate(e, p.slug)} variant='contained' size='large' sx={{color:grey[900] }} className='gradient-button-yellow'>
                         Update
@@ -164,28 +164,16 @@ const ModifyPage = () => {
                 </Box>
                   )
                 })}
-              <div className='mb-6'>
+              <div className='mb-6 text-center'>
                 {loading ? (
                   <p>Loading...</p>
                 ) : (
-                  <Button variant='outlined' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
+                  <Button variant='outlined' className='' sx={{borderColor: green[500], borderWidth: '3px'}} onClick={handleLoadMore}>Load More</Button>
                 )}
               </div>
               </div>
 
-              <div className='flex flex-col gap-3 p-3 md:w-2/5'>
 
-                <div className='w-full text-center p-3'>
-                  <Typography variant='h3' sx={{color: green[500]}} className='gradient-text-subcategories'>
-                    Categories
-                  </Typography>                
-                </div>
-
-                <div>
-                  <CategoryModify/>
-                </div>
-
-              </div>  
                       <Modal
                       sx={{}}
                       open={open}

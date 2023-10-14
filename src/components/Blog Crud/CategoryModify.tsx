@@ -92,7 +92,6 @@ const CategoryModify = () => {
     const initCategories = async () => {
         try {
         const response = await axios.get('/api/blog/category/get-all');
-        console.log(response);
         
         setCategories(response.data.categories);
 
