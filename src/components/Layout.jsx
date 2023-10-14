@@ -45,7 +45,7 @@ const Layout = ({ children}) => {
               <NavBar user={user} />
             </header>
           </div>
-          <Subscribe />
+          <Subscribe user={user} />
           <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
           {children}
           </main>

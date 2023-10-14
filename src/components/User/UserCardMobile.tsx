@@ -52,7 +52,7 @@ const UserCardMobile = () => {
     <Box className="flex h-[150px]" sx={{bgcolor: grey[50], borderRadius: '5px'}}>
         <div
                     className='w-2/5 flex flex-col '>
-                {session.user?.photo ? 
+                {session?.user?.photo ? 
                     <CardMedia 
                     component="img"
                     image={session.user.photo}
@@ -61,7 +61,7 @@ const UserCardMobile = () => {
                     sx={{borderTopLeftRadius:'5px', borderBottomLeftRadius: "5px", objectFit:"cover"}}
                     />                
                     :
-                    <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[150px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{session.user?.first_name}</Typography> </Avatar>
+                    <Avatar variant='square' sx={{borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px"}} className='h-[150px] w-2/6'> <Typography  className='gradient-text-subcategories' variant='h2'>{session?.user?.first_name}</Typography> </Avatar>
                 }
         </div>
         <div className='w-3/5 h-full'>

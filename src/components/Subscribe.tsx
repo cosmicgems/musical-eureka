@@ -33,7 +33,9 @@ interface Session {
 
 }
 
-const Subscribe = () => {
+const Subscribe = ({user}) => {
+    console.log(user);
+    
 
     const router = useRouter();
 
@@ -54,7 +56,6 @@ const Subscribe = () => {
     
     const [blank, setBlank] = useState<boolean>(true)
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
-    const [user, setUser] = useState({});
 
     useEffect(()=>{
         if(blank){
@@ -126,18 +127,18 @@ const Subscribe = () => {
 
         if(!loggedIn){
         const fetchSession = async () => {
-          const session = await getSession();
-          if (session) {
+            if (user === undefined || user === null) {
             // User is logged in
-            setLoggedIn(true);
-            setUser(session.user); // Store user data if needed
-          } 
+                setLoggedIn(false);
+            } else {
+                setLoggedIn(true);
+            }
         };
     
         fetchSession();            
         }
 
-      }, []);
+      }, [user, setLoggedIn, loggedIn]);
 
     return (
         <>
@@ -170,7 +171,7 @@ const Subscribe = () => {
                         <div   className='sm:w-1/5 hidden sm:block'>
                             { loggedIn ? 
                                 <div className=' sm:flex gap-3 justify-end hidden sm:block '>
-                                    <UserCard  />
+                                    <UserCard user={user}  />
                                     <div>
                                         <Button onClick={(e)=> handleSignOut(e)} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
                                             Signout
