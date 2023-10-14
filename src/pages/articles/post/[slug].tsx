@@ -203,10 +203,9 @@ const DynamicArticlePage = (props) => {
                     <meta property='og:description' content={excerpt} />
                     <meta property="fb:app_id" content="1341431786447134" />
                     <meta name="twitter:card" content="summary_large_image"/>
-                    <meta name="twitter:site" content="@maliek_codes"/>
                     <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
                     <meta name="twitter:description" content={excerpt}/>
-                    <meta name="twitter:image" content={ogImageUrl}/>
+                    <meta name="twitter:image" content={photo}/>
                     <title>Pearl Box</title>
         </Head>
         <Loading />      
@@ -235,7 +234,6 @@ const DynamicArticlePage = (props) => {
                     <meta property='og:description' content={excerpt} />
                     <meta property="fb:app_id" content="1341431786447134" />
                     <meta name="twitter:card" content="summary_large_image"/>
-                    <meta name="twitter:site" content="@maliek_codes"/>
                     <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
                     <meta name="twitter:description" content={excerpt}/>
                     <meta name="twitter:image" content={ogImageUrl}/>
