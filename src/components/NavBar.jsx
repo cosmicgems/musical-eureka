@@ -36,10 +36,9 @@ const drawerWidth = 300;
 function NavBar(props) {
     const router = useRouter();
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const { window } = props;
+    const { window, user } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [loggedIn, setLoggedIn] = React.useState(false);
-    const [user, setUser] = React.useState({});
     
 
   const handleDrawerToggle = () => {
@@ -73,7 +72,7 @@ function NavBar(props) {
             loggedIn && 
             <div className='px-6 '>
             <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.5rem'}}>
-              Hello {user.first_name},
+              Hello {user?.first_name},
             </Typography>
               <UserCardMobile />
                 <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
@@ -111,22 +110,9 @@ function NavBar(props) {
 
 
   React.useEffect(()=>{
-    const checkSession = async () => {
-    const session = await getSession();
-    if(session){
-    setUser(session.user)
-    // console.log(session);      
+    if(user !== null || user !== undefined){
+      setLoggedIn(true);
     }
-
-
-    if(loggedIn) return
-    if (session) {
-        setLoggedIn(true);
-    }
-    };
-    
-
-    checkSession();
 })
 
   const container = window !== undefined ? () => window().document.body : undefined;

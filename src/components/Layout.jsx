@@ -9,8 +9,30 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Subscribe from './Subscribe';
 import NextAuthProvider from "../../lib/NextAuthProvider"
+import Loading from './Loading';
+import { Typography } from '@mui/material';
+
 
 const Layout = ({ children}) => {
+  const {data: session, status} = useSession();
+  const [user, setUser] = useState(null);
+
+  if(status === "loading"){
+    return (
+      <div className='min-h-screen flex flex-col justify-center items-center'>
+          <Typography variant='h2' className='gradient-text w-full'>
+            Loading...
+          </Typography>
+        </div>
+    )
+  }
+
+  if(status === "authenticated"){
+    console.log(session.user);
+    if(user === null){
+      setUser(session.user)
+    }
+  }
 
   return (
     <>
@@ -20,7 +42,7 @@ const Layout = ({ children}) => {
       {/* <NextAuthProvider> */}
           <div className='header-div' style={{ paddingInline: 0 }}>
             <header style={{ paddingInline: 0 }}>
-              <NavBar />
+              <NavBar user={user} />
             </header>
           </div>
           <Subscribe />
