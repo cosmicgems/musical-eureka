@@ -2,7 +2,6 @@ import { Avatar, Box, Button, ButtonBase, CardMedia, Checkbox, FormControlLabel,
 import { amber, green, grey, red } from '@mui/material/colors';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import subcategory from '../../../sanity/schemas/subcategory';
 import { styled } from '@mui/material/styles';
 
 
