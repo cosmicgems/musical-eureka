@@ -206,7 +206,7 @@ const DynamicArticlePage = (props) => {
                     <meta name="twitter:card" content="summary_large_image"/>
                     <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
                     <meta name="twitter:description" content={excerpt}/>
-                    <meta name="twitter:image" content={photo}/>
+                    <meta name="twitter:image" content={ogImageUrl}/>
                     <title>Pearl Box</title>
         </Head>
         <Loading />      
@@ -238,7 +238,7 @@ const DynamicArticlePage = (props) => {
                     <meta name="twitter:card" content="summary_large_image"/>
                     <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
                     <meta name="twitter:description" content={excerpt}/>
-                    <meta name="twitter:image" content={photo}/>
+                    <meta name="twitter:image" content={ogImageUrl}/>
                     <title>Pearl Box</title>
                   </Head>
                   <Box className='' sx={{bgcolor: grey[100]}}>
