@@ -36,9 +36,14 @@ export default function App({ session, Component,
                         <Auth>
                             <Component {...pageProps} />    
                         </Auth>
-                    ) : (
+                    ) : Component.superAuth ? (
+                      <SuperAuth>
                         <Component {...pageProps} />
-                    )}
+                      </SuperAuth>
+                      
+                    ): Component.userAuth ? 
+                      (<Component {...pageProps} />) :
+                      (<Component {...pageProps} />)}
                     
                 </StateContext>            
             </SessionProvider>
@@ -50,7 +55,7 @@ export default function App({ session, Component,
 
 }
 
-function Auth({ children }) {
+function UserAuth({ children }) {
   const router = useRouter();
   const { status } = useSession({ required: true })
 
@@ -70,4 +75,60 @@ function Auth({ children }) {
   )}
 
   return children
+}
+
+function Auth({ children }) {
+  const router = useRouter();
+  const { data:session, status } = useSession({ required: true })
+
+  if(status === "loading"){
+  return (
+    <Box sx={{bgcolor: grey[500]}}>
+      <Layout>
+
+        <div className='min-h-[85vh] flex flex-col justify-center items-center'>
+          <Typography variant='h2' className='gradient-text w-full'>
+            Loading...
+          </Typography>
+        </div>
+
+      </Layout>
+    </Box>
+  )}
+  
+  if(session.user.role === 12 || session.user.role === 24){
+    return children
+  }
+  
+}
+
+function SuperAuth({ children }) {
+  const router = useRouter();
+  const { data:session, status } = useSession({ required: true });
+
+  if(status === "loading"){
+  return (
+    <Box sx={{bgcolor: grey[500]}}>
+      <Layout>
+
+        <div className='min-h-[85vh] flex flex-col justify-center items-center'>
+          <Typography variant='h2' className='gradient-text w-full'>
+            Loading...
+          </Typography>
+        </div>
+
+      </Layout>
+    </Box>
+  )}
+
+  if(session.user.role !== 24){
+    router.push("/")
+  }
+
+  if(session.user.role === 24){
+    return children
+  }
+
+
+  
 }

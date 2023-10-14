@@ -57,11 +57,11 @@ const CreatePage = () => {
     if(verified === null) {
         const authenticated = sessionCheck();
         if(!authenticated){
-            router.push("auth/login")
+            router.push("/admin/unauthorized")
         }
     }
 
-    if(verified && session.user.role === 24) {
+    if(verified ) {
     return (
         <>
             <Box className='min-h-screen ' sx={{bgcolor: grey[100]}}>
@@ -101,11 +101,9 @@ const CreatePage = () => {
 
     )}
 
-    if(verified && session.user.role !== 24){
-        router.push(`/admin/dashboard/${session.user.username}`)
-    }
+
 }
 
 export default CreatePage
 
-CreatePage.auth = true;
+CreatePage.superAuth = true;

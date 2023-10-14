@@ -77,7 +77,7 @@ const IdentifiersModifyPage = () => {
       }
   }
 
-  if (verified && session.user.role === 24) {
+  if (verified) {
     return (
       <Box sx={{bgcolor: grey[100]}} className="">
         
@@ -117,13 +117,10 @@ const IdentifiersModifyPage = () => {
     )    
   }
 
-  if(verified && session.user.role !== 24) {
-    router.push(`/admin/dashboard/${session.user.username}`)
-  }
 
 
 }
 
 export default IdentifiersModifyPage
 
-IdentifiersModifyPage.auth = true;
+IdentifiersModifyPage.superAuth = true;

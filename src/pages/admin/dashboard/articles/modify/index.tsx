@@ -116,11 +116,11 @@ const ModifyPage = () => {
   if(verified === null) {
       const authenticated = sessionCheck();
       if(!authenticated){
-          router.push("auth/login")
+          router.push("/admin/unauthorized")
       }
   }
 
-  if (verified && session.user.role === 24) {
+  if (verified) {
     return (
       <Box sx={{bgcolor: grey[100]}} className="min-h-screen">
 
@@ -239,4 +239,4 @@ const ModifyPage = () => {
 
 export default ModifyPage
 
-ModifyPage.auth = true;
+ModifyPage.superAuth = true;

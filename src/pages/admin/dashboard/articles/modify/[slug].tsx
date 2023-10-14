@@ -321,11 +321,11 @@ const ModifyPost = () => {
     if(verified === null) {
         const authenticated = sessionCheck();
         if(!authenticated){
-            router.push("auth/login")
+            router.push("/admin/unauthorized")
         }
     }
 
-    if(verified && session.user.role === 24){
+    if(verified){
         return (
             <Box sx={{bgcolor: grey[200]}} className='flex flex-col min-h-screen p-6'>
             { sending ?
@@ -482,13 +482,9 @@ const ModifyPost = () => {
         )
     }
 
-    if(verified && session.user.role !== 24) {
-        router.push(`/admin/dashboard/${session.user.username}`)
-    }    
-
 
 }
 
 export default ModifyPost
 
-ModifyPost.auth = true;
+ModifyPost.superAuth = true;

@@ -121,11 +121,11 @@ const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}:
   if(verified === null) {
       const authenticated = sessionCheck();
       if(!authenticated){
-          router.push("auth/login")
+          router.push(`/admin/dashboard/$${session.user.username}`)
       }
   }
 
-  if(verified && session.user.role === 24){
+  if(verified){
     return (
       
       <Box sx={{bgcolor: grey[100]}} className="">
@@ -160,9 +160,7 @@ const FeaturedPostManagerPage = ({ initialBlogs, totalBlogCount, featuredBlogs}:
     )    
   }
 
-  if(verified && session.user.role !== 24) {
-    router.push(`/admin/dashboard/${session.user.username}`)
-  }
+
 
 }
 

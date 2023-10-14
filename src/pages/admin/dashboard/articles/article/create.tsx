@@ -211,31 +211,22 @@ const Test = () => {
         setCleared(true);
     }
 
-    const sessionCheck = async() => {
-        if(session.user._id ) {
-            setVerified(true);
-            return true
-        } else if (!session.user._id){
-            setVerified(false)
-            return false
-        }
-    }
 
     if(status === "loading" ) {
         return <Loading />
     }
     
     if(verified === null) {
-        const authenticated = sessionCheck();
-        setUser(session.user)
-        if(!authenticated){
-            router.push("auth/login")
-        }
+        setUser(session.user);
+        setVerified(true)
     }
 
 
+    if(user.role !== 24 || user.role !== 12) {
+        router.push(`/admin/dashboard/${session.user.username}`)
+    }
     
-    if(verified && session.user.role === 24){
+    if(user.role === 24 || user.role == 12 ){
         return (
             <>
 
@@ -399,9 +390,6 @@ const Test = () => {
         )
     }
 
-    if(verified && session.role !== 24) {
-        router.push(`/admin/dashboard/${session.user.username}`)
-    }
 
 
 }

@@ -46,10 +46,10 @@ const AdminCard = ({user}) => {
                     </Typography>
                 </div>
                 
-                <ButtonGroup fullWidth variant="text" aria-label="text button group">
+                {/* <ButtonGroup fullWidth variant="text" aria-label="text button group">
                     <Button href={`/admin/dashboard/${user.username}`}>Dashboard</Button>
                     <Button href={`/admin/settings/${user.username}`}>Settings</Button>
-                </ButtonGroup>
+                </ButtonGroup> */}
 
             </div>
 
