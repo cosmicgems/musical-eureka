@@ -118,7 +118,6 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const {data:session, status} = useSession() as Session;
-    // console.log(user?.favorite_posts)
 
     const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const excerpt_two = body.substring(11, 150);
@@ -141,29 +140,25 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
     const handleNavigate = async(e:any) => {
         e.preventDefault();
-        const pageVisit = await axios.put(`/api/blog/post/update/page-visits?id=${id}`);
+        await axios.put(`/api/blog/post/update/page-visits?id=${id}`);
         router.push(`/articles/post/${slug}`)
-        console.log(pageVisit.data.blog);
     };
 
 
     const fetchUser = useCallback(async () => {
         try {
-          console.log(user?.favorite_posts);
     
-          const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
-          console.log(userLiked);
-    
-          if (userLiked) {
-            setLiked(true);
-          } else {
-            setLiked(false);
-          }
-          console.log(liked);
-        } catch (error) {
-          console.error("Error fetching user:", error);
-        }
-      }, [user, id, liked]);
+            const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
+        
+            if (userLiked) {
+                setLiked(true);
+            } else {
+                setLiked(false);
+            }
+            } catch (error) {
+            console.error("Error fetching user:", error);
+            }
+        }, [user, id, ]);
 
     const handleFavorite = async(e:any) => {
         e.preventDefault();
@@ -179,7 +174,6 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
             if(user !== null )
             fetchUser();
         }        
-        console.log(liked, user);
         
     }, [liked, fetchUser, user])
     
@@ -197,7 +191,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
             <div className='flex flex-col px-3 w-[100%] gap-3 py-3'>
                 <Button onClick={(e)=> {handleNavigate(e)}} >
-                    <Typography variant='h3' className='gradient-text-category w-full text-center' sx={{fontSize: "1.5rem"}}>
+                    <Typography variant='h3' className='gradient-text-category w-full text-center truncate-title' sx={{fontSize: "1.25rem", width: "100%"}}>
                         {title}
                     </Typography>                    
                 </Button>
@@ -291,9 +285,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
-                <IconButton aria-label="share">
                 <SocialShare data={data} />
-                </IconButton>
                 </ExpandMore>                
             </CardActions>
 

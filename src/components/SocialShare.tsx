@@ -19,9 +19,7 @@ const SocialShare = ({data}) => {
         }}
         onClick={() => console.log("shared successfully!")}
       >
-        <IconButton>
           <ShareIcon sx={{color: blue[200]}} />
-        </IconButton>
       </RWebShare>
     </div>
   );

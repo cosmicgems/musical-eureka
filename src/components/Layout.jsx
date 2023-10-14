@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, cloneElement } from 'react';
 import Head from 'next/head';
 import NavBar from './NavBar';
 import Footer from './Footer';
@@ -34,13 +34,15 @@ const Layout = ({ children}) => {
     }
   }
 
+
+
   return (
     <>
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
 
       
       {/* <NextAuthProvider> */}
-          <div className='header-div' style={{ paddingInline: 0 }}>
+          <div className='header-div mb-20 sm:mb-0' style={{ paddingInline: 0 }}>
             <header style={{ paddingInline: 0 }}>
               <NavBar user={user} />
             </header>

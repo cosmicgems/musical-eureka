@@ -154,7 +154,6 @@ const AllArticles = ({blogs:initialBlogs, totalBlogCount, user}) => {
 
         if (articlesRef.current) {
             observer.observe(articlesRef.current);
-                    console.log("It triggered");
         }
 
         return () => {

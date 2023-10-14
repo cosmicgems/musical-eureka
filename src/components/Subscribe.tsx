@@ -34,7 +34,7 @@ interface Session {
 }
 
 const Subscribe = ({user}) => {
-    console.log(user);
+
     
 
     const router = useRouter();
@@ -144,8 +144,8 @@ const Subscribe = ({user}) => {
         <>
             {
                 !values.sent && !values.sending  ?
-                    <div className='flex  sm:mt-20 w-full gap-12 justify-space items-center px-3'>
-                        <div className='flex flex-col w-full sm:w-3/4 p-0 justify-center items-center'>
+                    <div className='flex  sm:mt-20 w-full gap-12 justify-space items-center px-3  sm:mb-6'>
+                        <div className='flex flex-col w-full sm:w-3/4 p-0 justify-center items-center '>
                             {
                                 !loggedIn ?
                                     <div className='flex sm:w-1/2 justify-center'>
@@ -194,7 +194,7 @@ const Subscribe = ({user}) => {
                     </div>
                 : values.sent ?
 
-                <div className='flex mt-12 sm:mt-20 w-full gap-12 justify-space items-center px-3'>
+                <div className='flex  sm:mt-20 w-full gap-12 justify-space items-center px-3 sm:mb-6'>
                     
                     <div className='flex flex-col w-full sm:w-3/4 p-0'>
                         {

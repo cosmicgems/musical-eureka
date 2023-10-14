@@ -18,7 +18,6 @@ import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useStateContext } from '../../Context/StateContext';
 import { AiOutlineShopping } from 'react-icons/ai'
-import Cart from './Cart'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
 import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red, grey } from '@mui/material/colors';
@@ -110,7 +109,9 @@ function NavBar(props) {
 
 
   React.useEffect(()=>{
-    if(user !== null || user !== undefined){
+    if(user === null || user === undefined){
+      setLoggedIn(false);
+    } else {
       setLoggedIn(true);
     }
 })

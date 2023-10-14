@@ -83,7 +83,6 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
     const [subscriber, setSubscriber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const articlesRef = useRef();
-    console.log(articlesRef);
     
     let loadedBlogCount = blogs.length; 
     const scrollContainerRef = useRef(null);

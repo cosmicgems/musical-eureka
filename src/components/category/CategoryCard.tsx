@@ -20,7 +20,6 @@ interface CategoryProps {
 const CategoryCard: React.FC<CategoryProps> = ( {category} ) => {
 
     const { _id:id, name: c_name, sub_categories, photo_landscape: p_wide, photo_portrait: p_tall, description, slug: name } = category;
-console.log(sub_categories);
 
     return (
         <Box className="flex flex-col w-content w-[355px] sm:w-[375px]" sx={{bgcolor:grey[900], borderRadius: '5px'}}>

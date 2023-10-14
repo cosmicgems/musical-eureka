@@ -13,7 +13,6 @@ const SearchResults = () => {
         videos: [],
         blogs: [],
     });
-    console.log(search.blogs);
     const titleResults = search.blogs.results;
     const bodyResults = search.blogs.results_body;
 

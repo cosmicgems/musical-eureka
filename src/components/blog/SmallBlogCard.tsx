@@ -130,7 +130,6 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
         e.preventDefault();
         const pageVisit = await axios.put(`/api/blog/post/update/page-visits?id=${id}`);
         router.push(`/articles/post/${slug}`)
-        console.log(pageVisit.data.blog);
         
     }
 
@@ -138,26 +137,22 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
     const fetchUser = useCallback(async () => {
         try {
-          console.log(user?.favorite_posts);
     
           const userLiked = user?.favorite_posts?.some((post) => id.includes(post._id));
-          console.log(userLiked);
     
           if (userLiked) {
             setLiked(true);
           } else {
             setLiked(false);
           }
-          console.log(liked);
         } catch (error) {
           console.error("Error fetching user:", error);
         }
-      }, [user, id, liked]);
+      }, [user, id,]);
 
     const handleFavorite = async(e:any) => {
         e.preventDefault();
-        const fav = await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
-        console.log(fav.data.liked_posts);
+        await axios.put(`/api/user-actions/favorite-a-post?user_id=${user._id}&post_id=${id}`);
         await fetchUser();
     }
 
@@ -168,7 +163,6 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
             if(user !== null  )
             fetchUser();
         }        
-        console.log(liked, user);
         
     }, [liked, fetchUser, user])
     
@@ -235,9 +229,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
-                    <IconButton aria-label="share">
                         <SocialShare data={data} />
-                    </IconButton>
                 </ExpandMore>                 
             </CardActions>
 

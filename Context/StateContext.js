@@ -4,7 +4,6 @@ import React, {createContext,
   useEffect} from "react";
 import { toast } from 'react-hot-toast'
 import { useRouter } from "next/router";
-import { getArticles, getCategories, getSubcategories, getTags, getUsers } from '../sanity/query functions/query';
 
 
 
@@ -35,37 +34,18 @@ export const StateContext = ({ children }) => {
 
   let pathSegment = pageName === "/" ? "home" : pageName.split("/")[1]
 
-  console.log(pathSegment);
   
 
   const router = useRouter();
+  console.log(router.pathname);
 
 
   let foundProduct;
   let index;
 
-  useEffect(() => {
-    const fetchSubcategories = async () => {
-      try {
-        const categories = await getCategories();
-        // Filter the categories to find the one with the matching name
-        const matchingCategory = categories.find((category) => category.name.toLocaleLowerCase() === pathSegment.toLocaleLowerCase());
-        if (matchingCategory) {
-          // Set the subcategories to the matching category's subcategories
-          setSubcategories(matchingCategory.subcategories);
-        } else {
-          // If no matching category is found, reset the subcategories to an empty array
-          setSubcategories([]);
-        }
-      } catch (error) {
-        console.error('Error fetching subcategories:', error);
-        // Handle error, e.g., setSubcategories to an empty array or show an error message
-        setSubcategories([]);
-      }
-    };
 
-    fetchSubcategories();
-  }, [pathSegment]);
+
+
 
   useEffect(()=> {
     setPageName(router.pathname);

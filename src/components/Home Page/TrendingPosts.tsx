@@ -154,7 +154,6 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
 
         if (targetRef.current) {
             observer.observe(targetRef.current);
-                    console.log("It triggered");
         }
 
         return () => {
