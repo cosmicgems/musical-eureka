@@ -148,20 +148,20 @@ const RecentBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     
 
   return (
-    <Box className="w-full" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
+    <Box className="sm:w-full w-[325px] " sx={{borderRadius: '5px', bgcolor: grey[900]}}>
         <CardMedia 
         component="img"
         image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
         alt=''
         sx={{objectFit: "cover", borderTopRightRadius: "5px", borderTopLeftRadius: "5px"}}
-        className='h-[25vh]'
+        className='h-[12vh]'
         />
         
         <div className='flex flex-col gap-3 p-3 text-center'>
 
             <div>
                 <Button onClick={(e)=> {handleNavigate(e)}}>
-                    <Typography sx={{fontSize: '2rem'}} variant='h3' className='gradient-text-category'>
+                    <Typography sx={{fontSize: '1.25rem'}} variant='h3' className='gradient-text-category'>
                         {title}
                     </Typography>                
                 </Button>
@@ -203,7 +203,7 @@ const RecentBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
 
             <div>
-                <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text  w-[325px] sm:w-[375px]'>
+                <Typography variant='body1' sx={{color: grey[50]}} className='truncate-text  w-[100%]'>
                     {excerpt ? excerpt : excerpt_two}
                 </Typography>
             </div>

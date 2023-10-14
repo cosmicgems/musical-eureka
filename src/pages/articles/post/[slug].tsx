@@ -261,7 +261,7 @@ const DynamicArticlePage = (props) => {
                               className='h-[33vh] sm:h-[25vh] '
                               />
 
-                              <div className='px-12'>
+                              <div className='px-6 sm:px-12 flex flex-col gap-6'>
                                 <div className=''>
                                   <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text-three' variant="h1" component="div">
                                       {title}
@@ -410,7 +410,7 @@ const DynamicArticlePage = (props) => {
                                                 return
                                             } else if (i === b.length - 1){
                                                 return (
-                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-6  mr-3 flex flex-col gap-3 sm:w-[20vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
                                                     <div   className='flex justify-center items-center'>
                                                         <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                             <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -424,7 +424,7 @@ const DynamicArticlePage = (props) => {
                                                 )
                                             } else if(i === 0){
                                                 return (
-                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[25vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
+                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3   sm:w-[20vw] scrollable-item' sx={{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}} >
                                                     <div className='flex justify-center items-center'>
                                                         <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                             <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -438,7 +438,7 @@ const DynamicArticlePage = (props) => {
                                                 )
                                             } else {
                                                 return (
-                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[25vw] scrollable-item'>
+                                                    <Box key={`${i}: ${b._id}`} className='pb-3 pl-3  flex flex-col gap-3  sm:w-[20vw] scrollable-item'>
                                                         <div className='flex justify-center items-center'>
                                                             <Button href={`/categories/category/${b.categories[0].slug}`}>
                                                                 <Typography variant='h2' className='font-bold' sx={{fontSize: '1.75rem'}}>
@@ -536,7 +536,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
   return {
     props: { post: JSON.parse(JSON.stringify(post)), related_posts: JSON.parse(JSON.stringify(related_posts)), ogImageUrl },
-  revalidate: 60,
+  revalidate: 600,
   };
 };
 
