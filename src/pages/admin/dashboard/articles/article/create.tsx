@@ -105,6 +105,9 @@ const Test = () => {
         e.preventDefault();
         try {
             const postData = { title, body: editorContent, selected, checkedSubcategory, photo, user, excerpt,tags };
+            if(!title || !editorContent || !selected || !checkedSubcategory || !photo || !user || !excerpt || !tags){
+                return
+            }
             console.log(postData);
             const post = await axios.post("/api/blog/post/create", postData);
             console.log(post.data.blogPost);
@@ -206,6 +209,7 @@ const Test = () => {
         setEditorContent('');
         setValues({photo: ''});
         setChecked([]);
+        setTags([]);
         setExcerpt("");
         setCheckedSubcategory([]);
         setCleared(true);
@@ -385,11 +389,6 @@ const Test = () => {
             </>
         )
     }
-    // if(user.role !== 24 || user.role !== 12) {
-    //     router.push(`/admin/dashboard/${session.user.username}`)
-    // }
-
-
 
 
 }
