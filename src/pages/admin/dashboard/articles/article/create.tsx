@@ -227,6 +227,7 @@ const Test = () => {
     
     if(verified === null) {
         const authenticated = sessionCheck();
+        setUser(session.user)
         if(!authenticated){
             router.push("auth/login")
         }

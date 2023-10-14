@@ -261,121 +261,126 @@ const DynamicArticlePage = (props) => {
                               className='h-[33vh] sm:h-[25vh] '
                               />
 
-                              <div className=''>
-                                <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text' variant="h1" component="div">
-                                    {title}
-                                </Typography>
-                              </div>
-                              <div className='flex gap-1 justify-center items-center'>
+                              <div className='px-12'>
+                                <div className=''>
+                                  <Typography sx={{ fontSize: { xs: '2rem', sm:'3.5rem' }, fontWeight: 'bold', width: '100%', textAlign: 'center' }} className='gradient-text-three' variant="h1" component="div">
+                                      {title}
+                                  </Typography>
+                                </div>
+                                <div className='flex gap-2 justify-center items-center'>
 
-                              <Avatar alt={`${postedBy?.first_name} ${postedBy?.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy?.photo} />
-                                <div className='flex flex-col'>
-                                  <Typography variant='body1' sx={{}} className=''>
-                                    {postedBy?.first_name} {postedBy?.last_name}
-                                  </Typography>
-                                  <Typography variant='body1' sx={{}} className=''>
-                                    {moment(postedBy?.createdAt).fromNow()}
-                                  </Typography>
+                                <Avatar alt={`${postedBy?.first_name} ${postedBy?.last_name}`} sx={{height:"75px", width: "75px"}} src={postedBy?.photo} />
+                                  <div className='flex flex-col'>
+                                    <Typography variant='body1' sx={{}} className=''>
+                                      {postedBy?.first_name} {postedBy?.last_name}
+                                    </Typography>
+                                    <Typography variant='body1' sx={{}} className=''>
+                                      {moment(createdAt).fromNow()}
+                                    </Typography>
+                                  </div>
+                                </div>
+
+                                <div className=''>
+                                  <Grid container className='justify-center items-center gap-6' >
+                                    {categories.map((c, i)=>{
+                                      return (
+                                        <Grid item key={c._id}  >
+                                            <Button href={`/articles/categories/category/${categories[0].name}`}>
+                                                <Chip
+                                                sx={{bgcolor: grey[900], color: grey[50]}}
+                                                avatar={<Avatar alt={`Photo of ${c.name}, ${c.desrciption}`} src={c.photo_portrait} />}
+                                                label={c.name}
+                                                variant="outlined"
+                                                />  
+                                            </Button>
+                                        </Grid>
+                                      )
+                                    })}                  
+                                  </Grid>
+
+                                </div>
+                                <div className=''>
+                                  <Grid container className='justify-center items-center gap-6' >
+                                    {sub_categories.map((sc, i)=>{
+                                      return (
+                                        <Grid item key={sc._id}  >
+                                            <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
+                                                <Chip
+                                                avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
+                                                label={sc.name}
+                                                variant="outlined"
+                                                />  
+                                            </Button>
+                                        </Grid>
+                                      )
+                                    })}                  
+                                  </Grid>
+
+                                </div>
+                                <div className='flex justify-center items-center'>
+                                  
+              
+                                    <CardContent sx={{bgcolor: grey[100], borderRadius: "5px"}} className='p-1 flex justify-evenly items-center'>
+                                          
+                                          {
+                                              user ?
+                                              <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
+                                              <FavoriteIcon sx={{color: liked ? red[500] : grey[500]}} />
+                                              </IconButton>   
+                                              : user === null || user === undefined ?
+                                              null : null
+                                          }
+
+                                            <IconButton>
+                                                <FacebookShareButton url={url} >
+                                                    <FacebookIcon size={32} round />
+                                                </FacebookShareButton>
+                                            </IconButton>
+                                            
+                                            <IconButton aria-label="add to favorites">
+                                                <TwitterShareButton
+                                                url={url}
+                                                >
+                                                    <TwitterIcon size={32} round />
+                                                </TwitterShareButton>
+                                            </IconButton>
+                                            <IconButton aria-label="add to favorites">
+                                                <WhatsappShareButton
+                                                url={url}
+                                                >
+                                                    <WhatsappIcon size={32} round />
+                                                </WhatsappShareButton>
+                                            </IconButton>    
+                                    </CardContent>
+                                </div>
+
+                                <div className='px-3'>
+                                  {parse(body)}
+                                </div>
+                                
+                                <div className=''>
+                                  <Grid container className='justify-center items-center gap-6' >
+                                    {tags?.map((t, i)=>{
+                                      return (
+                                        <Grid item key={t._id}  >
+                                                <Chip
+                                                label={t}
+                                                variant="outlined"
+                                                />  
+                                        </Grid>
+                                      )
+                                    })}                  
+                                  </Grid>
+
+                                </div>
+                                <div className='mb-6'>
+                                    <DisqusComments post={disqusData} />
                                 </div>
                               </div>
 
-                              <div className=''>
-                                <Grid container className='justify-center items-center gap-6' >
-                                  {categories.map((c, i)=>{
-                                    return (
-                                      <Grid item key={c._id}  >
-                                          <Button href={`/articles/categories/category/${categories[0].name}`}>
-                                              <Chip
-                                              sx={{bgcolor: grey[900], color: grey[50]}}
-                                              avatar={<Avatar alt={`Photo of ${c.name}, ${c.desrciption}`} src={c.photo_portrait} />}
-                                              label={c.name}
-                                              variant="outlined"
-                                              />  
-                                          </Button>
-                                      </Grid>
-                                    )
-                                  })}                  
-                                </Grid>
 
-                              </div>
-                              <div className=''>
-                                <Grid container className='justify-center items-center gap-6' >
-                                  {sub_categories.map((sc, i)=>{
-                                    return (
-                                      <Grid item key={sc._id}  >
-                                          <Button href={`/articles/categories/category/${categories[0].name}/subcategories/subcategory/${sc.slug}`}>
-                                              <Chip
-                                              avatar={<Avatar alt={`Photo of ${sc.name}, ${sc.desrciption}`} src={sc.photo_portrait} />}
-                                              label={sc.name}
-                                              variant="outlined"
-                                              />  
-                                          </Button>
-                                      </Grid>
-                                    )
-                                  })}                  
-                                </Grid>
-
-                              </div>
-                              <div className='flex justify-center items-center'>
-                                
-            
-                                  <CardContent sx={{bgcolor: grey[100], borderRadius: "5px"}} className='p-1 flex justify-evenly items-center'>
-                                        
-                                        {
-                                            user ?
-                                            <IconButton onClick={(e) => {handleFavorite(e); }} aria-label="add to favorites">
-                                            <FavoriteIcon sx={{color: liked ? red[500] : grey[500]}} />
-                                            </IconButton>   
-                                            : user === null || user === undefined ?
-                                            null : null
-                                        }
-
-                                          <IconButton>
-                                              <FacebookShareButton url={url} >
-                                                  <FacebookIcon size={32} round />
-                                              </FacebookShareButton>
-                                          </IconButton>
-                                          
-                                          <IconButton aria-label="add to favorites">
-                                              <TwitterShareButton
-                                              url={url}
-                                              >
-                                                  <TwitterIcon size={32} round />
-                                              </TwitterShareButton>
-                                          </IconButton>
-                                          <IconButton aria-label="add to favorites">
-                                              <WhatsappShareButton
-                                              url={url}
-                                              >
-                                                  <WhatsappIcon size={32} round />
-                                              </WhatsappShareButton>
-                                          </IconButton>    
-                                  </CardContent>
-                              </div>
-
-                              <div className='px-3'>
-                                {parse(body)}
-                              </div>
-                              
-                              <div className=''>
-                                <Grid container className='justify-center items-center gap-6' >
-                                  {tags?.map((t, i)=>{
-                                    return (
-                                      <Grid item key={t._id}  >
-                                              <Chip
-                                              label={t}
-                                              variant="outlined"
-                                              />  
-                                      </Grid>
-                                    )
-                                  })}                  
-                                </Grid>
-
-                              </div>
-                              <div className='mb-6'>
-                                  <DisqusComments post={disqusData} />
-                              </div>
                             </div>
+
 
                             <div className='sm:w-1/3 flex flex-col items-center'>
                               
