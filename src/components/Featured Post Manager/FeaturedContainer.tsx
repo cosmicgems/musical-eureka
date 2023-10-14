@@ -28,7 +28,7 @@ const FeaturedContainer = ({featuredBlogs, onUpdate, handleUpdate}) => {
                 <Typography variant='h3' sx={{}} className='gradient-text-four w-full text-center'>
                     Featured Post
                 </Typography>
-                <div className='max-h-[33vh] overflow-y-auto pr-3 gap-3 flex flex-col '>
+                <div className='max-h-[33vh] overflow-y-auto overflow-x-hidden pr-3 gap-3 flex flex-col '>
                 {
                     blogs?.length === 0 ? 
                         <div >

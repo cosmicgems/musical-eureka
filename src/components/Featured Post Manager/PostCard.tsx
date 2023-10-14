@@ -117,12 +117,12 @@ const handleFeatureToggle = async (id:any) => {
             className='w-1/5'
             />
 
-            <div className='flex flex-col gap-1 grow justify-center p-3'>
+            <div className='flex flex-col gap-1 grow justify-center p-3 w-3/5'>
 
-                <Typography variant='h3' sx={{fontSize: '2rem'}} className="gradient-text-category">
+                <Typography variant='h3' sx={{fontSize: '2rem'}} className="gradient-text-category truncate-title-modify">
                     {title}
                 </Typography>
-                <Typography variant="body1" sx={{color:grey[50],}} className='truncate-text w-[99%]'>
+                <Typography variant="body1" sx={{color:grey[50],}} className='truncate-text'>
                     {excerpt}
                 </Typography>
 

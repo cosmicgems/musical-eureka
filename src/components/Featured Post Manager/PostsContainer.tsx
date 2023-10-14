@@ -28,7 +28,7 @@ const PostsContainer = ({data, onUpdate}) => {
                 <Typography variant='h3' sx={{}} className='gradient-text-two w-full text-center p-3'>
                     All Posts
                 </Typography>
-            <div className='max-h-[50vh] overflow-y-auto pr-3'>
+            <div className='max-h-[50vh] overflow-y-auto pr-3 overflow-x-hidden'>
 
                 {
                     blogs?.length === 0 ?

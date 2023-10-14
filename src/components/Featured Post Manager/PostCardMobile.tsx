@@ -107,7 +107,7 @@ const handleFeatureToggle = async (id:any) => {
     
 
     return (
-        <Box sx={{bgcolor: i % 2 === 0 ? grey[800] : grey[600] , borderRadius: "5px"}} className=" flex gap-3 justify-between ">
+        <Box sx={{bgcolor: i % 2 === 0 ? grey[800] : grey[600] , borderRadius: "5px"}} className=" flex gap-3 w-full ">
 
             <CardMedia 
             component="img"
@@ -117,14 +117,19 @@ const handleFeatureToggle = async (id:any) => {
             className='w-1/5'
             />
 
-            <div className='flex flex-col gap-1 grow justify-center p-3'>
+            <div className='flex flex-col gap-1  justify-center py-3 w-4/5'>
+                <div className='w-4/5'>
+                    <Typography variant='h3' sx={{fontSize: '1rem'}} className="gradient-text-category truncate-title-modify ">
+                        {title}
+                    </Typography>
+                    <Typography variant="body1" sx={{color:grey[50],}} className='truncate-text '>
+                        {excerpt}
+                    </Typography>                      
+                </div>
+            
 
-                <Typography variant='h3' sx={{fontSize: '1.5rem'}} className="gradient-text-category">
-                    {title}
-                </Typography>
-                <Typography variant="body1" sx={{color:grey[50],}} className='truncate-text w-[99%]'>
-                    {excerpt}
-                </Typography>
+
+
 
                 <Stack direction="row" spacing={1} alignItems="center" className='justify-center items-center  p-1'>
                     <Typography className='gradient-text-three'>Off</Typography>
