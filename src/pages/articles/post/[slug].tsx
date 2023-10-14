@@ -196,13 +196,18 @@ const DynamicArticlePage = (props) => {
     return (
       <>
         <Head>
-          <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
-          <meta property="og:type" content="article" />
-          <meta property="og:image:url" content={ogImageUrl} />
-          <meta property='og:title' content={`Pearl Box | ${title}`} />
-          <meta property='og:description' content={excerpt} />
-          <meta property="fb:app_id" content="1341431786447134" />
-          <title>Pearl Box</title>
+                    <meta property="og:url"  content={`https://pearlbox.co/articles/post/${slug}`} />
+                    <meta property="og:type" content="article" />
+                    <meta property="og:image:url" content={ogImageUrl} />
+                    <meta property='og:title' content={`Pearl Box | ${title}`} />
+                    <meta property='og:description' content={excerpt} />
+                    <meta property="fb:app_id" content="1341431786447134" />
+                    <meta name="twitter:card" content="summary_large_image"/>
+                    <meta name="twitter:site" content="@maliek_codes"/>
+                    <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
+                    <meta name="twitter:description" content={excerpt}/>
+                    <meta name="twitter:image" content={ogImageUrl}/>
+                    <title>Pearl Box</title>
         </Head>
         <Loading />      
       </>
