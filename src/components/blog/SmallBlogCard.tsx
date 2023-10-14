@@ -35,6 +35,7 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { styled } from '@mui/material/styles';
+import SocialShare from '../SocialShare';
 
 interface Author {
     _id: string;
@@ -107,7 +108,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     const router = useRouter();
-    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy} = blog;
+    const {_id: id, title, categories, sub_categories, photo, body, slug, createdAt, postedBy, excerpt} = blog;
     const [liked, setLiked] = useState<boolean>(null);
     const [expanded, setExpanded] = useState<boolean>(false);
     
@@ -117,7 +118,13 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
     const url = `https://pearlbox.co/articles/post/${slug}`
     
-    const excerpt = body.substring(11, 150);
+    const excerpt_two = body.substring(11, 150);
+    
+    const data = {
+        title,
+        url,
+        text: excerpt ? excerpt : excerpt_two
+    }
 
     const handleNavigate = async(e:any) => {
         e.preventDefault();
@@ -205,7 +212,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
                 <div className=''>
                     <Typography variant='body1' sx={{color:grey[50]}} className='truncate-text  w-[100%]'>
-                        {excerpt}
+                        {excerpt ? excerpt : excerpt_two}
                     </Typography>
                 </div>
 
@@ -228,39 +235,40 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
                 aria-expanded={expanded}
                 aria-label="show more"
                 >
-                <IconButton aria-label="share">
-                <ShareIcon sx={{color: blue[500]}} />
-                </IconButton>
-                </ExpandMore>                
+                    <IconButton aria-label="share">
+                        <SocialShare data={data} />
+                    </IconButton>
+                </ExpandMore>                 
             </CardActions>
 
 
-            <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
-           
-           <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
-                <IconButton>
-                    <FacebookShareButton url={url} >
-                        <FacebookIcon size={32} round />
-                    </FacebookShareButton>
-                </IconButton>
-                
-                <IconButton aria-label="add to favorites">
-                    <TwitterShareButton
-                    url={url}
-                    >
-                        <TwitterIcon size={32} round />
-                    </TwitterShareButton>
-                </IconButton>
-                <IconButton aria-label="add to favorites">
-                    <WhatsappShareButton
-                    url={url}
-                    >
-                        <WhatsappIcon size={32} round />
-                    </WhatsappShareButton>
-                </IconButton>    
-           </CardContent>
+            {/* <Collapse sx={{borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} in={expanded} timeout="auto" unmountOnExit>
+            
+                <CardContent sx={{bgcolor: grey[900],borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}} className='p-3 flex justify-evenly items-center'>
+                        <IconButton>
+                            <FacebookShareButton url={url} >
+                                <FacebookIcon size={32} round />
+                            </FacebookShareButton>
+                        </IconButton>
+                        
+                        <IconButton aria-label="add to favorites">
+                            <TwitterShareButton
+                            url={url}
+                            >
+                                <TwitterIcon size={32} round />
+                            </TwitterShareButton>
+                        </IconButton>
+                        <IconButton aria-label="add to favorites">
+                            <WhatsappShareButton
+                            url={url}
+                            >
+                                <WhatsappIcon size={32} round />
+                            </WhatsappShareButton>
+                        </IconButton>    
+                </CardContent>
 
-            </Collapse>
+            </Collapse> */}
+
     </Box>
   )
 }

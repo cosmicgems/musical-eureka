@@ -205,7 +205,7 @@ const DynamicArticlePage = (props) => {
                     <meta name="twitter:card" content="summary_large_image"/>
                     <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
                     <meta name="twitter:description" content={excerpt}/>
-                    <meta name="twitter:image" content={ogImageUrl}/>
+                    <meta name="twitter:image" content={photo}/>
                     <title>Pearl Box</title>
         </Head>
         <Loading />      
@@ -236,7 +236,7 @@ const DynamicArticlePage = (props) => {
                     <meta name="twitter:card" content="summary_large_image"/>
                     <meta name="twitter:title" content={`Pearl Box | ${title}`}/>
                     <meta name="twitter:description" content={excerpt}/>
-                    <meta name="twitter:image" content={ogImageUrl}/>
+                    <meta name="twitter:image" content={photo}/>
                     <title>Pearl Box</title>
                   </Head>
                   <Box className='' sx={{bgcolor: grey[100]}}>
@@ -412,7 +412,7 @@ const DynamicArticlePage = (props) => {
                                                         </Button>
 
                                                     </div>
-                                                    <RecentBlogCard blog={b} />
+                                                    <RecentBlogCard blog={b} user={user} />
                                                 </Box>
                                                 )
                                             } else if(i === 0){
@@ -426,7 +426,7 @@ const DynamicArticlePage = (props) => {
                                                         </Button>
 
                                                     </div>
-                                                    <RecentBlogCard blog={b}  />
+                                                    <RecentBlogCard blog={b} user={user} />
                                                 </Box>
                                                 )
                                             } else {
@@ -440,7 +440,7 @@ const DynamicArticlePage = (props) => {
                                                             </Button>
 
                                                         </div>
-                                                        <RecentBlogCard blog={b}  />
+                                                        <RecentBlogCard blog={b} user={user} />
                                                     </Box>
                                                 )                                
                                             }
