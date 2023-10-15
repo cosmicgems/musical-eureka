@@ -266,6 +266,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
     
     return {
       props: {sub_category: JSON.parse(JSON.stringify(sub_category)), posts: JSON.parse(JSON.stringify(filteredBlogs))},
+      revalidate: 60,
     };
   } catch (error) {
     console.error(`Error fetching data for slug ${slug}:`, error);
