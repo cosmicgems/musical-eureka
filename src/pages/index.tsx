@@ -83,7 +83,17 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
     const {data: session, status} = useSession() as Session;
 
     if(status === "loading"){
-        return <Loading />
+        return 
+        <>
+        <Head>
+            <meta property="og:title" content="Pearl Box" />
+            <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
+            <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+            <meta property="og:url" content="https://pearlbox.co" />            
+        </Head>
+
+        <Loading />
+        </>
     }
 
     if(status === "authenticated"){
@@ -103,52 +113,62 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
 
 
     return (
-        <Box className='' sx={{bgcolor: grey[100]}}>
+        <>
+        <Head>
+            <meta property="og:title" content="Pearl Box" />
+            <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
+            <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+            <meta property="og:url" content="https://pearlbox.co" />            
+        </Head>
+
+            <Box className='' sx={{bgcolor: grey[100]}}>
 
 
-            <Layout >
-                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center  pt-12 sm:pt-0 max-w-[100%]'>
-                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  pb-6 '>
-                        <div>
-                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
-                                Pearl Box 
-                            </Typography>
-                            {/* <Button onClick={handleMigrate}>Migrate</Button> */}
-                        </div>
-                        <div>
-                            <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
-                                Curate a lifestyle worth living.
-                            </Typography>
-                        </div>
-                        <SearchResults />
+                <Layout >
+                    <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center  pt-12 sm:pt-0 max-w-[100%]'>
+                        <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  pb-6 '>
+                            <div>
+                                <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                                    Pearl Box 
+                                </Typography>
+                                {/* <Button onClick={handleMigrate}>Migrate</Button> */}
+                            </div>
+                            <div>
+                                <Typography variant='body1' className=' gradient-text-subcategories text-subcategories mb-6' sx={{color: grey[50], fontSize: {xs:"1rem"}}}>
+                                    Curate a lifestyle worth living.
+                                </Typography>
+                            </div>
+                            <SearchResults />
 
-                    </div>
-
-                    <div className='w-full'>
-                        <PearlAppBar/>
-                    </div>
-                    
-                    <div className='flex flex-col sm:flex-row w-full mb-6 '>
-                        <div className=' sm:w-2/5'>
-                            <FeaturedPosts featuredPosts={featuredPosts} user={user}/>                        
-                        </div>
-                    
-                        <div className='sm:w-3/5'>
-                            <YoutubeVideos videos={videos} />
                         </div>
 
+                        <div className='w-full'>
+                            <PearlAppBar/>
+                        </div>
+                        
+                        <div className='flex flex-col sm:flex-row w-full mb-6 '>
+                            <div className=' sm:w-2/5'>
+                                <FeaturedPosts featuredPosts={featuredPosts} user={user}/>                        
+                            </div>
+                        
+                            <div className='sm:w-3/5'>
+                                <YoutubeVideos videos={videos} />
+                            </div>
+
+                        </div>
+
+                        <div className='w-[100%]'>
+
+                            <TrendingPosts blogs={blogs} totalBlogCount={totalBlogCount} user={user} />
+
+                        </div>
+                
                     </div>
 
-                    <div className='w-[100%]'>
+                </Layout>        
+            </Box>        
+        </>
 
-                        <TrendingPosts blogs={blogs} totalBlogCount={totalBlogCount} user={user} />
-
-                    </div>
-            
-                </div>
-
-            </Layout>        
-        </Box>
 
     )
 }
