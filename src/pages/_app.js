@@ -21,7 +21,7 @@ export default function App({ session, Component,
 
 
 
-
+    export const fetchCache = 'force-no-store';
 
 
     return (
