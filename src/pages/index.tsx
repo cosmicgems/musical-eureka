@@ -83,17 +83,18 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
     const {data: session, status} = useSession() as Session;
 
     if(status === "loading"){
-        return 
+        return( 
         <>
-        <Head>
-            <meta property="og:title" content="Pearl Box" />
-            <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
-            <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-            <meta property="og:url" content="https://pearlbox.co" />            
-        </Head>
+            <Head>
+                <meta property="og:title" content="Pearl Box" />
+                <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
+                <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                <meta property="og:url" content="https://pearlbox.co" />            
+            </Head>
 
         <Loading />
         </>
+        )
     }
 
     if(status === "authenticated"){
