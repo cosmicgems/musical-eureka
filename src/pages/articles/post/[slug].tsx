@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import { Avatar, Box, Button, Card, CardContent, CardMedia, Chip, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardContent, CardMedia, Chip, Grid, Modal, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import moment from 'moment';
 import { grey, lightBlue, red } from '@mui/material/colors';
@@ -93,9 +93,23 @@ interface Session {
 
 type RehypePlugin = (options?: any) => (tree: any, file: any) => any;
 
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  width: "75vw", 
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+};
+
 const DynamicArticlePage = (props) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const {data: session, status} = useSession() as Session;
-  
   const {post:{title, body, _id:id, categories, excerpt, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
   console.log(body);
   
@@ -107,6 +121,9 @@ const DynamicArticlePage = (props) => {
   const [user, setUser] = useState<any>(null);
   const [liked, setLiked] = useState<boolean>(null);
   const [expanded, setExpanded] = useState<boolean>(false)
+  const [image, setImage] = useState<string>("");
+  const [alt, setAlt] = useState<any>("");
+  
   const url = `https://pearlbox.co/articles/post/${slug}`
   
   const handleExpandClick = () => {
@@ -361,9 +378,12 @@ const DynamicArticlePage = (props) => {
                                 <ReactMarkdown rehypePlugins={[[rehypeRaw as RehypePlugin]]}
                                   components={{
                                     img: (props) => (
-                                      <div className='flex justify-center items-center'>
-                                        <CardMedia className='object-cover  md:w-[50%]' src={props.src} alt={props.alt} component="img" />
-                                      </div>
+                                      <Button>
+                                        <div className='flex justify-center items-center' onClick={()=> {setImage(props.src); setAlt(props.alt); handleOpen()}}>
+                                          <CardMedia className='object-cover  md:w-[50%]' src={props.src} alt={props.alt} component="img" />
+                                        </div>
+                                      </Button>
+
                                       
                                   
                                         
@@ -372,6 +392,16 @@ const DynamicArticlePage = (props) => {
                                     
                                     ),
                                   }}>{body}</ReactMarkdown>
+                                        <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                      >
+                                        <Box sx={style} onClick={handleClose}>
+                                          <CardMedia className='w-full' src={image} alt={alt} component="img" />
+                                        </Box>
+                                      </Modal>
 
                                 </div>
                                 
