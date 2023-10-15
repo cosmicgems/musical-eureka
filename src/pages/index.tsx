@@ -16,6 +16,7 @@ import TrendingPosts from '../components/Home Page/TrendingPosts';
 import YoutubeVideos from '../components/Home Page/YoutubeVideos';
 import { useSession } from 'next-auth/react';
 import Loading from '../components/Loading';
+import PearlAppBar from '../components/App Bar/PearlAppBar';
 
 const Layout = dynamic(() => import('../components/Layout'));
 
@@ -106,8 +107,8 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
 
 
             <Layout >
-                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-12 pt-12 sm:pt-0 max-w-[100%]'>
-                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
+                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center  pt-12 sm:pt-0 max-w-[100%]'>
+                    <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  pb-6 '>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                 Pearl Box 
@@ -121,6 +122,10 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
                         </div>
                         <SearchResults />
 
+                    </div>
+
+                    <div className='w-full'>
+                        <PearlAppBar/>
                     </div>
                     
                     <div className='flex flex-col sm:flex-row w-full mb-6 '>
