@@ -123,10 +123,17 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
     return (
         <>
         <Head>
-            <meta property="og:title" content="Pearl Box" />
-            <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
-            <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-            <meta property="og:url" content="https://pearlbox.co" />            
+                <meta property="fb:app_id" content="1341431786447134" />
+                <meta property='og:type' content="website"/>
+                <meta property="og:title" content="Pearl Box" />
+                <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
+                <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                <meta property="og:url" content="https://pearlbox.co" />
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta property="og:image:url" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                <meta name="twitter:title" content={`Pearl Box | Curate a Lifestyle Worth Living`}/>
+                <meta name="twitter:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration."/>
+                <meta name="twitter:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>               
         </Head>
 
             <Box className='' sx={{bgcolor: grey[100]}}>
