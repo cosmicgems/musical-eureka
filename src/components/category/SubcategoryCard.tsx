@@ -26,7 +26,7 @@ const SubcategoryCard: React.FC<SubcategoryProps> = ( {subcategory, category} ) 
 
 
     return (
-        <Box className="flex flex-col w-content sm:w-[25vw]" sx={{bgcolor:grey[900], borderRadius: '5px'}}>
+        <Box className="flex flex-col w-[325px] sm:w-[25vw]" sx={{bgcolor:grey[900], borderRadius: '5px'}}>
             <CardMedia
             component="img"
             image={p_wide}
@@ -64,7 +64,7 @@ const SubcategoryCard: React.FC<SubcategoryProps> = ( {subcategory, category} ) 
                 </Grid> */}
                 </div>
 
-                <Typography variant='body1' className='truncate-text w-[325px] sm:w-[375px]'  sx={{color:grey[50]}} >
+                <Typography variant='body1' className='truncate-text w-[100%]'  sx={{color:grey[50]}} >
                         {description}      
 
                 </Typography>        
