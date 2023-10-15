@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { getClientOgImageUrl, getOgImageUrl } from '../../../../helpers/ogImageHelper';
 import { useStateContext } from '../../../../Context/StateContext';
 import axios from 'axios';
-import parse from "html-react-parser"
+import ReactMarkdown from 'react-markdown';
 import RecentBlogCard from '../../../components/blog/RecentBlogCard';
 import { API, DOMAIN, APP_NAME } from "../../../../config";
 import connectDB from '../../../../lib/connectDB';
@@ -23,6 +23,9 @@ import Loading from '../../../components/Loading';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 import DisqusComments from '../../../components/DisqusComments';
+import rehypeRaw from "rehype-raw";
+import Image from 'next/image';
+
 
 interface Author {
   _id: string;
@@ -88,10 +91,13 @@ interface Session {
 
 }
 
+type RehypePlugin = (options?: any) => (tree: any, file: any) => any;
+
 const DynamicArticlePage = (props) => {
   const {data: session, status} = useSession() as Session;
   
   const {post:{title, body, _id:id, categories, excerpt, sub_categories, mtitle, mdesc, createdAt, updatedAt, slug, photo, postedBy, tags}, related_posts, ogImageUrl} = props;
+  console.log(body);
   
   const disqusData = {
     title,
@@ -219,7 +225,6 @@ const DynamicArticlePage = (props) => {
       const findUser = async() => {
           const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
           setUser(res.data.user);
-          console.log(res.data.user);
           
       }
       findUser();            
@@ -352,8 +357,22 @@ const DynamicArticlePage = (props) => {
                                     </CardContent>
                                 </div>
 
-                                <div className='px-3'>
-                                  {parse(body)}
+                                <div className='px-3 '>
+                                <ReactMarkdown rehypePlugins={[[rehypeRaw as RehypePlugin]]}
+                                  components={{
+                                    img: (props) => (
+                                      <div className='flex justify-center items-center'>
+                                        <CardMedia className='object-cover  md:w-[50%]' src={props.src} alt={props.alt} component="img" />
+                                      </div>
+                                      
+                                  
+                                        
+                                      
+                                      
+                                    
+                                    ),
+                                  }}>{body}</ReactMarkdown>
+
                                 </div>
                                 
                                 <div className=''>

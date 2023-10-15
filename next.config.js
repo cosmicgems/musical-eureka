@@ -6,5 +6,13 @@ module.exports = {
       PRODUCTION: true,
       DOMAIN_DEVELOPMENT: 'http://localhost:3000',
       DOMAIN_PRODUCTION: 'https://pearlbox.co',
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com'
+      },
+    ]
   }
 };
