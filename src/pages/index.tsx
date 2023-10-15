@@ -123,7 +123,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
 
                     </div>
                     
-                    <div className='flex flex-col sm:flex-row w-[100%] mb-6 gap-6'>
+                    <div className='flex flex-col sm:flex-row w-full mb-6 '>
                         <div className=' sm:w-2/5'>
                             <FeaturedPosts featuredPosts={featuredPosts} user={user}/>                        
                         </div>
@@ -185,7 +185,7 @@ export async function getStaticProps() {
                                         .populate("postedBy")
                                         .skip(skip)
                                         .countDocuments();
-                                        
+
         const blogs = await Blog.find({featured: false})
                                 .populate("categories")
                                 .populate("sub_categories")

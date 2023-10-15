@@ -168,7 +168,7 @@ const SmallBlogCard: React.FC<BlogPostProps> = ( {blog, user} ) => {
     
 
   return (
-    <Box className="w-[350px]  sm:w-[30vw]" sx={{bgcolor:grey[900], borderRadius:"5px",}}>
+    <Box className="w-[350px]  sm:w-[30vw]" sx={{bgcolor:grey[900], borderRadius:"5px", boxShadow: '5px 5px 5px #000'}}>
         <div className='flex flex-row gap-3'>
 
             <CardMedia 

@@ -113,7 +113,7 @@ const FeaturedPosts = ({featuredPosts, user}) => {
                     
         return (
         <div>
-                <div className='w-full'>
+                <div className='w-full py-6'>
                 <Typography variant='h3' sx={{}} className='text-center gradient-text-subcategories'>
                     Featured
                 </Typography>

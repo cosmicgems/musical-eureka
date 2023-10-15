@@ -180,7 +180,7 @@ const BlogPost: React.FC<BlogPostProps> = ( {blog, user} ) => {
 
 
     return (
-        <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900]}}>
+        <Box className="w-[355px] md:w-[400px]" sx={{borderRadius: '5px', bgcolor: grey[900], boxShadow: '5px 5px 5px #000'}}>
             <CardMedia 
             component="img"
             image={photo  ? photo : "https://images.pexels.com/photos/3246665/pexels-photo-3246665.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }

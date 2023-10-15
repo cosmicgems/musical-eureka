@@ -1,6 +1,7 @@
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { useRef, useEffect} from 'react'
 import VideoCard from '../VideoCard'
+import { grey } from '@mui/material/colors';
 
 const YoutubeVideos = ({videos}) => {
     const scrollContainerRef = useRef(null);
@@ -50,16 +51,18 @@ const YoutubeVideos = ({videos}) => {
     }, []);
 
   return (
-    <div>
-        <div className='w-full'>
-        <Typography variant='h3' sx={{}} className='w-full text-center gradient-text-subcategories'>
-            Media
-        </Typography>
+    <Box className='w-full sm:h-full' sx={{bgcolor:grey[800]}}>
+
+        <div className='w-[100%] py-6'>
+            <Typography variant='h3' sx={{}} className=' text-center gradient-text-three'>
+                Media
+            </Typography>
         </div>
-        <div ref={scrollContainerRef}>
+
+        <div ref={scrollContainerRef} className='w-[100%]'>
             {
                 videos?.length > 0 ?
-                    <div   className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
+                    <div   className='flex gap-6 overflow-x-auto  pb-6  scrollable-container px-6'>
                         {videos.map((v, i) => {
                             if (videos.length > 0) {
                                 return(
@@ -90,7 +93,7 @@ const YoutubeVideos = ({videos}) => {
         </div>
 
 
-    </div>
+    </Box>
   )
 }
 

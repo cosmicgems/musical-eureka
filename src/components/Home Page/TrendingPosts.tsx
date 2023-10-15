@@ -195,7 +195,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                 )
                             } else if (i === blogs.length -1 ){
                                 return (
-                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: loadedBlogs.length === 0 && 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item pb-6' sx = {{background: loadedBlogs.length === 0 && 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .5) 100%)'}}>
 
                                     
                                         <div className='flex justify-center items-center'>
