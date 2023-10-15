@@ -21,8 +21,6 @@ export default function App({ session, Component,
 
 
 
-    export const fetchCache = 'force-no-store';
-
 
     return (
         
@@ -54,6 +52,8 @@ export default function App({ session, Component,
     )
 
 }
+    export const fetchCache = 'force-no-store';
+
 
 function UserAuth({ children }) {
   const router = useRouter();
