@@ -87,6 +87,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
         <>
             <Head>
                 <meta property="fb:app_id" content="1341431786447134" />
+                <meta property='og:type' content="website"/>
                 <meta property="og:title" content="Pearl Box" />
                 <meta property="og:description" content="Your gateway to a curated lifestyle enriched with health, wellness, real estate insights, technology trends, education, art, culture, wealth building, and home & garden inspiration." />
                 <meta property="og:image" content="https://images.pexels.com/photos/7976210/pexels-photo-7976210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
