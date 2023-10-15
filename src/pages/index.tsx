@@ -179,7 +179,13 @@ export async function getStaticProps() {
         await Category.find({});
         await SubCategory.find({});
         await User.find({});
-        const totalBlogCount = await Blog.countDocuments();
+        const totalBlogCount = await Blog.find({featured: false})
+                                        .populate("categories")
+                                        .populate("sub_categories")
+                                        .populate("postedBy")
+                                        .skip(skip)
+                                        .countDocuments();
+                                        
         const blogs = await Blog.find({featured: false})
                                 .populate("categories")
                                 .populate("sub_categories")
@@ -199,7 +205,7 @@ export async function getStaticProps() {
         // console.log(videos);
         return {
             props: { initialBlogs: JSON.parse(JSON.stringify(blogs)), featuredPosts: JSON.parse(JSON.stringify(featuredPosts)) , totalBlogCount, videos },
-            revalidate: 300,
+            revalidate: 60,
         };       
     } catch (error) {
         console.error('Error fetching data:', error);

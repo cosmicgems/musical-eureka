@@ -279,9 +279,13 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     
                             })
                         }
-                                    <div  ref={targetRef} className=''  >
-                                        {loading && <div>Loading more blogs...</div>}
-                                    </div> 
+                        {
+                            loadedBlogCount < totalBlogCount &&
+                            <div  ref={targetRef} className=''  >
+                                {loading && <div>Loading more blogs...</div>}
+                            </div>                             
+                        }
+
                     </div> 
             </div>
         )        
