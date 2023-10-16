@@ -432,7 +432,7 @@ const DynamicArticlePage = (props) => {
 
                             <div className='sm:w-1/3 flex flex-col items-center'>
                               
-                              <div className='pr-3'>
+                              <div className='px-6 pb-6'>
                                 <SellAdSpaceSlug />
                               </div>
 
