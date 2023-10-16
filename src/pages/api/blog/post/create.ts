@@ -42,7 +42,7 @@ export default async function handler(
             
             blog.save()
 
-            await axios.get(`/api/revalidate?secret=${process.env.MY_SECRET_TOKEN}`);
+            
 
             res.status(200).json({message: `${title} was successfully submitted!` , blogPost:blog});
 

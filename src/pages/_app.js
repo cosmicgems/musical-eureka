@@ -52,7 +52,7 @@ export default function App({ session, Component,
     )
 
 }
-    export const fetchCache = 'force-no-store';
+    // export const fetchCache = 'force-no-store';
 
 
 function UserAuth({ children }) {
