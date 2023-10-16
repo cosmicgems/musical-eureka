@@ -184,7 +184,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                     <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
                                     <div className='flex justify-center items-center'>
                                         <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                            <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                            <Typography variant='h2' className='font-bold gradient-text-category text-center' sx={{fontSize: '1.75rem'}}>
                                                 {b.categories[0].name}
                                             </Typography>                                            
                                         </Button>
@@ -200,7 +200,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                     
                                         <div className='flex justify-center items-center'>
                                             <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className={loadedBlogs.length === 0 ? `font-bold gradient-text-three` :  `font-bold gradient-text-category`} sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className={loadedBlogs.length === 0 ? `font-bold gradient-text-three  text-center` :  `font-bold gradient-text-category`} sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>
@@ -215,7 +215,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                     <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
                                         <div className='flex justify-center items-center'>
                                             <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
+                                                <Typography variant='h2' className='font-bold gradient-text-category text-center' sx={{fontSize: '1.75rem'}}>
                                                     {b.categories[0].name}
                                                 </Typography>                                            
                                             </Button>

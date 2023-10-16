@@ -25,6 +25,7 @@ import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, Wha
 import DisqusComments from '../../../components/DisqusComments';
 import rehypeRaw from "rehype-raw";
 import Image from 'next/image';
+import SellAdSpaceSlug from '../../../components/Ad Spaces/SellAdSpaceSlug';
 
 
 interface Author {
@@ -270,14 +271,14 @@ const DynamicArticlePage = (props) => {
                             </Typography>
                           </div> */}
 
-                          <div className='flex flex-col sm:flex-row '>
+                          <div className='flex flex-col sm:flex-row gap-3'>
 
                             <div className='sm:w-2/3 sm:pl-3 flex flex-col gap-6'>
                               <CardMedia 
                               component='img'
                               image={photo}
                               alt=''
-                              sx={{objectFit: 'cover'}}
+                              sx={{objectFit: 'cover', borderRadius: {sm:'5px'}}}
                               className='h-[33vh] sm:h-[25vh] '
                               />
 
@@ -431,10 +432,8 @@ const DynamicArticlePage = (props) => {
 
                             <div className='sm:w-1/3 flex flex-col items-center'>
                               
-                              <div>
-                                <Typography variant='h3' className='gradient-text' sx={{}}>
-                                  Ad Space
-                                </Typography>
+                              <div className='pr-3'>
+                                <SellAdSpaceSlug />
                               </div>
 
                               <div>
