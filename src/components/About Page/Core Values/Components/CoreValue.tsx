@@ -10,7 +10,7 @@ const CoreValue = ({c, onTap}) => {
     }
 
   return (
-    <div className='flex flex-col gap-1 w-[100px] md:w-[150px]'>
+    <div className='flex flex-col justify-center items-center gap-1 w-[125px] md:w-[175px]'>
         {/* <Tooltip TransitionComponent={Fade} 
         TransitionProps={{ timeout: 600 }}
         title={c.description}> */}
