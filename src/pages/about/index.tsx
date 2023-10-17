@@ -6,6 +6,7 @@ import { useStateContext } from '../../../Context/StateContext';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red, } from '@mui/material/colors';
 import Layout from '../../components/Layout';
 import CoreValues from '../../components/About Page/Core Values/CoreValues';
+import MissionStatement from '../../components/About Page/Mission Statement/MissionStatement';
 
 
 
@@ -36,8 +37,19 @@ const indexFontColor = pageSegmentColors[pathSegment] || grey[800];
           </Typography>
 
           <div>
+
+          </div>
+
+          <div className='flex flex-col md:flex-row'>
             
-            <CoreValues />
+            <div className='md:w-1/3'>
+              <MissionStatement />
+            </div>
+
+            <div className='md:w-2/3'>
+              <CoreValues />
+            </div>
+            
 
           </div>
 

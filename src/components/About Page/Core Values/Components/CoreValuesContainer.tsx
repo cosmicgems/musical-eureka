@@ -25,7 +25,7 @@ const CoreValuesContainer = () => {
   return (
     <div className='flex flex-col gap-3'>
 
-        <div className='flex flex-row md:justify-evenly overflow-x-auto w-full'>
+        <div className='flex flex-row  overflow-x-auto w-full'>
             
             { coreValuesItems.map((c, i) => (
                 <div key={c._id} className='p-3'>
