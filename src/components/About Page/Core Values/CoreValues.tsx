@@ -5,7 +5,7 @@ import CoreValuesContainer from './Components/CoreValuesContainer'
 
 const CoreValues = () => {
   return (
-    <Box sx={{bgcolor: grey[900]}} className="h-full">
+    <Box sx={{bgcolor: grey[900], borderBottomLeftRadius:{md:'5px'}, borderTopLeftRadius:{md:'5px'}}} className="h-full">
 
         <div className='flex flex-col gap-3 py-3'>
 

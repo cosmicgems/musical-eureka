@@ -31,16 +31,12 @@ const indexFontColor = pageSegmentColors[pathSegment] || grey[800];
   return (
     <Box sx={{}}>
       <Layout>
-        <div className='flex flex-col gap-6' style={{width: '100%', marginBlockStart: ''}}>
-          <Typography className='gradient-text-subcategories' variant='h2' component='div' sx={{width:'100%', textAlign:'center', marginBlock: '2vh', color: indexFontColor, fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
+        <div className='flex flex-col md:gap-6 py-3' style={{width: '100%',}}>
+          <Typography className='gradient-text-subcategories' variant='h2' component='div' sx={{width:'100%', textAlign:'center', color: indexFontColor, fontSize: {xs:'4rem',md:'6rem'}, fontWeight: 'bold'}}>
             Pearl Box
           </Typography>
 
-          <div>
-
-          </div>
-
-          <div className='flex flex-col md:flex-row'>
+          <div className='flex flex-col md:flex-row gap-6'>
             
             <div className='md:w-1/3'>
               <MissionStatement />
