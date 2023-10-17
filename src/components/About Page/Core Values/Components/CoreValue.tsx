@@ -17,19 +17,13 @@ const CoreValue = ({c, onTap}) => {
             <motion.div
             whileHover={{scale: 1.1 }}
             whileTap={{ scale: 0.9 }}>
-                <Button onClick={() => {handleClick(c)}} >
+                <Button className='flex flex-col gap-2' onClick={() => {handleClick(c)}} >
                     <Avatar variant='square' sx={{height: {xs:"100px", md:"150px"}, width: {xs:"100px", md:"150px"}, borderRadius: "5px", boxShadow: "5px 5px 5px #000"}} src={c.icon}/>
-                </Button>
-
-        {/* </Tooltip>
-        <Tooltip TransitionComponent={Fade} 
-        TransitionProps={{ timeout: 600 }}
-        title={c.description}> */}
-                <Button fullWidth onClick={() => {handleClick(c)}} >
                     <Typography variant='body1' className='gradient-text text-center' sx={{}}>
                         {c.name}
-                    </Typography>            
-                </Button>                      
+                    </Typography>   
+                </Button>
+                    
             </motion.div>
       
         {/* </Tooltip> */}
