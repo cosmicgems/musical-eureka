@@ -158,10 +158,21 @@ body, * {
 .scrollable-container {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding: 0 20px; /* Adjust as needed */
+  scroll-padding: 0 1px; /* Adjust as needed */
 }
 
 .scrollable-item {
+  scroll-snap-align: center;
+}
+
+
+.scrollable-container-two {
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-padding: 0 1px; /* Adjust as needed */
+}
+
+.scrollable-item-two {
   scroll-snap-align: center;
 }
 

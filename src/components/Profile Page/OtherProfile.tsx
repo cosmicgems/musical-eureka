@@ -1,8 +1,20 @@
+import { Box } from '@mui/material'
 import React from 'react'
+import Layout from '../Layout'
 
 const OtherProfile = () => {
   return (
-    <div>OtherProfile</div>
+    <Box sx={{}} className="">
+
+        <Layout>
+
+            <div className='h-screen flex justify-center items-center'>
+              Other Profile
+            </div>
+
+        </Layout>
+
+    </Box>
   )
 }
 

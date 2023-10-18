@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { getSession, signOut } from 'next-auth/react'
 import UserCard from './User/UserCard'
+import DynamicMobileUserChip from './User/DynamicMobileUserChip'
 
 
 interface Session {
@@ -144,6 +145,7 @@ const Subscribe = ({user}) => {
         <>
             {
                 !values.sent && !values.sending  ?
+                <> 
                     <div className='flex  sm:mt-20 w-full gap-12 justify-space items-center px-3  sm:mb-6'>
                         <div className='flex flex-col w-full sm:w-3/4 p-0 justify-center items-center '>
                             {
@@ -192,6 +194,11 @@ const Subscribe = ({user}) => {
 
                         </div>
                     </div>
+                        <div className='w-[100%] flex flex-col justify-center items-center sm:hidden'>
+                            <DynamicMobileUserChip user={user} />
+                        </div>                
+                </>
+
                 : values.sent ?
 
                 <div className='flex  sm:mt-20 w-full gap-12 justify-space items-center px-3 sm:mb-6'>
