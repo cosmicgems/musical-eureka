@@ -35,7 +35,7 @@ interface Session {
 
 
 const ProfileHomePage = ({user}) => {
-
+  console.log(user)
   const {data:session, status} = useSession() as Session;
 
   const [myProfile, setMyProfile] = useState<boolean>(null);
@@ -51,7 +51,7 @@ const ProfileHomePage = ({user}) => {
   }
 
   const checkUser = async() => {
-    if (user._id === session.user._id ){
+    if (user?._id == session.user._id ){
       setMyProfile(true);
       setOtherProfile(false);
     } else {

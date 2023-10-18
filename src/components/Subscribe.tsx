@@ -194,8 +194,10 @@ const Subscribe = ({user}) => {
 
                         </div>
                     </div>
-                        <div className='w-[100%] flex flex-col justify-center items-center sm:hidden'>
-                            <DynamicMobileUserChip user={user} />
+                        <div className='w-[100%] flex flex-col justify-center items-center sm:hidden '>
+                            {/* <div className='px-12'> */}
+                                <DynamicMobileUserChip user={user} />
+                            {/* </div> */}
                         </div>                
                 </>
 

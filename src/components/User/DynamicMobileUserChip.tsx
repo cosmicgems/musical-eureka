@@ -21,7 +21,7 @@ const DynamicMobileUserChip = ({user}) => {
   }
 
   return (
-    <div onClick={() => {handleChipTransformation("whole")}} className='w-[100%] flex px-6 h-content'>
+    <div onClick={() => {handleChipTransformation("whole")}} className='w-full flex px-10 h-content'>
           <div onClick={() => {handleChipTransformation("pic")}} className={chip ? `h-[60px] w-[60px]  ` : `h-full `}>
             <CardMedia 
               component='img'
@@ -38,7 +38,7 @@ const DynamicMobileUserChip = ({user}) => {
           {
             chip ?
               <div className='w-full flex flex-col justify-center items-center'>
-                <Typography variant='body1' sx={{fontSize:'1.5rem'}} className='gradient-text px-6 py-1 w-full text-center'>
+                <Typography variant='body1' sx={{fontSize:'1.5rem'}} className='gradient-text  py-1 w-full text-center'>
                   {user?.username}
                 </Typography>
               </div>
