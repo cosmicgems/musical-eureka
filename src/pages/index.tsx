@@ -141,7 +141,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
                     <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center  pt-12 sm:pt-0 max-w-[100%]'>
                         <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  pb-6 '>
                             <div>
-                                <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                                <Typography variant='h1' className=' gradient-text-home text-subcategories text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
                                     Pearl Box 
                                 </Typography>
                                 {/* <Button onClick={handleMigrate}>Migrate</Button> */}
