@@ -3,6 +3,7 @@ import { Facebook, Instagram, YouTube, Telegram, Twitter, WhatsApp } from '@mui/
 import { useStateContext } from '../../Context/StateContext';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, } from '@mui/material/colors';
 import { Button, Typography } from '@mui/material';
+import Link from 'next/link';
 
 
 
@@ -22,15 +23,23 @@ const Footer = () => {
     <div className='footer-container'>
       <Typography variant='p' component='div' sx={{color: footerIconColor}}>2023 PEARL BOX CO All rights reserved</Typography>
       <p className='icons'>
-        <Button href='https://www.facebook.com/pearlboxandco'>
+      <Link href='https://www.facebook.com/pearlboxandco' target="_blank">
+        <Button>
           <Facebook sx={{color: footerIconColor}}/>
         </Button>
-        <Button href='https://instagram.com/pearlboxandco?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr'>
+      </Link>
+      <Link target='_blank' href='https://instagram.com/pearlboxandco?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr'>
+        <Button>
           <Instagram sx={{color: footerIconColor}}/>
-        </Button>
-        <Button href='https://www.youtube.com/channel/UCF_QOiSVYqteXK1_xIb2lIw'>
+        </Button>        
+      </Link>
+
+      <Link target='_blank' href='https://www.youtube.com/channel/UCF_QOiSVYqteXK1_xIb2lIw'>
+        <Button>
           <YouTube sx={{color: footerIconColor}}  />
-        </Button>
+        </Button>        
+      </Link>
+
         
       </p>
     </div>

@@ -9,8 +9,10 @@ const MyProfile = ({user}) => {
 
         <Layout>
 
-            <div className='h-screen flex flex-col justify-center items-center w-full'>
-              My Profile
+            <div className='mt-6'>
+
+              My Profile Page
+
             </div>
 
         </Layout>
