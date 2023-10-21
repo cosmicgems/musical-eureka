@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <div className='home-container' style={{backgroundImage: 'url("/credit_zen_about_page/about_creditZen.gif")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', }}>
       <div className='overlay' />
-      <div className=' h-[85vh] text-center flex flex-col justify-end gap-3' style={{paddingInline: theme.spacing(3), paddingBlockEnd: theme.spacing(12)}}>
+      <div className=' h-screen md:h-[85vh] text-center flex flex-col justify-end gap-3' style={{paddingInline: theme.spacing(3), paddingBlockEnd: theme.spacing(12)}}>
         
         <div>
           <Typography variant='h3' sx={{color: theme.palette.primary.light}} className=''>

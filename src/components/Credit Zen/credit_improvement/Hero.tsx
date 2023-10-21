@@ -5,7 +5,7 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    <div className='home-container min-h-[85vh] flex flex-col justify-end items-center' style={{backgroundImage: 'url("/credit_zen_credit_assistance/credit_assistance.gif")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', }}>
+    <div className='home-container h-screen md:min-h-[85vh] flex flex-col justify-end items-center' style={{backgroundImage: 'url("/credit_zen_credit_assistance/credit_assistance.gif")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', }}>
     <div className='overlay' /> 
 
       <div className='text-center' style={{padding: theme.spacing(3), marginBlockEnd: theme.spacing(1)}}>

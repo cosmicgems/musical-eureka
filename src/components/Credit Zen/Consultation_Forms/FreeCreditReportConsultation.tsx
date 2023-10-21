@@ -1,9 +1,9 @@
-import theme from '@/styles/theme/lightThemeOptions'
+import theme from '../../../styles/theme/lightThemeOptions'
 import { Box, Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, Typography } from '@mui/material'
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import { grey } from '@mui/material/colors';
 import React, { useState } from 'react';
-import { states } from '@/assets/states';
+import { states } from '../../../../public/assets/states';
 import axios from 'axios';
 
 const FreeCreditReportConsultation = () => {
