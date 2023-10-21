@@ -8,13 +8,14 @@ import { useStateContext } from '../../Context/StateContext';
 import { useSession } from 'next-auth/react';
 import Subscribe from './Subscribe';
 import { Typography } from '@mui/material';
+import AppBarNavbar from "./AppBarNavbar"
 
 
 const Layout = ({ children}) => {
   const {data: session, status} = useSession();
   const [user, setUser] = useState(null);
 
-  const {pageName, pathName, pathSegment} = useStateContext();
+  const {pageName, pathName, pathSegment, appName} = useStateContext();
   console.log(pathSegment);
 
   if(status === "loading"){
@@ -40,15 +41,34 @@ const Layout = ({ children}) => {
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
 
 
-          <div className='header-div mb-20 sm:mb-0' style={{ paddingInline: 0 }}>
+          <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
+
+
 
             <header style={{ paddingInline: 0 }}>
-              <NavBar user={user} />
+
+              {
+                appName === null ?
+                <NavBar user={user} />
+                :
+                <AppBarNavbar user={user} />
+              }
+
+              
+
+
             </header>
 
           </div>
 
-          <Subscribe user={user} />
+          {
+            appName === null ?
+            <Subscribe user={user} />
+            :
+            null
+          }
+
+          {/* <Subscribe user={user} /> */}
 
           <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
             {children}

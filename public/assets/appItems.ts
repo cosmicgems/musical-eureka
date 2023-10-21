@@ -8,9 +8,10 @@ import TroubleshootRoundedIcon from '@mui/icons-material/TroubleshootRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 interface Page {
-    name: string,
-    path: string,
-    icon: SvgIconComponent,
+    name: string;
+    path: string;
+    icon: SvgIconComponent;
+    _id: string;
 }
 
 interface App {
@@ -57,34 +58,40 @@ export const appItems: App[] = [
             
             {
                 name: 'Home',
-                path: '/',
-                icon: HomeRoundedIcon
+                path: '/apps/credit-zen',
+                icon: HomeRoundedIcon,
+                _id: "873uc837nx73x",
             },
             {
                 name: 'Our Services',
-                path: '/our-services',
-                icon: TroubleshootRoundedIcon 
+                path: '/apps/credit-zen/our-services',
+                icon: TroubleshootRoundedIcon,
+                _id: "3289c634xnm34",
             },
             {
                 name: 'Credit Improvement',
-                path: 'credit-improvement',
-                icon: TrendingUpRoundedIcon
+                path: '/apps/credit-zen/credit-improvement',
+                icon: TrendingUpRoundedIcon,
+                _id: "348n4c6",
             },
             {
                 name: 'About Us',
-                path: '/about',
-                icon: InfoRoundedIcon 
+                path: '/apps/credit-zen/about',
+                icon: InfoRoundedIcon,
+                _id: "43c394ry43fd3783x", 
             },
             {
                 name: 'Contact Us',
-                path: '/contact',
-                icon: PhoneRoundedIcon 
+                path: '/apps/credit-zen/contact',
+                icon: PhoneRoundedIcon,
+                _id: "893n46436cx", 
             },
-            {
-                name: 'Client Login',
-                path: '/login',
-                icon: LoginRoundedIcon
-            },
+            // {
+            //     name: 'Client Login',
+            //     path: '/apps/credit-zen/login',
+            //     icon: LoginRoundedIcon,
+            //     _id: "783b64c83487",
+            // },
         ]
     },
 ]

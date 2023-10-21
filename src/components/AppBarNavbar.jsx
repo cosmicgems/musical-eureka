@@ -28,16 +28,19 @@ import { getSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import UserCard from './User/UserCard';
 import UserCardMobile from './User/UserCardMobile';
+import { appItems } from '../../public/assets/appItems';
 
 const drawerWidth = 300;
 
 
-function NavBar(props) {
+function AppBarNavbar(props) {
     const router = useRouter();
-    const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
+    const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories, appName } = useStateContext();
     const { window, user } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [loggedIn, setLoggedIn] = React.useState(false);
+    const app = appItems.find((obj => obj.slug === appName))
+    console.log(app);
     
 
   const handleDrawerToggle = () => {
@@ -57,13 +60,14 @@ function NavBar(props) {
 
     const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
     const drawer = (
-        <Box onClick={handleDrawerToggle} className="h-full" sx={{ textAlign: 'center' , bgcolor:grey[900]}}>
+        <Box onClick={handleDrawerToggle} className="h-content px-3" sx={{  bgcolor:grey[900]}}>
 
             <Link href='/'>
 
                 <Typography className='gradient-text font-bold' variant="h6" sx={{ my: 2, fontSize: '2rem' }}>
                     Pearl Box 
                 </Typography>
+
                 <div className='px-20'>
                     <Divider className='mb-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
                 </div>
@@ -73,28 +77,47 @@ function NavBar(props) {
             {
                 loggedIn && 
                 <div className='px-6 '>
-                <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.5rem'}}>
-                Hello {user?.first_name},
-                </Typography>
-                <UserCardMobile />
-                    <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
+                  <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.5rem'}}>
+                    Hello {user?.first_name},
+                  </Typography>
+                  <UserCardMobile />
+                      <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
                 </div>
             }
             {
                 !loggedIn &&
                 <div className='sm:hidden mt-6 mb-3 flex flex-col gap-1'>
-                <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.15rem'}}>
-                Cultivate a lifestyle worth living.
-                </Typography>
-                <Subscribe />
+                  <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.15rem'}}>
+                    Cultivate a lifestyle worth living.
+                  </Typography>
+                  <Subscribe />
                 </div>
             }
   
-
         <List>
+        <Typography variant='h5' sx={{}} className='gradient-text-four'>
+          {app.name}
+        </Typography>
+          {app.pages.map((page) => (
+            <ListItem key={page._id } disablePadding>
+                <ListItemButton href={page.path} sx={{}}>
+                  <ListItemText  variant="h4" className='gradient-text' >
+                      <Typography className='font-bold' variant='h4' sx={{fontSize: '1.5rem'}}>
+                      {page.name.toLocaleUpperCase()}
+                      </Typography>
+                  </ListItemText>
+                </ListItemButton>
+            </ListItem>                  
+          ))}          
+        </List>
+        <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
+        <List>
+        <Typography variant='h5' sx={{}} className='gradient-text-home'>
+          Pearl Box
+        </Typography>
             {navItems.map((item, i) => (
             <ListItem key={item.name + i.toString()} disablePadding>
-                <ListItemButton href={item.path} sx={{ textAlign: 'center' }}>
+                <ListItemButton href={item.path} sx={{ textAlign: '' }}>
                 <ListItemText  variant="h3" className='gradient-text' >
                     <Typography className='font-bold' variant='h3' sx={{fontSize: '1.5rem'}}>
                     {item.name.toLocaleUpperCase()}
@@ -289,4 +312,5 @@ const handleSignup = (e) => {
 
 
 
-export default NavBar
+
+export default AppBarNavbar

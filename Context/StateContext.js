@@ -31,21 +31,13 @@ export const StateContext = ({ children }) => {
   let appName = pathSegment === "apps" ? pageName.split("/")[2] : null
 
   console.log(appName);
-
-  // let app 
-
-  
+  console.log(appItems[appName]);
 
   const router = useRouter();
   console.log(router.pathname);
 
-
   let foundProduct;
   let index;
-
-
-
-
 
   useEffect(()=> {
     setPageName(router.pathname);
@@ -139,7 +131,7 @@ export const StateContext = ({ children }) => {
   }
 
   return (
-      <Context.Provider value={{showCart, setShowCart, cartItems, setCartItems, totalPrice, setTotalPrice, totalQuantities, setTotalQuantities, qty, setQty, incQty, decQty, onAdd, toggleCartItemQuantity, onRemove, industryHoverName, setIndustryHoverName, pageName, pageSlug, pathSegment, subcategories }}>
+      <Context.Provider value={{showCart, setShowCart, cartItems, setCartItems, totalPrice, setTotalPrice, totalQuantities, setTotalQuantities, qty, setQty, incQty, decQty, onAdd, toggleCartItemQuantity, onRemove, industryHoverName, setIndustryHoverName, pageName, pageSlug, pathSegment, subcategories, appName }}>
           {children}
       </Context.Provider>
   )
