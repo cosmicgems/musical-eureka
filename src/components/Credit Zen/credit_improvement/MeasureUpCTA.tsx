@@ -9,7 +9,7 @@ const MeasureUpCTA = () => {
       <div className='flex flex-col justify-center items-center text-center' style={{padding: theme.spacing(3)}}>
 
         <div style={{marginBlockEnd: theme.spacing(3)}}>
-          <Typography variant='h3' sx={{}} className=''>
+          <Typography variant='h4' component="div" sx={{}} className=''>
             Want to Know How Your Score Measures Up?
           </Typography>
         </div>

@@ -16,7 +16,7 @@ const Hero = () => {
         </div>
 
         <div>
-          <Typography variant='h5' sx={{color: theme.palette.secondary.light}} className=''>
+          <Typography variant='h5' component="div" sx={{color: theme.palette.secondary.light}} className=''>
           Elevate Your Financial Journey with Credit Zen
           </Typography>
         </div>

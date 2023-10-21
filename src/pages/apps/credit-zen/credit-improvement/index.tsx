@@ -8,11 +8,15 @@ import MeasureUpCTA from '../../../../components/Credit Zen/credit_improvement/M
 import ScoreNeeded from '../../../../components/Credit Zen/credit_improvement/ScoreNeeded'
 import React from 'react'
 import Layout from '../../../../components/Layout'
+import { ThemeProvider } from '@emotion/react'
+import theme from '../../../../styles/theme/lightThemeOptions'
 
 const CreditImprovementPage = () => {
   return (
     <div style={{}}>
       <Layout>
+        
+      <ThemeProvider theme={theme}>
         <Hero />
         <MeasureUpCTA />
         <FixCredit />
@@ -20,6 +24,8 @@ const CreditImprovementPage = () => {
         <ScoreNeeded />
         <CreditBasics />
         <CreditRightForYou />        
+      </ThemeProvider>
+        
       </Layout>
 
     </div>

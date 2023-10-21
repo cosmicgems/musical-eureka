@@ -8,16 +8,22 @@ import React from 'react'
 import Layout from '../../../../components/Layout'
 import { Box } from '@mui/material'
 import { grey } from '@mui/material/colors'
+import { ThemeProvider } from '@emotion/react'
+import theme from '../../../../styles/theme/lightThemeOptions'
 
 const OurServicesPage = () => {
   return (
     <Box className='' sx={{}}>
       <Layout>
+        
+      <ThemeProvider theme={theme}>
         <Hero />
         <UnderstandCreditRepair />
         <StatisticsComponent />
         <Services/>
-        <ClientReviews />        
+        <ClientReviews /> 
+      </ThemeProvider>
+       
       </Layout>
 
     </Box>

@@ -12,7 +12,7 @@ const CreditRightForYou = () => {
       <div style={{padding: theme.spacing(3)}} className='flex flex-col justify-center items-center'>
 
         <div style={{marginBlockEnd: theme.spacing(3)}}>
-          <Typography variant='h5' sx={{}} className=''>
+          <Typography variant='h4' component="div" sx={{}} className='text-center'>
             Is Credit Repair Right For You?
           </Typography>
         </div>

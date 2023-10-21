@@ -9,7 +9,7 @@ const ScoreNeeded = () => {
       <div className='flex flex-col gap-3 justify-center items-center' style={{padding: theme.spacing(3)}}>
 
         <div style={{}}>
-          <Typography variant='h5' sx={{color: theme.palette.primary.light}} className=''>
+          <Typography variant='h4' component="div" sx={{color: theme.palette.primary.light}} className=''>
             What Score Do I Need...
           </Typography>
         </div>

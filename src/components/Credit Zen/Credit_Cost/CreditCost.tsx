@@ -8,7 +8,7 @@ const CreditCost = () => {
     <div style={{backgroundColor: theme.palette.secondary.light, padding: theme.spacing(3)}}>
       
       <div className='text-center' style={{marginBlockEnd: theme.spacing(2)}}>
-        <Typography variant='h4' className='' sx={{}}>
+        <Typography variant='h4' component="div" className='' sx={{}}>
           How can good credit bring you peace?
         </Typography>
       </div>

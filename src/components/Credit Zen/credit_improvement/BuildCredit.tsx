@@ -7,10 +7,10 @@ const BuildCredit = () => {
   return (
     <div  style={{backgroundColor: ''}}>
 
-      <div className='flex flex-col justify-center items-center text-center' style={{padding: theme.spacing(3)}}>
+      <div className='flex flex-col justify-center items-center text-center gap-3' style={{padding: theme.spacing(3)}}>
         
         <div>
-          <Typography variant='h3' sx={{}} className=''>
+          <Typography variant='h4' component="div" sx={{}} className=''>
             Building Your Credit
           </Typography>
         </div>

@@ -8,7 +8,7 @@ const FixCredit = () => {
     <div className='flex flex-col text-center' style={{padding: theme.spacing(3), backgroundColor: theme.palette.primary.light}}>
 
       <div style={{marginBlockEnd: theme.spacing(3)}}>
-        <Typography variant='h3' sx={{}} className=''>
+        <Typography variant='h4' component="div" sx={{}} className=''>
           Repairing Your Credit
         </Typography>
       </div>

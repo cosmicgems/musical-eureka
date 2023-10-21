@@ -65,10 +65,10 @@ const CreditRepairVsCreditBuilding = () => {
 
           {repair || build ?
             <Typography sx={{marginBlockEnd: theme.spacing(3), color: theme.palette.secondary.main}} variant='h4' component="div" className='text-center ' >
-              Let&apos;s meditate on <Typography variant='h4' className='inline-block italic' sx={{}}>Credit Repair</Typography> and <Typography variant='h4' className='inline-block italic' sx={{}}>Credit Building</Typography> 
+              Let&apos;s meditate on <Typography variant='h4' component="div"  className='inline-block italic' sx={{}}>Credit Repair</Typography> and <Typography variant='h4' component="div" className='inline-block italic' sx={{}}>Credit Building</Typography> 
             </Typography> :  
-            <Typography sx={{marginBlockEnd: theme.spacing(3),  }} variant='h4' className='text-center ' >
-              Let&apos;s meditate on <Typography variant='h4' className='inline-block italic' sx={{}}>Credit Repair</Typography> and <Typography variant='h4' className='inline-block italic' sx={{}}>Credit Building</Typography> 
+            <Typography sx={{marginBlockEnd: theme.spacing(3),  }} variant='h4' className='text-center ' component="div" >
+              Let&apos;s meditate on <Typography variant='h4' component="div" className='inline-block italic' sx={{}}>Credit Repair</Typography> and <Typography component="div" variant='h4' className='inline-block italic' sx={{}}>Credit Building</Typography> 
             </Typography>          
           }
 

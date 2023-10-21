@@ -16,7 +16,7 @@ const App = ({data}) => {
         TransitionProps={{ timeout: 600 }}
         title={data.description}>
             <Button href={data.href}>
-                <Typography variant='body1' className='gradient-text-category text-center' sx={{}}>
+                <Typography variant='caption' className='gradient-text-category text-center' sx={{}}>
                     {data.name}
                 </Typography>            
             </Button>            

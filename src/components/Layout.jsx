@@ -9,6 +9,10 @@ import { useSession } from 'next-auth/react';
 import Subscribe from './Subscribe';
 import { Typography } from '@mui/material';
 import AppBarNavbar from "./AppBarNavbar"
+import DynamicMobileUserChip from './User/DynamicMobileUserChip';
+import { ThemeProvider } from '@emotion/react';
+import theme from '../styles/theme/lightThemeOptions';
+import lightTheme from '../../utility/lightTheme'
 
 
 const Layout = ({ children}) => {
@@ -38,6 +42,8 @@ const Layout = ({ children}) => {
 
   return (
     <>
+    {
+      appName === null ?
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
 
 
@@ -68,7 +74,17 @@ const Layout = ({ children}) => {
             null
           }
 
-          {/* <Subscribe user={user} /> */}
+          {
+            appName === null ?
+            null:
+            <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
+              <div className='w-full md:w-2/5'>
+                <DynamicMobileUserChip user={user} />
+              </div>
+            </div>            
+          }
+
+          
 
           <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
             {children}
@@ -80,6 +96,70 @@ const Layout = ({ children}) => {
 
 
       </div>
+      :
+      <>
+        
+          <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
+
+
+              <ThemeProvider theme={lightTheme} >
+              <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
+
+
+
+                <header style={{ paddingInline: 0 }}>
+
+                  {
+                    appName === null ?
+                    <NavBar user={user} />
+                    :
+                    <AppBarNavbar user={user} />
+                  }
+
+                  
+
+
+                </header>
+
+              </div>
+
+              {
+                appName === null ?
+                <Subscribe user={user} />
+                :
+                null
+              }
+
+              {
+                appName === null ?
+                null:
+                <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
+                  <div className='w-full md:w-2/5'>
+                    <DynamicMobileUserChip user={user} />
+                  </div>
+                </div>            
+              }
+              </ThemeProvider>
+              
+            <ThemeProvider theme={theme}>
+              <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
+                {children}
+              </main>     
+            </ThemeProvider> 
+
+              <footer className='footer'>
+                <Footer />
+              </footer>
+
+
+          </div>          
+      </>
+
+
+    }
+
+
+
     </>
   );
 };

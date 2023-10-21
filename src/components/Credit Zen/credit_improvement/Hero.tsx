@@ -16,7 +16,7 @@ const Hero = () => {
           </Typography>
         </div>
         <div style={{marginBlockEnd: theme.spacing(3)}}>
-          <Typography variant='h5' sx={{color: theme.palette.secondary.light}} className=''>
+          <Typography variant='h5' sx={{color: theme.palette.secondary.light}} component="div" className=''>
             We have resources to help
           </Typography>
         </div>    

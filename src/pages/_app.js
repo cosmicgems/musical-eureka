@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import { StateContext } from '../../Context/StateContext'
+import { StateContext, useStateContext } from '../../Context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import { Box, ThemeProvider, Typography } from "@mui/material"
 import lightTheme from '../../utility/lightTheme'
@@ -17,15 +17,42 @@ const clientSideEmotionCache = createEmotionCache();
 export default function App({ session, Component,
   emotionCache = clientSideEmotionCache, pageProps, }) {
 
+    // const {appName} = useStateContext();
 
 
+    // if(appName !== null) {
+    //   return (
+        
+    //     <CacheProvider value={emotionCache}>
+    //         <SessionProvider session={pageProps.session}>
+    //             <StateContext>
+    //                 <Toaster />
+                    
+    //                 {Component.auth ? (
+    //                     <Auth>
+    //                         <Component {...pageProps} />    
+    //                     </Auth>
+    //                 ) : Component.superAuth ? (
+    //                   <SuperAuth>
+    //                     <Component {...pageProps} />
+    //                   </SuperAuth>
+                      
+    //                 ): Component.userAuth ? 
+    //                   (<Component {...pageProps} />) :
+    //                   (<Component {...pageProps} />)}
+                    
+    //             </StateContext>            
+    //         </SessionProvider>
+    //     </CacheProvider>
 
 
+    // )
+    // }
 
     return (
         
         <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={lightTheme}>
+          {/* <ThemeProvider theme={lightTheme}> */}
             <SessionProvider session={pageProps.session}>
                 <StateContext>
                     <Toaster />
@@ -45,7 +72,7 @@ export default function App({ session, Component,
                     
                 </StateContext>            
             </SessionProvider>
-          </ThemeProvider>
+          {/* </ThemeProvider> */}
         </CacheProvider>
 
 
