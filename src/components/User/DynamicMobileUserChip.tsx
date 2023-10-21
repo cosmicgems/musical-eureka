@@ -1,6 +1,6 @@
 import { Box, Button, CardMedia, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { userChipItems } from '../../../public/assets/userChipItems'
 
 const profile = []
@@ -31,23 +31,69 @@ const DynamicMobileUserChip = ({user}) => {
     }
     setChip(!chip);
   }
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+      const scrollContainer = scrollContainerRef.current;
+  
+      // Add an event listener to handle scroll snap on scroll end
+      const handleScroll = () => {
+      const scrollLeft = scrollContainer.scrollLeft;
+      const containerWidth = scrollContainer.clientWidth;
+      const featuredCards = scrollContainer.querySelectorAll('.scrollable-item');
+  
+      let nearestCard = null;
+      let minDistance = Infinity;
+  
+      // Find the nearest project card based on scroll position
+      featuredCards.forEach((card) => {
+          const cardRect = card.getBoundingClientRect();
+          const distance = Math.abs(cardRect.left - scrollLeft);
+  
+          if (distance < minDistance) {
+          minDistance = distance;
+          nearestCard = card;
+          }
+      });
+  
+      // Snap to the nearest project card
+      if (nearestCard) {
+          scrollContainer.scrollTo({
+          left: nearestCard.offsetLeft,
+          behavior: 'smooth',
+          });
+      }
+      };
+  
+      if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+      }
+  
+      return () => {
+      if (scrollContainer) {
+          scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+      };
+  
+  }, []);
+
                       
   let count = 0;
   
   return (
-    <div onClick={() => {handleChipTransformation("whole")}} className='w-full flex px-10 h-content'>
-      <div className='flex w-full'>
+    <div onClick={() => {handleChipTransformation("whole")}} className='w-full flex px-20 sm:px-6 h-content'>
+      <div className='flex w-full p-0'>
             <div onClick={() => {handleChipTransformation("pic")}} className={chip ? `h-[60px] w-[60px]  ` : `h-full `}>
               <CardMedia 
                 component='img'
                 image={user?.photo}
                 alt={user?.about}
                 sx={{borderBottomLeftRadius:"50%", borderTopLeftRadius:"50%",}}
-                className={chip ? `h-full object-cover ` : `h-full object-cover w-[75px] max-h-[80px]`}
+                className={chip ? `h-full object-cover ` : `h-full object-cover w-[75px] max-h-[80px] sm:max-h-[80px]`}
                 />          
             </div>
-        <Box sx={{bgcolor: grey[900], }} className={chip ? "grow  " : "max-h-[80px] rounded-br-3xl "}>
-          <div className='flex'>
+        <Box sx={{bgcolor: grey[900], }} className={chip ? "grow  " : "max-h-[80px] sm:max-h-[80px] rounded-br-3xl grow "}>
+          <div className='py-1 gap-3 flex flex-col max-h-[80px]  overflow-y-scroll scrollable-container-two'>
 
 
             {
@@ -58,7 +104,7 @@ const DynamicMobileUserChip = ({user}) => {
                   </Typography>
                 </div>
               :
-                <div className='py-1 max-h-[80px] overflow-y-scroll scrollable-container-two'>
+                <div className='h-full flex flex-col'>
                   {
                     userChipItems.map((item, i)=> {
 
@@ -68,20 +114,26 @@ const DynamicMobileUserChip = ({user}) => {
 
                           if(count === userZeroActions) {
                             return(
-                              <Button key={item._id} fullWidth href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className='h-full scrollable-item-two'>
-                                <Typography className='gradient-text-four' >
-                                  {item.name}
-                                </Typography>
-                              </Button>
+                              <div key={item._id}>
+                                <Button  href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className='h-full scrollable-item-two'>
+                                  <Typography className='gradient-text-four' >
+                                    {item.name}
+                                  </Typography>
+                                </Button>                                
+                              </div>
+
                             )
                           }
 
                           return(
-                            <Button key={item._id} fullWidth href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className='h-full scrollable-item-two'>
-                              <Typography className='gradient-text' >
-                                {item.name}
-                              </Typography>
-                            </Button>
+                            <div key={item._id}>
+                              <Button  href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className='h-full scrollable-item-two'>
+                                <Typography className='gradient-text' >
+                                  {item.name}
+                                </Typography>
+                              </Button>                              
+                            </div>
+
                           )
                         }
                       }
@@ -93,19 +145,20 @@ const DynamicMobileUserChip = ({user}) => {
 
                         if(count === adminTwentyFourActions) {
                           return(
-                            <Button key={item._id} fullWidth href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className='h-full scrollable-item-two'>
-                              <Typography className='gradient-text-three' >
-                                {item.name}
-                              </Typography>
-                            </Button>
+                              <Button key={item._id}  href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className=' h-[80px]  scrollable-item-two'>
+                                <Typography className='gradient-text-three' >
+                                  {item.name}
+                                </Typography>
+                              </Button>
+
                           )
                         }
                         return(
-                          <Button key={item._id} fullWidth href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className='h-full scrollable-item-two'>
-                            <Typography className='gradient-text' >
-                              {item.name}
-                            </Typography>
-                          </Button>
+                            <Button key={item._id}   href={item.add_username ? `${item.href}${user.username}`: `${item.href}`} className=' h-[80px]  scrollable-item-two'>
+                              <Typography className='gradient-text' >
+                                {item.name}
+                              </Typography>
+                            </Button>     
                         )                      
                       }
 

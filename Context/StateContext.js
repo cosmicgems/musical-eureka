@@ -4,6 +4,7 @@ import React, {createContext,
   useEffect} from "react";
 import { toast } from 'react-hot-toast'
 import { useRouter } from "next/router";
+import { appItems } from "../public/assets/appItems";
 
 
 
@@ -22,17 +23,16 @@ export const StateContext = ({ children }) => {
   const [qty, setQty] = useState(1);
   const [industryHoverName, setIndustryHoverName] = useState('');
   const [pageName, setPageName] = useState('');
-  const [hrefContext, setHrefContext] = useState('');
   const [pageSlug, setPageSlug] = useState('');
 
   const [subcategories, setSubcategories] = useState();
-  const [categories, setCategories] = useState([]);
-  const [articles, setArticles] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [subNavbar, setSubNavbar] = useState([])
 
   let pathSegment = pageName === "/" ? "home" : pageName.split("/")[1]
+  let appName = pathSegment === "apps" ? pageName.split("/")[2] : null
+
+  console.log(appName);
+
+  // let app 
 
   
 
