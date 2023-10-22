@@ -2,6 +2,7 @@ import { Box, Button, CardMedia, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import React, { useEffect, useRef, useState } from 'react'
 import { userChipItems } from '../../../public/assets/userChipItems'
+import {motion} from "framer-motion"
 
 const profile = []
 
@@ -81,9 +82,18 @@ const DynamicMobileUserChip = ({user}) => {
   let count = 0;
   
   return (
-    <div onClick={() => {handleChipTransformation("whole")}} className='w-full flex px-20 sm:px-6 h-content'>
+    <motion.div drag
+    whileDrag={{ scale: 1.1 }}
+    whileHover={{ scale: 1.1 }}
+    
+    dragConstraints={{
+    top: 0,
+    left: -250,
+    right: 25,
+    bottom: 250,
+    }}  onClick={() => {handleChipTransformation("whole")}} className='w-full flex px-20 sm:px-6 h-content'>
       <div className='flex w-full p-0'>
-            <div onClick={() => {handleChipTransformation("pic")}} className={chip ? `h-[60px] w-[60px]  ` : `h-full `}>
+            <div onClick={() => {handleChipTransformation("pic")}} className={chip ? `h-[60px] sm:h-[65px] w-[60px]  ` : `h-full `}>
               <CardMedia 
                 component='img'
                 image={user?.photo}
@@ -173,8 +183,8 @@ const DynamicMobileUserChip = ({user}) => {
       </div>
 
 
-      <Box sx={{bgcolor:grey[900], borderBottomRightRadius:"50%", borderTopRightRadius:"50%"}} className=" w-[60px] h-[60px]" />
-    </div>
+      <Box sx={{bgcolor:grey[900], borderBottomRightRadius:"50%", borderTopRightRadius:"50%"}} className=" w-[60px] h-[60px] sm:w-[65px] sm:h-[65px]" />
+    </motion.div>
 
   )
 }

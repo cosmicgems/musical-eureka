@@ -69,6 +69,12 @@ export const appItems: App[] = [
                 _id: "3289c634xnm34",
             },
             {
+                name: 'Self Service',
+                path: '/apps/credit-zen/self-service',
+                icon: TroubleshootRoundedIcon,
+                _id: "3289c634xnm34",
+            },
+            {
                 name: 'Credit Improvement',
                 path: '/apps/credit-zen/credit-improvement',
                 icon: TrendingUpRoundedIcon,

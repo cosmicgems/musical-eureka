@@ -133,8 +133,8 @@ const Layout = ({ children}) => {
               {
                 appName === null ?
                 null:
-                <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
-                  <div className='w-full md:w-2/5'>
+                <div className='absolute mt-20 w-screen flex md:justify-end md:items-end h-content'>
+                  <div className='w-full md:w-[33.3%]'>
                     <DynamicMobileUserChip user={user} />
                   </div>
                 </div>            
@@ -142,7 +142,7 @@ const Layout = ({ children}) => {
               </ThemeProvider>
               
             <ThemeProvider theme={theme}>
-              <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
+              <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen  '>
                 {children}
               </main>     
             </ThemeProvider> 

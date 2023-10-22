@@ -5,6 +5,36 @@ import { grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import { states } from '../../../../public/assets/states';
 import axios from 'axios';
+import { IMaskInput } from 'react-imask';
+
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+interface State {
+  textmask: string;
+  numberformat: string;
+}
+  
+const TextMaskCustom = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="(#00) 000-0000"
+        definitions={{
+          '#': /[1-9]/,
+        }}
+        inputRef={ref as React.Ref<HTMLInputElement>}
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
+
 
 const FreeCreditReportConsultation = () => {
 
@@ -25,6 +55,17 @@ const FreeCreditReportConsultation = () => {
       state: [],
       zip: "",
   });
+  const [values, setValues] = React.useState<State>({
+    textmask: '',
+    numberformat: '1320',
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const {firstName, lastName, email} = freeConsultation;
 
@@ -32,6 +73,7 @@ const FreeCreditReportConsultation = () => {
   
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
+
   const MenuProps = {
   PaperProps: {
       style: {
@@ -47,20 +89,30 @@ const FreeCreditReportConsultation = () => {
       firstName,
       lastName, 
       email,
-      phone,
+      phone: values.textmask,
       address
     }
     e.preventDefault();
-    console.log(form);
-    
-    const consultation = await axios.post("/api/consultation/free-consultation", {form})
-    console.log(consultation.data.message);
+    // console.log(form);
+    try {
+      const consultation = await axios.post("/api/apps/credit-zen/consultation/free-consultation", {form})
+      console.log(consultation.data.message);     
+    } catch (error) {
+      console.error(error)
+    }
+
     
   }
 
   return (
     <Box sx={{}} className=''>
-      <div className='min-h-screen' style={{padding: theme.spacing(3),}}>
+      <div className='min-h-screen ' style={{padding: theme.spacing(3),}}>
+
+      <div style={{marginBlockEnd: theme.spacing(3)}}>
+          <Typography variant='h4' component="div" sx={{}} className='w-full text-center' >
+            Credit Consultation
+          </Typography>
+        </div>
 
         <div style={{marginBlockEnd: theme.spacing(1)}}>
           <Typography variant='body1' sx={{}} className='' >
@@ -126,48 +178,17 @@ const FreeCreditReportConsultation = () => {
 
               <div className='flex flex-col gap-3'>
                 <div className='flex flex-col gap-3'>
-                  <Typography variant='body1' className='text-bold' sx={{}}>
-                      Phone
-                  </Typography>
-                  
-                  <div className='flex justify-center items-center gap-1'>
-                      <Typography variant='h5' sx={{}} className=''>
-                          &#40;
-                      </Typography>
-                      <TextField 
-                      fullWidth
-                      sx={{}} 
-                      variant="outlined" 
-                      className='w-full' 
-                      value={phone.sequence_one} 
-                      onChange={(e)=>{setPhone({...phone,sequence_one:e.target.value})}} 
-                      label="123" 
-                      />
-                      <Typography variant='h5' sx={{}} className=''>
-                          &#41;&nbsp;&nbsp;
-                      </Typography>
-                      <TextField 
-                      fullWidth
-                      sx={{}} 
-                      variant="outlined" 
-                      className='w-full' 
-                      value={phone.sequence_two} 
-                      onChange={(e)=>{setPhone({...phone, sequence_two:e.target.value})}} 
-                      label="456" 
-                      />
-                      <Typography variant='h6' sx={{}} className=''>
-                          -
-                      </Typography>
-                      <TextField 
-                      fullWidth
-                      sx={{}} 
-                      variant="outlined" 
-                      className='w-full' 
-                      value={phone.sequence_three} 
-                      onChange={(e)=>{setPhone({...phone, sequence_three:e.target.value})}} 
-                      label="7890" 
-                      />
-                      
+                  <div>
+                    <TextField
+                    fullWidth
+                    value={values.textmask}
+                    onChange={handleChange}
+                    name="textmask"
+                    id="formatted-text-mask-input"
+                    InputProps={{
+                      inputComponent: TextMaskCustom as any,
+                    }}
+                    label='Phone' />              
                   </div>                                            
                 </div>
               

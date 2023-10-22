@@ -34,7 +34,7 @@ interface Session {
 
 }
 
-const RealEstateConnectApp = () => {
+const CreditZenApp = () => {
   const [user, setUser] = useState<any>(null);
   const {data: session, status} = useSession() as Session;
   
@@ -66,16 +66,16 @@ const RealEstateConnectApp = () => {
   return (
     <Box>
       <Layout>
-        <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={theme}> */}
           <Hero user={user} />
           <SimpleProcessSection />
           <CreditRepairVsCreditBuilding />
           <CreditCost />          
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
 
       </Layout>
     </Box>
   )
 }
 
-export default RealEstateConnectApp
+export default CreditZenApp
