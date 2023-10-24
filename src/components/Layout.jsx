@@ -45,54 +45,56 @@ const Layout = ({ children}) => {
     {
       appName === null ?
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
+        <ThemeProvider theme={lightTheme} >
+            <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
 
 
-          <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
+
+              <header style={{ paddingInline: 0 }}>
+
+                {
+                  appName === null ?
+                  <NavBar user={user} />
+                  :
+                  <AppBarNavbar user={user} />
+                }
+
+                
 
 
+              </header>
 
-            <header style={{ paddingInline: 0 }}>
+            </div>
 
-              {
-                appName === null ?
-                <NavBar user={user} />
-                :
-                <AppBarNavbar user={user} />
-              }
+            {
+              appName === null ?
+              <Subscribe user={user} />
+              :
+              null
+            }
 
-              
+            {
+              appName === null ?
+              null:
+              <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
+                <div className='w-full md:w-2/5'>
+                  <DynamicMobileUserChip user={user} />
+                </div>
+              </div>            
+            }
 
+            
 
-            </header>
+            <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
+              {children}
+            </main>
 
-          </div>
+            <footer className='footer'>
+              <Footer />
+            </footer>
 
-          {
-            appName === null ?
-            <Subscribe user={user} />
-            :
-            null
-          }
+        </ThemeProvider>
 
-          {
-            appName === null ?
-            null:
-            <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
-              <div className='w-full md:w-2/5'>
-                <DynamicMobileUserChip user={user} />
-              </div>
-            </div>            
-          }
-
-          
-
-          <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
-            {children}
-          </main>
-
-          <footer className='footer'>
-            <Footer />
-          </footer>
 
 
       </div>
