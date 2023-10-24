@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
 const fontFamilies = {
-  primary: 'Oswald, sans-serif',
+  primary: 'Rajdhani, sans-serif',
   secondary: 'Nunito Sans, sans-serif'
 }
 
