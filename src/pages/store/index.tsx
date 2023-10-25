@@ -3,21 +3,45 @@ import Layout from '../../components/Layout'
 import { Box, Typography } from '@mui/material'
 import Store from '../../components/Store/css/Store.module.css'
 import { grey } from '@mui/material/colors'
+import { shopifyClient, parseShopifyResponse } from '../../../lib/shopify'
+import ProductsList from '../../components/Store/Products/ProductsList'
 
-const StoreHome = () => {
+const StoreHome = ({products}) => {
+    console.log(process.env.SHOPIFY_STORE_DOMAIN);
+    console.log(products);
+    
   return (
-    <Box sx={{bgcolor:grey[500]}}>
+    // <Box sx={{bgcolor:grey[500]}}>
         <Layout>
-            <div className='gradient-text-home flex flex-col justify-center items-center min-h-[85vh]'>
+            <div className='flex flex-col  min-h-[85vh]'>
                 <Typography variant='h3' component="div" className='gradient-text'>
                     Store Home
                 </Typography>
+
+                <div>
+                    <ProductsList products={products} />
+                </div>
+
+                
             </div>
         </Layout>        
-    </Box>
+    // </Box>
 
     
   )
+}
+
+export const getServerSideProps = async () => {
+    console.log(process.env.SHOPIFY_STORE_DOMAIN);
+
+    const products = await shopifyClient.product.fetchAll();
+    // let products =["product"]
+
+    return {
+        props: {
+            products: parseShopifyResponse(products),
+        }
+    }
 }
 
 export default StoreHome
