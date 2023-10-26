@@ -39,7 +39,7 @@ const Product = ({product, goToProductPage}) => {
           {title}
         </Typography>
         <Typography variant='body1' component="div">
-          ${price.amount}0
+          ${price.amount}
         </Typography>
           </div>
 

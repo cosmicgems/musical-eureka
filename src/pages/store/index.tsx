@@ -31,8 +31,8 @@ const StoreHome = ({products}) => {
   )
 }
 
-export const getServerSideProps = async () => {
-    console.log(process.env.SHOPIFY_STORE_DOMAIN);
+export const getStaticProps = async () => {
+    
 
     const products = await shopifyClient.product.fetchAll();
     // let products =["product"]
