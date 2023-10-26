@@ -31,15 +31,15 @@ const StoreHome = ({products}) => {
   )
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
     
 
     const products = await shopifyClient.product.fetchAll();
     // let products =["product"]
-    const parsedProducts = parseShopifyResponse(products);
+
     return {
         props: {
-            products: parsedProducts,
+            products: parseShopifyResponse(products),
         }
     }
 }
