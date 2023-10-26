@@ -36,10 +36,10 @@ export const getStaticProps = async () => {
 
     const products = await shopifyClient.product.fetchAll();
     // let products =["product"]
-
+    const parsedProducts = parseShopifyResponse(products);
     return {
         props: {
-            products: parseShopifyResponse(products),
+            products: parsedProducts,
         }
     }
 }
