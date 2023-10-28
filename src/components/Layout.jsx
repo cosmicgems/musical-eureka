@@ -111,7 +111,9 @@ const Layout = ({ children}) => {
 
                 {
                   pathSegment === "store" ?
-                    <StoreNavbar user={user} children={children} />
+                    <StoreNavbar user={user}  >
+                      {children}
+                    </StoreNavbar>
                   :
                   <AppBarNavbar user={user} />
                 }
