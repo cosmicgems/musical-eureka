@@ -39,7 +39,7 @@ const StoreHome = ({products, collections}) => {
     
   )
 }
-
+export const runtime = 'edge' 
 export const getServerSideProps = async () => {
     
 
