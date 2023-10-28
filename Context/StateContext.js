@@ -56,6 +56,7 @@ export const StateContext = ({ children }) => {
     }
   }, [setCartItems]);
 
+
   useEffect(() => {
     if (cartItems !== initialState) {
       let cart_num = 0
@@ -67,11 +68,13 @@ export const StateContext = ({ children }) => {
       localStorage.setItem("cart-total-qty", JSON.stringify(cart_num));
     }
   }, [cartItems, initialState, totalQuantities]);
-  
+
+
+
   const onAdd = (product, quantity) => {
       const checkProductInCart = cartItems.find((item) => item._id === product._id);
       
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.variations[0].price * quantity);
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
       
       if(checkProductInCart) {
@@ -90,8 +93,9 @@ export const StateContext = ({ children }) => {
       }
       setQty(1)
       toast.success(`${qty} ${product.name} added to the cart.`);
-    } 
-  
+  } 
+
+
   const onRemove = (product) => {
     foundProduct = cartItems.find((item) => item._id === product._id);
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
@@ -100,6 +104,7 @@ export const StateContext = ({ children }) => {
     setTotalQuantities(prevTotalQuantities => prevTotalQuantities - foundProduct.quantity);
     setCartItems(newCartItems);
   }
+
 
   const toggleCartItemQuantity = (id, value) => {
     foundProduct = cartItems.find((item) => item._id === id)
@@ -119,9 +124,12 @@ export const StateContext = ({ children }) => {
     }
   }
 
+
   const incQty = () => {
       setQty((prevQty) => prevQty + 1);
   }
+
+
   const decQty = () => {
       setQty((prevQty) => {
           if(prevQty - 1 < 1 ) return 1;
@@ -131,9 +139,11 @@ export const StateContext = ({ children }) => {
   }
 
   return (
+
       <Context.Provider value={{showCart, setShowCart, cartItems, setCartItems, totalPrice, setTotalPrice, totalQuantities, setTotalQuantities, qty, setQty, incQty, decQty, onAdd, toggleCartItemQuantity, onRemove, industryHoverName, setIndustryHoverName, pageName, pageSlug, pathSegment, subcategories, appName }}>
           {children}
       </Context.Provider>
+
   )
 }
 

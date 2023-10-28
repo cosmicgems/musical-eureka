@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/pages/studio/[[...index]].jsx", "lib/nextauthOptions.js", "src/components/DisqusComments.jsx", "src/components/Store/Products/ProductsList.s", "lib/shopify.ts"  ],
+, "src/pages/studio/[[...index]].jsx", "lib/nextauthOptions.js", "src/components/DisqusComments.jsx", "src/components/Store/Products/ProductsList.s", "lib/shopify.ts", "src/components/StoreNavbar.jsx"  ],
   "exclude": [
     "node_modules"
   ]

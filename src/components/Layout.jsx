@@ -13,6 +13,7 @@ import DynamicMobileUserChip from './User/DynamicMobileUserChip';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../styles/theme/lightThemeOptions';
 import lightTheme from '../../utility/lightTheme'
+import StoreNavbar from './StoreNavbar';
 
 
 const Layout = ({ children}) => {
@@ -43,7 +44,7 @@ const Layout = ({ children}) => {
   return (
     <>
     {
-      appName === null ?
+      appName === null && pathSegment !== "store" ?
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
         <ThemeProvider theme={lightTheme} >
             <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
@@ -94,6 +95,62 @@ const Layout = ({ children}) => {
             </footer>
 
         </ThemeProvider>
+
+
+
+      </div>
+      :
+      appName === null && pathSegment === 'store' ?
+      <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
+        <ThemeProvider theme={lightTheme} >
+            <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
+
+
+
+              <header style={{ paddingInline: 0 }}>
+
+                {
+                  pathSegment === "store" ?
+                    <StoreNavbar user={user} children={children} />
+                  :
+                  <AppBarNavbar user={user} />
+                }
+
+                
+
+
+              </header>
+
+            </div>
+
+            {
+              appName === null ?
+              null
+              :
+              null
+            }
+
+            {
+              appName === null ?
+              null:
+              <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
+                <div className='w-full md:w-2/5'>
+                  <DynamicMobileUserChip user={user} />
+                </div>
+              </div>            
+            }
+
+            
+
+            <main style={{overflowX: 'hidden'}} className='main-container grow  w-full '>
+              
+            </main>
+
+
+        </ThemeProvider>
+            <footer className='footer font-center'>
+              <Footer />
+            </footer>
 
 
 

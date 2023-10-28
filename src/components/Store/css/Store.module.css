@@ -1,0 +1,6 @@
+@tailwind components;
+@tailwind utilities;
+
+.hero {
+    padding-block: 6vh;
+}
