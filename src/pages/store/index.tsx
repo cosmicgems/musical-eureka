@@ -10,14 +10,13 @@ import Hero from '../../components/Store/Home Page/Hero/Hero'
 import Collections from '../../components/Store/Home Page/Collections/Collections'
 
 const StoreHome = ({products, collections}) => {
-    // const products = async() => {
-    //     const res = await shopifyClient.product.fetchAll();
-    //     return parseShopifyResponse(res)
-    // }
+
+    console.log(products[0]);
+    
   return (
     // <Box sx={{bgcolor:grey[500]}}>
         <Layout>
-            <div className='flex flex-col  sm:min-h-[85vh] mt-10 pt-10  w-screen '>
+            <div className='flex flex-col  sm:min-h-[85vh] mt-10 pt-10  w-screen sm:w-full '>
                 <Typography variant='h3' sx={{fontSize:{xs:"2.05rem", sm:"3rem"}}}  className='gradient-text-home sm:text-center px-6'>
                     Store. <span className='' style={{color: "#000"}}>The essentials for curating a lifestyle worth living.</span>
                 </Typography>
@@ -46,7 +45,6 @@ export const getServerSideProps = async () => {
     
     try {
         const products = await shopifyClient.product.fetchAll();
-        console.log(products);
         const collections = await shopifyClient.collection.fetchAll();
 
     return {
@@ -59,7 +57,7 @@ export const getServerSideProps = async () => {
         console.error(error)
         return {
             props: {
-                products: []
+                products: [], collections: []
             }
         }
     }

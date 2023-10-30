@@ -4,8 +4,7 @@ import {motion} from "framer-motion"
 import { grey } from '@mui/material/colors'
 
 const Collection = ({collection, goToCollectionPage}) => {
-    const { id, description, image, title } = collection
-    console.log(image);
+    const { id, description, image, title } = collection;
     
     
     

@@ -9,6 +9,7 @@ import { grey } from '@mui/material/colors';
 
 
 const Product = ({product, goToProductPage}) => {
+  const router = useRouter();
   const { onAdd  } = useStateContext();
   const [showCartActions, setShowCartActions] = useState<boolean>(false);
 
@@ -25,13 +26,16 @@ const Product = ({product, goToProductPage}) => {
 
 
   const handleClick = (e:any, handle:string) => {
+    e.preventDefault();
+    goToProductPage(handle);
   }
   
   return (
         <div>
           <motion.div 
-          onHoverStart={()=>{setShowCartActions(!showCartActions)}}
-          onHoverEnd={()=>{setShowCartActions(!showCartActions)}}
+          onHoverStart={()=>{setShowCartActions(true)}}
+          onHoverEnd={()=>{setShowCartActions(false)}}
+          onClick={(e)=>{handleClick(e,handle)}}
           style={{backgroundImage: `url(${images[bgImage].src})`,
           boxShadow: '2px 2px 5px 3px #dedede' , 
           backgroundSize: 'cover', 
