@@ -41,7 +41,7 @@ const StoreHome = ({products, collections}) => {
 
 
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     
     try {
         const products = await shopifyClient.product.fetchAll();
@@ -58,7 +58,8 @@ export const getServerSideProps = async () => {
         return {
             props: {
                 products: [], collections: []
-            }
+            },
+            revalidate: 60,
         }
     }
 
