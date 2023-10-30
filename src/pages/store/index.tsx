@@ -40,22 +40,31 @@ const StoreHome = ({products, collections}) => {
   )
 }
 
-export const getServerSideProps = async () => {
-    const runtime = 'experimental-edge'
 
-    const products = await shopifyClient.product.fetchAll();
-    console.log(products);
-    const collections = await shopifyClient.collection.fetchAll();
-    // console.log(collections);
+
+export const getServerSideProps = async () => {
     
-    
-    
+    try {
+        const products = await shopifyClient.product.fetchAll();
+        console.log(products);
+        const collections = await shopifyClient.collection.fetchAll();
 
     return {
         props: {
             products: parseShopifyResponse(products), collections: parseShopifyResponse(collections)
         }
+    }        
+
+    } catch (error) {
+        console.error(error)
+        return {
+            props: {
+                products: []
+            }
+        }
     }
+
+
 }
 
 export default StoreHome
