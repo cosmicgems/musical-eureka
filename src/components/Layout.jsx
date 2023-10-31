@@ -110,10 +110,8 @@ const Layout = ({ children}) => {
               <header style={{ paddingInline: 0 }}>
 
                 {
-                  pathSegment === "store" ?
-                    <StoreNavbar user={user}  >
-                      {children}
-                    </StoreNavbar>
+                  appName === null ?
+                  <NavBar user={user} />
                   :
                   <AppBarNavbar user={user} />
                 }
@@ -127,7 +125,7 @@ const Layout = ({ children}) => {
 
             {
               appName === null ?
-              null
+              <Subscribe user={user} />
               :
               null
             }
@@ -144,17 +142,15 @@ const Layout = ({ children}) => {
 
             
 
-            <main style={{overflowX: 'hidden'}} className='main-container grow  w-full '>
-              
+            <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
+              {children}
             </main>
 
-
-        </ThemeProvider>
-            <footer className='footer font-center'>
+            <footer className='footer'>
               <Footer />
             </footer>
 
-
+        </ThemeProvider>
 
       </div>
       :

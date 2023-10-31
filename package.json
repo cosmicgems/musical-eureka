@@ -21,6 +21,7 @@
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.14.1",
     "@sendgrid/mail": "^7.7.0",
+    "@shopify/shopify-api": "^8.0.2",
     "@stripe/stripe-js": "^1.54.1",
     "@tinymce/tinymce-react": "^4.3.0",
     "@vercel/og": "^0.5.9",

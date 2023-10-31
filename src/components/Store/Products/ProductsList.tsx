@@ -113,7 +113,7 @@ export default function ProductsList({products}) {
 
 
   return (
-    <Box className=" sm:max-w-[75%] ">
+    <Box className="w-screen sm:max-w-[75%] ">
       
         <ImageList gap={75} cols={3} sx={{}} className='flex overflow-x-auto pl-6 sm:pl-12 py-6 pr-12' >
           {

@@ -8,9 +8,13 @@ import ProductsList from '../../components/Store/Products/ProductsList'
 import MarketingMessage from '../../components/Store/Home Page/MarketingMessage'
 import Hero from '../../components/Store/Home Page/Hero/Hero'
 import Collections from '../../components/Store/Home Page/Collections/Collections'
+import { shopifyApi, LATEST_API_VERSION } from "@shopify/shopify-api"
 
 const StoreHome = ({products, collections}) => {
-
+    console.log(collections);
+    
+    console.log(products);
+    
     console.log(products[0]);
     
   return (
@@ -46,6 +50,8 @@ export const getStaticProps = async () => {
     try {
         const products = await shopifyClient.product.fetchAll();
         const collections = await shopifyClient.collection.fetchAll();
+
+        // const products = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/products.json`)
 
     return {
         props: {

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 const CollectionContainer = ({products, collections}) => {
     const router = useRouter();
-    const goToCollectionPage = productHandle => router.push(`/store/products/categories/category/${productHandle}`)
+    const goToCollectionPage = productHandle => router.push(`/store/products/categories/${productHandle}`)
   return (
     <div className='sm:w-[75%] min-h-[25vh]'>
         <Box sx={{}}  className="flex gap-12  h-full rounded   py-6  overflow-x-scroll">
