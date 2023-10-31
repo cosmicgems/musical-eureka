@@ -57,19 +57,19 @@ function NavBar(props) {
 
   const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
   const drawer = (
-    <Box onClick={handleDrawerToggle} className="h-full" sx={{ textAlign: 'center' , bgcolor:grey[900]}}>
+    <Box onClick={handleDrawerToggle} className="min-h-content" sx={{ textAlign: 'left' , bgcolor:grey[900]}}>
     <Link href='/'>
-      <Typography className='gradient-text font-bold' variant="h6" sx={{ my: 2, fontSize: '2rem' }}>
+      <Typography className='gradient-text font-bold' variant="h6" sx={{ my: 2, px:2, fontSize: '2rem' }}>
         Pearl Box 
       </Typography>
-      <div className='px-20'>
+      <div className='px-6'>
         <Divider className='mb-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
       </div>
                       
     </Link>
           {
             loggedIn && 
-            <div className='px-6 '>
+            <div className='px-3 '>
             <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.5rem'}}>
               Hello {user?.first_name},
             </Typography>
@@ -91,15 +91,45 @@ function NavBar(props) {
       <List>
         {navItems.map((item, i) => (
           <ListItem key={item.name + i.toString()} disablePadding>
-            <ListItemButton href={item.path} sx={{ textAlign: 'center' }}>
+            <ListItemButton href={item.path} sx={{ textAlign: 'left' }}>
               <ListItemText  variant="h3" className='gradient-text' >
-                <Typography className='font-bold' variant='h3' sx={{fontSize: '1.5rem'}}>
+                <Typography className='font-bold' variant='h3' sx={{fontSize: '1.25rem'}}>
                   {item.name.toLocaleUpperCase()}
                 </Typography>
               </ListItemText>
             </ListItemButton>
           </ListItem>
         ))}
+        <div className='px-6 mb-2'>
+          <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
+        </div>
+        
+        {
+          pathSegment === "store" ?
+          <>
+          <div className='text-left'>
+            <Typography variant='h5' className='font-bold px-3' component="div" sx={{color: grey[50]}}>
+              Store
+            </Typography>
+              {storeNavItems.map((item, i) => (
+                <ListItem key={item.name + i.toString()} disablePadding>
+                  <ListItemButton href={item.path} sx={{ textAlign: 'left' }}>
+                    <ListItemText  variant="h3" className='gradient-text' >
+                      <Typography className='font-bold' variant='h3' sx={{fontSize: '1.25rem'}}>
+                        {item.name.toLocaleUpperCase()}
+                      </Typography>
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              ))}              
+          </div>
+          
+          </>
+          :
+          null
+        }
+
+        
       </List>
 
 

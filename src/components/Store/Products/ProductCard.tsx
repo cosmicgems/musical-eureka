@@ -21,7 +21,7 @@ const ProductCard = ({product, goToProductPage}) => {
         onHoverEnd={()=>{setShowCartActions(false)}}
         whileHover={{scale: 1.1, cursor:"pointer"}} 
         onClick={(e)=>{handleClick(e, product.node.handle)}} 
-        className='w-[45vw] h-[33vh] md:w-[11vw] rounded' 
+        className='w-[45vw] h-[33vh] md:w-[17.5vw] md:h-[45vh] rounded' 
         style={{backgroundImage: `url('${product.node.images.edges[0].node.url}')`, backgroundPosition: 'center', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
             <div className='w-[100%] flex flex-col'>
 

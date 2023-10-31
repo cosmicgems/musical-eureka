@@ -10,12 +10,12 @@ const AllCollectionsPage = ({collections}) => {
     console.log(collections);
     
     const router = useRouter();
-    const goToCollectionPage = productHandle => router.push(`/store/products/categories/${productHandle}`)
+    const goToCollectionPage = productHandle => router.push(`/store/products/collections/collection/${productHandle}`)
     return (
         <Box>
             <Layout>
     
-            <div className='flex flex-col sm:flex-row  sm:min-h-[70vh] mt-6 gap-6' >
+            <div className='flex flex-col sm:flex-row  sm:min-h-[70vh] mt-6 gap-6 md:mt-20' >
     
                 <div className='sm:hidden px-3'>
                 <Typography variant='h5' className=' gradient-text-home' sx={{}} component="div">
@@ -24,9 +24,9 @@ const AllCollectionsPage = ({collections}) => {
                 </div>
     
                 <div className='hidden sm:flex  p-3'>
-                <Box className="rounded h-[40vh] w-[17vw] p-3" sx={{bgcolor:grey[900]}}>
+                <Box className="rounded h-[40vh] w-[17vw] p-3 md:flex md:justify-center md:items-center" sx={{bgcolor:grey[900]}}>
                     <Typography variant='h4' className=' gradient-text' sx={{}} component="div">
-                    Collections. <span style={{}} className='' >Meticulously Curated for a Lifestyle Worth Living.</span>
+                    Collections. <span style={{color: "#EEE"}} className='font-normal' >Meticulously Curated for a Lifestyle Worth Living.</span>
                     </Typography>              
                 </Box>
                 </div>
