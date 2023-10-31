@@ -134,7 +134,7 @@ const Layout = ({ children}) => {
               appName === null ?
               null:
               <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
-                <div className='w-full md:w-2/5'>
+                <div className='w-full '>
                   <DynamicMobileUserChip user={user} />
                 </div>
               </div>            

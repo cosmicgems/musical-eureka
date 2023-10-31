@@ -23,7 +23,7 @@ import Link from 'next/link';
 import { blue, deepPurple, green, orange, yellow, lightBlue, cyan, red, grey } from '@mui/material/colors';
 import { motion } from 'framer-motion'
 import Subscribe from './Subscribe';
-import { navItems } from '../../public/assets/navItems';
+import { navItems, storeNavItems } from '../../public/assets/navItems';
 import { getSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import UserCard from './User/UserCard';
@@ -250,12 +250,36 @@ const handleSignup = (e) => {
               </Grid>
 
             ))}
-            </Grid>
+            </Grid>      
+      {
+        pathSegment === "store" ?
+        <Box sx={{bgcolor: grey[800]}} >
+          
+        <Box className="hidden sm:flex justify-between px-3 " sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {storeNavItems.map((item, i) => (
+              <Button key={item.name + i.toString() + item.path} sx={{ color: '#fff', marginInlineEnd: '2vw' }} href={item.path}>
+                <motion.div
+                whileHover={{ scale: 2 }}
+                whileTap={{ scale: 0.9 }}>
+                    {item.name}
+                </motion.div>
 
-    
-
-
+              </Button>
+            ))}
+                {/* <button type='button'
+                  className='cart-icon' style={{marginInline:'1vw', justifyContent: 'center', alignItems:'center'}} onClick={() => setShowCart(true)}>
+                  <AiOutlineShopping/>
+                  <span className='cart-item-qty'>{totalQuantities}</span>
+                </button>   */}
+          </Box>
+        </Box>
+        :
+        null
+      }
       </AppBar>
+
+
+
       <Box component="nav">
         <Drawer
           container={container}

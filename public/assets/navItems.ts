@@ -26,3 +26,26 @@ export const navItems: Item[] = [
         path: "/contact"
     }
 ];
+
+export const storeNavItems: Item[] = [
+    {
+        name: "Store Home",
+        path: "/store",
+    },
+    {
+        name: "Products",
+        path: "/store/products",
+    },
+    {
+        name: "Collections",
+        path: "/store/products/collections",
+    },
+    {
+        name: "Cart",
+        path: "/store/cart",
+    },
+    {
+        name: "Account",
+        path: "/store/account",
+    },
+]

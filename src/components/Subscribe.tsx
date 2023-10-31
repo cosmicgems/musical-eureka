@@ -172,7 +172,7 @@ const Subscribe = ({user}) => {
                         </div>
                         <div   className='sm:w-1/5 hidden sm:block'>
                             { loggedIn ? 
-                                <div className=' lg:flex gap-3 justify-end hidden  '>
+                                <div className='  gap-3 justify-end hidden  '>
                                     <UserCard user={user}  />
                                     <div>
                                         <Button onClick={(e)=> handleSignOut(e)} variant='outlined' sx={{borderColor: red[500], color: red[500]}} className=''>
@@ -202,8 +202,8 @@ const Subscribe = ({user}) => {
                                     <DynamicMobileUserChip user={user} />
                                 {/* </div> */}
                             </div>
-                            <div className='w-[100%]  hidden sm:flex sm:flex-col lg:hidden justify-center items-end'>
-                                <div className='w-[1/3]'>
+                            <div className='w-[100%]  hidden sm:flex sm:flex-col  justify-center items-end'>
+                                <div className='w-1/3'>
                                     <DynamicMobileUserChip user={user} />
                                 </div>                                
                             </div>

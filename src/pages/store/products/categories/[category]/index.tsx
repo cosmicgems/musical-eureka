@@ -25,20 +25,23 @@ const CategoryPage = ({products, collection, collections, products2, collectionP
     <Box sx={{}} className="">
       <Layout>
 
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col md:flex-row gap-3 mt-6'>
           
-          <div className=''>
-            <Typography variant='h4' component="div" className='gradient-text-home px-3' sx={{}}>
-              {collection.title}. <span className='' style={{color: "#000"}}>{tagLine()}</span>
-            </Typography>            
+          <div className='md:p-3'>
+            <Box className='md:bg-black rounded md:h-full md:w-[20vw] md:flex md:justify-center md:items-center'>
+              <Typography variant='h4' component="div" className='gradient-text-home px-3' sx={{}}>
+                {collection.title}. <span className='gradient-text' style={{}}>{tagLine()}</span>
+              </Typography>            
+            </Box>            
           </div>
+
 
 
           <div className='flex overflow-x-auto w-full py-3'>
             {collectionProducts.map((product) => {
               console.log(product);
               
-              return <div key={product.node.id} className='px-3 sm:w-[300px]'>
+              return <div key={product.node.id} className='px-3 '>
                 <ProductCard goToProductPage={goToProductPage} product={product} />
               </div>
             })}

@@ -91,7 +91,7 @@ const DynamicMobileUserChip = ({user}) => {
     left: -250,
     right: 25,
     bottom: 250,
-    }}  onClick={() => {handleChipTransformation("whole")}} className='w-full flex px-20 sm:px-6 h-content'>
+    }}  onClick={() => {handleChipTransformation("whole")}} className='md:w-4/5 w-full flex px-20 sm:px-6 h-content'>
       <div className='flex w-full p-0'>
             <div onClick={() => {handleChipTransformation("pic")}} className={chip ? `h-[60px] sm:h-[65px] w-[60px]  ` : `h-full `}>
               <CardMedia 
