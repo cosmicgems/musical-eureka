@@ -30,11 +30,11 @@ export const StateContext = ({ children }) => {
   let pathSegment = pageName === "/" ? "home" : pageName.split("/")[1]
   let appName = pathSegment === "apps" ? pageName.split("/")[2] : null
 
-  console.log(appName);
-  console.log(appItems[appName]);
+  // console.log(appName);
+  // console.log(appItems[appName]);
 
   const router = useRouter();
-  console.log(router.pathname);
+  // console.log(router.pathname);
 
   let foundProduct;
   let index;
@@ -63,6 +63,7 @@ export const StateContext = ({ children }) => {
       localStorage.setItem("cart-items", JSON.stringify(cartItems));
       
       cartItems.map((item) => {
+        console.log(item.quantity)
         cart_num = cart_num + item.quantity;
       })
       localStorage.setItem("cart-total-qty", JSON.stringify(cart_num));
@@ -72,27 +73,33 @@ export const StateContext = ({ children }) => {
 
 
   const onAdd = (product, quantity) => {
-      const checkProductInCart = cartItems.find((item) => item._id === product._id);
-      
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.variations[0].price * quantity);
+    console.log(product);
+    const checkProductInCart = cartItems.some((item) => item.node.id === product.node.id);
+      console.log(checkProductInCart);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + product.node.priceRange.maxVariantPrice.amount * quantity);
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
       
       if(checkProductInCart) {
+        console.log(cartItems);
         const updatedCartItems = cartItems.map((cartProduct) => {
-          if(cartProduct._id === product._id) return {
+          if(cartProduct.node.id === product.node.id) return {
             ...cartProduct,
             quantity: cartProduct.quantity + quantity
           }
+          return cartProduct;
         })
   
         setCartItems(updatedCartItems);
       } else {
-        product.quantity = quantity;
+
+        let newCartItem = {};
+        newCartItem.product = product; 
         
-        setCartItems([...cartItems, { ...product }]);
+        setCartItems([...cartItems, { ...product, quantity }]);
       }
-      setQty(1)
-      toast.success(`${qty} ${product.name} added to the cart.`);
+      console.log(cartItems);
+      setQty(quantity)
+      toast.success(`${qty} ${product.node.title} added to the cart.`);
   } 
 
 

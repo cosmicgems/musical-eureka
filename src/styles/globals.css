@@ -250,6 +250,14 @@ body{
   text-overflow: ellipsis;
   white-space: normal; /* This is necessary for multi-line text */
 }
+.truncate-text-cart {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
 .truncate-title {
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Adjust the number of lines you want to display */

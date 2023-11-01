@@ -9,10 +9,15 @@ import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartChe
 const ProductCard = ({product, goToProductPage}) => {
     const { onAdd  } = useStateContext();
     const [showCartActions, setShowCartActions] = useState<boolean>(false);
-    console.log(product);
+    const [travel, setTravel] = useState<boolean>(true);
+    // console.log(product);
     const handleClick = (e, handle) =>{
         e.preventDefault();
-        goToProductPage(handle)
+        if(!travel){
+            return
+        }
+        goToProductPage(handle)  
+        
     }
     return (
 
@@ -22,12 +27,12 @@ const ProductCard = ({product, goToProductPage}) => {
         whileHover={{scale: 1.1, cursor:"pointer"}} 
         onClick={(e)=>{handleClick(e, product.node.handle)}} 
         className='w-[45vw] h-[33vh] md:w-[17.5vw] md:h-[45vh] rounded' 
-        style={{backgroundImage: `url('${product.node.images.edges[0].node.url}')`, backgroundPosition: 'center', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
+        style={{backgroundImage: `url('${product.node.images.edges[0].node.url}')`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
             <div className='w-[100%] flex flex-col'>
 
                 {
                     !showCartActions ?
-                        <div className='bg-slate-950/40 h-[17vh] p-3 rounded flex flex-col'>
+                        <div className='bg-slate-950/40 min-h-[17vh] p-3 rounded flex flex-col'>
                             <Typography variant='body2' component="div" className='gradient-text'>
                                 {product.node.title}
                             </Typography>
@@ -37,9 +42,9 @@ const ProductCard = ({product, goToProductPage}) => {
                         </div>                        
                     :
                     showCartActions ?
-                    <div  className='  min-h-[33vh] flex flex-col justify-end '>
+                    <div onMouseOver={()=> {setTravel(false)}} onMouseLeave={()=>{setTravel(true)}}  className='w-[45vw] h-[33vh] md:w-[17.5vw] md:h-[45vh] flex flex-col justify-end '>
                         <ButtonGroup variant='contained'>
-                            <Button onClick={()=>{onAdd(product, 1)}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
+                            <Button onClick={()=>{console.log(product); onAdd(product, 1)}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
                                 <AddShoppingCartRoundedIcon />
                             </Button>
                             <Button sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>

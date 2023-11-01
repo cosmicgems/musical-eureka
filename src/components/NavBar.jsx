@@ -57,7 +57,7 @@ function NavBar(props) {
 
   const appBarBackgroundColor = pageSegmentColors[pathSegment] || grey[900];
   const drawer = (
-    <Box onClick={handleDrawerToggle} className="min-h-content" sx={{ textAlign: 'left' , bgcolor:grey[900]}}>
+    <Box onClick={handleDrawerToggle} className="h-full overflow-y-auto" sx={{ textAlign: 'left' , bgcolor:grey[900]}}>
     <Link href='/'>
       <Typography className='gradient-text font-bold' variant="h6" sx={{ my: 2, px:2, fontSize: '2rem' }}>
         Pearl Box 
@@ -89,24 +89,27 @@ function NavBar(props) {
   
 
       <List>
-        {navItems.map((item, i) => (
-          <ListItem key={item.name + i.toString()} disablePadding>
-            <ListItemButton href={item.path} sx={{ textAlign: 'left' }}>
-              <ListItemText  variant="h3" className='gradient-text' >
-                <Typography className='font-bold' variant='h3' sx={{fontSize: '1.25rem'}}>
-                  {item.name.toLocaleUpperCase()}
-                </Typography>
-              </ListItemText>
-            </ListItemButton>
-          </ListItem>
-        ))}
-        <div className='px-6 mb-2'>
-          <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
-        </div>
+        {navItems.map((item, i) => {
+          return(
+            <ListItem key={item.name + i.toString()} disablePadding>
+              <ListItemButton href={item.path} sx={{ textAlign: 'left' }}>
+                <ListItemText  variant="h3" className='gradient-text' >
+                  <Typography className='font-bold' variant='h3' sx={{fontSize: '1.25rem'}}>
+                    {item.name.toLocaleUpperCase()}
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>            
+          )
+
+        })}
         
         {
           pathSegment === "store" ?
           <>
+        <div className='px-6 mb-2'>
+          <Divider className='mt-3' sx={{color: grey[50], borderWidth: '2px', borderRadius: '20%'}} />
+        </div>
           <div className='text-left'>
             <Typography variant='h5' className='font-bold px-3' component="div" sx={{color: grey[50]}}>
               Store

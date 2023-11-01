@@ -21,7 +21,7 @@ const Layout = ({ children}) => {
   const [user, setUser] = useState(null);
 
   const {pageName, pathName, pathSegment, appName} = useStateContext();
-  console.log(pathSegment);
+  // console.log(pathSegment);
 
   if(status === "loading"){
     return (

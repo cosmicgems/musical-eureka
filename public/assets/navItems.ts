@@ -10,6 +10,10 @@ export const navItems: Item[] = [
         path: "/",
     },
     {
+        name: "Store",
+        path: "/store",
+    },
+    {
         name: "Articles",
         path: "/articles",
     },
