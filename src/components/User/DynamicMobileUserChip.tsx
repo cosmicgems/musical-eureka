@@ -103,7 +103,7 @@ const DynamicMobileUserChip = ({user}) => {
     left: -250,
     right: 25,
     bottom: 250,
-    }}  onClick={() => {handleChipTransformation("whole")}} className={chip ? 'md:w-4/5 w-full flex px-20 sm:px-6 h-content': !chip && visibleCart ?  'md:w-4/5 w-full flex px-6 sm:px-6 h-content' : 'md:w-4/5 w-full flex px-20 sm:px-6 h-content'}>
+    }}  onClick={() => {handleChipTransformation("whole")}} className={chip ? 'md:w-4/5 w-full flex px-16 sm:px-6 h-content': !chip && visibleCart ?  'md:w-4/5 w-full flex px-6 sm:px-6 h-content' : 'md:w-4/5 w-full flex px-20 sm:px-6 h-content'}>
       <div className='flex w-full p-0'>
             <div onClick={() => {handleChipTransformation("pic")}} className={chip ? `h-[60px] sm:h-[65px] w-[60px]  ` : `h-full `}>
               <CardMedia 

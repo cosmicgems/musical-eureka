@@ -55,6 +55,34 @@ export const AllProducts = gql`
       }
     }
   }
+`;
+
+export const ProductByHandle = `
+query AllProducts($handle: String!) {
+  productByHandle(handle: $handle) {
+    
+          id
+          title
+          totalInventory
+          handle
+          description
+          images(first: 10) {
+            edges {
+              node {
+                url
+                width
+                height
+              }
+            }
+          }
+          priceRange {
+            maxVariantPrice {
+              amount
+            }
+          }
+  }
+}
+
 `
 
 export const CollectionProducts = `

@@ -1,16 +1,49 @@
 import React, { useState } from 'react'
 import { shopifyClient, parseShopifyResponse } from '../../../../../lib/shopify'
 import Layout from '../../../../components/Layout';
-import { Box, Button, ButtonGroup, CardMedia, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, CardMedia, TextField, Typography } from '@mui/material';
 import ArrowLeftRoundedIcon from '@mui/icons-material/ArrowLeftRounded';
 import ArrowRightRoundedIcon from '@mui/icons-material/ArrowRightRounded';
 import {motion} from "framer-motion"
 import { USDollar } from '../../../../../helpers/usd';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+import { ProductByHandle, callShopify } from '../../../../../helpers/shopify';
+
 
 const ProductPage = ({product}) => {
   console.log(product);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const [photo, setPhoto] = useState<number>(0)
+
+  const handleTypedQuantity = (qty) => {
+    console.log(typeof qty, Number(qty));
+    const value = Number(qty)
+    console.log(Number.isSafeInteger(value));
+    
+    
+    if(Number.isInteger(value)) {
+      setQuantity(value)
+      return
+    } else if (!Number.isInteger(value)) {
+      setQuantity(quantity);
+      return
+    }
+    // setQuantity(Number(qty));
+  }
+
+  const handleQuantity = (pole) => {
+    if(pole === "positive"){
+      if(quantity === product.totalInventory) return
+      setQuantity(quantity + 1);
+      return
+    } else if (pole === "negative") {
+      if(quantity === 0) return
+      setQuantity(quantity - 1);
+      return
+    }
+  }
   
 
   return (
@@ -31,8 +64,8 @@ const ProductPage = ({product}) => {
                 <div className='flex flex-col w-full h-[50%] md:w-1/3  gap-3'>
                   <CardMedia 
                   component="img"
-                  image={product.images[photo].src}
-                  alt={product.description}
+                  image={product.images.edges[photo].node.url}
+                  alt={product.title}
                   className=' rounded-xl w-full h-[50%] md:w-full md:max-h-[55vh]  '
                   sx={{objectFit: "cover"}}
                   /> 
@@ -43,7 +76,7 @@ const ProductPage = ({product}) => {
                     
 
                     <div className='flex gap-3'>
-                      {product.images.map((img, index) => (
+                      {product.images.edges.map((img, index) => (
                         <motion.div 
                         key={img.id}
                         onHoverStart={()=>{setPhoto(index)}}
@@ -51,8 +84,8 @@ const ProductPage = ({product}) => {
                           <CardMedia 
                           key={img.id}
                           component="img"
-                          image={img.src}
-                          alt={img.title}
+                          image={img.node.url}
+                          alt={product.title}
                           sx={{}}
                           className='h-[10vh] rounded'
                           />
@@ -74,10 +107,21 @@ const ProductPage = ({product}) => {
                   </Typography>
 
                   <Typography variant='h5' component="div" className='' sx={{}}>
-                    {USDollar.format(product.variants[0].price.amount)}
+                    {USDollar.format(product.priceRange.maxVariantPrice.amount)}
                   </Typography>
                   
                   <div className='flex gap-3'>
+                    <ButtonGroup className=''>
+                      <Button onClick={()=> {handleQuantity("negative")}} variant='contained'>
+                        <RemoveRoundedIcon />
+                      </Button>
+                      <Button variant='outlined' className='md:w-[75px]'>
+                        <TextField variant='outlined' value={quantity} sx={{textAlign: "center"}} className='' onChange={(e)=>{handleTypedQuantity(e.target.value)}} />
+                      </Button>
+                      <Button variant='contained'>
+                        <AddRoundedIcon onClick={()=> {handleQuantity("positive")}} />
+                      </Button>
+                    </ButtonGroup>
                     <Button variant="contained">
                       Add to Cart
                     </Button>
@@ -146,8 +190,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params: { slug } }) => {
 
-  const product = await shopifyClient.product.fetchByHandle(slug);
-
+        const response = await callShopify(ProductByHandle, {handle: slug})
+        const product = response.data.productByHandle
+        
   return {
     props: { product: parseShopifyResponse(product) },
     revalidate: 60,

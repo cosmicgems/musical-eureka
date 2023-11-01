@@ -16,7 +16,7 @@ const CollectionContainer = ({products, collections}) => {
                     return
                 }
                 return (
-                    <div key={collection.handle} className='w-screen sm:w-content'>
+                    <div key={collection.handle} className='w-screen sm:w-[100%]'>
                         <Collection
                         collection={collection}
                         goToCollectionPage={goToCollectionPage} />                    

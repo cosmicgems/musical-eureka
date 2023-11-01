@@ -6,6 +6,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import {motion} from "framer-motion"
 import { useStateContext } from '../../../../Context/StateContext';
 import { grey } from '@mui/material/colors';
+import ProductCard from './ProductCard';
 
 
 const Product = ({product, goToProductPage}) => {
@@ -120,11 +121,14 @@ export default function ProductsList({products}) {
         (products && products.length > 0) ?
         <>
         {products.map((product) => (
-            <Product
-              key={product.handle}
+          <div key={product.handle}>
+            <ProductCard
+              
               product={product}
               goToProductPage={goToProductPage}
-            />
+            />            
+          </div>
+
           ))}
         </>
           :
