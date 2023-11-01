@@ -8,11 +8,20 @@ import {motion} from "framer-motion"
 import { USDollar } from '../../../../../helpers/usd';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { ProductByHandle, callShopify } from '../../../../../helpers/shopify';
+import { AllProducts, ProductByHandle, callShopify } from '../../../../../helpers/shopify';
+import { useRouter } from 'next/router';
 
 
-const ProductPage = ({product}) => {
-  console.log(product);
+const ProductPage = ({product, products}) => {
+  const router = useRouter();
+
+  const similarProducts = products.filter((pro) =>{
+    return pro.node.productType == product.productType
+  }
+  )
+  
+  
+
   const [quantity, setQuantity] = useState<number>(1);
 
   const [photo, setPhoto] = useState<number>(0)
@@ -44,6 +53,8 @@ const ProductPage = ({product}) => {
       return
     }
   }
+  console.log(product);
+  
   
 
   return (
@@ -64,7 +75,7 @@ const ProductPage = ({product}) => {
                 <div className='flex flex-col w-full h-[50%] md:w-1/3  gap-3'>
                   <CardMedia 
                   component="img"
-                  image={product.images.edges[photo].node.url}
+                  image={product.images.edges[photo].node?.url}
                   alt={product.title}
                   className=' rounded-xl w-full h-[50%] md:w-full md:max-h-[55vh]  '
                   sx={{objectFit: "cover"}}
@@ -78,7 +89,7 @@ const ProductPage = ({product}) => {
                     <div className='flex gap-3'>
                       {product.images.edges.map((img, index) => (
                         <motion.div 
-                        key={img.id}
+                        key={`${img.node.url} alternative views`}
                         onHoverStart={()=>{setPhoto(index)}}
                         >
                           <CardMedia 
@@ -94,7 +105,7 @@ const ProductPage = ({product}) => {
                       ))}
                     </div>
 
-                    <div onClick={()=> {if (photo === product.images.length - 1 ){return}; setPhoto(photo + 1)}}>
+                    <div onClick={()=> {if (photo === product.images.edges.length - 1 ){return}; setPhoto(photo + 1)}}>
                     <ArrowRightRoundedIcon />
                     </div>
                   </div>
@@ -115,18 +126,15 @@ const ProductPage = ({product}) => {
                       <Button onClick={()=> {handleQuantity("negative")}} variant='contained'>
                         <RemoveRoundedIcon />
                       </Button>
-                      <Button variant='outlined' className='md:w-[75px]'>
+                      <Button variant='outlined' className='w-[75px] md:w-[75px]'>
                         <TextField variant='outlined' value={quantity} sx={{textAlign: "center"}} className='' onChange={(e)=>{handleTypedQuantity(e.target.value)}} />
                       </Button>
                       <Button variant='contained'>
                         <AddRoundedIcon onClick={()=> {handleQuantity("positive")}} />
                       </Button>
                     </ButtonGroup>
-                    <Button variant="contained">
+                    <Button className='w-full' variant="contained">
                       Add to Cart
-                    </Button>
-                    <Button variant='outlined'>
-                      Buy Now
                     </Button>
                   </div>  
 
@@ -145,18 +153,18 @@ const ProductPage = ({product}) => {
               Products You May Like
             </Typography>
 
-            <div className='flex gap-3 w-full md:w-full overflow-x-auto px-3 md:px-6 pb-3'>
-              {[0,1,2,3,4,5,6,7,8,9,10,11].map((img)=>(
-                <div key={img} className='flex flex-col justify-center items-center'>
-                  <CardMedia 
-                  component='img'
-                  image="https://images.pexels.com/photos/6634844/pexels-photo-6634844.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  sx={{}}
-                  className=''
-                  />
-                  <Typography variant='h5' className='gradient-text-category' sx={{}} component="div">
-                    Items placeholder
-                  </Typography>
+            <div className='flex gap-12 sm:gap-16 w-full md:w-full overflow-x-auto px-3 md:px-6 pb-3 sm:pb-6 cursor-pointer' >
+              {similarProducts.map((p, i)=>(
+                <div onClick={()=>{router.push(`/store/products/product/${p.node.handle}`)}} key={`${p.node.id} similar products`} className='flex flex-col justify-center items-center rounded' style={{backgroundImage: `url('${p.node.images.edges[0].node.url}')`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
+                  <div className='w-[40vw] h-[24vh] sm:w-[14vw] sm:h-[30vh]'>
+                    <div className='bg-slate-950/50 rounded-t p-1'>
+                      <Typography variant='caption' className='gradient-text' sx={{}} component="div">
+                        {p.node.title}
+                      </Typography>                       
+                    </div>
+                   
+                  </div>
+
                 </div>              
               ))}
             </div>
@@ -190,11 +198,14 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params: { slug } }) => {
 
-        const response = await callShopify(ProductByHandle, {handle: slug})
-        const product = response.data.productByHandle
+  const response = await callShopify(ProductByHandle, {handle: slug})
+  const product = response.data.productByHandle
+  const response2 = await callShopify(AllProducts)
+  const products = response2.data.products.edges
+        console.log(products);
         
   return {
-    props: { product: parseShopifyResponse(product) },
+    props: { product: parseShopifyResponse(product), products: parseShopifyResponse(products) },
     revalidate: 60,
   }
 

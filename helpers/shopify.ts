@@ -35,6 +35,7 @@ export const AllProducts = gql`
         node {
           id
           title
+          productType
           totalInventory
           handle
           images(first: 10) {
@@ -65,6 +66,7 @@ query AllProducts($handle: String!) {
           title
           totalInventory
           handle
+          productType
           description
           images(first: 10) {
             edges {
@@ -84,6 +86,7 @@ query AllProducts($handle: String!) {
 }
 
 `
+
 
 export const CollectionProducts = `
 query AllProducts($category: String!) {
