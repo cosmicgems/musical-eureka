@@ -1,17 +1,34 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Button, Typography } from '@mui/material'
+import React, { useRef } from 'react'
 import Layout from '../../../components/Layout'
-import { grey } from '@mui/material/colors'
+import { grey, teal } from '@mui/material/colors'
 import { parseShopifyResponse, shopifyClient } from '../../../../lib/shopify'
 import ProductCard from '../../../components/Store/Products/ProductCard'
 import { useRouter } from 'next/router'
 import { AllProducts, callShopify } from '../../../../helpers/shopify'
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 const ProductsPage = ({products}) => {
   const router = useRouter()
   // Navigate to product page with handle i.e /products/black-converses
   const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
   // console.log(products[0]);
+
+  const productsRef = useRef<HTMLDivElement>(null);
+  
+  const handleProductsNav = (direction) => {
+    console.log(direction);
+    
+    if (productsRef.current) {
+      if (direction === 'left') {
+        productsRef.current.scrollLeft -= 400;
+      }
+      if (direction === 'right') {
+        productsRef.current.scrollLeft += 400;
+      }
+    }
+  };
   
   return (
     <Box sx={{}} className="">
@@ -33,17 +50,30 @@ const ProductsPage = ({products}) => {
                   </Box>
                 </div>
 
-                <div className='flex overflow-x-auto w-full gap-12 sm:gap-32 p-3 pb-6'>
-                  {
-                    products.map((product) => {
-                      return (
-                        <div key={` ${product.id} productsPage`}>
-                          <ProductCard goToProductPage={goToProductPage} product={product} />
-                        </div>
-                      )
-                    })
-                  }
+                <div className='flex items-center w-full'>
+                  <div className='hidden lg:flex absolute '>
+                      <Button className='' sx={{color: teal[200],}}   onClick={() => handleProductsNav('left')}>
+                        <ArrowCircleLeftRoundedIcon sx={{fontSize: "3rem"}} />
+                      </Button>
+                  </div>
+                  <div className='flex overflow-x-hidden w-full gap-12 sm:gap-32 p-3 pb-6' ref={productsRef}>
+                    {
+                      products.map((product) => {
+                        return (
+                          <div key={` ${product.id} productsPage`}>
+                            <ProductCard goToProductPage={goToProductPage} product={product} />
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                  <div className='hidden lg:flex absolute right-0'>
+                      <Button sx={{color: teal[200], }}  onClick={() => {handleProductsNav('right')}}>
+                          <ArrowCircleRightRoundedIcon sx={{fontSize: "3rem", }} />
+                      </Button>
+                  </div>                  
                 </div>
+
 
         </div>
 

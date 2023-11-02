@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box';
 import { ImageListItem, Typography, ImageList, ButtonGroup, Button } from '@mui/material';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import {motion} from "framer-motion"
 import { useStateContext } from '../../../../Context/StateContext';
-import { grey } from '@mui/material/colors';
+import { grey, teal } from '@mui/material/colors';
 import ProductCard from './ProductCard';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 
 const Product = ({product, goToProductPage}) => {
@@ -111,12 +113,43 @@ export default function ProductsList({products}) {
   // Navigate to product page with handle i.e /products/black-converses
   const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
 
+  const heroRef = useRef<HTMLDivElement>(null);
+  const collectionRef = useRef<HTMLDivElement>(null);
+  
+  const handleCollectionNav = (direction) => {
+    if (heroRef.current) {
+      if (direction === 'left') {
+        heroRef.current.scrollLeft -= 200;
+      }
+      if (direction === 'right') {
+        heroRef.current.scrollLeft += 200;
+      }
+    }
+  };
+  
+  const handleHeroNav = (direction) => {
+    if (heroRef.current) {
+      if (direction === 'left') {
+        heroRef.current.scrollLeft -= 400;
+      }
+      if (direction === 'right') {
+        heroRef.current.scrollLeft += 400;
+      }
+    }
+  };
+  
+
 
 
   return (
-    <Box className="w-screen sm:max-w-[75%] ">
-      
-        <ImageList gap={75} cols={3} sx={{}} className='flex overflow-x-auto pl-6 sm:pl-12 py-6 pr-12' >
+    <Box className="w-screen sm:max-w-[75%] flex items-center ">
+      <div className='hidden lg:flex absolute '>
+          <Button className='' sx={{color: teal[200],}}   onClick={() => handleHeroNav('left')}>
+            <ArrowCircleLeftRoundedIcon sx={{fontSize: "5rem"}} />
+          </Button>
+      </div>
+      <div  className='flex overflow-x-hidden pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 ' ref={heroRef}>
+        
           {
         (products && products.length > 0) ?
         <>
@@ -134,7 +167,14 @@ export default function ProductsList({products}) {
           :
         <Typography variant="body1" align="center">There are no products in this collection</Typography>
       }
-        </ImageList>
+               
+      </div>
+
+      <div className='hidden lg:flex absolute right-0'>
+          <Button sx={{color: teal[200], }}  onClick={() => handleHeroNav('right')}>
+              <ArrowCircleRightRoundedIcon sx={{fontSize: "5rem", }} />
+          </Button>
+      </div>
     </Box>
   )
 };

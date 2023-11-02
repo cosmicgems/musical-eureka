@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { shopifyClient, parseShopifyResponse } from '../../../../../lib/shopify'
 import Layout from '../../../../components/Layout';
 import { Box, Button, ButtonGroup, CardMedia, TextField, Typography } from '@mui/material';
@@ -10,7 +10,10 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import { AllProducts, ProductByHandle, callShopify } from '../../../../../helpers/shopify';
 import { useRouter } from 'next/router';
-
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import { grey, teal } from '@mui/material/colors';
+import { useStateContext } from '../../../../../Context/StateContext';
 
 const ProductPage = ({product, products}) => {
   const router = useRouter();
@@ -20,7 +23,7 @@ const ProductPage = ({product, products}) => {
   }
   )
   
-  
+  const { onAdd } = useStateContext();
 
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -54,7 +57,29 @@ const ProductPage = ({product, products}) => {
     }
   }
   console.log(product);
+
+  const navRef = useRef<HTMLDivElement>(null);
   
+  const handleNav = (direction) => {
+    if (navRef.current) {
+      if (direction === 'left') {
+        navRef.current.scrollLeft -= 400;
+      }
+      if (direction === 'right') {
+        navRef.current.scrollLeft += 400;
+      }
+    }
+  };
+
+  const handleAddToCart = () => {
+    const bp = products.filter((pro) => {
+      return pro.node.id === product.id
+    })
+    const buyProduct = bp[0]
+    onAdd(buyProduct, quantity)
+    console.log("buy product:", buyProduct);
+    
+  }
   
 
   return (
@@ -122,6 +147,14 @@ const ProductPage = ({product, products}) => {
                   </Typography>
                   
                   <div className='flex gap-3'>
+                    <div className='flex flex-col text-center'>
+                        <Typography variant='body1' className={product.totalInventory <= 5 ? "gradient-text-three" : "gradient-text-four"}>
+                          Stock
+                        </Typography>
+                        <Typography variant='body2' className=''>
+                          {product.totalInventory}
+                        </Typography>
+                    </div>
                     <ButtonGroup className=''>
                       <Button onClick={()=> {handleQuantity("negative")}} variant='contained'>
                         <RemoveRoundedIcon />
@@ -133,7 +166,7 @@ const ProductPage = ({product, products}) => {
                         <AddRoundedIcon onClick={()=> {handleQuantity("positive")}} />
                       </Button>
                     </ButtonGroup>
-                    <Button className='w-full' variant="contained">
+                    <Button onClick={handleAddToCart} className='w-full' variant="contained">
                       Add to Cart
                     </Button>
                   </div>  
@@ -153,21 +186,35 @@ const ProductPage = ({product, products}) => {
               Products You May Like
             </Typography>
 
-            <div className='flex gap-12 sm:gap-16 w-full md:w-full overflow-x-auto px-3 md:px-6 pb-3 sm:pb-6 cursor-pointer' >
-              {similarProducts.map((p, i)=>(
-                <div onClick={()=>{router.push(`/store/products/product/${p.node.handle}`)}} key={`${p.node.id} similar products`} className='flex flex-col justify-center items-center rounded' style={{backgroundImage: `url('${p.node.images.edges[0].node.url}')`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
-                  <div className='w-[40vw] h-[24vh] sm:w-[14vw] sm:h-[30vh]'>
-                    <div className='bg-slate-950/50 rounded-t p-1'>
-                      <Typography variant='caption' className='gradient-text' sx={{}} component="div">
-                        {p.node.title}
-                      </Typography>                       
-                    </div>
-                   
-                  </div>
+            <div className='flex items-center'>
+              <div className='hidden lg:flex absolute '>
+                <Button className='' sx={{color: teal[200],}}   onClick={() => handleNav('left')}>
+                  <ArrowCircleLeftRoundedIcon sx={{fontSize: "3rem"}} />
+                </Button>
+              </div>
+                <div ref={navRef} className='flex gap-12 sm:gap-16 w-full md:w-full overflow-x-hidden px-3 md:px-6 pb-3 sm:pb-6 cursor-pointer' >
+                  {similarProducts.map((p, i)=>(
+                    <div onClick={()=>{router.push(`/store/products/product/${p.node.handle}`)}} key={`${p.node.id} similar products`} className='flex flex-col justify-center items-center rounded' style={{backgroundImage: `url('${p.node.images.edges[0].node.url}')`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
+                      <div className='w-[40vw] h-[24vh] sm:w-[14vw] sm:h-[30vh]'>
+                        <div className='bg-slate-950/50 rounded-t p-1'>
+                          <Typography variant='caption' className='gradient-text' sx={{}} component="div">
+                            {p.node.title}
+                          </Typography>                       
+                        </div>
+                      
+                      </div>
 
-                </div>              
-              ))}
+                    </div>              
+                  ))}
+                </div> 
+                <div className='hidden lg:flex absolute right-0'>
+                  <Button sx={{color: teal[200], }}  onClick={() => handleNav('right')}>
+                    <ArrowCircleRightRoundedIcon sx={{fontSize: "3rem", }} />
+                  </Button>
+                </div>                
             </div>
+ 
+
 
           </div>
 

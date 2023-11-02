@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import MarketingMessage from '../MarketingMessage'
 import FeaturedProductsContainer from './FeaturedProductsContainer'
 import Store from "../../css/Store.module.css"
@@ -14,6 +14,7 @@ const Hero = ({products}) => {
         textColor: grey[50]
     }
 
+
   return (
     <div className='flex flex-col sm:flex-row sm:py-6'>
 
@@ -21,7 +22,9 @@ const Hero = ({products}) => {
           <MarketingMessage data={data} />
       </div>
     
+    
       <FeaturedProductsContainer products={products} />
+      
   
 
     </div>

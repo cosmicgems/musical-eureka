@@ -28,6 +28,7 @@ import { getSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import UserCard from './User/UserCard';
 import UserCardMobile from './User/UserCardMobile';
+import Cart from './Store/Cart/Cart';
 
 const drawerWidth = 300;
 
@@ -299,15 +300,21 @@ const handleSignup = (e) => {
 
               </Button>
             ))}
-                {/* <button type='button'
+                <button type='button'
                   className='cart-icon' style={{marginInline:'1vw', justifyContent: 'center', alignItems:'center'}} onClick={() => setShowCart(true)}>
                   <AiOutlineShopping/>
                   <span className='cart-item-qty'>{totalQuantities}</span>
-                </button>   */}
+                </button>  
           </Box>
         </Box>
         :
         null
+      }
+                
+      {showCart && 
+      <div className='navbar-container'>
+      <Cart />
+      </div>
       }
       </AppBar>
 
@@ -330,13 +337,8 @@ const handleSignup = (e) => {
           {drawer}
         </Drawer>
       </Box>
-{/*           
-      {showCart && 
-      <div className='navbar-container'>
-      <Cart />
-      </div>
-      }
-    */}
+
+   
     </Box>
   );
 }

@@ -383,7 +383,6 @@ width: 100%;
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
-  margin-top: 20px;
   width: 100%;
 }
 .product-card{
@@ -655,7 +654,6 @@ padding: 20px 10px;
 }
 .item-desc .flex{
   display: flex;
-  justify-content: space-between;
   width: 350px;
    color: #324d67;
 

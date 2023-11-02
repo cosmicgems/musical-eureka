@@ -31,7 +31,7 @@ const AllCollectionsPage = ({collections}) => {
                 </Box>
                 </div>
     
-                <div className='w-full overflow-x-auto flex sm:p-3'>
+                <div className='w-full overflow-x-auto flex sm:p-3 sm:gap-12'>
                 {
                     collections?.map((collection) => {
                     if(collection.handle === "frontpage") return
