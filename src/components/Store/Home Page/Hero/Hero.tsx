@@ -3,6 +3,7 @@ import MarketingMessage from '../MarketingMessage'
 import FeaturedProductsContainer from './FeaturedProductsContainer'
 import Store from "../../css/Store.module.css"
 import { grey } from '@mui/material/colors'
+import ProductsList from '../../Products/ProductsList'
 
 const Hero = ({products}) => {
 
@@ -23,7 +24,7 @@ const Hero = ({products}) => {
       </div>
     
     
-      <FeaturedProductsContainer products={products} />
+      <ProductsList products={products}/>
       
   
 

@@ -56,7 +56,7 @@ const ProductsPage = ({products}) => {
                         <ArrowCircleLeftRoundedIcon sx={{fontSize: "3rem"}} />
                       </Button>
                   </div>
-                  <div className='flex overflow-x-hidden w-full gap-12 sm:gap-32 p-3 pb-6' ref={productsRef}>
+                  <div className='flex overflow-x-auto md:overflow-x-hidden w-full gap-12 sm:gap-32 p-3 pb-6' ref={productsRef}>
                     {
                       products.map((product) => {
                         return (

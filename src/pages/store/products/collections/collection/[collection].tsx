@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { parseShopifyResponse, shopifyClient } from '../../../../../../lib/shopify';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Layout from '../../../../../components/Layout';
 import { callShopify, AllProducts, CollectionProducts } from '../../../../../../helpers/shopify'
 import ProductCard from '../../../../../components/Store/Products/ProductCard';
 import { useRouter } from 'next/router';
+import { teal } from '@mui/material/colors';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 const Collection = ({collection, collectionProducts}) => {
   const router = useRouter()
@@ -20,6 +23,21 @@ const Collection = ({collection, collectionProducts}) => {
       return "Your Lather Deserves Luxury."
     }
   }
+  const collectionRef = useRef<HTMLDivElement>(null);
+  
+  const handleCollectionNav = (direction) => {
+    console.log(direction);
+    
+    if (collectionRef.current) {
+      if (direction === 'left') {
+        collectionRef.current.scrollLeft -= 400;
+      }
+      if (direction === 'right') {
+        collectionRef.current.scrollLeft += 400;
+      }
+    }
+  };
+
 
   return (
     <Box sx={{}} className="">
@@ -39,8 +57,15 @@ const Collection = ({collection, collectionProducts}) => {
           </div>
 
 
+        <div className='flex items-center w-full'>
 
-          <div className='flex overflow-x-auto w-full py-3'>
+          <div className='hidden lg:flex absolute '>
+              <Button className='' sx={{color: teal[200],}}   onClick={() => handleCollectionNav('left')}>
+                <ArrowCircleLeftRoundedIcon sx={{fontSize: "5rem"}} />
+              </Button>
+          </div> 
+
+          <div ref={collectionRef} className='flex overflow-x-auto md:overflow-x-hidden w-full py-3'>
             {collectionProducts.map((product) => {
               console.log(product);
               
@@ -49,6 +74,16 @@ const Collection = ({collection, collectionProducts}) => {
               </div>
             })}
           </div>
+
+          <div className='hidden lg:flex absolute right-0'>
+            <Button sx={{color: teal[200], }}  onClick={() => handleCollectionNav('right')}>
+              <ArrowCircleRightRoundedIcon sx={{fontSize: "5rem", }} />
+            </Button>
+          </div>       
+
+
+        </div>
+
 
         </div>
 

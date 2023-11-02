@@ -114,18 +114,6 @@ export default function ProductsList({products}) {
   const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
 
   const heroRef = useRef<HTMLDivElement>(null);
-  const collectionRef = useRef<HTMLDivElement>(null);
-  
-  const handleCollectionNav = (direction) => {
-    if (heroRef.current) {
-      if (direction === 'left') {
-        heroRef.current.scrollLeft -= 200;
-      }
-      if (direction === 'right') {
-        heroRef.current.scrollLeft += 200;
-      }
-    }
-  };
   
   const handleHeroNav = (direction) => {
     if (heroRef.current) {
@@ -142,33 +130,30 @@ export default function ProductsList({products}) {
 
 
   return (
-    <Box className="w-screen sm:max-w-[75%] flex items-center ">
+    <Box className="w-screen sm:max-w-[75%] md:flex md:items-center ">
       <div className='hidden lg:flex absolute '>
           <Button className='' sx={{color: teal[200],}}   onClick={() => handleHeroNav('left')}>
             <ArrowCircleLeftRoundedIcon sx={{fontSize: "5rem"}} />
           </Button>
       </div>
-      <div  className='flex overflow-x-hidden pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 ' ref={heroRef}>
+      
         
           {
         (products && products.length > 0) ?
-        <>
+        <div  className='flex overflow-x-auto md:overflow-x-hidden  pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 w-screen' ref={heroRef}>
         {products.map((product) => (
-          <div key={product.handle}>
             <ProductCard
-              
+              key={`${product.node.handle} product list`}
               product={product}
               goToProductPage={goToProductPage}
-            />            
-          </div>
+            />     
 
-          ))}
-        </>
+          ))}               
+      </div>
           :
         <Typography variant="body1" align="center">There are no products in this collection</Typography>
       }
-               
-      </div>
+
 
       <div className='hidden lg:flex absolute right-0'>
           <Button sx={{color: teal[200], }}  onClick={() => handleHeroNav('right')}>

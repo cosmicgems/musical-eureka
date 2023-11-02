@@ -38,7 +38,7 @@ const ProductCard = ({product, goToProductPage}) => {
     }, []);
 
     return (
-        <>
+        <div>
             <motion.div
             onHoverStart={()=>{if(isMobile) return;setShowCartActions(true)}}
             onHoverEnd={()=>{if(isMobile) return;setShowCartActions(false)}}
@@ -96,7 +96,7 @@ const ProductCard = ({product, goToProductPage}) => {
 
             </div>
 
-        </>
+        </div>
 
 
     )

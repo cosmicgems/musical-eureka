@@ -192,7 +192,7 @@ const ProductPage = ({product, products}) => {
                   <ArrowCircleLeftRoundedIcon sx={{fontSize: "3rem"}} />
                 </Button>
               </div>
-                <div ref={navRef} className='flex gap-12 sm:gap-16 w-full md:w-full overflow-x-hidden px-3 md:px-6 pb-3 sm:pb-6 cursor-pointer' >
+                <div ref={navRef} className='flex gap-12 pb-3 sm:gap-16 w-full md:w-full overflow-x-auto md:overflow-x-hidden px-3 md:px-6 pb-3 sm:pb-6 cursor-pointer' >
                   {similarProducts.map((p, i)=>(
                     <div onClick={()=>{router.push(`/store/products/product/${p.node.handle}`)}} key={`${p.node.id} similar products`} className='flex flex-col justify-center items-center rounded' style={{backgroundImage: `url('${p.node.images.edges[0].node.url}')`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
                       <div className='w-[40vw] h-[24vh] sm:w-[14vw] sm:h-[30vh]'>
