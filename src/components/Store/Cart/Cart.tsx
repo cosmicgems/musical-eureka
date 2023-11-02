@@ -78,7 +78,12 @@ const Cart = () => {
                   </div>
                 </div>
                 
-                <div className='flex justify-end w-full pr-3'>
+                <div className='flex justify-end w-full pl-6 pr-3'>
+                    <div className='w-full pr-12'>
+                        <Button size='large' sx={{color:grey[900]}} className='gradient-button ' fullWidth variant='contained'>
+                            Checkout
+                        </Button>
+                    </div>
                       <div className='flex gap-3'>
                         <Typography variant='h5' component="div" className='font-bold' sx={{color:grey[900]}} >
                           Total
