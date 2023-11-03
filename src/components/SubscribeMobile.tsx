@@ -163,9 +163,9 @@ const SubscribeMobile = ({user}) => {
                             {
                                 blank ?
                                 null :
-                                <div className='sm:w-1/2 flex gap-3 pt-3'>
-                                    <TextField size='small' fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="First Name" className='' value={subscriber.first_name} onChange={(e)=> {setSubscriber({...subscriber,first_name:e.target.value})}} />
-                                    <TextField size='small' fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Last Name" className='' value={subscriber.last_name} onChange={(e)=> {setSubscriber({...subscriber,last_name:e.target.value})}} />
+                                <div className='sm:w-1/2 flex flex-col sm:flex-row  gap-3 pt-3'>
+                                    <TextField size='small' fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "5px", borderBottomRightRadius:"5px"}} label="First Name" className='' value={subscriber.first_name} onChange={(e)=> {setSubscriber({...subscriber,first_name:e.target.value})}} />
+                                    <TextField size='small' fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "5px", borderBottomRightRadius:"5px"}} label="Last Name" className='' value={subscriber.last_name} onChange={(e)=> {setSubscriber({...subscriber,last_name:e.target.value})}} />
                                 </div>                    
                             }
 

@@ -81,7 +81,7 @@ function NavBar(props) {
           }
           {
             !loggedIn &&
-            <div className='sm:hidden mt-6 mb-3 flex flex-col gap-1'>
+            <div onClick={(e)=> {e.stopPropagation()}} className='sm:hidden mt-6 mb-3 flex flex-col gap-1'>
             <Typography variant='body1' className='gradient-text mb-2 text-center' sx={{fontSize: '1.15rem'}}>
               Cultivate a lifestyle worth living.
             </Typography>
