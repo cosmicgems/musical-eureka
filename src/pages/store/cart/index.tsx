@@ -10,6 +10,7 @@ import FullCart from '../../../components/Store/Cart Page/FullCart'
 const CartPage = () => {
 
   const { cartItems, cartTotal } = useStateContext();
+  
 
   return (
     <Box>

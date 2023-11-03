@@ -25,6 +25,9 @@ export const StateContext = ({ children }) => {
   const [pageName, setPageName] = useState('');
   const [pageSlug, setPageSlug] = useState('');
   const [cartTotal, setCartTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [shippingCost, setShippingCost] = useState(0);
+  const [tax, setTax] = useState(0.06)
 
   const [subcategories, setSubcategories] = useState();
 
@@ -160,7 +163,7 @@ console.log(foundProduct);
 
   return (
 
-      <Context.Provider value={{showCart, cartTotal, setShowCart, cartItems, setCartItems, totalPrice, setTotalPrice, totalQuantities, setTotalQuantities, qty, setQty, incQty, decQty, onAdd, toggleCartItemQuantity, onRemove, industryHoverName, setIndustryHoverName, pageName, pageSlug, pathSegment, subcategories, appName }}>
+      <Context.Provider value={{showCart, cartTotal, setShowCart, cartItems, setCartItems, totalPrice, setTotalPrice, totalQuantities, setTotalQuantities, qty, setQty, incQty, decQty, onAdd, toggleCartItemQuantity, onRemove, industryHoverName, setIndustryHoverName, pageName, pageSlug, pathSegment, subcategories, appName, discount, setDiscount, shippingCost, setShippingCost, tax, setTax }}>
           {children}
       </Context.Provider>
 

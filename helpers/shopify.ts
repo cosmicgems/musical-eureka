@@ -37,6 +37,7 @@ export const AllProducts = gql`
           title
           productType
           totalInventory
+          description
           handle
           images(first: 10) {
             edges {

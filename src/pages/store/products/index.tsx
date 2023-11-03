@@ -60,7 +60,7 @@ const ProductsPage = ({products}) => {
                     {
                       products.map((product) => {
                         return (
-                          <div key={` ${product.id} productsPage`}>
+                          <div key={` ${product.node.id} productsPage`}>
                             <ProductCard goToProductPage={goToProductPage} product={product} />
                           </div>
                         )
