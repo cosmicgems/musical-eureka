@@ -29,6 +29,7 @@ import { useRouter } from 'next/router';
 import UserCard from './User/UserCard';
 import UserCardMobile from './User/UserCardMobile';
 import Cart from './Store/Cart/Cart';
+import SubscribeMobile from './SubscribeMobile';
 
 const drawerWidth = 300;
 
@@ -81,10 +82,10 @@ function NavBar(props) {
           {
             !loggedIn &&
             <div className='sm:hidden mt-6 mb-3 flex flex-col gap-1'>
-            <Typography variant='body1' className='gradient-text mb-2' sx={{fontSize: '1.15rem'}}>
+            <Typography variant='body1' className='gradient-text mb-2 text-center' sx={{fontSize: '1.15rem'}}>
               Cultivate a lifestyle worth living.
             </Typography>
-              <Subscribe />
+              <SubscribeMobile />
             </div>
           }
   
