@@ -200,10 +200,10 @@ const FullCart = () => {
                         Member:
                       </Typography>
                         {
-                          session.user !== null || session.user !== undefined ?
+                          session?.user !== null || session?.user !== undefined ?
                             <div>
                               <Typography variant='body1' component="div" className='font-bold' sx={{color:grey[50]}}>
-                                {session.user.first_name} {session.user.last_name}
+                                {session?.user.first_name} {session?.user.last_name}
                               </Typography>
                             </div>
                           :
@@ -269,7 +269,7 @@ const FullCart = () => {
                           grandTotal !== 0 ?
                             <div className='pt-3'>
                               {
-                                session.user !== undefined || session.user !== null ?
+                                session?.user !== undefined || session?.user !== null ?
                                 <Button onClick={handleStartCheckout} size='large' sx={{color:grey[900]}} className='gradient-button' fullWidth variant='contained'>
                                     Checkout
                                 </Button> 
