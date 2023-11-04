@@ -131,7 +131,6 @@ query AllProducts($category: String!) {
   collection(handle: $category) {
     handle
     products(first: 22) {
-      cursor
       edges {
         node {
           id
