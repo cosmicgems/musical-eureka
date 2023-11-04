@@ -45,8 +45,8 @@ const Collection = ({collection, collectionProducts}) => {
 
         <div className='flex flex-col md:flex-row gap-3 mt-6'>
           
-          <div className='md:p-3'>
-            <Box className='md:bg-black rounded md:h-full md:w-[20vw] md:flex md:justify-center md:items-center'>
+          <div className='md:p-3 md:w-1/4'>
+            <Box className='md:bg-black rounded md:h-full md:w-full md:flex md:justify-center md:items-center'>
               <Typography variant='h4' component="div" className='gradient-text-home px-3 hidden sm:inline' sx={{}}>
                 {collection.title}. <span className='gradient-text' style={{}}>{tagLine()}</span>
               </Typography>   
@@ -57,7 +57,7 @@ const Collection = ({collection, collectionProducts}) => {
           </div>
 
 
-        <div className='flex items-center w-full'>
+        <div className='flex items-center w-4/5'>
 
           <div className='hidden lg:flex absolute '>
               <Button className='' sx={{color: teal[200],}}   onClick={() => handleCollectionNav('left')}>
@@ -65,7 +65,7 @@ const Collection = ({collection, collectionProducts}) => {
               </Button>
           </div> 
 
-          <div ref={collectionRef} className='flex overflow-x-auto md:overflow-x-hidden w-full py-3'>
+          <div ref={collectionRef} className='flex overflow-x-auto md:overflow-x-hidden  py-3'>
             {collectionProducts.map((product) => {
               console.log(product);
               

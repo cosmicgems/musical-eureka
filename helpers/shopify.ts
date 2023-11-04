@@ -30,8 +30,9 @@ const gql = String.raw
 
 export const AllProducts = gql`
   query Products {
-    products(first: 22) {
+    products(first:24) {
       edges {
+        cursor
         node {
           id
           title
@@ -54,6 +55,42 @@ export const AllProducts = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+export const NextProducts = gql`
+  query getProducts ($first: Int!, $after: String){
+    products(first: $first, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          title
+          productType
+          totalInventory
+          description
+          handle
+          images(first: 10) {
+            edges {
+              node {
+                url
+                width
+                height
+              }
+            }
+          }
+          priceRange {
+            maxVariantPrice {
+              amount
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }
@@ -94,6 +131,7 @@ query AllProducts($category: String!) {
   collection(handle: $category) {
     handle
     products(first: 22) {
+      cursor
       edges {
         node {
           id

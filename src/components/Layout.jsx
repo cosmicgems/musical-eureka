@@ -125,7 +125,11 @@ const Layout = ({ children}) => {
 
             {
               appName === null ?
-              <Subscribe user={user} />
+              <div className='mt-10'>
+                <Subscribe user={user} />                
+              </div>
+
+
               :
               null
             }
