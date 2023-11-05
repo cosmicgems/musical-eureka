@@ -200,14 +200,14 @@ const FullCart = () => {
                         Member:
                       </Typography>
                         {
-                          session?.user !== null || session?.user !== undefined ?
+                          session?.user !== null && session?.user !== undefined ?
                             <div>
                               <Typography variant='body1' component="div" className='font-bold' sx={{color:grey[50]}}>
                                 {session?.user.first_name} {session?.user.last_name}
                               </Typography>
                             </div>
                           :
-                          <Typography variant='body1' component="div" className='gradient-text-four' sx={{color:grey[50]}}>
+                          <Typography variant='body1' component="div" className='gradient-text-three' sx={{color:grey[50]}}>
                             Not signed in
                           </Typography>
                         }

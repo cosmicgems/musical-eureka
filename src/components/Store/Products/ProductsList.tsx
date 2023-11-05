@@ -9,6 +9,7 @@ import { grey, teal } from '@mui/material/colors';
 import ProductCard from './ProductCard';
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import ProductsListContainer from './ProductsListContainer';
 
 
 const Product = ({product, goToProductPage}) => {
@@ -139,20 +140,13 @@ export default function ProductsList({products}) {
       
         
           {
-        (products && products.length > 0) ?
-        <div  className='flex overflow-x-auto md:overflow-x-hidden  pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 w-screen' ref={heroRef}>
-        {products.map((product) => (
-            <ProductCard
-              key={`${product.node.handle} product list`}
-              product={product}
-              goToProductPage={goToProductPage}
-            />     
-
-          ))}               
-      </div>
-          :
-        <Typography variant="body1" align="center">There are no products in this collection</Typography>
-      }
+            (products && products.length > 0) ?
+            <div  className='flex overflow-x-auto md:overflow-x-hidden  pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 w-screen' ref={heroRef}>
+              <ProductsListContainer products={products} />  
+            </div>
+              :
+            <Typography variant="body1" align="center">There are no products in this collection</Typography>
+          }
 
 
       <div className='hidden lg:flex absolute right-0'>

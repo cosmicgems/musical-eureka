@@ -130,8 +130,9 @@ export const CollectionProducts = `
 query AllProducts($category: String!) {
   collection(handle: $category) {
     handle
-    products(first: 22) {
+    products(first: 24) {
       edges {
+        cursor
         node {
           id
           title
@@ -152,6 +153,44 @@ query AllProducts($category: String!) {
             }
           }
         }
+      }
+    }
+  }
+}
+`;
+
+
+export const CollectionLoadMoreProducts = `
+query AllProducts($category: String!, $first: Int!, $after:String) {
+  collection(handle: $category) {
+    handle
+    products(first: $first, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          title
+          totalInventory
+          handle
+          images(first: 10) {
+            edges {
+              node {
+                url
+                width
+                height
+              }
+            }
+          }
+          priceRange {
+            maxVariantPrice {
+              amount
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }

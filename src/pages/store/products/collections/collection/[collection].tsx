@@ -2,19 +2,23 @@ import React, { useRef } from 'react'
 import { parseShopifyResponse, shopifyClient } from '../../../../../../lib/shopify';
 import { Box, Button, Typography } from '@mui/material';
 import Layout from '../../../../../components/Layout';
-import { callShopify, AllProducts, CollectionProducts } from '../../../../../../helpers/shopify'
+import { callShopify, AllProducts, CollectionProducts, CollectionLoadMoreProducts } from '../../../../../../helpers/shopify'
 import ProductCard from '../../../../../components/Store/Products/ProductCard';
 import { useRouter } from 'next/router';
 import { teal } from '@mui/material/colors';
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import CollectionContainer from '../../../../../components/Store/Home Page/Collections/Collection/CollectionContainer';
+import CollectionsContainer from '../../../../../components/Store/Collections/CollectionsContainer';
 
-const Collection = ({collection, collectionProducts}) => {
+const Collection = ({collection, collectionProducts, collectionName}) => {
+  console.log(collectionProducts);
+  
   const router = useRouter()
   // Navigate to product page with handle i.e /products/black-converses
   const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
 
-  console.log(collectionProducts)
+  // console.log(collectionProducts)
 
   const tagLine = () => {
     if (collection.handle === "candles-accessories"){
@@ -57,7 +61,7 @@ const Collection = ({collection, collectionProducts}) => {
           </div>
 
 
-        <div className='flex items-center w-4/5'>
+        <div className='flex items-center md:w-4/5'>
 
           <div className='hidden lg:flex absolute '>
               <Button className='' sx={{color: teal[200],}}   onClick={() => handleCollectionNav('left')}>
@@ -65,14 +69,8 @@ const Collection = ({collection, collectionProducts}) => {
               </Button>
           </div> 
 
-          <div ref={collectionRef} className='flex overflow-x-auto md:overflow-x-hidden  py-3'>
-            {collectionProducts.map((product) => {
-              console.log(product);
-              
-              return <div key={product.node.id} className='px-3 '>
-                <ProductCard goToProductPage={goToProductPage} product={product} />
-              </div>
-            })}
+          <div ref={collectionRef} className='flex overflow-x-auto md:overflow-x-hidden gap-12  py-3 px-3'>
+            <CollectionsContainer products={collectionProducts} collectionName={collectionName} />
           </div>
 
           <div className='hidden lg:flex absolute right-0'>
@@ -118,13 +116,13 @@ export const getStaticProps = async ({ params: { collection } }) => {
   const products2 = response.data.products.edges
 
 
-  const response2 = await callShopify(CollectionProducts, { category: collection });
+  const response2 = await callShopify(CollectionLoadMoreProducts, { category: collection, first:24, after:"eyJsYXN0X2lkIjo3ODE4MjMyNjYwMTU4LCJsYXN0X3ZhbHVlIjowfQ==" });
   const collectionProducts = response2.data.collection.products.edges
   console.log(collectionProducts)
 
 
   return {
-    props: { products: parseShopifyResponse(products), collection: parseShopifyResponse(collection_res), collections: parseShopifyResponse(collections), products2, collectionProducts   },
+    props: { products: parseShopifyResponse(products), collection: parseShopifyResponse(collection_res), collections: parseShopifyResponse(collections), products2, collectionProducts, collectionName: collection   },
     revalidate: 60,
   }
 

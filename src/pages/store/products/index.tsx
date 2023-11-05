@@ -15,7 +15,6 @@ const ProductsPage = ({products}) => {
 
   const router = useRouter()
 
-  const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
 
 
 

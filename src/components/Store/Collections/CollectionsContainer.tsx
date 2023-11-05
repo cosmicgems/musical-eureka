@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import ProductCard from '../Products/ProductCard';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import ProductCard from '../Products/ProductCard';
-import { Box, Button, Typography } from '@mui/material'
+import { Typography } from '@mui/material';
 
-
-const ProductContainer = ({products}) => {  
+const CollectionsContainer = ({products, collectionName}) => {
+    console.log(collectionName);
+    
     const router = useRouter()
     
     const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
@@ -20,12 +21,12 @@ const ProductContainer = ({products}) => {
 
 
     const loadMoreProducts = useCallback(async ( hasNextPage, ) => {
-        const data = {first: 24, after: cursor}
+        const data = {first: 24, after: cursor, collectionName}
         try {
             
             if (hasNextPage || hasNextPage === null) {
                 setLoading(true);
-                const res =  await axios.post("/api/store/load-more-products", {data});
+                const res =  await axios.post("/api/store/load-more-collection-products", {data});
                 console.log(res.data);
 
                 
@@ -33,16 +34,16 @@ const ProductContainer = ({products}) => {
             
                 setLoadedProducts((prevLoadedProducts) => [
                     ...prevLoadedProducts,
-                    ...res.data.products.data.products.edges.map((pro) => pro)
+                    ...res.data.products.data.collection.products.edges.map((pro) => pro)
                 ]);
 
                 if(res.data.products.data.products.pageInfo.hasNextPage){
                     setHasNextPage(true);
-                    setCursor(res.data.products.data.products.pageInfo.endCursor)
+                    setCursor(res.data.products.data.collection.products.pageInfo.endCursor)
                     setLoading(false)
                 } else {
                     setHasNextPage(false);
-                    setCursor(res.data.products.data.products.pageInfo.endCursor)
+                    setCursor(res.data.products.data.collection.products.pageInfo.endCursor)
                     setLoading(false)
                 }
         } else {
@@ -114,69 +115,65 @@ const ProductContainer = ({products}) => {
     };
     }, [ hasNextPage, loadMoreProducts]);
 
-    
-
-    return (
-            <>
-            {
-                products.map((product, i) => {
-                if(loadedProducts.length === 0 && i === products.length - 1) {
-                    return (
-                    <div className='flex' key={` ${product.node.id} productsPage`}>
-                        <ProductCard goToProductPage={goToProductPage} product={product} />
-                    
-                        <div ref={loadMoreRef} className='h-[20vh] w-[20vw]'>
-                            <Typography variant='caption' className='gradient-text-home' sx={{}} component="div">
-                            Loading more products...
-                            </Typography>
-                        </div>                                
-                
-                    </div>
-                    )
-                }
-                
-                return (
-                    <div key={` ${product.node.id} productsPage`}>
-                    <ProductCard goToProductPage={goToProductPage} product={product} />
-                    </div>
-                )
-                })
-            }
-            {
-                loadedProducts.length > 0 &&
-                <>
+  return (
+    <>
+    {
+        products.map((product, i) => {
+        if(loadedProducts.length === 0 && i === products.length - 1) {
+            return (
+            <div className='flex' key={` ${product.node.id} productsPage`}>
+                <ProductCard goToProductPage={goToProductPage} product={product} />
+            
+                <div ref={loadMoreRef} className='h-[20vh] w-[20vw]'>
+                    <Typography variant='caption' className='gradient-text-home' sx={{}} component="div">
+                    Loading more products...
+                    </Typography>
+                </div>                                
+        
+            </div>
+            )
+        }
+        
+        return (
+            <div key={` ${product.node.id} productsPage`}>
+            <ProductCard goToProductPage={goToProductPage} product={product} />
+            </div>
+        )
+        })
+    }
+    {
+        loadedProducts.length > 0 &&
+        <>
+        {
+            loadedProducts.map((product, i) => {
+            if(loadedProducts.length > 0 && i === loadedProducts.length - 1) {
+            return (
+                <div className='flex' key={` ${product.node.id} productsPage`}>
+                <ProductCard goToProductPage={goToProductPage} product={product} />
                 {
-                    loadedProducts.map((product, i) => {
-                    if(loadedProducts.length > 0 && i === loadedProducts.length - 1) {
-                    return (
-                        <div className='flex' key={` ${product.node.id} productsPage`}>
-                        <ProductCard goToProductPage={goToProductPage} product={product} />
-                        {
-                            !hasNextPage ?
-                            null :
-                        <div ref={loadMoreRef} className='h-full flex justify-center items-center'>
-                            <Typography variant='caption' className='gradient-text-home' sx={{}} component="div">
-                            Loading more products...
-                            </Typography>
-                        </div>                            
-                        }
+                    !hasNextPage ?
+                    null :
+                <div ref={loadMoreRef} className='h-full flex justify-center items-center'>
+                    <Typography variant='caption' className='gradient-text-home' sx={{}} component="div">
+                    Loading more products...
+                    </Typography>
+                </div>                            
+                }
 
-                        </div>
-                    )
-                    }
-                    return (
-                        <div key={` ${product.node.id} productsPage`}>
-                        <ProductCard goToProductPage={goToProductPage} product={product} />
-                        </div>
-                    )
-                    })
-                }                      
-                </>
-            }            
-            </>
-          
-
-    )
+                </div>
+            )
+            }
+            return (
+                <div key={` ${product.node.id} productsPage`}>
+                <ProductCard goToProductPage={goToProductPage} product={product} />
+                </div>
+            )
+            })
+        }                      
+        </>
+    }            
+    </>
+  )
 }
 
-export default ProductContainer
+export default CollectionsContainer
