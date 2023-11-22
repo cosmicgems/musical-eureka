@@ -5,6 +5,7 @@ import React, {createContext,
 import { toast } from 'react-hot-toast'
 import { useRouter } from "next/router";
 import { appItems } from "../public/assets/appItems";
+// import { useAddItem } from "@common/cart";
 
 
 
@@ -14,7 +15,7 @@ const Context = createContext();
 export const StateContext = ({ children }) => {
 
 
-
+  // const addItem = useAddItem();
   const initialState = [];
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState(initialState);
@@ -70,7 +71,7 @@ export const StateContext = ({ children }) => {
       localStorage.setItem("cart-items", JSON.stringify(cartItems));
       
       cartItems.map((item) => {
-        console.log(item.quantity)
+        // console.log(item.quantity)
         cart_num = cart_num + item.quantity;
         total = Number(item.node.priceRange.maxVariantPrice.amount * item.quantity) + total
       })
@@ -83,7 +84,10 @@ export const StateContext = ({ children }) => {
 
 
   const onAdd = (product, quantity) => {
-    console.log(product);
+
+    // const output = addItem(product)
+    // alert(JSON.stringify(output));
+    
     const checkProductInCart = cartItems.some((item) => item.node.id === product.node.id);
       console.log(checkProductInCart);
       setTotalPrice((prevTotalPrice) => prevTotalPrice + product.node.priceRange.maxVariantPrice.amount * quantity);
@@ -108,7 +112,8 @@ export const StateContext = ({ children }) => {
         setCartItems([...cartItems, { ...product, quantity }]);
       }
       console.log(cartItems);
-      setQty(quantity)
+      setQty(quantity);
+      
       toast.success(`${quantity} ${product.node.title} added to the cart.`);
   } 
 

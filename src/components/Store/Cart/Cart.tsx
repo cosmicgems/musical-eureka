@@ -10,7 +10,7 @@ const Cart = () => {
     const { totalPrice, cartTotal, totalQuantities, cartItems, setShowCart, showCart, toggleCartItemQuantity, onRemove} = useStateContext();
 
 
-    console.log(cartItems);
+    // console.log(cartItems);
 
     let USDollar = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -39,7 +39,7 @@ const Cart = () => {
                 <div className="flex flex-col gap-3 h-[100%]">
                   <div className='product-container h-full'>
                     {cartItems.length >= 1 && cartItems.map((item, i) => (
-                      <div key={item.id} className='product'>
+                      <div key={item.node.id + "the cart items"} className='product'>
                         <img src={item?.node.images.edges[0].node.url} className='cart-product-image'/>
                         <div className='item-desc'>
                           <div className='flex top'>

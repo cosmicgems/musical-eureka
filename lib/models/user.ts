@@ -56,7 +56,8 @@ const userSchema = new Schema(
         type: Boolean,
         default: false
         },
-        favorite_posts: [{type: ObjectId, ref: "Blog",}]
+        favorite_posts: [{type: ObjectId, ref: "Blog",}],
+        orders: [{type: ObjectId, ref: "Order"}],
     },
     { timestamps: true }
 );

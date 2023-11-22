@@ -6,6 +6,7 @@ import {motion} from "framer-motion"
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import { useStateContext } from '../../../Context/StateContext'
 import { USDollar } from '../../../helpers/usd'
+import { signOut } from 'next-auth/react'
 
 
 
@@ -120,10 +121,13 @@ const DynamicMobileUserChip = ({user}) => {
 
             {
               chip ?
-                <div className='w-full flex flex-col justify-center items-center'>
+                <div className='w-full flex justify-center items-center'>
                   <Typography variant='body1' sx={{fontSize:'1.5rem'}} className='gradient-text  py-1 w-full text-center'>
                     {user?.username}
                   </Typography>
+                  <Button onClick={(e)=>{e.preventDefault(); e.stopPropagation(); signOut()}}>
+                    Signout
+                  </Button>
                 </div>
               : !chip && !visibleCart ?
                 <div className='h-full flex flex-col'>

@@ -1,11 +1,18 @@
-import React, { useRef } from 'react'
+import React, { FC, useRef } from 'react'
 import MarketingMessage from '../MarketingMessage'
 import FeaturedProductsContainer from './FeaturedProductsContainer'
 import Store from "../../css/Store.module.css"
 import { grey } from '@mui/material/colors'
 import ProductsList from '../../Products/ProductsList'
+import { useApiProvider } from '@common'
+import { Props } from 'html-react-parser/lib/attributes-to-props'
+import { useAddItem } from '@common/cart'
 
-const Hero = ({products}) => {
+const Hero: FC<Props>  = ({products, pro}) => {
+  const addItem = useAddItem();
+
+  const api = useApiProvider()
+  // debugger
 
     const data = {
         title: "Featured Products",
@@ -24,7 +31,7 @@ const Hero = ({products}) => {
       </div>
     
     
-      <ProductsList products={products}/>
+      <ProductsList pro={pro} products={products}/>
       
   
 

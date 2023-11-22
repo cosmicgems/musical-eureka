@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, cloneElement } from 'react';
+import React, { useEffect, useState, cloneElement, FC } from 'react';
 import Head from 'next/head';
 import NavBar from './NavBar';
 import Footer from './Footer';
@@ -14,9 +14,10 @@ import { ThemeProvider } from '@emotion/react';
 import theme from '../styles/theme/lightThemeOptions';
 import lightTheme from '../../utility/lightTheme'
 import StoreNavbar from './StoreNavbar';
+import { ApiProvider } from '@framework';
 
 
-const Layout = ({ children}) => {
+const Layout: FC = ({ children }: any) => {
   const {data: session, status} = useSession();
   const [user, setUser] = useState(null);
 
@@ -45,117 +46,115 @@ const Layout = ({ children}) => {
     <>
     {
       appName === null && pathSegment !== "store" ?
-      <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
-        <ThemeProvider theme={lightTheme} >
-            <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
+        <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
+          <ThemeProvider theme={lightTheme} >
+              <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
 
 
 
-              <header style={{ paddingInline: 0 }}>
+                <header style={{ paddingInline: 0 }}>
 
-                {
-                  appName === null ?
-                  <NavBar user={user} />
-                  :
-                  <AppBarNavbar user={user} />
-                }
+                  {
+                    appName === null ?
+                    <NavBar user={user} />
+                    :
+                    <AppBarNavbar user={user} />
+                  }
 
-                
-
-
-              </header>
-
-            </div>
-
-            {
-              appName === null ?
-              <Subscribe user={user} />
-              :
-              null
-            }
-
-            {
-              appName === null ?
-              null:
-              <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
-                <div className='w-full md:w-2/5'>
-                  <DynamicMobileUserChip user={user} />
-                </div>
-              </div>            
-            }
-
-            
-
-            <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
-              {children}
-            </main>
-
-            <footer className='footer'>
-              <Footer />
-            </footer>
-
-        </ThemeProvider>
+                  
 
 
+                </header>
 
-      </div>
+              </div>
+
+              {
+                appName === null ?
+                <Subscribe user={user} />
+                :
+                null
+              }
+
+              {
+                appName === null ?
+                null:
+                <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
+                  <div className='w-full md:w-2/5'>
+                    <DynamicMobileUserChip user={user} />
+                  </div>
+                </div>            
+              }
+
+              
+
+              <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
+                {children}
+              </main>
+
+              <footer className='footer'>
+                <Footer />
+              </footer>
+
+          </ThemeProvider>
+        </div>
       :
       appName === null && pathSegment === 'store' ?
       <div className='layout flex flex-col min-h-screen' style={{ minHeight: '100vh' }}>
-        <ThemeProvider theme={lightTheme} >
-            <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
+        <ApiProvider>
+          <ThemeProvider theme={lightTheme} >
+              <div className={appName === null ? 'header-div mb-20 sm:mb-0' : "header-div "} style={{ paddingInline: 0 }}>
 
 
 
-              <header style={{ paddingInline: 0 }}>
+                <header style={{ paddingInline: 0 }}>
 
-                {
-                  appName === null ?
-                  <NavBar user={user} />
-                  :
-                  <AppBarNavbar user={user} />
-                }
+                  {
+                    appName === null ?
+                    <NavBar user={user} />
+                    :
+                    <AppBarNavbar user={user} />
+                  }
 
-                
+                  
 
 
-              </header>
+                </header>
 
-            </div>
-
-            {
-              appName === null ?
-              <div className='mt-10'>
-                <Subscribe user={user} />                
               </div>
 
-
-              :
-              null
-            }
-
-            {
-              appName === null ?
-              null:
-              <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
-                <div className='w-full '>
-                  <DynamicMobileUserChip user={user} />
+              {
+                appName === null ?
+                <div className='mt-10'>
+                  <Subscribe user={user} />                
                 </div>
-              </div>            
-            }
 
-            
 
-            <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
-              {children}
-            </main>
+                :
+                null
+              }
 
-            <footer className='footer'>
-              <Footer />
-            </footer>
+              {
+                appName === null ?
+                null:
+                <div className='absolute mt-20 w-screen flex md:justify-end md:items-end'>
+                  <div className='w-full '>
+                    <DynamicMobileUserChip user={user} />
+                  </div>
+                </div>            
+              }
 
-        </ThemeProvider>
+              
 
+              <main style={{overflowX: 'hidden'}} className='main-container grow  max-w-screen '>
+                {children}
+              </main>
+
+              <footer className='footer'>
+                <Footer />
+              </footer>
+
+          </ThemeProvider>          
+        </ApiProvider>
       </div>
       :
       <>

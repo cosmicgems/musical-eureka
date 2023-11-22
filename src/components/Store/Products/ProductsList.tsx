@@ -10,9 +10,11 @@ import ProductCard from './ProductCard';
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 import ProductsListContainer from './ProductsListContainer';
+import { useAddItem } from '@common/cart';
 
 
 const Product = ({product, goToProductPage}) => {
+  const addItem = useAddItem();
   const router = useRouter();
   const { onAdd  } = useStateContext();
   const [showCartActions, setShowCartActions] = useState<boolean>(false);
@@ -89,7 +91,7 @@ const Product = ({product, goToProductPage}) => {
                 showCartActions ?
                 <div  className=' w-[250px] sm:w-[300px] min-h-[400px] flex flex-col justify-end '>
                 <ButtonGroup variant='contained'>
-                  <Button onClick={()=>{onAdd(product, 1)}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
+                  <Button onClick={()=>{onAdd(product, 1); console.log(addItem(product));}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
                     Add to Cart
                   </Button>
                   <Button sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
@@ -109,7 +111,7 @@ const Product = ({product, goToProductPage}) => {
   )
 }
 
-export default function ProductsList({products}) {
+export default function ProductsList({products, pro}) {
   const router = useRouter()
   // Navigate to product page with handle i.e /products/black-converses
   const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
@@ -142,7 +144,7 @@ export default function ProductsList({products}) {
           {
             (products && products.length > 0) ?
             <div  className='flex overflow-x-auto md:overflow-x-hidden  pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 w-screen' ref={heroRef}>
-              <ProductsListContainer products={products} />  
+              <ProductsListContainer pro={pro} products={products} />  
             </div>
               :
             <Typography variant="body1" align="center">There are no products in this collection</Typography>

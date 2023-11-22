@@ -43,7 +43,7 @@ const CreditZenApp = () => {
   }
   
   if (user === null) {
-    setUser(session.user);
+    setUser(session?.user);
   }
 
   if(status === "authenticated"){

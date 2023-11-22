@@ -5,12 +5,15 @@ import { USDollar } from '../../../../helpers/usd'
 import { useStateContext } from '../../../../Context/StateContext'
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
 import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
+import { useAddItem } from '@common/cart'
+import { Product } from '@common/types/products'
 
-const ProductCard = ({product, goToProductPage}) => {
+const ProductCard = ({product, goToProductPage, pro}) => {
     const { onAdd  } = useStateContext();
     const [showCartActions, setShowCartActions] = useState<boolean>(false);
     const [travel, setTravel] = useState<boolean>(true);
     const [isMobile, setIsMobile] = useState<boolean>(false);
+    const [ isLoading, setIsLoading ] = useState(false)
     // console.log(product);
     const handleClick = (e, handle) =>{
         e.preventDefault();
@@ -19,6 +22,40 @@ const ProductCard = ({product, goToProductPage}) => {
         }
         goToProductPage(handle)  
         
+    }
+
+    type AvailableChoices = "color" | "size" | string
+
+    type Choices = {
+        [P in AvailableChoices]: string
+    }
+
+    const getVariant = (pro: Product, choices: Choices) =>
+        pro.variants?.find(variant =>
+        variant.options.every(variantOption => {
+            const optionName = variantOption.displayName.toLocaleLowerCase()
+            return optionName in choices &&
+            choices[optionName] === variantOption.values[0].label
+        })
+    )
+    const [ choices, setChoices ] = useState<Choices>({})
+    const variant = getVariant(pro, choices)
+
+    const addItem = useAddItem();
+
+    const addToCart = async(product, qty) => {
+        try {
+            const item = {
+                productId: String(product.id),
+                variantId: String(variant ? variant.id : product.variants[0].id),
+                quantity: 1
+            }
+            const output = await addItem(item)
+            console.log(output);
+            
+        } catch (error) {
+            
+        }
     }
 
     useEffect(() => {
@@ -63,7 +100,8 @@ const ProductCard = ({product, goToProductPage}) => {
                         <>
                             <div onMouseOver={()=> {setTravel(false)}} onMouseLeave={()=>{setTravel(true)}}  className='w-[45vw] h-[33vh] md:w-[17.5vw] md:h-[45vh] flex flex-col justify-end '>
                                 <ButtonGroup variant='contained'>
-                                    <Button onClick={()=>{console.log(product); onAdd(product, 1)}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
+                                    <Button onClick={()=>{console.log(product); onAdd(product, 1); addToCart(pro[0],3);
+                                    }} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
                                         <AddShoppingCartRoundedIcon />
                                     </Button>
                                     <Button sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
@@ -85,7 +123,7 @@ const ProductCard = ({product, goToProductPage}) => {
 
                 <div onMouseOver={()=> {setTravel(false)}} onMouseLeave={()=>{setTravel(true)}}  className='w-[45vw]  md:h-[45vh] flex flex-col  '>
                     <ButtonGroup variant='contained' >
-                        <Button onClick={()=>{console.log(product); onAdd(product, 1)}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
+                        <Button onClick={()=>{console.log(product);onAdd(product, 1)}} sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>
                             <AddShoppingCartRoundedIcon />
                         </Button>
                         <Button sx={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}} className='w-full'>

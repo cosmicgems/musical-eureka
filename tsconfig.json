@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "baseUrl": ".",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -17,14 +14,24 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "target": "ES2017"
+    "target": "ES2017",
+    "paths": {
+      "@common": ["src/framework/common"],
+      "@common/*": ["src/framework/common/*"],
+      "@framework": ["src/framework/shopify"],
+      "@framework/*": ["src/framework/shopify/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/pages/studio/[[...index]].jsx", "lib/nextauthOptions.js", "src/components/DisqusComments.jsx", "src/components/Store/Products/ProductsList.s", "lib/shopify.ts", "src/components/StoreNavbar.jsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "**/*.tsx",
+    "src/pages/studio/[[...index]].jsx",
+    "lib/nextauthOptions.js",
+    "src/components/DisqusComments.jsx",
+    "src/components/Store/Products/ProductsList.s",
+    "lib/shopify.ts",
+    "src/components/StoreNavbar.jsx"
+  ],
+  "exclude": ["node_modules"]
 }

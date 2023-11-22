@@ -125,7 +125,6 @@ query AllProducts($handle: String!) {
 
 `
 
-
 export const CollectionProducts = `
 query AllProducts($category: String!) {
   collection(handle: $category) {
@@ -159,7 +158,6 @@ query AllProducts($category: String!) {
 }
 `;
 
-
 export const CollectionLoadMoreProducts = `
 query AllProducts($category: String!, $first: Int!, $after:String) {
   collection(handle: $category) {
@@ -191,6 +189,83 @@ query AllProducts($category: String!, $first: Int!, $after:String) {
       pageInfo {
         hasNextPage
         endCursor
+      }
+    }
+  }
+}
+`;
+
+export const CreateCart = `mutation($cartInput: CartInput) {
+  cartCreate(input: $cartInput)(
+    input: {
+      lines: [
+        {
+          quantity: 1
+          merchandiseId: "gid://shopify/ProductVariant/1"
+        }
+      ],
+      # The information about the buyer that's interacting with the cart.
+      buyerIdentity: {
+        email: $buyerEmail,
+        countryCode: $countryCode,
+        # An ordered set of delivery addresses associated with the buyer that's interacting with the cart. The rank of the preferences is determined by the order of the addresses in the array. You can use preferences to populate relevant fields in the checkout flow.
+        deliveryAddressPreferences: $addressPreferences
+      }
+      attributes: {
+        key: "cart_attribute",
+        value: "This is a cart attribute"
+      }
+    }
+  ) {
+    cart {
+      id
+      checkoutUrl
+      totalQuantity
+      createdAt
+      updatedAt
+      lines(first: 10) {
+        edges {
+          node {
+            id
+            merchandise {
+              ... on ProductVariant {
+                id
+                merchandise
+                cost
+                discountAllocations
+                quantity
+                sellingPlanAllocation
+
+              }
+            }
+          }
+        }
+      }
+      buyerIdentity {
+        deliveryAddressPreferences {
+          __typename
+        }
+      }
+      attributes {
+        key
+        value
+      }
+      # The estimated total cost of all merchandise that the customer will pay at checkout.
+      cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        # The estimated amount, before taxes and discounts, for the customer to pay at checkout.
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        # The estimated tax amount for the customer to pay at checkout.
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
       }
     }
   }

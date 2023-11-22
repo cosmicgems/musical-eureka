@@ -1,4 +1,6 @@
-module.exports = {
+const { withFrameworkConfig } = require("./src/framework/common/config")
+
+module.exports = withFrameworkConfig({
   publicRuntimeConfig: {
       APP_NAME: 'Pearl Box',
       API_DEVELOPMENT: 'http://localhost:3000',
@@ -14,5 +16,14 @@ module.exports = {
         hostname: 'images.pexels.com'
       },
     ]
+  },
+  framework: {
+    name: process.env.NEXT_PUBLIC_FRAMEWORK
+  },
+  i18n: {
+    locales: ["en-US", "es"],
+    defaultLocale: "en-US"
   }
-};
+});
+
+console.log("next.config.js", JSON.stringify(module.exports, null, 2))

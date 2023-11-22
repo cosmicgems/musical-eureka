@@ -1,24 +1,20 @@
-import React, { useRef } from 'react'
+import React, { FC } from 'react'
 import Layout from '../../components/Layout'
-import { Box, Button, Typography } from '@mui/material'
-import Store from '../../components/Store/css/Store.module.css'
-import { grey, teal } from '@mui/material/colors'
+import { Typography } from '@mui/material'
 import { shopifyClient, parseShopifyResponse } from '../../../lib/shopify'
-import ProductsList from '../../components/Store/Products/ProductsList'
-import MarketingMessage from '../../components/Store/Home Page/MarketingMessage'
 import Hero from '../../components/Store/Home Page/Hero/Hero'
 import Collections from '../../components/Store/Home Page/Collections/Collections'
-import { shopifyApi, LATEST_API_VERSION } from "@shopify/shopify-api"
 import { AllProducts, callShopify } from '../../../helpers/shopify'
-import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
-import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import getAllProducts from '@framework/product/get-all-products'
+import { getConfig } from '@framework/api/config'
+import { useApiProvider } from '@common'
 
-const StoreHome = ({products, collections}) => {
-    console.log(collections);
+const StoreHome = ({products, collections, pro}) => {
+    console.log(pro);
     
-    console.log(products);
     
-    console.log(products[0]);
+    
+
   return (
     // <Box sx={{bgcolor:grey[500]}}>
         <Layout>
@@ -28,7 +24,7 @@ const StoreHome = ({products, collections}) => {
                 </Typography>
                 
                 <div className='sm:w-full'>
-                    <Hero products={products} />
+                    <Hero products={products} pro={pro} />
                 </div>
 
                 <div className='sm:w-full'>
@@ -50,15 +46,15 @@ const StoreHome = ({products, collections}) => {
 export const getStaticProps = async () => {
     
     try {
-
+        const config = getConfig();
         const response = await callShopify(AllProducts)
         const products = response.data.products.edges
         const collections = await shopifyClient.collection.fetchAll();
-
+        const p = await getAllProducts(config);
 
     return {
         props: {
-            products: parseShopifyResponse(products), collections: parseShopifyResponse(collections)
+            products: parseShopifyResponse(products), collections: parseShopifyResponse(collections), pro: p
         }
     }        
 

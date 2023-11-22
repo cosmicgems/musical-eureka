@@ -30,11 +30,13 @@ import UserCard from './User/UserCard';
 import UserCardMobile from './User/UserCardMobile';
 import Cart from './Store/Cart/Cart';
 import SubscribeMobile from './SubscribeMobile';
+// import useCart from '@framework/cart/use-cart';
 
 const drawerWidth = 300;
 
 
 function NavBar(props) {
+    // const cart = useCart();
     const router = useRouter();
     const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
     const { window, user } = props;
@@ -302,7 +304,7 @@ const handleSignup = (e) => {
               </Button>
             ))}
                 <button type='button'
-                  className='cart-icon' style={{marginInline:'1vw', justifyContent: 'center', alignItems:'center'}} onClick={() => setShowCart(true)}>
+                  className='cart-icon' style={{marginInline:'1vw', justifyContent: 'center', alignItems:'center'}} onClick={() =>{setShowCart(true)}}>
                   <AiOutlineShopping/>
                   <span className='cart-item-qty'>{totalQuantities}</span>
                 </button>  

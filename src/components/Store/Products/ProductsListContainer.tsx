@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 import { useRouter } from 'next/router';
 import { ImageListItem, Typography, ImageList, ButtonGroup, Button } from '@mui/material';
 
-const ProductsListContainer = ({products}) => {
+const ProductsListContainer = ({products, pro}) => {
 
     const router = useRouter();
     
@@ -98,7 +98,7 @@ const ProductsListContainer = ({products}) => {
                     if(loadedProducts.length === 0 && i === products.length - 1) {
                         return (
                         <div className='flex' key={` ${product.node.id} productsPage`}>
-                            <ProductCard goToProductPage={goToProductPage} product={product} />
+                            <ProductCard goToProductPage={goToProductPage} product={product} pro={pro} />
                         
                             <div ref={loadMoreRef} className='h-[20vh] w-[20vw]'>
                                 <Typography variant='caption' className='gradient-text-home' sx={{}} component="div">
@@ -112,7 +112,7 @@ const ProductsListContainer = ({products}) => {
                     
                     return (
                         <div key={` ${product.node.id} productsPage`}>
-                        <ProductCard goToProductPage={goToProductPage} product={product} />
+                        <ProductCard goToProductPage={goToProductPage} product={product} pro={pro} />
                         </div>
                     )
                     })
@@ -125,7 +125,7 @@ const ProductsListContainer = ({products}) => {
                         if(loadedProducts.length > 0 && i === loadedProducts.length - 1) {
                         return (
                             <div className='flex' key={` ${product.node.id} productsPage`}>
-                            <ProductCard goToProductPage={goToProductPage} product={product} />
+                            <ProductCard goToProductPage={goToProductPage} product={product} pro={pro} />
                             {
                                 !hasNextPage ?
                                 null :
@@ -141,7 +141,7 @@ const ProductsListContainer = ({products}) => {
                         }
                         return (
                             <div key={` ${product.node.id} productsPage`}>
-                            <ProductCard goToProductPage={goToProductPage} product={product} />
+                            <ProductCard goToProductPage={goToProductPage} product={product} pro={pro} />
                             </div>
                         )
                         })
