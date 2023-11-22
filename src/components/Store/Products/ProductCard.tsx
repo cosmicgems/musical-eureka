@@ -31,16 +31,16 @@ const ProductCard = ({product, goToProductPage}) => {
         [P in AvailableChoices]: string
     }
 
-    const getVariant = (pro: Product, choices: Choices) =>
-        pro.variants?.find(variant =>
-        variant.options.every(variantOption => {
-            const optionName = variantOption.displayName.toLocaleLowerCase()
-            return optionName in choices &&
-            choices[optionName] === variantOption.values[0].label
-        })
-    )
+    // const getVariant = (product: Product, choices: Choices) =>
+    //     product.variants?.find(variant =>
+    //     variant.options.every(variantOption => {
+    //         const optionName = variantOption.displayName.toLocaleLowerCase()
+    //         return optionName in choices &&
+    //         choices[optionName] === variantOption.values[0].label
+    //     })
+    // )
     const [ choices, setChoices ] = useState<Choices>({})
-    const variant = getVariant(pro, choices)
+    // const variant = getVariant(pro, choices)
 
     const addItem = useAddItem();
 
@@ -48,7 +48,7 @@ const ProductCard = ({product, goToProductPage}) => {
         try {
             const item = {
                 productId: String(product.id),
-                variantId: String(variant ? variant.id : product.variants[0].id),
+                // variantId: String(variant ? variant.id : product.variants[0].id),
                 quantity: 1
             }
             const output = await addItem(item)
