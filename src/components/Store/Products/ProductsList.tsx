@@ -111,7 +111,7 @@ const Product = ({product, goToProductPage}) => {
   )
 }
 
-export default function ProductsList({products, pro}) {
+export default function ProductsList({products}) {
   const router = useRouter()
   // Navigate to product page with handle i.e /products/black-converses
   const goToProductPage = productHandle => router.push(`/store/products/product/${productHandle}`);
@@ -144,7 +144,7 @@ export default function ProductsList({products, pro}) {
           {
             (products && products.length > 0) ?
             <div  className='flex overflow-x-auto md:overflow-x-hidden  pl-6 sm:pl-12 py-6 pr-12 gap-6 sm:gap-20 w-screen' ref={heroRef}>
-              <ProductsListContainer pro={pro} products={products} />  
+              <ProductsListContainer  products={products} />  
             </div>
               :
             <Typography variant="body1" align="center">There are no products in this collection</Typography>

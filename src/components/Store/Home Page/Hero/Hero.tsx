@@ -8,7 +8,7 @@ import { useApiProvider } from '@common'
 import { Props } from 'html-react-parser/lib/attributes-to-props'
 import { useAddItem } from '@common/cart'
 
-const Hero: FC<Props>  = ({products, pro}) => {
+const Hero = ({products}) => {
   const addItem = useAddItem();
 
   const api = useApiProvider()
@@ -31,7 +31,7 @@ const Hero: FC<Props>  = ({products, pro}) => {
       </div>
     
     
-      <ProductsList pro={pro} products={products}/>
+      <ProductsList  products={products}/>
       
   
 

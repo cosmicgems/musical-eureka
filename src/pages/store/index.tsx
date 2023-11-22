@@ -24,7 +24,7 @@ const StoreHome = ({products, collections, pro}) => {
                 </Typography>
                 
                 <div className='sm:w-full'>
-                    <Hero products={products} pro={pro} />
+                    <Hero products={products}  />
                 </div>
 
                 <div className='sm:w-full'>

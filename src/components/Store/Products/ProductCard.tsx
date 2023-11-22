@@ -8,7 +8,8 @@ import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartChe
 import { useAddItem } from '@common/cart'
 import { Product } from '@common/types/products'
 
-const ProductCard = ({product, goToProductPage, pro}) => {
+const ProductCard = ({product, goToProductPage}) => {
+    let pro = {}
     const { onAdd  } = useStateContext();
     const [showCartActions, setShowCartActions] = useState<boolean>(false);
     const [travel, setTravel] = useState<boolean>(true);
