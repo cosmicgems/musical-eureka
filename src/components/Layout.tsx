@@ -17,7 +17,7 @@ import StoreNavbar from './StoreNavbar';
 import { ApiProvider } from '@framework';
 
 
-const Layout: FC = ({ children }: any) => {
+const Layout = ({ children }: any) => {
   const {data: session, status} = useSession();
   const [user, setUser] = useState(null);
 
