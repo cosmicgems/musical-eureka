@@ -1,7 +1,7 @@
 import { Box, Button, Modal, Typography } from '@mui/material'
 import { green, grey, red } from '@mui/material/colors'
 import React, { useState } from 'react'
-import Layout from '../../../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import CategoryModify from '../../../../../components/Blog Crud/CategoryModify'
 import axios from 'axios'
 import SubcategoryModify from '../../../../../components/Blog Crud/SubcategoryModify'

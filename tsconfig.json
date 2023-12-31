@@ -19,13 +19,17 @@
       "@common": ["src/framework/common"],
       "@common/*": ["src/framework/common/*"],
       "@framework": ["src/framework/shopify"],
-      "@framework/*": ["src/framework/shopify/*"]
+      "@framework/*": ["src/framework/shopify/*"],
+      "@components/*": ["src/components/*"],
+      "@assets/*": ["src/assets/*"],
+      "@lib/*": ["src/lib/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.jsx",
     "src/pages/studio/[[...index]].jsx",
     "lib/nextauthOptions.js",
     "src/components/DisqusComments.jsx",

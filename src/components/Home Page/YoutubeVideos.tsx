@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React, { useRef, useEffect} from 'react'
 import VideoCard from '../VideoCard'
 import { grey } from '@mui/material/colors';
+import { MediaCard } from '@components/blog/media-section/building-blocks';
 
 const YoutubeVideos = ({videos}) => {
     const scrollContainerRef = useRef(null);
@@ -67,7 +68,7 @@ const YoutubeVideos = ({videos}) => {
                             if (videos.length > 0) {
                                 return(
                                     <div key={i} className='p-3 scrollable-item'>
-                                        <VideoCard video={v} />
+                                        <MediaCard video={v} />
                                     </div>
                                 )                                    
                             } else if (videos.length <= 0) {

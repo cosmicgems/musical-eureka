@@ -15,15 +15,22 @@ export default async function handler (
         const {modified_user} = req.body;
 
         
-        console.log("{ ",_id, ": ", modified_user, " }");
+        console.log("{ ",_id, ": ", modified_user.values.addressLineOne, " }");
 
         
         
-        const user = await User.findByIdAndUpdate({_id}, {
+        const user = await User.findByIdAndUpdate(_id, {
             photo: modified_user.photo,
             first_name: modified_user.first_name,
             last_name: modified_user.last_name,
-            about: modified_user.about
+            about: modified_user.about,
+            address: {
+                addressLineOne: modified_user.values.addressLineOne,
+                addressLineTwo: modified_user.values.addressLineTwo,
+                city: modified_user.values.city,
+                state: modified_user.values.state,
+                zipCode: modified_user.values.zipCode,
+            }
         }, {new: true});
 
         console.log(user);

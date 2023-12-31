@@ -8,12 +8,16 @@ import User from '../../../../../../../../lib/models/user';
 import Blog from '../../../../../../../../lib/models/blog';
 import { Box, Button, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import Layout from '../../../../../../../components/Layout';
+import { Layout } from '@components/big-three-components';
 import SearchResults from '../../../../../../../components/Search Bar/SearchResults';
 import SmallBlogCard from '../../../../../../../components/blog/SmallBlogCard';
 import BlogPost from '../../../../../../../components/blog/BlogPost';
 import { useSession } from 'next-auth/react';
 import Loading from '../../../../../../../components/Loading';
+import { ScrollableContainer } from '@components/Store/UI';
+import { BlogPostCard } from '@components/blog';
+import { SubcategoryHeader } from '@components/blog/subcategory';
+import { BottomDivider, TopDivider } from '@components/shape-dividers';
 
 
 
@@ -42,10 +46,26 @@ interface Session {
 }
 
 const SubcategorySlugPage = ({sub_category, posts}) => {
+
   const {data:session, status} = useSession() as Session;
   const [user, setUser] = useState<any>(null);
 
   const scrollContainerRef = useRef(null);
+    
+  const subcategoryRef = useRef(null);
+
+  const handleSubcategoryNav = (direction:string) => {
+      
+      if (subcategoryRef.current) {
+          if (direction === 'left') {
+              subcategoryRef.current.scrollLeft -= 800;
+          }
+          if (direction === 'right') {
+              subcategoryRef.current.scrollLeft += 800;
+          }
+      }
+
+  }
 
   useEffect(() => {
       const scrollContainer = scrollContainerRef.current;
@@ -114,7 +134,7 @@ const SubcategorySlugPage = ({sub_category, posts}) => {
           <Layout>
 
             
-          <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-12 pt-12 sm:pt-0 max-w-screen'>
+            <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-12 pt-12 sm:pt-0 max-w-screen'>
                     <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  mb-6'>
                         <div>
                             <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
@@ -126,72 +146,49 @@ const SubcategorySlugPage = ({sub_category, posts}) => {
                                 Curate a lifestyle worth living.
                             </Typography>
                         </div>
-                        <SearchResults />
 
                     </div>
-    <div>
-        <div className='w-full'>
-            <Typography variant='h2' className='text-center gradient-text-subcategories mb-6' sx={{}}>
-                {sub_category.name} Posts
-            </Typography>
-        </div>
-        
-          <div className='w-[99vw]' >
-            <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container'>
-                
-                {posts.map((b, i)=> {
-                    if(i === 0) {
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                            <div className='flex justify-center items-center'>
-                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                        {b.categories[0].name}
-                                    </Typography>                                            
-                                </Button>
+                    <div>
 
-                            </div>
-                            <BlogPost blog={b} user={user} />
+                        
+                        <Box className='md:flex md:flex-col flex-row w-screen items-center relative py-[20vh]'
+                        sx={{bgcolor: grey[800]}}
+                        >
+                          <TopDivider />
+                          <SubcategoryHeader name={sub_category.name} />
+                          <ScrollableContainer
+                          data={posts}
+                          type={`articles`}
+                          handleHeroNav={handleSubcategoryNav}
+                          heroRef={subcategoryRef}
+                          >
+                            {posts.map((b, i)=> {
+
+                                    return (
+                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 snap-center'>
+                                            <div className='flex justify-center items-center'>
+                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                                    <Typography variant='h6' className='font-bold ' sx={{color: grey[50]}}>
+                                                        {b.categories[0].name}
+                                                    </Typography>                                            
+                                                </Button>
+
+                                            </div>
+                                            <BlogPostCard blog={b} user={user} />
+                                        </Box>
+                                    )                                
+                                
+
+                            })}                             
+                          </ScrollableContainer>
+                          <BottomDivider />
                         </Box>
-                        )
-                    } else if (i === posts.length -1){
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-                            <div   className='flex justify-center items-center'>
-                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                    <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                        {b.categories[0].name}
-                                    </Typography>                                            
-                                </Button>
 
-                            </div>
-                            <BlogPost blog={b} user={user} />
-                        </Box>
-                        )
-                    } else {
-                        return (
-                            <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
-                                <div className='flex justify-center items-center'>
-                                    <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                        <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                            {b.categories[0].name}
-                                        </Typography>                                            
-                                    </Button>
 
-                                </div>
-                                <BlogPost blog={b} user={user} />
-                            </Box>
-                        )                                
-                    }
-
-                })}
-            </div> 
-          </div>
-
-    </div>
+                    </div>
                     
             
-                </div>
+              </div>
 
           </Layout>
 

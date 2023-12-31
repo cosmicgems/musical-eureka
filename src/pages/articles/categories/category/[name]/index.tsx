@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
-import Layout from '../../../../../components/Layout'
+import { Layout } from '@components/big-three-components'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import CategoryCard from '../../../../../components/category/CategoryCard'
 import { grey } from '@mui/material/colors'
@@ -28,7 +28,7 @@ const SlugCategoryPage = ({category}, posts) => {
                 <div className='min-h-screen sm:min-h-[80vh]  w-full flex flex-col  items-center gap-6 pt-12 sm:pt-0'>
                 <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:mt-6  mb-6'>
                         <div>
-                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                            <Typography variant='h2' className=' gradient-text-home text-subcategories text-center' sx={{color: grey[50],}}>
                                 Pearl Box
                             </Typography>
                         </div>
@@ -37,7 +37,6 @@ const SlugCategoryPage = ({category}, posts) => {
                                 Curate a lifestyle worth living.
                             </Typography>
                         </div>
-                        <SearchResults />
 
                     </div>
                     <div>

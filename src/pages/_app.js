@@ -5,7 +5,7 @@ import { Box, ThemeProvider, Typography } from "@mui/material"
 import lightTheme from '../../utility/lightTheme'
 import createEmotionCache from "../../utility/createEmotionCache"
 import { CacheProvider } from "@emotion/react"
-import Layout from '../components/Layout'
+import { Layout } from '@components/big-three-components';
 import { SessionProvider, getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { grey } from '@mui/material/colors'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors';
-import Layout from '../../../../components/Layout';
+import { Layout } from '@components/big-three-components';
 import CreateCategory from '../../../../components/Blog Crud/CreateCategory';
 import CreateSubcategory from '../../../../components/Blog Crud/CreateSubcategory';
 import CreateTag from '../../../../components/Blog Crud/CreateTag';

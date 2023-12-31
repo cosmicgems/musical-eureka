@@ -1,39 +1,40 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
+import React, { useRef } from 'react'
 import Collection from './Collection'
 import { useRouter } from 'next/router'
+import { ScrollableContainer } from '@components/Store/UI'
 
-const CollectionContainer = ({products, collections}) => {
+const CollectionContainer = ({products, collections,}) => {
     const router = useRouter();
-    const goToCollectionPage = productHandle => router.push(`/store/products/collections/collection/${productHandle}`)
-  return (
-    <div className='sm:w-[75%] min-h-[25vh]'>
-        <Box sx={{}}  className="flex gap-12  h-full rounded   py-6  overflow-x-scroll">
-            {products && products.length > 0 ?
+    const goToCollectionPage = (path: string) => router.push(`${path}`)
+    const ref = useRef<HTMLDivElement>(null);
+
+    const handleHeroNav = (direction) => {
+        if (ref.current) {
+            if (direction === 'left') {
+                ref.current.scrollLeft -= 400;
+            }
+            if (direction === 'right') {
+                ref.current.scrollLeft += 400;
+            }
+        }
+    };
+    return (
+        <ScrollableContainer data={collections} handleHeroNav={handleHeroNav} heroRef={ref} type={`collections`} >
             <>
             {collections.map((collection) => {
                 if(collection.handle === "frontpage"){
                     return
                 }
                 return (
-                    <div key={collection.handle} className=''>
-                        <Collection
-                        collection={collection}
-                        goToCollectionPage={goToCollectionPage} />                    
-                    </div>                    
+                    <Collection
+                    key={collection.handle}
+                    collection={collection}
+                    goToCollectionPage={goToCollectionPage} />     
                 )
             })}
             </>
-            :
-            <div className='flex justify-center items-center'>
-                <Typography variant='h4' className='gradient-text-home' component="div">
-                    There are&apos;t any collections currently.
-                </Typography>
-            </div>
-            }
-        </Box>
-
-    </div>
+        </ScrollableContainer>
   )
 }
 

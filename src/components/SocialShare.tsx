@@ -10,7 +10,7 @@ const SocialShare = ({data}) => {
     
 
   return (
-    <div>
+    <div className="p-0">
       <RWebShare
         data={{
           text: text,

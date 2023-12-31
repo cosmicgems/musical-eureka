@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import FreeCreditReportConsultation from '../../../../components/Credit Zen/Consultation_Forms/FreeCreditReportConsultation'
 
 const CreditAssessment = () => {

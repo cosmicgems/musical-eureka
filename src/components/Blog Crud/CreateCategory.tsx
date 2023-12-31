@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Alert, Box, Button, Checkbox, CircularProgress, FormControlLabel, TextField, Typography } from '@mui/material'
 import { green, grey } from '@mui/material/colors';
 import axios from 'axios'
-import Layout from '../Layout';
+import { Layout } from '@components/big-three-components';
 import { alpha, styled } from '@mui/material/styles';
 
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import parse from 'html-react-parser'
 import { getSession, useSession } from 'next-auth/react';
-import Layout from '../../../../../components/Layout';
+import { Layout } from '@components/big-three-components';
 import TextEditor from '../../../../../components/Blog Crud/TextEditor';
 import BlogCreateCategorySubcategory from '../../../../../components/Blog Crud/BlogCreateCategorySubcategory';
 import SendingStatus from '../../../../../components/Blog Crud/SendingStatus';

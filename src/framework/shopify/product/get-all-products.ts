@@ -4,7 +4,7 @@ import {
 } from "../utils";
 
 import { ProductConnection } from "../schema";
-import { Product } from "@common/types/products";
+import { Product } from "@common/types/product";
 import { ApiConfig } from "@common/types/api";
 
 type ReturnType = {

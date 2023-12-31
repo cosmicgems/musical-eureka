@@ -1,21 +1,25 @@
-import { Box, Button, ButtonGroup, TextField, Typography } from '@mui/material'
-import { AiOutlinePlus, AiOutlineMinus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai'
-import { TiDeleteOutline } from 'react-icons/ti'
-import React, { useRef, useState } from 'react'
+import { Box, Typography } from '@mui/material'
+import { AiOutlineLeft, } from 'react-icons/ai'
+import React, { useRef, } from 'react'
 import { useStateContext } from '../../../../Context/StateContext'
-import { grey } from '@mui/material/colors'
+import useCart from '@common/cart/use-cart'
+import { LineItem } from '@common/types/cart'
+import CartItem from './CartItem'
+import CartTotals from './CartTotals'
 
 const Cart = () => {
+    const { data, isEmpty } = useCart();
+  
+    
+    
+  const itemsCount = data?.lineItems.reduce((count, item) => {
+    return count + item.quantity
+  }, 0) ?? 0
+    
+    
     const cartRef =useRef();
-    const { totalPrice, cartTotal, totalQuantities, cartItems, setShowCart, showCart, toggleCartItemQuantity, onRemove} = useStateContext();
+    const { setShowCart, showCart, } = useStateContext();
 
-
-    // console.log(cartItems);
-
-    let USDollar = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-  });
 
   const handleShowCart = () => {
     setShowCart(!showCart)
@@ -27,72 +31,34 @@ const Cart = () => {
         <button type='button' className='cart-heading' onClick={ (e)=> {e.stopPropagation();setShowCart(false)}}> 
           <AiOutlineLeft /> 
           <span className='heading'>Your Cart</span>
-          <span className='cart-num-items'>({totalQuantities}) items</span>
+          <span className='cart-num-items'>({itemsCount}) items</span>
         </button>
 
             <div className='flex flex-col gap-3 h-full'>
+              <div>
+                  <Typography variant='h3' component="div" className='mt-3 gradient-text-home'>
+                      Cart
+                  </Typography>                
+              </div>
 
-                <Typography variant='h3' component="div" className='mt-3 gradient-text-home'>
-                    Cart
-                </Typography>
 
-                <div className="flex flex-col gap-3 h-[100%]">
-                  <div className='product-container h-full'>
-                    {cartItems.length >= 1 && cartItems.map((item, i) => (
-                      <div key={item.node.id + "the cart items"} className='product'>
-                        <img src={item?.node.images.edges[0].node.url} className='cart-product-image'/>
-                        <div className='item-desc'>
-                          <div className='flex top'>
-                            <h5>{item.node.title}</h5>
-                            <h4>{USDollar.format(item.node.priceRange.maxVariantPrice.amount)}</h4>
-                          </div>
-                          <div className='flex bottom w-full '>
-                            <div className=' flex justify-between '>
-                                <ButtonGroup>
-                                  <Button variant='outlined' className='minus' onClick={(e) =>{ e.stopPropagation();toggleCartItemQuantity(item.node.id, 'dec')}}>
-                                      <AiOutlineMinus />
-                                  </Button>
-                                  <Button  className='num' >
-                                      {item.quantity}
-                                  </Button>
-                                  <Button variant='outlined' className='plus'  onClick={(e) => {e.stopPropagation();toggleCartItemQuantity(item.node.id, 'inc')}}>
-                                      <AiOutlinePlus />
-                                  </Button>                                  
-                                </ButtonGroup>
+                <div className='flex flex-col h-full  '>
 
-                                <div className=' h-full'>
-                                  <Typography variant='h6' sx={{color:grey[900]}} className='font-bold' component="div">{USDollar.format(item.node.priceRange.maxVariantPrice.amount * item.quantity)}</Typography>
-                                </div>
-                              <button 
-                              type='button'
-                              className='remove-item'
-                              onClick={(e) => {e.stopPropagation() ;onRemove(item)}}>
-                                <TiDeleteOutline/>
-                              </button>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className='flex justify-end w-full pl-6 pr-3'>
-                    <div className='w-full pr-12'>
-                        <Button size='large' sx={{color:grey[900]}} className='gradient-button ' fullWidth variant='contained'>
-                            Checkout
-                        </Button>
+                  <div className=" h-3/5 overflow-y-auto" >
+                    {data?.lineItems.map((item: LineItem ) =>
+                    <div key={item.id}>
+                      <CartItem item={item} currencyCode={data.currency.code} />
                     </div>
-                      <div className='flex gap-3'>
-                        <Typography variant='h5' component="div" className='font-bold' sx={{color:grey[900]}} >
-                          Total
-                        </Typography>
-                        <Typography variant='h5' component="div" className='gradient-text-four' sx={{}} >
-                          { USDollar.format(cartTotal) }
-                        </Typography>
-                      </div>
+                    )}
+                  </div>
+
+                  <div className='flex flex-col h-1/5 pt-6'>
+                        <CartTotals data={data} />
+                  </div>
+
                 </div>
+
+                
             </div>
 
         </Box>
@@ -100,4 +66,4 @@ const Cart = () => {
   )
 }
 
-export default Cart
+export default Cart 

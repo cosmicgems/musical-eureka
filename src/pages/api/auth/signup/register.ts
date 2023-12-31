@@ -23,6 +23,12 @@ export default async function handler(
                 confirmPassword,
             } = req.body.signupForm;
 
+            const { 
+                path,
+                from,
+                btnName
+            } = req.body;
+
             if (password !== confirmPassword){
                 res.status(500).json({message: "Passwords do not match."})
             }
@@ -48,7 +54,7 @@ export default async function handler(
             sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             
             // Create the verification link with the verification token
-            const verificationLink = `https://pearlbox.co/auth/verify-request/verify?token=${verificationToken}&username=${username}`;
+            const verificationLink = `localhost:3000/auth/verify-request/verify?token=${verificationToken}&username=${username}&path=${path}&from=${from}&btnName=${btnName}`;
             
             // HTML content for the email with background color
             const htmlContent = `

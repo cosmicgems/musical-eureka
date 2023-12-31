@@ -5,7 +5,7 @@ import SimpleProcessSection from '../../../components/Credit Zen/Process/SimpleP
 import CreditRepairVsCreditBuilding from '../../../components/Credit Zen/Repair_Vs_Building/CreditRepairVsCreditBuilding'
 import CreditCost from '../../../components/Credit Zen/Credit_Cost/CreditCost'
 import { Box } from '@mui/material'
-import Layout from '../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import { ThemeProvider } from '@emotion/react'
 import theme from '../../../styles/theme/lightThemeOptions'
 import { useSession } from 'next-auth/react'

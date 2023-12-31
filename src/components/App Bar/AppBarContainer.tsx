@@ -7,7 +7,7 @@ import { grey } from '@mui/material/colors'
 const AppBarContainer = () => {
   return (
     <Box className='w-full flex flex-col gap-2 py-3' sx={{bgcolor:grey[900]}}>
-        <Typography variant='h3' className='gradient-text-two text-center'>
+        <Typography variant='h4' component="div" className='gradient-text-two text-center'>
             Pearl Bar
         </Typography>
         <div className='w-[100%] flex overflow-x-auto gap-3'>

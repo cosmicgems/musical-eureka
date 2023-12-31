@@ -7,7 +7,7 @@ import ImproveCredit from '../../../../components/Credit Zen/credit_improvement/
 import MeasureUpCTA from '../../../../components/Credit Zen/credit_improvement/MeasureUpCTA'
 import ScoreNeeded from '../../../../components/Credit Zen/credit_improvement/ScoreNeeded'
 import React from 'react'
-import Layout from '../../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import { ThemeProvider } from '@emotion/react'
 import theme from '../../../../styles/theme/lightThemeOptions'
 

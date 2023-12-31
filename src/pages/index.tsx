@@ -1,84 +1,36 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic';
-import { useStateContext } from '../../Context/StateContext';
 import { Box,  Button,  Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
-import SearchResults from '../components/Search Bar/SearchResults';
 import connectDB from '../../lib/connectDB';
 import Blog from '../../lib/models/blog';
 import Category from '../../lib/models/category';
 import SubCategory from '../../lib/models/sub_category';
 import User from '../../lib/models/user';
 import FeaturedPosts from '../components/Home Page/FeaturedPosts';
-import TrendingPosts from '../components/Home Page/TrendingPosts';
-import YoutubeVideos from '../components/Home Page/YoutubeVideos';
 import { useSession } from 'next-auth/react';
 import Loading from '../components/Loading';
 import PearlAppBar from '../components/App Bar/PearlAppBar';
+import { BlogType } from 'src/utility/types/Blog';
+import { Session, User as UserType } from 'src/utility/types/Session';
+import { MediaSection } from '@components/blog/media-section';
+import TrendingSection from '@components/blog/trending-section/TrendingSection';
 
-const Layout = dynamic(() => import('../components/Layout'));
-
-
-interface Author {
-    _id: string;
-    first_name: string;
-    last_name: string;
-    photo: string;
-    username: string;
-    email: string;
-}
-
-interface Blog {
-    _id: string;
-    title: string;
-    categories: any[];
-    sub_categories: any[];
-    photo: string;
-    body: string;
-    excerpt: string;
-    slug: string;
-    mtitle: string;
-    mdesc: string;
-    createdAt: Date;
-    updatedAt: Date;
-    postedBy: Author;
-    favorite_post: any[];
-}
-
-
-interface Session {
-    data:{
-        user:{
-            about: string;
-            confirmed_account: boolean;
-            createdAt: Date;
-            email: string;
-            first_name: string;
-            last_name: string;
-            password: string;
-            photo: string;
-            role: number;
-            updatedAt: Date;
-            username: string;
-            verification_token: string;
-            verification_token_expiration: string;
-            _id: string;
-            
-        }      
-    },
-    status: string;
-
-}
+const Layout = dynamic(() => import('../components/big-three-components/layout/Layout'));
 
 
 
-const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { initialBlogs: Blog[]; totalBlogCount: number, featuredPosts: Blog[], videos: any, }) => {
+
+
+
+
+const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { initialBlogs: BlogType[]; totalBlogCount: number, featuredPosts: BlogType[], videos: any, }) => {
     
     
-    const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
-    const [user, setUser] = useState<any>(null);
+    const [blogs, setBlogs] = useState<BlogType[]>(initialBlogs);
+    const [user, setUser] = useState<UserType>(null);
 
     const {data: session, status} = useSession() as Session;
 
@@ -107,7 +59,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
         if(user === null){
         const findUser = async() => {
             const res = await axios.get(`/api/user-actions/find-user?id=${session.user._id}`);
-            setUser(res.data.user);
+            setUser(res.data.user as UserType);
         }
         findUser();            
         }
@@ -138,10 +90,11 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
 
 
                 <Layout >
-                    <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center  pt-12 sm:pt-0 max-w-[100%]'>
+                    <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6  pt-12 sm:pt-0 max-w-[100%]'>
+                        
                         <div className='flex flex-col justify-center items-center sm:w-3/4  px-6  pb-6 '>
                             <div>
-                                <Typography variant='h1' className=' gradient-text-home text-subcategories text-center' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                                <Typography variant='h2' className=' gradient-text-home text-subcategories text-center' sx={{color: grey[50], }}>
                                     Pearl Box 
                                 </Typography>
                                 {/* <Button onClick={handleMigrate}>Migrate</Button> */}
@@ -151,7 +104,7 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
                                     Curate a lifestyle worth living.
                                 </Typography>
                             </div>
-                            <SearchResults />
+                            {/* <SearchResults /> */}
 
                         </div>
 
@@ -159,22 +112,11 @@ const HomePage = ({ initialBlogs, totalBlogCount, featuredPosts, videos, }: { in
                             <PearlAppBar/>
                         </div>
                         
-                        <div className='flex flex-col sm:flex-row w-full mb-6 '>
-                            <div className=' sm:w-2/5'>
-                                <FeaturedPosts featuredPosts={featuredPosts} user={user}/>                        
-                            </div>
-                        
-                            <div className='sm:w-3/5'>
-                                <YoutubeVideos videos={videos} />
-                            </div>
+                        <FeaturedPosts featuredPosts={featuredPosts} user={user}/>                        
+                            
+                            <MediaSection videos={videos} />
+                            <TrendingSection blogs={blogs} totalBlogCount={totalBlogCount} user={user} />
 
-                        </div>
-
-                        <div className='w-[100%]'>
-
-                            <TrendingPosts blogs={blogs} totalBlogCount={totalBlogCount} user={user} />
-
-                        </div>
                 
                     </div>
 

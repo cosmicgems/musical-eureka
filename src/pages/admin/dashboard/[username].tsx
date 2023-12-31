@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import Layout from '../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import connectDB from '../../../../lib/connectDB'
 import User from '../../../../lib/models/user'
 import { grey } from '@mui/material/colors'

@@ -9,10 +9,6 @@ import { Props } from 'html-react-parser/lib/attributes-to-props'
 import { useAddItem } from '@common/cart'
 
 const Hero = ({products}) => {
-  const addItem = useAddItem();
-
-  const api = useApiProvider()
-  // debugger
 
     const data = {
         title: "Featured Products",

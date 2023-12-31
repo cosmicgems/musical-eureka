@@ -1,7 +1,7 @@
 import { Box, CardMedia, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import React from 'react'
-import Layout from './Layout'
+import { Layout } from './big-three-components'
 
 const ComingSoon = () => {
   return (

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import SmallBlogCard from '../blog/SmallBlogCard'
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+import { TrendingCard } from '@components/blog/trending-section/building-blocks';
 
 
 interface Author {
@@ -67,49 +68,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     const [loadedBlogCount, setLoadedBlogCount] = useState<number>(blogs.length)
     const scrollTrendContainerRef = useRef(null);
 
-    useEffect(() => {
-        const scrollContainer = scrollTrendContainerRef.current;
-    
-        // Add an event listener to handle scroll snap on scroll end
-        const handleScroll = () => {
-        const scrollLeft = scrollContainer.scrollLeft;
-        const containerWidth = scrollContainer.clientWidth;
-        const trendingCards = scrollContainer.querySelectorAll('.scrollable-item');
-    
-        let nearestCard = null;
-        let minDistance = Infinity;
-    
-        // Find the nearest project card based on scroll position
-        trendingCards.forEach((card) => {
-            const cardRect = card.getBoundingClientRect();
-            const distance = Math.abs(cardRect.left - scrollLeft);
-    
-            if (distance < minDistance) {
-            minDistance = distance;
-            nearestCard = card;
-            }
-        });
-    
-        // Snap to the nearest project card
-        if (nearestCard) {
-            scrollContainer.scrollTo({
-            left: nearestCard.offsetLeft,
-            behavior: 'smooth',
-            });
-        }
-        };
-    
-        if (scrollContainer) {
-        scrollContainer.addEventListener('scroll', handleScroll);
-        }
-    
-        return () => {
-        if (scrollContainer) {
-            scrollContainer.removeEventListener('scroll', handleScroll);
-        }
-        };
-    
-    }, []);
+
 
 
     
@@ -190,7 +149,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                         </Button>
 
                                     </div>
-                                    <SmallBlogCard blog={b} user={user} />
+                                    <TrendingCard blog={b} user={user} />
                                 </Box>
                                 )
                             } else if (i === blogs.length -1 ){
@@ -207,7 +166,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
 
                                         </div>      
 
-                                    <SmallBlogCard blog={b}user={user}/>
+                                    <TrendingCard blog={b}user={user}/>
                                 </Box>
                                 )
                             } else {
@@ -221,7 +180,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                             </Button>
 
                                         </div>
-                                        <SmallBlogCard blog={b} user={user} />
+                                        <TrendingCard blog={b} user={user} />
                                     </Box>
                                 )                                
                             }
@@ -241,7 +200,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                             </Button>
     
                                         </div>
-                                        <SmallBlogCard blog={b} user={user} />
+                                        <TrendingCard blog={b} user={user} />
                                     </Box>
                                     )
                                 } else if (i === loadedBlogs.length -1 ){
@@ -258,7 +217,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
     
                                             </div>      
     
-                                        <SmallBlogCard blog={b}user={user}/>
+                                        <TrendingCard blog={b}user={user}/>
                                     </Box>
                                     )
                                 } else {
@@ -272,7 +231,7 @@ const TrendingPosts = ({blogs:initialBlogs, totalBlogCount, user}) => {
                                                 </Button>
     
                                             </div>
-                                            <SmallBlogCard blog={b} user={user} />
+                                            <TrendingCard blog={b} user={user} />
                                         </Box>
                                     )                                
                                 }

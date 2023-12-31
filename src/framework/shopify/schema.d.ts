@@ -1060,13 +1060,16 @@ export type Collection = Node & {
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** Image associated with the collection. */
-  image?: Maybe<Image>
+  image: Maybe<Image>
   /** List of products in the collection. */
   products: ProductConnection
   /** The collection’s name. Limit of 255 characters. */
   title: Scalars['String']
   /** The date and time when the collection was last modified. */
   updatedAt: Scalars['DateTime']
+
+  
+
 }
 
 /** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */

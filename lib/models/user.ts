@@ -6,40 +6,40 @@ const {ObjectId} = mongoose.Schema;
 const userSchema = new Schema(
     {
         first_name: {
-        type: String,
-        trim: true,
-        required: true
+            type: String,
+            trim: true,
+            required: true
         },
         last_name: {
-        type: String,
-        trim: true,
-        required: true
+            type: String,
+            trim: true,
+            required: true
         },
         username: {
-        type: String,
-        trim: true,
-        required: true,
-        max: 32,
-        unique: true,
-        index: true,
-        lowercase: true
+            type: String,
+            trim: true,
+            required: true,
+            max: 32,
+            unique: true,
+            index: true,
+            lowercase: true
         },
         email: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true,
-        lowercase: true
+            type: String,
+            trim: true,
+            required: true,
+            unique: true,
+            lowercase: true
         },
         about: {
-        type: String
+            type: String
         },
         role: {
-        type: Number,
-        default: 0
+            type: Number,
+            default: 0
         },
         photo: {
-        type: String
+            type: String
         },
         verification_token: {
             type: String,
@@ -53,11 +53,41 @@ const userSchema = new Schema(
         password: String,
         googleId: String,
         confirmed_account: {
-        type: Boolean,
-        default: false
+            type: Boolean,
+            default: false
         },
         favorite_posts: [{type: ObjectId, ref: "Blog",}],
         orders: [{type: ObjectId, ref: "Order"}],
+        wishlist: [    
+            {
+                price: Number,
+                shopifyId: String,
+                name: String,
+                image: String,
+                path: String,
+                description: String,
+                qty: Number
+            }
+        ],
+        recentlyViewed: [
+            {
+                price: Number,
+                shopifyId: String,
+                name: String,
+                image: String,
+                path: String,
+                description: String,
+                qty: Number,
+                expires: { type: Date, default: Date.now, expires: '30d' }
+            }
+        ],
+        address:{
+            addressLineOne: String,
+            addressLineTwo: String,
+            city: String,
+            state: String,
+            zipCode: String
+        }
     },
     { timestamps: true }
 );

@@ -1,48 +1,13 @@
-import { Avatar, Box, Button, CardActions, CardContent, CardMedia, Chip, Collapse, Grid, Stack, Typography } from '@mui/material';
-import { blue, green, grey, red } from '@mui/material/colors';
-import React, { useRef, useEffect, useState, useCallback } from 'react'
-import ReactMarkdown from 'react-markdown';
-import parse from "html-react-parser"
+import { Avatar, Box, Button, CardActions, CardMedia, Chip, Grid, Typography } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
+import React, { useEffect, useState, useCallback } from 'react'
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-        EmailShareButton,
-        FacebookShareButton, FacebookIcon,
-        HatenaShareButton,
-        InstapaperShareButton,
-        LineShareButton,
-        LinkedinShareButton,
-        LinkedinIcon,
-        LivejournalShareButton,
-        MailruShareButton,
-        OKShareButton,
-        PinterestShareButton,
-        PinterestIcon,
-        PocketShareButton,
-        RedditShareButton,
-        TelegramShareButton,
-        TelegramIcon,
-        TumblrShareButton,
-        TwitterShareButton,
-        TwitterIcon,
-        ViberShareButton,
-        VKShareButton,
-        WhatsappShareButton,
-        WhatsappIcon,
-        WorkplaceShareButton
-    } from "react-share";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import { FacebookButton, FacebookCount } from "react-social";
 import axios from 'axios';
-import { getOgImageUrl } from '../../../helpers/ogImageHelper';
-import { getSession, useSession } from 'next-auth/react';
-import User from '../../../lib/models/user';
-import connectDB from '../../../lib/connectDB';
-import mongoose from 'mongoose';
+import { useSession } from 'next-auth/react';
 import SocialShare from '../SocialShare';
 
     
@@ -101,18 +66,18 @@ interface Session {
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
-  }
+}
 
-  const ExpandMore = styled((props: ExpandMoreProps) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
+const ExpandMore = styled((props: ExpandMoreProps) => {
+        const { expand, ...other } = props;
+        return <IconButton {...other} />;
+    })(({ theme, expand }) => ({
+        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
     }),
-  }));
+}));
 
 
 

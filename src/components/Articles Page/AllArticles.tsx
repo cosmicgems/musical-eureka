@@ -4,6 +4,10 @@ import { Box, Button, Typography } from '@mui/material'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { grey } from '@mui/material/colors';
 import BlogPost from '../blog/BlogPost';
+import { FeaturedCard } from '@components/blog/featured-section/building-blocks'; 
+import { ScrollableContainer } from '@components/Store/UI';
+import { AllArticlesHeader } from '@components/blog/all-articles';
+import { BottomDivider, TopDivider } from '@components/shape-dividers';
 
 interface Author {
     _id: string;
@@ -57,59 +61,33 @@ interface Session {
 
 
 const AllArticles = ({blogs:initialBlogs, totalBlogCount, user}) => {
+
     const {data: session, status} =  useSession() as Session;
-    const articlesRef = useRef();
     const [loading, setLoading] = useState<boolean>(false);
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
-    const [page, setPage] = useState<number>(1); // Keep track of the page number
-    const blogsPerPage = 5;
+    const [page, setPage] = useState<number>(1);
     const [loadedBlogs, setLoadedBlogs] = useState<Blog[]>([])
     const [loadedBlogCount, setLoadedBlogCount] = useState<number>(blogs.length)
-    const scrollTrendContainerRef = useRef(null);
 
-    useEffect(() => {
-        const scrollContainer = scrollTrendContainerRef.current;
+    const scrollTrendContainerRef = useRef(null);
+    const articlesRef = useRef(null);
+    const blogsPerPage = 5;
+
     
-        // Add an event listener to handle scroll snap on scroll end
-        const handleScroll = () => {
-        const scrollLeft = scrollContainer.scrollLeft;
-        const containerWidth = scrollContainer.clientWidth;
-        const trendingCards = scrollContainer.querySelectorAll('.scrollable-item');
-    
-        let nearestCard = null;
-        let minDistance = Infinity;
-    
-        // Find the nearest project card based on scroll position
-        trendingCards.forEach((card) => {
-            const cardRect = card.getBoundingClientRect();
-            const distance = Math.abs(cardRect.left - scrollLeft);
-    
-            if (distance < minDistance) {
-            minDistance = distance;
-            nearestCard = card;
+    const handleArticlesNav = (direction:string) => {
+        
+        if (articlesRef.current) {
+            if (direction === 'left') {
+                articlesRef.current.scrollLeft -= 800;
             }
-        });
-    
-        // Snap to the nearest project card
-        if (nearestCard) {
-            scrollContainer.scrollTo({
-            left: nearestCard.offsetLeft,
-            behavior: 'smooth',
-            });
+            if (direction === 'right') {
+                articlesRef.current.scrollLeft += 800;
+            }
         }
-        };
-    
-        if (scrollContainer) {
-        scrollContainer.addEventListener('scroll', handleScroll);
-        }
-    
-        return () => {
-        if (scrollContainer) {
-            scrollContainer.removeEventListener('scroll', handleScroll);
-        }
-        };
-    
-    }, []);
+
+    }
+
+
 
 
     
@@ -168,126 +146,136 @@ const AllArticles = ({blogs:initialBlogs, totalBlogCount, user}) => {
         return <h3 className='gradient-text' >Loading...</h3>
     } else {
         return (
-    <div>
-    <div>
+    <Box className='md:flex md:flex-col flex-row w-screen items-center relative py-[20vh]' 
+    sx={{bgcolor: grey[800]}}
+    >
+        <TopDivider />
+        <AllArticlesHeader />
+    {/* <div>
         <Typography variant='h1' className=' gradient-text-home text-center' sx={{color: grey[50], fontSize: {xs:"3rem"}}}>
             All Posts
         </Typography>
-    </div>
-    <div  className='flex gap-6 overflow-x-auto  pb-6 w-[100%] scrollable-container '>
+    </div> */}
+
+    <ScrollableContainer
+    data={blogs}
+    type={`all-articles`}
+    handleHeroNav={handleArticlesNav}
+    heroRef={articlesRef}
+    >
+        {blogs.map((b, i)=> {
+            if(i === 0) {
+                return (
+                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{}}>
+                    <div className='flex justify-center items-center'>
+                        <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                            <Typography variant='h6' className='font-bold gradient-text' sx={{}}>
+                                {b.categories[0].name}
+                            </Typography>                                            
+                        </Button>
+
+                    </div>
+                    <FeaturedCard blog={b} user={user} />
+                </Box>
+                )
+            } else if (i === blogs.length -1 ){
+                return (
+                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{}}>
+
+                    
+                        <div className='flex justify-center items-center'>
+                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                <Typography variant='h6' className={loadedBlogs.length === 0 ? `font-bold gradient-text-three` :  `font-bold gradient-text`} sx={{}}>
+                                    {b.categories[0].name}
+                                </Typography>                                            
+                            </Button>
+
+                        </div>      
+
+                    <FeaturedCard blog={b}user={user}/>
+                </Box>
+                )
+            } else {
+                return (
+                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
+                        <div className='flex justify-center items-center'>
+                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                <Typography variant='h6' className='font-bold gradient-text' sx={{}}>
+                                    {b.categories[0].name}
+                                </Typography>                                            
+                            </Button>
+
+                        </div>
+                        <FeaturedCard blog={b} user={user} />
+                    </Box>
+                )                                
+            }
+
+        })}
+        {
+            loadedBlogs.length > 0 &&
+            loadedBlogs.map((b, i)=> {
+                if(i === 0) {
+                    return (
+                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{}}>
+                        <div className='flex justify-center items-center'>
+                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                <Typography variant='h6' className='font-bold gradient-text' sx={{}}>
+                                    {b.categories[0].name}
+                                </Typography>                                            
+                            </Button>
+
+                        </div>
+                        <FeaturedCard blog={b} user={user} />
+                    </Box>
+                    )
+                } else if (i === loadedBlogs.length -1 ){
+                    return (
+                        <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{}}>
+
                         
-    {blogs.map((b, i)=> {
-                            if(i === 0) {
-                                return (
-                                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                    <div className='flex justify-center items-center'>
-                                        <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                            <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                {b.categories[0].name}
-                                            </Typography>                                            
-                                        </Button>
+                            <div className='flex justify-center items-center'>
+                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                    <Typography variant='h6' className='font-bold gradient-text-three' sx={{}}>
+                                        {b.categories[0].name}
+                                    </Typography>                                            
+                                </Button>
 
-                                    </div>
-                                    <BlogPost blog={b} user={user} />
-                                </Box>
-                                )
-                            } else if (i === blogs.length -1 ){
-                                return (
-                                    <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: loadedBlogs.length === 0 && 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+                            </div>      
 
-                                    
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className={loadedBlogs.length === 0 ? `font-bold gradient-text-three` :  `font-bold gradient-text-category`} sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
+                        <FeaturedCard blog={b}user={user}/>
+                    </Box>
+                    )
+                } else {
+                    return (
+                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
+                            <div className='flex justify-center items-center'>
+                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
+                                    <Typography variant='h6' className='font-bold gradient-text' sx={{}}>
+                                        {b.categories[0].name}
+                                    </Typography>                                            
+                                </Button>
 
-                                        </div>      
+                            </div>
+                            <FeaturedCard blog={b} user={user} />
+                        </Box>
+                    )                                
+                }
 
-                                    <BlogPost blog={b}user={user}/>
-                                </Box>
-                                )
-                            } else {
-                                return (
-                                    <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
+            })
+        }
+        {
+            totalBlogCount === loadedBlogCount ?
+            null :
+                <div  ref={articlesRef} className=''  >
+                    {loading && <div>Loading more blogs...</div>}
+                </div>                             
+        }
+    </ScrollableContainer>
 
-                                        </div>
-                                        <BlogPost blog={b} user={user} />
-                                    </Box>
-                                )                                
-                            }
-
-                        })}
-                        {
-                            loadedBlogs.length > 0 &&
-                            loadedBlogs.map((b, i)=> {
-                                if(i === 0) {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{}}>
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                    {b.categories[0].name}
-                                                </Typography>                                            
-                                            </Button>
-    
-                                        </div>
-                                        <BlogPost blog={b} user={user} />
-                                    </Box>
-                                    )
-                                } else if (i === loadedBlogs.length -1 ){
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-6 pr-6 flex flex-col gap-3 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
-    
-                                        
-                                            <div className='flex justify-center items-center'>
-                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold gradient-text-three' sx={{fontSize: '1.75rem'}}>
-                                                        {b.categories[0].name}
-                                                    </Typography>                                            
-                                                </Button>
-    
-                                            </div>      
-    
-                                        <BlogPost blog={b}user={user}/>
-                                    </Box>
-                                    )
-                                } else {
-                                    return (
-                                        <Box key={`${i}: ${b._id}`} className='pl-3  flex flex-col gap-3 scrollable-item'>
-                                            <div className='flex justify-center items-center'>
-                                                <Button href={`/articles/categories/category/${b.categories[0].slug}`}>
-                                                    <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                        {b.categories[0].name}
-                                                    </Typography>                                            
-                                                </Button>
-    
-                                            </div>
-                                            <BlogPost blog={b} user={user} />
-                                        </Box>
-                                    )                                
-                                }
-    
-                            })
-                        }
-                        {
-                            totalBlogCount === loadedBlogCount ?
-                            null :
-                                <div  ref={articlesRef} className=''  >
-                                    {loading && <div>Loading more blogs...</div>}
-                                </div>                             
-                        }
-                                    
-    </div>    
-    </div>
-  )
+        <BottomDivider />
+    </Box>
+    )
     }
 }
 

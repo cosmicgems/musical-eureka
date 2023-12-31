@@ -10,29 +10,6 @@ import UserCard from './User/UserCard'
 import DynamicMobileUserChip from './User/DynamicMobileUserChip'
 
 
-interface Session {
-    data:{
-        user:{
-            about: string;
-            confirmed_account: boolean;
-            createdAt: Date;
-            email: string;
-            first_name: string;
-            last_name: string;
-            password: string;
-            photo: string;
-            role: number;
-            updatedAt: Date;
-            username: string;
-            verification_token: string;
-            verification_token_expiration: string;
-            _id: string;
-            
-        }      
-    },
-    status: string;
-
-}
 
 const Subscribe = ({user}) => {
 
@@ -69,7 +46,6 @@ const Subscribe = ({user}) => {
             }
         }
     }, [blank, subscriber.email]);
-
 
 
     const handleSubscribe = async(e) => {
@@ -123,6 +99,7 @@ const Subscribe = ({user}) => {
         e.preventDefault();
         router.push("/auth/signup");
     }
+
     useEffect(() => {
         if(loggedIn){return}
 
@@ -139,7 +116,7 @@ const Subscribe = ({user}) => {
         fetchSession();            
         }
 
-      }, [user, setLoggedIn, loggedIn]);
+    }, [user, setLoggedIn, loggedIn]);
 
     return (
         <>

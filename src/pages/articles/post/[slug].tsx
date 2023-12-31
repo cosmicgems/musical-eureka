@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Card, CardContent, CardMedia, Chip, Grid, Modal, S
 import dynamic from 'next/dynamic';
 import moment from 'moment';
 import { grey, lightBlue, red } from '@mui/material/colors';
-import Layout from '../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import Head from 'next/head';
 import { getClientOgImageUrl, getOgImageUrl } from '../../../../helpers/ogImageHelper';
 import { useStateContext } from '../../../../Context/StateContext';

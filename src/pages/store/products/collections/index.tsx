@@ -1,48 +1,66 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
-import Layout from '../../../../components/Layout'
+import React, { useRef } from 'react'
+import { Layout } from '@components/big-three-components';
 import { grey } from '@mui/material/colors'
 import { parseShopifyResponse, shopifyClient } from '../../../../../lib/shopify'
 import { useRouter } from 'next/router'
 import Collection from '../../../../components/Store/Home Page/Collections/Collection/Collection'
+import { getConfig } from '@framework/api/config'
+import { getAllCollections } from '@framework/product'
+import { ScrollableContainer } from '@components/Store/UI'
 
-const AllCollectionsPage = ({collections}) => {
-    console.log(collections);
+const AllCollectionsPage = ({collections}) => {  
+
+    const collectionsRef = useRef<HTMLDivElement>(null);
+
+    const handleCollectionsNav = (direction) => {
+        
+        if (collectionsRef.current) {
+            if (direction === 'left') {
+                collectionsRef.current.scrollLeft -= 800;
+            }
+            if (direction === 'right') {
+                collectionsRef.current.scrollLeft += 800;
+            }
+        }
+    };
     
     const router = useRouter();
-    const goToCollectionPage = productHandle => router.push(`/store/products/collections/collection/${productHandle}`)
+    const goToCollectionPage = path => router.push(`${path}`)
     return (
         <Box>
             <Layout>
     
-            <div className='flex flex-col sm:flex-row  sm:min-h-[70vh] mt-6 gap-6 md:mt-20' >
+            <div className='flex flex-col sm:flex-row   mt-6 gap-6 md:mt-20 sm:items-center' >
     
                 <div className='sm:hidden px-3'>
-                <Typography variant='h5' className=' gradient-text-home' sx={{}} component="div">
-                    Collections. <span style={{color: "#000"}} className='' >Meticulously Curated for a Lifestyle Worth Living.</span>
-                </Typography>
+                    <Typography variant='h5' className=' gradient-text-home' sx={{}} component="div">
+                        Collections. <span style={{color: "#000"}} className='' >Meticulously Curated for a Lifestyle Worth Living.</span>
+                    </Typography>
                 </div>
     
                 <div className='hidden sm:flex  p-3'>
-                <Box className="rounded h-[40vh] w-[17vw] p-3 md:flex md:justify-center md:items-center" sx={{bgcolor:grey[900]}}>
-                    <Typography variant='h4' className=' gradient-text' sx={{}} component="div">
-                    Collections. <span style={{color: "#EEE"}} className='font-normal' >Meticulously Curated for a Lifestyle Worth Living.</span>
-                    </Typography>              
-                </Box>
+                    <Box className="rounded h-[40vh] w-[17vw] p-3 md:flex md:justify-center md:items-center" sx={{bgcolor:grey[900]}}>
+                        <Typography variant='h4' className=' gradient-text' sx={{}} component="div">
+                        Collections. <span style={{color: "#EEE"}} className='font-normal' >Meticulously Curated for a Lifestyle Worth Living.</span>
+                        </Typography>              
+                    </Box>
                 </div>
     
-                <div className='w-full overflow-x-auto flex sm:p-3 sm:gap-12'>
-                {
-                    collections?.map((collection) => {
-                    if(collection.handle === "frontpage") return
-                    return(
-                    <div key={collection.id}>
-                        <Collection goToCollectionPage={goToCollectionPage} collection={collection} />
-                    </div>
-                    )
-                    })
-                }
-                </div>
+                <ScrollableContainer data={collections} ref={collectionsRef} type={`collections`} handleHeroNav={handleCollectionsNav}  >
+                    {
+                        collections?.map((collection) => {
+                            // console.log(collection);
+                            
+                        if(collection.name === "Home page") return
+                        return(
+                        <div key={collection.id}>
+                            <Collection  goToCollectionPage={goToCollectionPage} collection={collection} />
+                        </div>
+                        )
+                        })
+                    }
+                </ScrollableContainer>
     
             </div>
     
@@ -51,13 +69,15 @@ const AllCollectionsPage = ({collections}) => {
     )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
 
     try {
-        const collections = await shopifyClient.collection.fetchAll();
+        const config = getConfig();
+        const collections = await getAllCollections(config)
+
         return {
             props: {
-                collections: parseShopifyResponse(collections)
+                collections
             }
         }
     } catch (error) {

@@ -18,7 +18,7 @@ import Loading from '../../components/Loading';
 import AllArticles from '../../components/Articles Page/AllArticles';
 
 
-const Layout = dynamic(() => import('../../components/Layout'));
+const Layout = dynamic(() => import('../../components/big-three-components/layout/Layout'));
 
 
 
@@ -69,8 +69,8 @@ interface Session {
     },
     status: string;
   
-  }
-  
+}
+
 
 const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[]; totalBlogCount: number }) => {
     const {data:session, status} = useSession() as Session;
@@ -78,9 +78,6 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
     const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
     const [page, setPage] = useState<number>(1); // Keep track of the page number
     const blogsPerPage = 5;
-    const {pageName, pageSlug, pathSegment, showCart, setShowCart, totalQuantities, subcategories } = useStateContext();
-    const [homeSearch, setHomeSearch] = useState<string>("");
-    const [subscriber, setSubscriber] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const articlesRef = useRef();
     
@@ -204,10 +201,10 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
 
 
             <Layout >
-                <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0 max-w-screen'>
+                <div className=' min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-20 sm:pt-0 max-w-screen'>
                 <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:mt-6  mb-6'>
                         <div>
-                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                            <Typography variant='h2' className=' gradient-text-home text-subcategories text-center' sx={{color: grey[50], }}>
                                 Pearl Box
                             </Typography>
                         </div>
@@ -216,7 +213,7 @@ const AllArticlesPage = ({ initialBlogs, totalBlogCount }: { initialBlogs: Blog[
                                 Curate a lifestyle worth living.
                             </Typography>
                         </div>
-                        <SearchResults />
+                        {/* <SearchResults /> */}
 
                     </div>
                     <div className='w-[100%]'>

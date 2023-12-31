@@ -8,7 +8,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useStateContext } from '../../../Context/StateContext'
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red } from '@mui/material/colors';
-import Layout from '../../components/Layout'
+import { Layout } from '@components/big-three-components'
 
 
 const theme = createTheme({

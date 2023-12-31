@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import React, { useEffect, useState } from 'react'
-import Layout from '../../../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import connectDB from '../../../../../../lib/connectDB'
 import Category from '../../../../../../lib/models/category'
 import SubCategory from '../../../../../../lib/models/sub_category'

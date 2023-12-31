@@ -1,17 +1,33 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React, { useState, useRef, useEffect } from 'react'
-import Layout from '../../../components/Layout';
-import CategoryCard from '../../../components/category/CategoryCard';
+import { Layout } from '@components/big-three-components';
+import { CategoryCard, CategoryHeader } from '@components/blog/categories';
 import connectDB from '../../../../lib/connectDB';
 import SubCategory from '../../../../lib/models/sub_category';
 import Category from '../../../../lib/models/category';
 import SearchResults from '../../../components/Search Bar/SearchResults';
+import { ScrollableContainer } from '@components/Store/UI';
+import { BottomDivider, TopDivider } from '@components/shape-dividers';
 
 const CategoriesPage = ({categories}) => {
     const [homeSearch, setHomeSearch] = useState<string>("");
     const scrollContainerRef = useRef(null);
 
+    const categoryRef = useRef(null);
+
+    const handleCategoryNav = (direction:string) => {
+        
+        if (categoryRef.current) {
+            if (direction === 'left') {
+                categoryRef.current.scrollLeft -= 800;
+            }
+            if (direction === 'right') {
+                categoryRef.current.scrollLeft += 800;
+            }
+        }
+
+    }
     useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
     
@@ -64,7 +80,7 @@ const CategoriesPage = ({categories}) => {
                 <div className='min-h-screen sm:min-h-[80vh] flex flex-col justify-between items-center gap-6 pt-12 sm:pt-0'>
                 <div className='flex flex-col justify-center items-center sm:w-3/4  px-6 sm:mt-6  mb-6'>
                         <div>
-                            <Typography variant='h1' className=' gradient-text-home text-subcategories' sx={{color: grey[50], fontSize: {xs:"5rem"}}}>
+                            <Typography variant='h2' className=' gradient-text-home text-subcategories text-center' sx={{color: grey[50], }}>
                                 Pearl Box
                             </Typography>
                         </div>
@@ -73,63 +89,47 @@ const CategoriesPage = ({categories}) => {
                                 Curate a lifestyle worth living.
                             </Typography>
                         </div>
-                        <SearchResults />
+                        
 
                     </div>
-                        <div>
-                            <Typography variant='h3' sx={{fontSize: "3rem"}} className='font-bold gradient-text-subcategories'>
-                                Categories
-                            </Typography>
-                        </div>
-                        <div className='flex gap-6 overflow-x-auto w-[100%] pb-6 scrollable-container '>
-                            {categories.map((c, i)=> {
-                                if (i === 0 ) {
-                                    return (
-                                        <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 100%)'}}>
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/articles/categories/category/${c.slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                    {c.name}
-                                                </Typography>                                            
-                                            </Button>
+                    <div>
 
-                                        </div>
+                    </div>
+                        <Box className='md:flex md:flex-col flex-row w-screen items-center relative py-[20vh]'
+                        sx={{bgcolor: grey[800]}}>
 
-                                            <CategoryCard category={c} />
-                                    </Box>
-                                    )                                
-                                } else if ( i === categories.length -1) {
-                                    return (
-                                        <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item' sx = {{background: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%)'}}>
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/articles/categories/category/${c.slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-three text-center' sx={{fontSize: '1.75rem'}}>
-                                                    {c.name}
-                                                </Typography>                                            
-                                            </Button>
+                            <TopDivider/>
 
-                                        </div>
+                            <CategoryHeader/>
 
-                                            <CategoryCard category={c} />
-                                    </Box>
-                                    )                                
-                                }
-                                    return (
-                                        <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item'>
-                                        <div className='flex justify-center items-center'>
-                                            <Button href={`/articles/categories/category/${c.slug}`}>
-                                                <Typography variant='h2' className='font-bold gradient-text-category' sx={{fontSize: '1.75rem'}}>
-                                                    {c.name}
-                                                </Typography>                                            
-                                            </Button>
+                            <ScrollableContainer
+                            data={categories}
+                            type={`categories`}
+                            handleHeroNav={handleCategoryNav}
+                            heroRef={categoryRef}
+                            >
+                                {categories.map((c, i)=> {
+                                    
+                                        return (
+                                            <Box key={`${i}: ${c._id}`} className='pl-3  flex flex-col gap-3 pb-6 pr-6 scrollable-item'>
+                                            <div className='flex justify-center items-center'>
+                                                <Button href={`/articles/categories/category/${c.slug}`}>
+                                                    <Typography variant='h6' component="div" className='font-bold ' sx={{color:grey[50]}}>
+                                                        {c.name}
+                                                    </Typography>                                            
+                                                </Button>
 
-                                        </div>
+                                            </div>
 
-                                            <CategoryCard category={c} />
-                                    </Box>
-                                    )
-                            })}
-                        </div>                
+                                                <CategoryCard category={c} />
+                                        </Box>
+                                        )
+                                })}
+                            </ScrollableContainer>      
+                            <BottomDivider />
+                        </Box>
+
+
                 </div>
 
             </Layout>        

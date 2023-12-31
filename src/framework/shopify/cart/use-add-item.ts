@@ -1,45 +1,60 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 
 
-import { useAddItem } from "@common/cart";
-import { MutationHook } from "@common/types/hooks";
-import { getCheckoutId } from "@framework/utils";
-import { checkoutLineItemsAddMutation } from "@framework/utils/mutations";
+import { useAddItem } from "@common/cart"
+import { UseAddItem } from "@common/cart/use-add-item"
+import useCart from "@common/cart/use-cart"
+import { Cart } from "@common/types/cart"
+import { MutationHook } from "@common/types/hooks"
+import { CheckoutLineItemsAddPayload } from "@framework/schema"
+import { checkoutToCart, getCheckoutId } from "@framework/utils"
+import { checkoutLineItemsAddMutation } from "@framework/utils/mutations"
 
-export default useAddItem
+export default useAddItem as UseAddItem<typeof handler>
 
-export const handler: MutationHook = {
-    fetcherOptions: {
-        query: checkoutLineItemsAddMutation
-    },
-    fetcher: async ({fetch, options, input}) => {
+export type AddItemHookDescriptor = {
+  fetcherInput: {
+    variantId: string
+    quantity: number
+  }
+  fetcherOutput: {
+    checkoutLineItemsAdd: CheckoutLineItemsAddPayload
+  }
+  data: Cart
+}
 
-    
-        const variables = {
-            checkoutId: getCheckoutId(),
-            lineItems: [
-                {
-                    variantId: input.variantId,
-                    quantity: 1
-                }
-            ]
+
+export const handler: MutationHook<AddItemHookDescriptor> = {
+  fetcherOptions: {
+    query: checkoutLineItemsAddMutation
+  },
+  fetcher: async ({fetch, options, input}) => {
+
+    const variables = {
+      checkoutId: getCheckoutId(),
+      lineItems: [
+        {
+         variantId: input.variantId,
+         quantity: input.quantity
         }
-
-        console.log(variables);
-        
-
-        const response = fetch({
-            ...options,
-            variables
-        })
-        return response
-        
-    },
-    useHook: ({fetch}) => { 
-        return async (input:any) => {
-            const response = await fetch(input)
-            return {
-                output: response
-            }
-        }
+      ]
     }
+
+    const { data } = await fetch({
+       ...options,
+       variables
+    })
+
+    const cart = checkoutToCart(data.checkoutLineItemsAdd.checkout)
+    return cart
+  },
+  useHook: ({fetch}) => () => {
+    const { mutate: updateCart } = useCart()
+
+    return async (input) => {
+      const response = await fetch(input)
+      await updateCart(response, false)
+      return response
+    }
+  }
 }

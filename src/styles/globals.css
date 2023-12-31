@@ -12,6 +12,351 @@ body, * {
 
 }
 
+
+/* Refactored Component CSS */
+.truncate-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
+.truncate-recently-viewed-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
+
+.recently-viewed-text {
+  color: #FAFAFA
+}
+
+.product-view-container {
+  width: 100%;
+  margin-top: 3vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 6vh;
+
+  @media (min-width: 768px) {
+    padding-top: 20vh;
+  }
+}
+
+.product-view-wrapper {
+  overflow: hidden;
+  @media (min-width: 768px) {
+    padding-inline: 17vw;
+  }
+}
+
+.product-container-wrapper {
+  padding-inline: 3vw;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  gap: 12px;
+  @media (min-width: 768px) {
+    padding-inline: 0;
+  }
+}
+
+.product-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 25px;
+  overflow-y: hidden;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.recently-viewed-container {
+  width: 5 / 6;
+  padding-inline: 3vw;
+  display: flex;
+  gap: 24px;
+}
+
+.recently-viewed-card-container{
+  box-shadow: 2px 2px 4px 2px #c2c2c2;
+  width: 250px;
+  height: 300px;
+  border-radius: 4px;
+  /* background:rgba(0, 0, 0, 0.3); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.recently-viewed-card-container-inner-container {
+  border-radius: 4px;
+  padding: 3vh 1vw;
+  background:rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recently-viewed-card-section-wrapper {
+  padding: 1vh 1vw;
+  background:rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.product-hero-container {
+  width: 100%;
+  gap: 3px;
+  @media (min-width: 768px) {
+    width: 33.3%;
+  }
+}
+
+.product-hero-image {
+  border-radius: 8px;
+  width: 100%;
+  /* height: 500px; */
+  object-fit: cover;
+  @media (min-width: 768px) {
+    max-height: 55vh;
+  }
+}
+
+.product-image-slider-container {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  justify-items: baseline;
+}
+
+.scrollable-alternate-product-images-container {
+  overflow-x: auto;
+  width: 100%;
+  @media (max-width: 767px) {
+    max-height: 55vh;
+  }
+}
+
+.scroll-container-arrows {
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+  }
+}
+
+.alternate-product-image-container {
+  display: flex;
+  gap: 20px;
+}
+
+.alternate-image {
+  border-radius: 8px;
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  @media (min-width: 768px) {
+    height: 150px;
+    width: 300px;
+  }
+}
+
+.product-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  width: 100%;
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+}
+
+.product-description-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  padding-inline: 5vw;
+  @media (min-width: 768px) {
+    padding-inline: 3.5vw;
+  }
+}
+
+.product-actions-container{
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between ;
+  align-items: center;
+  gap: 6vw;
+  padding-inline: 5vw;
+  @media (min-width: 768px) {
+    padding-inline: 3.5vw;
+    flex-direction: row;
+  }
+}
+
+.inventory-indicator {
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory-indicator-wrapper {
+  flex-basis: 20%;
+}
+
+.product-qty-toggler-wrapper {
+  flex-basis: 20%;
+}
+
+.product-inv-duo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.product-page-add-to-cart-btn-container{
+  width: 100%;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+}
+
+
+.variants-container {
+  display: flex;
+  flex-direction: row;
+  gap: 3vh;
+  @media (max-width: 767px) {
+  flex-direction: column;
+  }
+}
+.variant-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.variant-options-container{
+  display: flex;
+  gap: 5vw;
+}
+
+.swatch-button {
+  border-radius: 50%;
+  border: 1px solid #000;
+  height: 50px;
+  width: 50px;
+}
+
+.active {
+  scale: 1.25;
+}
+
+.cart-item-sidebar-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 4px;
+}
+
+
+.cart-item-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-item-wrapper {
+  padding-block: 1.5vh;
+  padding-inline: 3vh;
+}
+.cart-item-name-qty-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  
+}
+
+.card-glass {
+  padding: 1vh 1vw;
+  background:rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+.card-glass-actions {
+  padding: 0 1vw;
+  background:rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+
+.custom-shape-divider-top-1703962630 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1703962630 svg {
+  position: relative;
+  display: block;
+  width: calc(112% + 1.3px);
+  height: 218px;
+}
+
+.custom-shape-divider-top-1703962630 .shape-fill {
+  fill: #FAFAFA;
+}
+
+.custom-shape-divider-bottom-1703963286 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1703963286 svg {
+  position: relative;
+  display: block;
+  width: calc(126% + 1.3px);
+  height: 218px;
+}
+
+.custom-shape-divider-bottom-1703963286 .shape-fill {
+  fill: #FAFAFA;
+}
+
+.active-dot {
+  background: #d558c8;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(-20deg, #d558c8 0%, #24d292 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: 200% 200%;
+  font-weight: bold;
+  animation: gradientAnimation 5s linear infinite;
+}
+/* Refactored Component CSS */
+
+
+
+
+
+
+
+
 .gradient-button {
   background-image: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
   background-size: 400% 600%;
@@ -250,9 +595,25 @@ body{
   text-overflow: ellipsis;
   white-space: normal; /* This is necessary for multi-line text */
 }
+.truncate-text-trend {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
+.cart-page-item-truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Adjust the number of lines you want to display */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* This is necessary for multi-line text */
+}
 .truncate-text-cart-description {
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* Adjust the number of lines you want to display */
+  -webkit-line-clamp: 2; /* Adjust the number of lines you want to display */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -312,7 +673,6 @@ a {
 max-width: 100%; 
 margin: auto;
 width: 100%;
-
 }
 
 
@@ -612,7 +972,7 @@ text-align: end;
 .footer-container .icons{
   font-size: 30px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
  .cart-heading{
   display: flex;
@@ -644,12 +1004,12 @@ text-align: end;
 .cancel{
   cursor: pointer;
 }
-.product-container{
+/* .product-container{
   margin-top: 15px;
   overflow: auto;
 max-height: 70vh;
 padding: 20px 10px;
-}
+} */
 .product{
   display: flex;
  gap: 30px;
@@ -1016,12 +1376,14 @@ margin-top: 160px;
     width: 100%;
   padding: 4px;
   }
+
   .cart-heading{
     margin-top: 35px;
   }
-  .product-container{
+  /* .product-container{
     margin-top: 10px;
-  }
+  } */
+
   .product{
     padding: 20px 5px;
 

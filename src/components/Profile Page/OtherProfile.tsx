@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import Layout from '../Layout'
+import { Layout } from '@components/big-three-components';
 
 const OtherProfile = () => {
   return (

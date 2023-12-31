@@ -8,7 +8,7 @@ import validator from 'validator';
 import axios from 'axios';
 import { getToken } from 'next-auth/jwt'
 import { getSession } from 'next-auth/react'
-import Layout from '../../components/Layout'
+import { Layout } from '@components/big-three-components'
 import Loading from '../../components/Loading'
 
 

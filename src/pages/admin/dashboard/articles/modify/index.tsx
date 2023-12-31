@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import { useRouter } from 'next/router';
 import CategoryModify from '../../../../../components/Blog Crud/CategoryModify';
-import Layout from '../../../../../components/Layout';
+import { Layout } from '@components/big-three-components';
 import { useSession } from 'next-auth/react';
 import Loading from '../../../../../components/Loading';
 

@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import React from 'react'
-import Layout from './Layout'
+import { Layout } from './big-three-components'
 
 const AppComingSoon = ({data}) => {
   return (

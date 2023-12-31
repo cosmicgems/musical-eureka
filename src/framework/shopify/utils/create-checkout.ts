@@ -1,33 +1,38 @@
 import { ApiFetcher } from "@common/types/api"
-import { checkoutCreateMutation } from "./mutations"
+import { SHOPIFY_CHECKOUT_ID_COOKIE, SHOPIFY_CHECKOUT_URL_COOKIE, SHOPIFY_COOKIE_EXPIRE } from "@framework/const"
 import { Checkout, CheckoutCreatePayload, Maybe } from "@framework/schema"
 import Cookies from "js-cookie"
-import { SHOPIFY_CHECKOUT_ID_COOKIE, SHOPIFY_CHECKOUT_URL_COOKIE, SHOPIFY_COOKIE_EXPIRE } from "@framework/const"
+import { checkoutCreateMutation } from "./mutations"
 
 
-export const createCheckout = async (
 
-    fetch: ApiFetcher<{checkoutCreate: CheckoutCreatePayload}>
+const createCheckout = async (
+  fetch: ApiFetcher<{checkoutCreate: CheckoutCreatePayload}>,
+  variables
+): Promise<Checkout> => {
+  const { data } = await fetch({
+    query: checkoutCreateMutation, 
+    variables
+  })
 
-): Promise<Maybe <Checkout | undefined>> => {
-    const { data } = await fetch({
-        query: checkoutCreateMutation
-    })
+  const { checkout } = data.checkoutCreate
 
-    const { checkout } = data.checkoutCreate
-    const checkoutId = checkout?.id
-    
-    if (checkoutId) {
-        const options = {
-            expires: SHOPIFY_COOKIE_EXPIRE
-        }
+  if (!checkout) {
+    throw new Error("Checkout cannot be created!")
+  }
 
-        Cookies.set(SHOPIFY_CHECKOUT_ID_COOKIE, checkoutId, options)
-        Cookies.set(SHOPIFY_CHECKOUT_URL_COOKIE, checkout?.webUrl, options)
+  const checkoutId = checkout?.id
+
+  if (checkoutId) {
+    const options = {
+      expires: SHOPIFY_COOKIE_EXPIRE
     }
 
+    Cookies.set(SHOPIFY_CHECKOUT_ID_COOKIE, checkoutId, options)
+    Cookies.set(SHOPIFY_CHECKOUT_URL_COOKIE, checkout?.webUrl, options)
+  }
 
-    return checkout
+  return checkout
 }
 
 

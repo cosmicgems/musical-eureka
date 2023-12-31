@@ -6,9 +6,10 @@ import { useStateContext } from '../../../../Context/StateContext'
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
 import ShoppingCartCheckoutRoundedIcon from '@mui/icons-material/ShoppingCartCheckoutRounded';
 import { useAddItem } from '@common/cart'
-import { Product } from '@common/types/products'
+import { LineItem } from '@common/types/cart'
+import { Product } from '@common/types/product'
 
-const ProductCard = ({product, goToProductPage}) => {
+const ProductCard = ({product, goToProductPage}: {product: Product, goToProductPage: any}) => {
     let pro = {}
     const { onAdd  } = useStateContext();
     const [showCartActions, setShowCartActions] = useState<boolean>(false);
@@ -31,16 +32,8 @@ const ProductCard = ({product, goToProductPage}) => {
         [P in AvailableChoices]: string
     }
 
-    // const getVariant = (product: Product, choices: Choices) =>
-    //     product.variants?.find(variant =>
-    //     variant.options.every(variantOption => {
-    //         const optionName = variantOption.displayName.toLocaleLowerCase()
-    //         return optionName in choices &&
-    //         choices[optionName] === variantOption.values[0].label
-    //     })
-    // )
+
     const [ choices, setChoices ] = useState<Choices>({})
-    // const variant = getVariant(pro, choices)
 
     const addItem = useAddItem();
 
@@ -81,19 +74,19 @@ const ProductCard = ({product, goToProductPage}) => {
             onHoverStart={()=>{if(isMobile) return;setShowCartActions(true)}}
             onHoverEnd={()=>{if(isMobile) return;setShowCartActions(false)}}
             whileHover={{scale: 1.1, cursor:"pointer"}} 
-            onClick={(e)=>{handleClick(e, product.node.handle)}} 
+            onClick={(e)=>{handleClick(e, product.path)}} 
             className='w-[45vw] h-[33vh] md:w-[17.5vw] md:h-[45vh] rounded' 
-            style={{backgroundImage: `url('${product.node.images.edges[0].node.url}')`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
+            style={{backgroundImage: `url(${product.images[0].url})`, backgroundPosition: 'center',boxShadow: '5px 5px 7px 5px #dedede', backgroundRepeat:'no-repeat', backgroundSize: "cover"}}>
                 <div className='w-[100%] sm:flex sm:flex-col '>
 
                     {
                         !showCartActions ?
                             <div className='bg-slate-950/40 min-h-[17vh] p-3 rounded flex flex-col'>
                                 <Typography variant='body2' component="div" className='gradient-text'>
-                                    {product.node.title}
+                                    {product.name}
                                 </Typography>
                                 <Typography variant='body1' component="div" className='gradient-text-four'>
-                                    {USDollar.format(product.node.priceRange.maxVariantPrice.amount)}
+                                    {USDollar.format(product.price.value)}
                                 </Typography>
                             </div>                        
                         :
@@ -142,3 +135,4 @@ const ProductCard = ({product, goToProductPage}) => {
 }
 
 export default ProductCard
+

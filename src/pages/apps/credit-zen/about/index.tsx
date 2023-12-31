@@ -7,7 +7,7 @@ import MissionStatement from '../../../../components/Credit Zen/About/MissionSta
 import Process from '../../../../components/Credit Zen/About/Process'
 import React from 'react'
 import CoreValues from '../../../../components/Credit Zen/About/CoreValues'
-import Layout from '../../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 
 const AboutPage = () => {
   return (

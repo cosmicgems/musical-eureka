@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useStateContext } from '../../../Context/StateContext';
 import { blue, grey, lightBlue, green, lightGreen, deepPurple, orange, yellow, cyan, red, } from '@mui/material/colors';
-import Layout from '../../components/Layout';
+import { Layout } from '@components/big-three-components'
 import CoreValues from '../../components/About Page/Core Values/CoreValues';
 import MissionStatement from '../../components/About Page/Mission Statement/MissionStatement';
 

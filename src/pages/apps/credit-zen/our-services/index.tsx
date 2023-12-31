@@ -5,7 +5,7 @@ import Services from '../../../../components/Credit Zen/Our_Services/Service_Pla
 import StatisticsComponent from '../../../../components/Credit Zen/Our_Services/StatisticsComponent'
 import UnderstandCreditRepair from '../../../../components/Credit Zen/Our_Services/Understanding_Credit_Repair/UnderstandCreditRepair'
 import React from 'react'
-import Layout from '../../../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import { Box } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import { ThemeProvider } from '@emotion/react'

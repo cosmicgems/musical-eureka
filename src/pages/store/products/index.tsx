@@ -1,25 +1,23 @@
-import { Box, Button, Typography } from '@mui/material'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import Layout from '../../../components/Layout'
-import { grey, teal } from '@mui/material/colors'
-import { parseShopifyResponse, shopifyClient } from '../../../../lib/shopify'
-import ProductCard from '../../../components/Store/Products/ProductCard'
-import { useRouter } from 'next/router'
-import { AllProducts, NextProducts, callShopify } from '../../../../helpers/shopify'
-import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
-import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
-import axios from 'axios'
+import { Box, Typography } from '@mui/material'
+import React, { useRef} from 'react'
+import { Layout } from '@components/big-three-components';
+import { grey, } from '@mui/material/colors'
 import ProductContainer from '../../../components/Store/Products Page/ProductContainer'
+import { getConfig } from '@framework/api/config'
+import { getAllProducts } from '@framework/product'
+import { ScrollableContainer } from '@components/Store/UI'
+import MarketingMessage from '@components/Store/Home Page/MarketingMessage'
 
 const ProductsPage = ({products}) => {
+  console.log(products);
 
-  const router = useRouter()
-
-
-
-
-
-
+  const data = {
+    title: "Products",
+    message: "Essentials for a lifestyle worth living.",
+    titleColor: 'gradient-text', 
+    bgColor: grey[900], 
+    textColor: grey[50]
+  }
 
   const productsRef = useRef<HTMLDivElement>(null);
   
@@ -48,31 +46,17 @@ const ProductsPage = ({products}) => {
                   </Typography>
                 </div>
     
-                <div className='hidden sm:flex  p-3 sm:w-1/5'>
-                  <Box className="rounded h-[40vh] w-[17vw] p-3 md:flex md:justify-center md:items-center" sx={{bgcolor:grey[900]}}>
-                      <Typography variant='h4' className=' gradient-text' sx={{}} component="div">
-                      Products. <span style={{color: "#EEE"}} className='font-normal' >Meticulously Curated for a Lifestyle Worth Living.</span>
-                      </Typography>              
-                  </Box>
+
+
+                <div className=' sm:max-w-1/4 flex justify-center items-center '>
+                    <MarketingMessage data={data} />
                 </div>
 
-                <div className='flex items-center sm:w-4/5'>
-                  <div className='hidden lg:flex absolute '>
-                      <Button className='' sx={{color: teal[200],}}   onClick={() => handleProductsNav('left')}>
-                        <ArrowCircleLeftRoundedIcon sx={{fontSize: "3rem"}} />
-                      </Button>
-                  </div>
-                  <div className='flex overflow-x-auto md:overflow-x-hidden w-full gap-12 sm:gap-32 p-3 pb-6' ref={productsRef}>
+                <ScrollableContainer data={products} handleHeroNav={handleProductsNav} heroRef={productsRef} type="products" >
 
-                    
-                    <ProductContainer products={products} />
-                  </div>
-                  <div className='hidden lg:flex absolute right-0'>
-                      <Button sx={{color: teal[200], }}  onClick={() => {handleProductsNav('right')}}>
-                          <ArrowCircleRightRoundedIcon sx={{fontSize: "3rem", }} />
-                      </Button>
-                  </div>                  
-                </div>
+                  <ProductContainer products={products} />
+
+                </ScrollableContainer>
 
 
         </div>
@@ -84,12 +68,12 @@ const ProductsPage = ({products}) => {
 
 export const getStaticProps = async () => {
   try {
-    const response = await callShopify(AllProducts)
-    const products = response.data.products.edges
+    const config = getConfig()
+    const products = await getAllProducts(config)
 
     return {
       props: {
-        products: parseShopifyResponse(products)
+        products
       }
     }
   } catch (error) {

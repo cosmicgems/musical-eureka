@@ -86,8 +86,8 @@ const SearchResults = () => {
     
     return (
         <>
-            <div className='w-full flex flex-col gap-0'>
-                <TextField fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "0px", borderBottomRightRadius:"0px"}} label="Search for pearls..." className='' value={query} onChange={(e) => {handleInputChange(e)}} />
+            <div className='w-full flex flex-col gap-0 '>
+                <TextField  fullWidth variant='outlined' sx={{bgcolor:grey[50], borderTopLeftRadius: '5px', borderBottomLeftRadius: "5px", borderTopRightRadius: "5px", borderBottomRightRadius:"5px"}} label="Search for pearls..." className='' value={query} onChange={(e) => {handleInputChange(e)}} />
                 {
                     titleResults?.length > 0 &&
                         <Box sx={{ }} className="w-[100%] max-h-[33vh] overflow-y-auto overflow-x-hidden">

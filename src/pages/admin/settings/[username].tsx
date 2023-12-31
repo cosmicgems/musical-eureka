@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import connectDB from '../../../../lib/connectDB'
 import User from '../../../../lib/models/user'
-import Layout from '../../../components/Layout';
+import { Layout } from '@components/big-three-components';
 import { Box, CardMedia, TextField, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import UserSettingsForm from '../../../components/User/UserSettingsForm';

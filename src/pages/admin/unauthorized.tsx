@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import React from 'react'
-import Layout from '../../components/Layout'
+import { Layout } from '@components/big-three-components';
 import { useRouter } from 'next/router'
 
 const UnauthorizedPage = () => {
