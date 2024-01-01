@@ -72,7 +72,7 @@ const Collection = ({ collection }) => {
             >
                 {
                     products.map((product) => {
-                        console.log(product);
+                        // console.log(product);
                         
                         return <ProductCard key={`Product Card Key: ${product.id}`} product={product} goToProductPage={goToProductPage} />
                     })

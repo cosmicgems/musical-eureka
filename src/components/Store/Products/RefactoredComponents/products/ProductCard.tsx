@@ -1,10 +1,10 @@
 import React from 'react'
 import MainContainer from './ProductCard/MainContainer'
 
-const ProductCard = ({goToProductPage, product, key}) => {
+const ProductCard = ({goToProductPage, product}) => {
   return (
     <div className='w-full'>
-      <MainContainer key={key} goToProductPage={goToProductPage} product={product} />
+      <MainContainer  goToProductPage={goToProductPage} product={product} />
     </div>
     
   )
