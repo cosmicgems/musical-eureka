@@ -22,7 +22,7 @@ const Hero = ({products}) => {
   return (
     <div className='flex flex-col sm:flex-row sm:py-6'>
 
-      <div className=' sm:max-w-1/4 flex  '>
+      <div className=' sm:max-w-1/4 flex  px-6'>
           <MarketingMessage data={data} />
       </div>
     
