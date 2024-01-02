@@ -48,7 +48,7 @@ const ProductsPage = ({products}) => {
     
 
 
-                <div className=' sm:max-w-1/4 flex justify-center items-center '>
+                <div className=' sm:max-w-1/4 flex justify-center items-center  '>
                     <MarketingMessage data={data} />
                 </div>
 

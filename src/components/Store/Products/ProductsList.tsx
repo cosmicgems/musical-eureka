@@ -20,8 +20,6 @@ export default function ProductsList({products}) {
   };
   
 
-
-
   return (
     <ScrollableContainer data={products} handleHeroNav={handleHeroNav} heroRef={heroRef} type={`products`} >
       <ProductsListContainer products={products} />

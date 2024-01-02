@@ -73,9 +73,12 @@ const ProductView: FC<Props> = ({ product, userId }) => {
 
         <div className='product-container-wrapper'>
           
-          <Typography variant='h3' component="div" className='gradient-text'>
-            {product.name}
-          </Typography>
+          <div className='px-3 md:px-0'>
+            <Typography variant='h5' component="div" className='gradient-text'>
+              {product.name}
+            </Typography>
+          </div>
+
 
           <div className='product-container'>
             <ProductHero product={product} />

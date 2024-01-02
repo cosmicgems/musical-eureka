@@ -8,11 +8,12 @@ import { LineItem } from '@common/types/cart'
 import useAddItem from '@framework/cart/use-add-item'
 import useCart from '@framework/cart/use-cart';
 import { toast } from 'react-hot-toast'
+import WishlistAddBtn from './WishlistAddBtn'
 
 import { Product } from '@common/types/product';
 import { getVariant, Choices } from '@components/Store/Products/helpers';
 
-const ProductPageQtyToggler = ({item, product, choices}: {item: LineItem, product: Product, choices: Choices,}) => {
+const ProductPageQtyToggler = ({item, product, choices, userId}: {item: LineItem, product: Product, choices: Choices, userId: any}) => {
   
   const [quantity, setQuantity] = useState(item.quantity)
   const variant = getVariant(product, choices);
@@ -93,10 +94,20 @@ const ProductPageQtyToggler = ({item, product, choices}: {item: LineItem, produc
   return (
     <div className='product-qty-toggler-container'>
 
-      <div className='product-page-add-to-cart-btn-container'>
+      <div className='product-page-add-to-cart-btn-container flex flex-col md:flex-row gap-3'>
           <Button onClick={addToCart} variant='contained' fullWidth>
               Add to Cart
           </Button>
+
+          {
+                userId &&
+                <div>
+                    <WishlistAddBtn 
+                    product={product}
+                    userId={userId}
+                    />
+                </div>
+            }
       </div>
 
     </div>

@@ -16,7 +16,7 @@ const Collections = ({products, collections}) => {
   return (
     <div className='flex flex-col sm:flex-row sm:py-6'>
 
-        <div className=' sm:max-w-1/4 flex justify-center items-center'>
+        <div className=' sm:max-w-1/4 flex justify-center items-center px-6'>
             <MarketingMessage data={data} />
         </div>
 

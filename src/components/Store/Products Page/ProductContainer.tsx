@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import ProductCard from '../Products/ProductCard';
+import ProductCard from '../Products/RefactoredComponents/products/ProductCard';
 import { Box, Button, Typography } from '@mui/material'
 
 

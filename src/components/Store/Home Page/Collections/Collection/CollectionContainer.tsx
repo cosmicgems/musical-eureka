@@ -21,9 +21,11 @@ const CollectionContainer = ({products, collections,}) => {
     };
     return (
         <ScrollableContainer data={collections} handleHeroNav={handleHeroNav} heroRef={ref} type={`collections`} >
-            <>
+            
             {collections.map((collection) => {
-                if(collection.handle === "frontpage"){
+                console.log(collection.handle);
+                
+                if(collection.name === "Home page" ){
                     return
                 }
                 return (
@@ -33,7 +35,7 @@ const CollectionContainer = ({products, collections,}) => {
                     goToCollectionPage={goToCollectionPage} />     
                 )
             })}
-            </>
+            
         </ScrollableContainer>
   )
 }

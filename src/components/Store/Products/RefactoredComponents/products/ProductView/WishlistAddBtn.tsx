@@ -28,8 +28,8 @@ const WishlistAddBtn = ({product, userId}) => {
     }
     
     return (
-        <div>
-            <Button onClick={(e)=> {handleAddWishlistItem(e)}}>
+        <div className='w-full'>
+            <Button fullWidth variant='outlined' onClick={(e)=> {handleAddWishlistItem(e)}}>
                 <PlaylistAddRoundedIcon />
             </Button>
         </div>

@@ -4,6 +4,7 @@ import ProductPageQtyToggler from './ProductPageQtyToggler'
 import InventoryIndicator from './InventoryIndicator'
 import VariantOptions from './VariantOptions'
 import WishlistAddBtn from './WishlistAddBtn'
+import { USDollar } from 'helpers/usd'
 
 const ProductDetails = ({ 
     product, 
@@ -15,12 +16,13 @@ const ProductDetails = ({
 }) => {
     
 
-  
+    console.log(userId);
+
     
   return (
     <div className='product-info-wrapper'>
         <div className='product-description-container'>
-            <Typography variant='body1' component="div" className=''>
+            <Typography variant='body1' component="div" className='product-page-description'>
                 {product.description}
             </Typography>
             <div className='product-page-variant-options'>
@@ -30,20 +32,21 @@ const ProductDetails = ({
                 setChoices={setChoices}
                 />
             </div>
-            <Typography variant='h5' component="div" className=''>
-                ${product.price.value}
+            <Typography variant='h5' component="div" className='product-page-price'>
+                {USDollar.format(product.price.value)}
             </Typography>            
         </div>
         <div className='product-actions-container'>
             
-            <div className='product-inv-duo-container'>
+            <div className='product-inv-duo-container w-full'>
 
                 <div className='inventory-indicator-wrapper'>
                     <InventoryIndicator stock={product.stock ? product.stock : 20} />
                 </div>  
 
                 <div className='product-qty-toggler-wrapper'>
-                    <ProductPageQtyToggler 
+                    <ProductPageQtyToggler
+                    userId={userId}
                     product={product}
                     choices={choices}
                     item={item}
@@ -52,15 +55,6 @@ const ProductDetails = ({
                 
             </div>
 
-            {
-                userId !== null || userId !== undefined &&
-                <div>
-                    <WishlistAddBtn 
-                    product={product}
-                    userId={userId}
-                    />
-                </div>
-            }
 
 
 
